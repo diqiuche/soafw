@@ -37,15 +37,15 @@
 + 采用敏捷思想指导开发
 
 ### 系统架构图
-![系统架构图](http://gitlab.corp.kjt.com/_code_java/soafw/blob/master/doc/跨境通－系统架构.png)
+![系统架构图](doc/跨境通－系统架构.png)
 ### 业务架构实例图
-![业务架构图](http://gitlab.corp.kjt.com/_code_java/soafw/blob/master/doc/跨境通－业务架构图.png)
+![业务架构图](doc/跨境通－业务架构图.png)
 ### 系统用例图
-![系统用例图](http://gitlab.corp.kjt.com/_code_java/soafw/blob/master/doc/跨境通－用例图.png)
+![系统用例图](doc/跨境通－用例图.png)
 
 ### 技术架构
 #### 技术栈
-![技术栈图](http://gitlab.corp.kjt.com/_code_java/soafw/blob/master/doc/跨境通-技术栈.png)
+![技术栈图](doc/跨境通-技术栈.png)
 
 #### 以SOA思想架构系统
 
