@@ -37,17 +37,17 @@
 + 采用敏捷思想指导开发
 
 ### 系统架构图
-![系统架构图](doc/跨境通－系统架构.png)
+![系统架构图](doc/kjt-sys-arch.png)
 
 ### 业务架构实例图
-![业务架构图](doc/跨境通－业务架构图.png)
+![业务架构图](doc/kjt-biz-arch.png)
 
 ### 系统用例图
-![系统用例图](doc/跨境通－用例图.png)
+![系统用例图](doc/kjt-sys-usecase.png)
 
 ### 技术架构
 #### 技术栈
-![技术栈图](doc/aa.png)
+![技术栈图](doc/kjt-tech-stack.png)
 
 #### 以SOA思想架构系统
 
