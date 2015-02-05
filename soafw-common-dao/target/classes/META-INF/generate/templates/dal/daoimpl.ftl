@@ -1,9 +1,11 @@
 package ${package}.dao.ibatis;
 
-import org.springframework.stereotype.Repository;
+import java.util.Map;
 
 import javax.annotation.Resource;
 import javax.sql.DataSource;
+
+import org.springframework.stereotype.Repository;
 
 <#if tab.pkFieldNum==1>
 	<#if tab.pkFieldType.javaType="Integer">	
@@ -53,9 +55,13 @@ public class ${name}IbatisDAOImpl extends AbsLongIDIBatisDAOImpl<${name}> implem
 	}
 	
 	@Override
-	public String get$TKjtTabName(){
+	public String get$TKjtTabName(Map<String,Object> params){
+		return "${tab.name}";
+	}
 	
-		return ${name}.get$TKjtTabName();
+	@Override
+	public String get$TKjtTabName(${name} params) {
+		return "${tab.name}";
 	}
 	
 	<#if tab.pkFieldNum != 1>

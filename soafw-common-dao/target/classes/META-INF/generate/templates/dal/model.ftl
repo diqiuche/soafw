@@ -24,14 +24,6 @@ public class ${name} implements IModel{
     public static boolean isFk(String name){
     	return fks.containsKey(name);
     }
-    
-    /**
-	 * 表名或者分表机制实现
-	 * @return
-	 */
-	public static String get$TKjtTabName(){
-		return "${tab.name}";
-	}
 
 <#list cols as col>
 	/**

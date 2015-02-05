@@ -1,9 +1,11 @@
 package com.kjt.common.test.dao.ibatis;
 
-import org.springframework.stereotype.Repository;
+import java.util.Map;
 
 import javax.annotation.Resource;
 import javax.sql.DataSource;
+
+import org.springframework.stereotype.Repository;
 
 import com.kjt.service.common.dao.ibatis.AbsIntIDIBatisDAOImpl;
 import com.kjt.common.test.dao.IAuthorizationDAO;
@@ -41,9 +43,13 @@ public class AuthorizationIbatisDAOImpl extends AbsIntIDIBatisDAOImpl<Authorizat
 	}
 	
 	@Override
-	public String get$TKjtTabName(){
+	public String get$TKjtTabName(Map<String,Object> params){
+		return "authorization";
+	}
 	
-		return Authorization.get$TKjtTabName();
+	@Override
+	public String get$TKjtTabName(Authorization params) {
+		return "authorization";
 	}
 	
 	

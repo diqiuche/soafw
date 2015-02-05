@@ -45,7 +45,9 @@ public abstract class AbsLongIDIBatisDAOImpl<T extends IModel> extends
 
 		validate(id);
 		Map<String,Object> params = new HashMap<String,Object>();
-		params.put("$TKjtTabName", this.get$TKjtTabName());
+		params.put("id", id);
+		
+		params.put("$TKjtTabName", this.get$TKjtTabName(params));
 		
 		SqlSession session = SqlmapUtils.openSession(master ? this
 				.getMasterDataSource() : getSlaveDataSource());
@@ -66,7 +68,6 @@ public abstract class AbsLongIDIBatisDAOImpl<T extends IModel> extends
 	@Override
 	public Long insert(T model) {
 
-		preInsert(model);
 		SqlSession session = SqlmapUtils.openSession(getMasterDataSource());
 		try {
 			ILMapper<T> mapper = session.getMapper(getMapperClass());
@@ -91,7 +92,7 @@ public abstract class AbsLongIDIBatisDAOImpl<T extends IModel> extends
 
 		Map<String, Object> params = new HashMap<String, Object>();
 		params.put("id", id);
-		params.put("$TKjtTabName", this.get$TKjtTabName());
+		params.put("$TKjtTabName", this.get$TKjtTabName(params));
 		
 		SqlSession session = SqlmapUtils.openSession(getMasterDataSource());
 		try {
@@ -119,7 +120,7 @@ public abstract class AbsLongIDIBatisDAOImpl<T extends IModel> extends
 			throw new DataAccessException(IBatisDAOException.MSG_1_0007);
 		}
 		newValue.put("id", id);
-		newValue.put("$TKjtTabName", this.get$TKjtTabName());
+		newValue.put("$TKjtTabName", this.get$TKjtTabName(newValue));
 		
 		SqlSession session = SqlmapUtils.openSession(getMasterDataSource());
 		try {

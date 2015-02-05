@@ -1,5 +1,7 @@
 package com.kjt.service.common.dao.ibatis;
 
+import java.util.Map;
+
 import javax.sql.DataSource;
 
 import com.kjt.service.common.dao.IDAO;
@@ -34,6 +36,12 @@ public interface IBatisDAO<T> extends IDAO<T>{
 	 * 表名或者分表机制实现
 	 * @return
 	 */
-	public String get$TKjtTabName();
+	public String get$TKjtTabName(Map<String,Object> params);
+	
+	/**
+	 * 表名或者分表机制实现
+	 * @return
+	 */
+	public String get$TKjtTabName(T params);
 		
 }
