@@ -1,0 +1,27 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<bean id="masterds" class="org.apache.commons.dbcp.BasicDataSource">
+		<property name="url" value="jdbc:mysql://192.168.1.103:3306/anjuke_db" />
+		<property name="username" value="caixh" />
+		<property name="password" value="caixh123" />
+		<property name="driverClassName" value="com.mysql.jdbc.Driver" />
+		<property name="initialSize" value="13" />
+		<property name="maxActive" value="215" />
+		<property name="maxIdle" value="22" />
+		<property name="minIdle" value="0" />
+	</bean>
+	
+	<bean id="slaveds" class="org.apache.commons.dbcp.BasicDataSource">
+		<property name="url" value="jdbc:mysql://192.168.1.103:3306/anjuke_db" />
+		<property name="username" value="caixh" />
+		<property name="password" value="caixh123" />
+		<property name="driverClassName" value="com.mysql.jdbc.Driver" />
+		<property name="initialSize" value="13" />
+		<property name="maxActive" value="215" />
+		<property name="maxIdle" value="22" />
+		<property name="minIdle" value="0" />
+	</bean>
+
+</beans>

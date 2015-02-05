@@ -1,0 +1,319 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+    PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+    "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+
+<mapper namespace="com.kjt.common.test.dao.ibatis.mapper.AuthorizationMapper">
+	<resultMap id="AuthorizationRslMap" type="com.kjt.common.test.dao.model.Authorization">		
+		
+			<id property="id" column="ID" />
+			<result property="mallcode" column="mallcode" />
+			<result property="mallname" column="mallname" />
+			<result property="appid" column="appid" />
+			<result property="appsecret" column="appsecret" />
+			<result property="assigndate" column="assigndate" />
+			<result property="expiredate" column="expiredate" />
+			<result property="status" column="status" />
+	</resultMap>
+
+	<select id="queryById" parameterType="java.util.Map" resultMap="AuthorizationRslMap">
+		SELECT
+			ID,
+			mallcode,
+			mallname,
+			appid,
+			appsecret,
+			assigndate,
+			expiredate,
+			status
+		FROM
+			authorization
+		<where>
+			and ID=#{id}
+		</where>
+			limit 1
+	</select>
+
+	<select id="queryByMap" parameterType="java.util.Map" resultMap="AuthorizationRslMap">				
+		SELECT
+			ID,
+			mallcode,
+			mallname,
+			appid,
+			appsecret,
+			assigndate,
+			expiredate,
+			status
+		FROM
+			authorization
+		<where>
+			<if test="id !=  null">
+				and ID=#{id}
+			</if>
+			<if test="mallcode !=  null">			        
+				and mallcode=#{mallcode}
+			</if>
+			<if test="mallname !=  null">			        
+				and mallname=#{mallname}
+			</if>
+			<if test="appid !=  null">			        
+				and appid=#{appid}
+			</if>
+			<if test="appsecret !=  null">			        
+				and appsecret=#{appsecret}
+			</if>
+			<if test="assigndate !=  null">			        
+				and assigndate=#{assigndate}
+			</if>
+			<if test="expiredate !=  null">			        
+				and expiredate=#{expiredate}
+			</if>
+			<if test="status !=  null">			        
+				and status=#{status}
+			</if>
+		</where>
+		
+	</select>
+	
+	<select id="queryIdsByMap" parameterType="java.util.Map" resultType="java.lang.Long">				
+		SELECT
+			ID
+		FROM
+			authorization
+		<where>
+			<if test="id !=  null">
+				and ID=#{id}
+			</if>
+			<if test="mallcode !=  null">			        
+				and mallcode=#{mallcode}
+			</if>
+			<if test="mallname !=  null">			        
+				and mallname=#{mallname}
+			</if>
+			<if test="appid !=  null">			        
+				and appid=#{appid}
+			</if>
+			<if test="appsecret !=  null">			        
+				and appsecret=#{appsecret}
+			</if>
+			<if test="assigndate !=  null">			        
+				and assigndate=#{assigndate}
+			</if>
+			<if test="expiredate !=  null">			        
+				and expiredate=#{expiredate}
+			</if>
+			<if test="status !=  null">			        
+				and status=#{status}
+			</if>
+		</where>
+		
+	</select>
+	
+	<select id="countByMap" parameterType="java.util.Map" resultType="java.lang.Integer">				
+		SELECT
+			count(*)
+		FROM
+			authorization
+		<where>			
+			<if test="id !=  null">
+				and ID=#{id}
+			</if>
+			<if test="mallcode !=  null">			        
+				and mallcode=#{mallcode}
+			</if>
+			<if test="mallname !=  null">			        
+				and mallname=#{mallname}
+			</if>
+			<if test="appid !=  null">			        
+				and appid=#{appid}
+			</if>
+			<if test="appsecret !=  null">			        
+				and appsecret=#{appsecret}
+			</if>
+			<if test="assigndate !=  null">			        
+				and assigndate=#{assigndate}
+			</if>
+			<if test="expiredate !=  null">			        
+				and expiredate=#{expiredate}
+			</if>
+			<if test="status !=  null">			        
+				and status=#{status}
+			</if>
+		</where>
+				
+	</select>
+	
+	<select id="pageQuery" parameterType="com.kjt.service.common.dao.Page" resultMap="AuthorizationRslMap" fetchSize="15">
+		SELECT
+			ID,
+			mallcode,
+			mallname,
+			appid,
+			appsecret,
+			assigndate,
+			expiredate,
+			status
+		FROM
+			authorization
+		<where>
+			<if test="params !=  null">
+				<if test="params.id !=  null">
+					and ID=#{params.id}
+				</if>
+				<if test="params.mallcode !=  null">
+					and mallcode=#{params.mallcode}
+				</if>
+				<if test="params.mallname !=  null">
+					and mallname=#{params.mallname}
+				</if>
+				<if test="params.appid !=  null">
+					and appid=#{params.appid}
+				</if>
+				<if test="params.appsecret !=  null">
+					and appsecret=#{params.appsecret}
+				</if>
+				<if test="params.assigndate !=  null">
+					and assigndate=#{params.assigndate}
+				</if>
+				<if test="params.expiredate !=  null">
+					and expiredate=#{params.expiredate}
+				</if>
+				<if test="params.status !=  null">
+					and status=#{params.status}
+				</if>
+			</if>
+		</where>
+			<if test="#{orders} !=  null"> order by #{orders} </if> limit #{start},#{end}
+	</select>
+
+	<insert id="insert" parameterType="com.kjt.common.test.dao.model.Authorization" useGeneratedKeys="true" keyProperty="id">
+		INSERT INTO	authorization
+			(ID,mallcode,mallname,appid,appsecret,assigndate,expiredate,status)
+			VALUES(#{id},#{mallcode},#{mallname},#{appid},#{appsecret},#{assigndate},#{expiredate},#{status})		
+	</insert>
+	
+	<update id="updateByMap" parameterType="java.util.Map">
+		update 
+			authorization
+		<set> 
+			<if test="mallcode !=  null">			        
+				mallcode=#{mallcode},
+			</if>
+			<if test="mallname !=  null">			        
+				mallname=#{mallname},
+			</if>
+			<if test="appid !=  null">			        
+				appid=#{appid},
+			</if>
+			<if test="appsecret !=  null">			        
+				appsecret=#{appsecret},
+			</if>
+			<if test="assigndate !=  null">			        
+				assigndate=#{assigndate},
+			</if>
+			<if test="expiredate !=  null">			        
+				expiredate=#{expiredate},
+			</if>
+			<if test="status !=  null">			        
+				status=#{status},
+			</if>
+		</set>
+		<where>
+			<if test="id !=  null">
+				and ID=#{id}
+			</if>
+		</where>
+		
+	</update>
+	
+	<update id="cmplxUpdate" parameterType="java.util.Map">
+		update 
+			authorization
+		<set>
+			<if test="updNewMap.id !=  null">
+				ID=#{updNewMap.id},
+			</if>
+			<if test="updNewMap.mallcode !=  null">
+				mallcode=#{updNewMap.mallcode},
+			</if>
+			<if test="updNewMap.mallname !=  null">
+				mallname=#{updNewMap.mallname},
+			</if>
+			<if test="updNewMap.appid !=  null">
+				appid=#{updNewMap.appid},
+			</if>
+			<if test="updNewMap.appsecret !=  null">
+				appsecret=#{updNewMap.appsecret},
+			</if>
+			<if test="updNewMap.assigndate !=  null">
+				assigndate=#{updNewMap.assigndate},
+			</if>
+			<if test="updNewMap.expiredate !=  null">
+				expiredate=#{updNewMap.expiredate},
+			</if>
+			<if test="updNewMap.status !=  null">
+				status=#{updNewMap.status},
+			</if>
+		</set>
+		<where>
+			<if test="updCondMap.id !=  null">
+				and ID=#{updCondMap.id}
+			</if>
+			<if test="updCondMap.mallcode !=  null">
+				and mallcode=#{updCondMap.mallcode}
+			</if>
+			<if test="updCondMap.mallname !=  null">
+				and mallname=#{updCondMap.mallname}
+			</if>
+			<if test="updCondMap.appid !=  null">
+				and appid=#{updCondMap.appid}
+			</if>
+			<if test="updCondMap.appsecret !=  null">
+				and appsecret=#{updCondMap.appsecret}
+			</if>
+			<if test="updCondMap.assigndate !=  null">
+				and assigndate=#{updCondMap.assigndate}
+			</if>
+			<if test="updCondMap.expiredate !=  null">
+				and expiredate=#{updCondMap.expiredate}
+			</if>
+			<if test="updCondMap.status !=  null">
+				and status=#{updCondMap.status}
+			</if>
+		</where>
+		
+	</update>
+	
+	<delete id="deleteByMap" parameterType="java.util.Map">		
+		DELETE
+		FROM
+			authorization 
+		<where>
+			<if test="id !=  null">
+				and ID=#{id}
+			</if>
+			<if test="mallcode !=  null">			        
+				and mallcode=#{mallcode}
+			</if>
+			<if test="mallname !=  null">			        
+				and mallname=#{mallname}
+			</if>
+			<if test="appid !=  null">			        
+				and appid=#{appid}
+			</if>
+			<if test="appsecret !=  null">			        
+				and appsecret=#{appsecret}
+			</if>
+			<if test="assigndate !=  null">			        
+				and assigndate=#{assigndate}
+			</if>
+			<if test="expiredate !=  null">			        
+				and expiredate=#{expiredate}
+			</if>
+			<if test="status !=  null">			        
+				and status=#{status}
+			</if>
+		</where>
+		
+	</delete>
+</mapper>
