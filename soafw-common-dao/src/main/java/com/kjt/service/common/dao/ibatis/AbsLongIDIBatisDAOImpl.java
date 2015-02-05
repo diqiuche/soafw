@@ -1,6 +1,7 @@
 package com.kjt.service.common.dao.ibatis;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
@@ -43,12 +44,17 @@ public abstract class AbsLongIDIBatisDAOImpl<T extends IModel> extends
 	public T queryById(Long id, Boolean master) {
 
 		validate(id);
-
+		Map<String,Object> params = new HashMap<String,Object>();
+		params.put("$TKjtTabName", this.get$TKjtTabName());
+		
 		SqlSession session = SqlmapUtils.openSession(master ? this
 				.getMasterDataSource() : getSlaveDataSource());
 		try {
 			ILMapper<T> mapper = session.getMapper(getMapperClass());
-			return mapper.queryById(id);
+			List<T> objs = mapper.queryByMap(params);
+			if(objs==null||objs.isEmpty())
+				return null;
+			return objs.get(0);
 		} catch (Exception t) {
 			throw new DataAccessException(IBatisDAOException.MSG_2_0001, t);
 		} finally {
@@ -85,7 +91,8 @@ public abstract class AbsLongIDIBatisDAOImpl<T extends IModel> extends
 
 		Map<String, Object> params = new HashMap<String, Object>();
 		params.put("id", id);
-
+		params.put("$TKjtTabName", this.get$TKjtTabName());
+		
 		SqlSession session = SqlmapUtils.openSession(getMasterDataSource());
 		try {
 			IMapper<T> mapper = session.getMapper(getMapperClass());
@@ -112,10 +119,11 @@ public abstract class AbsLongIDIBatisDAOImpl<T extends IModel> extends
 			throw new DataAccessException(IBatisDAOException.MSG_1_0007);
 		}
 		newValue.put("id", id);
+		newValue.put("$TKjtTabName", this.get$TKjtTabName());
+		
 		SqlSession session = SqlmapUtils.openSession(getMasterDataSource());
 		try {
 			IMapper<T> mapper = session.getMapper(getMapperClass());
-			newValue.put("id", id);
 			Integer eft = mapper.updateByMap(newValue);
 			if (eft > 0) {
 				this.incrTabVersion();

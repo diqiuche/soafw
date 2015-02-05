@@ -8,11 +8,6 @@ import java.io.Serializable;
  *
  */
 public interface IModel extends Serializable {
-	/**
-	 * 表名或者分表机制实现
-	 * @return
-	 */
-	public String get();
 	
 	/**
 	 * 验证接口

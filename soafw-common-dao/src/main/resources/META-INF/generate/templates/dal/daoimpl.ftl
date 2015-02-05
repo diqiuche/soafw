@@ -52,6 +52,12 @@ public class ${name}IbatisDAOImpl extends AbsLongIDIBatisDAOImpl<${name}> implem
 		return ${name}.isFk(property);
 	}
 	
+	@Override
+	public String get$TKjtTabName(){
+	
+		return ${name}.get$TKjtTabName();
+	}
+	
 	<#if tab.pkFieldNum != 1>
 	@Override
 	public ${name} queryById(Long id){

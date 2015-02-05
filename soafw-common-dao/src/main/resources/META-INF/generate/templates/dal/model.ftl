@@ -25,7 +25,11 @@ public class ${name} implements IModel{
     	return fks.containsKey(name);
     }
     
-	public String get(){
+    /**
+	 * 表名或者分表机制实现
+	 * @return
+	 */
+	public static String get$TKjtTabName(){
 		return "${tab.name}";
 	}
 

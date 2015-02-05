@@ -40,6 +40,12 @@ public class AuthorizationIbatisDAOImpl extends AbsIntIDIBatisDAOImpl<Authorizat
 		return Authorization.isFk(property);
 	}
 	
+	@Override
+	public String get$TKjtTabName(){
+	
+		return Authorization.get$TKjtTabName();
+	}
+	
 	
 	@Override
 	public DataSource getMasterDataSource(){

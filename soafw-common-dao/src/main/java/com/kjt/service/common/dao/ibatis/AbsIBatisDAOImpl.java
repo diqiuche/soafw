@@ -111,6 +111,8 @@ public abstract class AbsIBatisDAOImpl<T extends IModel> extends
 		validate(params);
 
 		nonePK$FKCheck(params);
+		
+		params.put("$TKjtTabName", this.get$TKjtTabName());
 
 		SqlSession session = SqlmapUtils.openSession(getMasterDataSource());
 		try {
@@ -140,8 +142,12 @@ public abstract class AbsIBatisDAOImpl<T extends IModel> extends
 		}
 
 		nonePK$FKCheck(cond);
-
+		
+		
 		Map<String, Object> params = new HashMap<String, Object>();
+		
+		params.put("$TKjtTabName", this.get$TKjtTabName());
+		
 		params.put("updNewMap", new_);
 		params.put("updCondMap", cond);
 		SqlSession session = SqlmapUtils.openSession(getMasterDataSource());
@@ -168,6 +174,8 @@ public abstract class AbsIBatisDAOImpl<T extends IModel> extends
 		validate(params);
 
 		nonePK$FKCheck(params);
+		
+		params.put("$TKjtTabName", this.get$TKjtTabName());
 
 		SqlSession session = SqlmapUtils.openSession(getMapQueryDataSource());
 		try {
@@ -189,6 +197,8 @@ public abstract class AbsIBatisDAOImpl<T extends IModel> extends
 
 		validate(params);
 
+		params.put("$TKjtTabName", this.get$TKjtTabName());
+		
 		SqlSession session = SqlmapUtils.openSession(getMapQueryDataSource());
 		try {
 			IMapper<T> mapper = (IMapper<T>) session
@@ -206,8 +216,11 @@ public abstract class AbsIBatisDAOImpl<T extends IModel> extends
 	@Cacheable(value = "defaultCache", key = "#root.target.getTabCacheKeyPrefix().concat('@').concat(#params)", unless = "#result == null", condition = "!#master and #root.target.tabCacheable()")
 	@Override
 	public List queryIdsByMap(Map<String, Object> params, Boolean master) {
+		
 		validate(params);
 
+		params.put("$TKjtTabName", this.get$TKjtTabName());
+		
 		SqlSession session = SqlmapUtils
 				.openSession(master ? getMasterDataSource()
 						: getMapQueryDataSource());
@@ -232,6 +245,8 @@ public abstract class AbsIBatisDAOImpl<T extends IModel> extends
 
 		nonePK$FKCheck(params);
 
+		params.put("$TKjtTabName", this.get$TKjtTabName());
+		
 		SqlSession session = SqlmapUtils
 				.openSession(master ? getMasterDataSource()
 						: getMapQueryDataSource());
@@ -255,6 +270,8 @@ public abstract class AbsIBatisDAOImpl<T extends IModel> extends
 		validate(params);
 
 		nonePK$FKCheck(params);
+		
+		params.put("$TKjtTabName", this.get$TKjtTabName());
 
 		SqlSession session = SqlmapUtils.openSession(getMapQueryDataSource());
 		try {
@@ -277,6 +294,8 @@ public abstract class AbsIBatisDAOImpl<T extends IModel> extends
 
 		nonePK$FKCheck(params);
 
+		params.put("$TKjtTabName", this.get$TKjtTabName());
+		
 		SqlSession session = SqlmapUtils
 				.openSession(master ? getMasterDataSource()
 						: getMapQueryDataSource());
@@ -298,6 +317,8 @@ public abstract class AbsIBatisDAOImpl<T extends IModel> extends
 
 		validate(params);
 
+		params.put("$TKjtTabName", this.get$TKjtTabName());
+		
 		SqlSession session = SqlmapUtils.openSession(getMapQueryDataSource());
 		try {
 			IMapper<T> mapper = session.getMapper(getMapperClass());
@@ -306,6 +327,7 @@ public abstract class AbsIBatisDAOImpl<T extends IModel> extends
 			cmd.setStart(getPageStart(page, size));
 			cmd.setEnd(getPageEnd(page, size));
 			cmd.setParams(params);
+			
 			return mapper.pageQuery(cmd);
 		} catch (Exception t) {
 			throw new DataAccessException(IBatisDAOException.MSG_2_0001, t);
@@ -322,6 +344,8 @@ public abstract class AbsIBatisDAOImpl<T extends IModel> extends
 
 		validate(params);
 
+		params.put("$TKjtTabName", this.get$TKjtTabName());
+		
 		SqlSession session = SqlmapUtils.openSession(master ? this
 				.getMasterDataSource() : getMapQueryDataSource());
 		try {
@@ -348,6 +372,8 @@ public abstract class AbsIBatisDAOImpl<T extends IModel> extends
 
 		validate(params);
 
+		params.put("$TKjtTabName", this.get$TKjtTabName());
+		
 		SqlSession session = SqlmapUtils.openSession(getMapQueryDataSource());
 		try {
 			IMapper<T> mapper = session.getMapper(getMapperClass());
@@ -374,6 +400,8 @@ public abstract class AbsIBatisDAOImpl<T extends IModel> extends
 
 		validate(params);
 
+		params.put("$TKjtTabName", this.get$TKjtTabName());
+		
 		SqlSession session = SqlmapUtils.openSession(master ? this
 				.getMasterDataSource() : getMapQueryDataSource());
 		try {

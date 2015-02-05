@@ -58,7 +58,8 @@ public abstract class AbsFKIBatisDAOImpl<T extends IModel> extends
 
 		Map<String, Object> cond = new HashMap<String, Object>();
 		cond.put(property, fkValue);
-
+		cond.put("$TKjtTabName", this.get$TKjtTabName());
+		
 		SqlSession session = SqlmapUtils.openSession(getMasterDataSource());
 		try {
 			IMapper<T> mapper = session.getMapper(getMapperClass());
@@ -87,7 +88,8 @@ public abstract class AbsFKIBatisDAOImpl<T extends IModel> extends
 		Map<String, Object> cond = new HashMap<String, Object>();
 		cond.put(property, fkValue);
 		cond.putAll(attchParams);
-
+		cond.put("$TKjtTabName", this.get$TKjtTabName());
+		
 		SqlSession session = SqlmapUtils.openSession(getMasterDataSource());
 		try {
 			IMapper<T> mapper = session.getMapper(getMapperClass());
@@ -112,7 +114,9 @@ public abstract class AbsFKIBatisDAOImpl<T extends IModel> extends
 
 		Map<String, Object> cond = new HashMap<String, Object>();
 		cond.put(property, fkValue);
-
+		
+		cond.put("$TKjtTabName", this.get$TKjtTabName());
+		
 		SqlSession session = SqlmapUtils.openSession(getMasterDataSource());
 		try {
 			IMapper<T> mapper = session.getMapper(getMapperClass());
@@ -142,6 +146,8 @@ public abstract class AbsFKIBatisDAOImpl<T extends IModel> extends
 		cond.put(property, fkValue);
 
 		cond.putAll(attchParams);
+		
+		cond.put("$TKjtTabName", this.get$TKjtTabName());
 
 		SqlSession session = SqlmapUtils.openSession(getMasterDataSource());
 		try {
@@ -165,9 +171,11 @@ public abstract class AbsFKIBatisDAOImpl<T extends IModel> extends
 	public List<T> queryByFK(String property, Integer fkValue) {
 
 		validate(property, fkValue);
-
+		
 		Map<String, Object> cond = new HashMap<String, Object>();
 		cond.put(property, fkValue);
+		cond.put("$TKjtTabName", this.get$TKjtTabName());
+		
 		SqlSession session = SqlmapUtils.openSession(getMapQueryDataSource());
 		try {
 			IMapper<T> mapper = (IMapper<T>) session
@@ -196,8 +204,8 @@ public abstract class AbsFKIBatisDAOImpl<T extends IModel> extends
 
 		Map<String, Object> cond = new HashMap<String, Object>();
 		cond.put(property, fkValue);
-
 		cond.putAll(attchParams);
+		cond.put("$TKjtTabName", this.get$TKjtTabName());
 
 		SqlSession session = SqlmapUtils.openSession(getMapQueryDataSource());
 		try {
@@ -223,7 +231,8 @@ public abstract class AbsFKIBatisDAOImpl<T extends IModel> extends
 
 		Map<String, Object> cond = new HashMap<String, Object>();
 		cond.put(property, fkValue);
-
+		cond.put("$TKjtTabName", this.get$TKjtTabName());
+		
 		SqlSession session = SqlmapUtils.openSession(master ? this
 				.getMasterDataSource() : getMapQueryDataSource());
 		try {
@@ -249,9 +258,9 @@ public abstract class AbsFKIBatisDAOImpl<T extends IModel> extends
 		validate(attchParams);
 		Map<String, Object> cond = new HashMap<String, Object>();
 		cond.put(property, fkValue);
-
 		cond.putAll(attchParams);
-
+		cond.put("$TKjtTabName", this.get$TKjtTabName());
+		
 		SqlSession session = SqlmapUtils.openSession(master ? this
 				.getMasterDataSource() : getMapQueryDataSource());
 		try {
@@ -277,6 +286,8 @@ public abstract class AbsFKIBatisDAOImpl<T extends IModel> extends
 
 		Map<String, Object> cond = new HashMap<String, Object>();
 		cond.put(property, fkValue);
+		cond.put("$TKjtTabName", this.get$TKjtTabName());
+		
 		SqlSession session = SqlmapUtils.openSession(getMapQueryDataSource());
 		try {
 			IMapper<T> mapper = (IMapper<T>) session
@@ -302,7 +313,8 @@ public abstract class AbsFKIBatisDAOImpl<T extends IModel> extends
 		Map<String, Object> cond = new HashMap<String, Object>();
 		cond.put(property, fkValue);
 		cond.putAll(attchParams);
-
+		cond.put("$TKjtTabName", this.get$TKjtTabName());
+		
 		SqlSession session = SqlmapUtils.openSession(getMapQueryDataSource());
 		try {
 			IMapper<T> mapper = (IMapper<T>) session
@@ -327,7 +339,8 @@ public abstract class AbsFKIBatisDAOImpl<T extends IModel> extends
 
 		Map<String, Object> cond = new HashMap<String, Object>();
 		cond.put(property, fkValue);
-
+		cond.put("$TKjtTabName", this.get$TKjtTabName());
+		
 		SqlSession session = SqlmapUtils.openSession(master ? this
 				.getMasterDataSource() : getMapQueryDataSource());
 		try {
@@ -354,7 +367,8 @@ public abstract class AbsFKIBatisDAOImpl<T extends IModel> extends
 		Map<String, Object> cond = new HashMap<String, Object>();
 		cond.put(property, fkValue);
 		cond.putAll(attchParams);
-
+		cond.put("$TKjtTabName", this.get$TKjtTabName());
+		
 		SqlSession session = SqlmapUtils.openSession(master ? this
 				.getMasterDataSource() : getMapQueryDataSource());
 		try {
@@ -388,6 +402,8 @@ public abstract class AbsFKIBatisDAOImpl<T extends IModel> extends
 		Map<String, Object> params = new HashMap<String, Object>();
 		params.put("updNewMap", newValue);
 		params.put("updCondMap", cond);
+		params.put("$TKjtTabName", this.get$TKjtTabName());
+		
 		SqlSession session = SqlmapUtils.openSession(getMasterDataSource());
 		try {
 			IMapper<T> mapper = session.getMapper(getMapperClass());
@@ -423,6 +439,8 @@ public abstract class AbsFKIBatisDAOImpl<T extends IModel> extends
 		Map<String, Object> params = new HashMap<String, Object>();
 		params.put("updNewMap", newValue);
 		params.put("updCondMap", cond);
+		params.put("$TKjtTabName", this.get$TKjtTabName());
+		
 		SqlSession session = SqlmapUtils.openSession(getMasterDataSource());
 		try {
 			IMapper<T> mapper = session.getMapper(getMapperClass());
@@ -455,6 +473,8 @@ public abstract class AbsFKIBatisDAOImpl<T extends IModel> extends
 		Map<String, Object> params = new HashMap<String, Object>();
 		params.put("updNewMap", newValue);
 		params.put("updCondMap", cond);
+		params.put("$TKjtTabName", this.get$TKjtTabName());
+		
 		SqlSession session = SqlmapUtils.openSession(getMasterDataSource());
 		try {
 			IMapper<T> mapper = session.getMapper(getMapperClass());
@@ -489,6 +509,8 @@ public abstract class AbsFKIBatisDAOImpl<T extends IModel> extends
 		Map<String, Object> params = new HashMap<String, Object>();
 		params.put("updNewMap", newValue);
 		params.put("updCondMap", cond);
+		params.put("$TKjtTabName", this.get$TKjtTabName());
+		
 		SqlSession session = SqlmapUtils.openSession(getMasterDataSource());
 		try {
 			IMapper<T> mapper = session.getMapper(getMapperClass());
