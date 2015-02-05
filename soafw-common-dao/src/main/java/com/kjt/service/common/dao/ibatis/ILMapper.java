@@ -1,5 +1,7 @@
 package com.kjt.service.common.dao.ibatis;
 
+import java.util.Map;
+
 import com.kjt.service.common.dao.IModel;
 
 /**
@@ -12,6 +14,6 @@ public interface ILMapper<T extends IModel> extends IMapper<T> {
 
 	public T queryById(Long id);
 
-	public Long insert(T model);
+	public Long insert(Map<String,Object> params);
 
 }

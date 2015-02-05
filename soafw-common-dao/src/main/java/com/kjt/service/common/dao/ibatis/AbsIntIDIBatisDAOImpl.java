@@ -68,8 +68,12 @@ public abstract class AbsIntIDIBatisDAOImpl<T extends IModel> extends
 
 		SqlSession session = SqlmapUtils.openSession(getMasterDataSource());
 		try {
+			Map<String,Object> params = new HashMap<String,Object>();
+			params.put("model", model);
+			params.put("$TKjtTabName", this.get$TKjtTabName(model));
+			
 			IIMapper<T> mapper = session.getMapper(getMapperClass());
-			Integer id = mapper.insert(model);
+			Integer id = mapper.insert(params);
 			if (id > 0) {
 				this.incrTabVersion();
 			}

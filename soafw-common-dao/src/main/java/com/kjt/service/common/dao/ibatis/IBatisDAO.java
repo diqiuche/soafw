@@ -33,13 +33,13 @@ public interface IBatisDAO<T> extends IDAO<T>{
 	public boolean isFk(String property);
 	
 	/**
-	 * 表名或者分表机制实现
+	 * 除insert以外的其他操作的表名或者分表机制实现
 	 * @return
 	 */
 	public String get$TKjtTabName(Map<String,Object> params);
 	
 	/**
-	 * 表名或者分表机制实现
+	 * insert操作时采用的表名或者分表机制实现
 	 * @return
 	 */
 	public String get$TKjtTabName(T params);

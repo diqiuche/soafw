@@ -68,10 +68,14 @@ public abstract class AbsLongIDIBatisDAOImpl<T extends IModel> extends
 	@Override
 	public Long insert(T model) {
 
+		Map<String,Object> params = new HashMap<String,Object>();
+		params.put("model", model);
+		params.put("$TKjtTabName", this.get$TKjtTabName(model));
+		
 		SqlSession session = SqlmapUtils.openSession(getMasterDataSource());
 		try {
 			ILMapper<T> mapper = session.getMapper(getMapperClass());
-			Long id = mapper.insert(model);
+			Long id = mapper.insert(params);
 			if (id > 0) {
 				this.incrTabVersion();
 			}
