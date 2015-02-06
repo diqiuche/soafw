@@ -11,36 +11,36 @@ import freemarker.template.Configuration;
 
 public class TemplateFactoryBean implements FactoryBean {
 
-	private Configuration configuration;
+  private Configuration configuration;
 
-	private String path;
+  private String path;
 
-	@Override
-	public Object getObject() throws Exception {
-		configuration = new Configuration();
-		Assert.hasLength(path);
-		if (path.startsWith("file:")) {
-			path = path.substring(5);
-			configuration.setTemplateLoader(new FileTemplateLoader(new File(path)));
-		} else if (path.startsWith("classpath:")) {
-			path = path.substring(10);
-			configuration.setTemplateLoader(new ClassTemplateLoader(TemplateFactoryBean.class, path));
-		}
-		return configuration;
-	}
+  @Override
+  public Object getObject() throws Exception {
+    configuration = new Configuration();
+    Assert.hasLength(path);
+    if (path.startsWith("file:")) {
+      path = path.substring(5);
+      configuration.setTemplateLoader(new FileTemplateLoader(new File(path)));
+    } else if (path.startsWith("classpath:")) {
+      path = path.substring(10);
+      configuration.setTemplateLoader(new ClassTemplateLoader(TemplateFactoryBean.class, path));
+    }
+    return configuration;
+  }
 
-	@Override
-	public Class getObjectType() {
-		return Configuration.class;
-	}
+  @Override
+  public Class getObjectType() {
+    return Configuration.class;
+  }
 
-	@Override
-	public boolean isSingleton() {
-		return true;
-	}
+  @Override
+  public boolean isSingleton() {
+    return true;
+  }
 
-	public void setPath(String path) {
-		this.path = path;
-	}
+  public void setPath(String path) {
+    this.path = path;
+  }
 
 }

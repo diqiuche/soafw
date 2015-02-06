@@ -22,8 +22,7 @@ import com.kjt.service.common.exception.DataAccessException;
  * 
  * 1. select * from house_types where loupan_id=?;<br>
  * 
- * 2. 拼接mc缓存key，{表名}+{recVersion}+{tabVersion}+{查询条件参数}。ex:house_types@4@{
- * loupan_id=?}<br>
+ * 2. 拼接mc缓存key，{表名}+{recVersion}+{tabVersion}+{查询条件参数}。ex:house_types@4@{ loupan_id=?}<br>
  * 
  * 3. 将mc缓存key纪录到redis中。redis key:{表名}+{recVersion}+{tabVersion}+{外键名}+{外键值}<br>
  * 
@@ -46,516 +45,515 @@ import com.kjt.service.common.exception.DataAccessException;
  *
  * @param <T>
  */
-public abstract class AbsFKIBatisDAOImpl<T extends IModel> extends
-		AbsIBatisDAOImpl<T> implements IFKDAO<T> {
+public abstract class AbsFKIBatisDAOImpl<T extends IModel> extends AbsIBatisDAOImpl<T> implements
+    IFKDAO<T> {
 
-	@CacheEvict(value = "defaultCache", key = "#root.target.getFKRecCacheKeyPrefix().concat('@').concat(#property).concat('=').concat(#fkValue)")
-	@Override
-	public Integer deleteByFK(String property, Integer fkValue) {
+  @CacheEvict(value = "defaultCache", key = FkCacheKeyPrefixExpress + "")
+  @Override
+  public Integer deleteByFK(String property, Integer fkValue, String tabNameSuffix) {
 
-		validate(property, fkValue);
+    validate(property, fkValue);
 
-		Map<String, Object> cond = new HashMap<String, Object>();
-		cond.put(property, fkValue);
-		cond.put("$TKjtTabName", this.get$TKjtTabName(cond));
-		
-		SqlSession session = SqlmapUtils.openSession(getMasterDataSource());
-		try {
-			IMapper<T> mapper = session.getMapper(getMapperClass());
-			Integer eft = mapper.deleteByMap(cond);
-			if (eft > 0) {
-				synCache(eft, property, fkValue, null);
-			}
-			return eft;
-		} catch (Exception t) {
-			throw new DataAccessException(IBatisDAOException.MSG_2_0001, t);
-		} finally {
-			session.commit();
-			session.close();
-		}
-	}
+    Map<String, Object> cond = new HashMap<String, Object>();
+    cond.put(property, fkValue);
+    cond.put("$TKjtTabName", this.get$TKjtTabName(tabNameSuffix));
 
-	@CacheEvict(value = "defaultCache", key = "#root.target.getFKRecCacheKeyPrefix().concat('@').concat(#property).concat('=').concat(#fkValue).concat('@').concat(#attchParams)")
-	@Override
-	public Integer deleteByFK(String property, Integer fkValue,
-			Map<String, Object> attchParams) {
+    SqlSession session = SqlmapUtils.openSession(getMasterDataSource());
+    try {
+      IMapper<T> mapper = session.getMapper(getMapperClass());
+      Integer eft = mapper.deleteByMap(cond);
+      if (eft > 0) {
+        synCache(eft, property, fkValue, null, tabNameSuffix);
+      }
+      return eft;
+    } catch (Exception t) {
+      throw new DataAccessException(IBatisDAOException.MSG_2_0001, t);
+    } finally {
+      session.commit();
+      session.close();
+    }
+  }
 
-		validate(property, fkValue);
+  @CacheEvict(value = "defaultCache", key = FkCacheKeyPrefixExpress
+      + ".concat('@').concat(#attchParams)")
+  @Override
+  public Integer deleteByFK(String property, Integer fkValue, Map<String, Object> attchParams,
+      String tabNameSuffix) {
 
-		validate(attchParams);
+    validate(property, fkValue);
 
-		Map<String, Object> cond = new HashMap<String, Object>();
-		cond.put(property, fkValue);
-		cond.putAll(attchParams);
-		cond.put("$TKjtTabName", this.get$TKjtTabName(cond));
-		
-		SqlSession session = SqlmapUtils.openSession(getMasterDataSource());
-		try {
-			IMapper<T> mapper = session.getMapper(getMapperClass());
-			Integer eft = mapper.deleteByMap(cond);
-			if (eft > 0) {
-				synCache(eft, property, fkValue, attchParams);
-			}
-			return eft;
-		} catch (Exception t) {
-			throw new DataAccessException(IBatisDAOException.MSG_2_0001, t);
-		} finally {
-			session.commit();
-			session.close();
-		}
-	}
+    validate(attchParams);
 
-	@CacheEvict(value = "defaultCache", key = "#root.target.getFKRecCacheKeyPrefix().concat('@').concat(#property).concat('=').concat(#fkValue).concat('@').concat(#attchParams)")
-	@Override
-	public Integer deleteByFK(String property, Long fkValue) {
+    Map<String, Object> cond = new HashMap<String, Object>();
+    cond.put(property, fkValue);
+    cond.putAll(attchParams);
+    cond.put("$TKjtTabName", this.get$TKjtTabName(tabNameSuffix));
 
-		validate(property, fkValue);
+    SqlSession session = SqlmapUtils.openSession(getMasterDataSource());
+    try {
+      IMapper<T> mapper = session.getMapper(getMapperClass());
+      Integer eft = mapper.deleteByMap(cond);
+      if (eft > 0) {
+        synCache(eft, property, fkValue, attchParams, tabNameSuffix);
+      }
+      return eft;
+    } catch (Exception t) {
+      throw new DataAccessException(IBatisDAOException.MSG_2_0001, t);
+    } finally {
+      session.commit();
+      session.close();
+    }
+  }
 
-		Map<String, Object> cond = new HashMap<String, Object>();
-		cond.put(property, fkValue);
-		
-		cond.put("$TKjtTabName", this.get$TKjtTabName(cond));
-		
-		SqlSession session = SqlmapUtils.openSession(getMasterDataSource());
-		try {
-			IMapper<T> mapper = session.getMapper(getMapperClass());
-			Integer eft = mapper.deleteByMap(cond);
-			if (eft > 0) {
-				synCache(eft, property, fkValue, null);
-			}
-			return eft;
-		} catch (Exception t) {
-			throw new DataAccessException(IBatisDAOException.MSG_2_0001, t);
-		} finally {
-			session.commit();
-			session.close();
-		}
-	}
+  @CacheEvict(value = "defaultCache", key = FkCacheKeyPrefixExpress
+      + ".concat('@').concat(#attchParams)")
+  @Override
+  public Integer deleteByFK(String property, Long fkValue, String tabNameSuffix) {
 
-	@CacheEvict(value = "defaultCache", key = "#root.target.getFKRecCacheKeyPrefix().concat('@').concat(#property).concat('=').concat(#fkValue)")
-	@Override
-	public Integer deleteByFK(String property, Long fkValue,
-			Map<String, Object> attchParams) {
+    validate(property, fkValue);
 
-		validate(property, fkValue);
+    Map<String, Object> cond = new HashMap<String, Object>();
+    cond.put(property, fkValue);
 
-		validate(attchParams);
+    cond.put("$TKjtTabName", this.get$TKjtTabName(tabNameSuffix));
 
-		Map<String, Object> cond = new HashMap<String, Object>();
-		cond.put(property, fkValue);
+    SqlSession session = SqlmapUtils.openSession(getMasterDataSource());
+    try {
+      IMapper<T> mapper = session.getMapper(getMapperClass());
+      Integer eft = mapper.deleteByMap(cond);
+      if (eft > 0) {
+        synCache(eft, property, fkValue, null, tabNameSuffix);
+      }
+      return eft;
+    } catch (Exception t) {
+      throw new DataAccessException(IBatisDAOException.MSG_2_0001, t);
+    } finally {
+      session.commit();
+      session.close();
+    }
+  }
 
-		cond.putAll(attchParams);
-		
-		cond.put("$TKjtTabName", this.get$TKjtTabName(cond));
+  @CacheEvict(value = "defaultCache", key = FkCacheKeyPrefixExpress + "")
+  @Override
+  public Integer deleteByFK(String property, Long fkValue, Map<String, Object> attchParams,
+      String tabNameSuffix) {
 
-		SqlSession session = SqlmapUtils.openSession(getMasterDataSource());
-		try {
-			IMapper<T> mapper = session.getMapper(getMapperClass());
-			Integer eft = mapper.deleteByMap(cond);
-			if (eft > 0) {
-				synCache(eft, property, fkValue, attchParams);
-			}
-			return eft;
-		} catch (Exception t) {
-			throw new DataAccessException(IBatisDAOException.MSG_2_0001, t);
-		} finally {
-			session.commit();
-			session.close();
-		}
-	}
+    validate(property, fkValue);
 
-	@CacheOpParams(time = ONE_DAY)
-	@Cacheable(value = "defaultCache", key = "#root.target.getFKRecCacheKeyPrefix().concat('@').concat(#property).concat('=').concat(#fkValue)", unless = "#result == null", condition = "#root.target.fkCacheable()")
-	@Override
-	public List<T> queryByFK(String property, Integer fkValue) {
+    validate(attchParams);
 
-		validate(property, fkValue);
-		
-		Map<String, Object> cond = new HashMap<String, Object>();
-		cond.put(property, fkValue);
-		cond.put("$TKjtTabName", this.get$TKjtTabName(cond));
-		
-		SqlSession session = SqlmapUtils.openSession(getMapQueryDataSource());
-		try {
-			IMapper<T> mapper = (IMapper<T>) session
-					.getMapper(getMapperClass());
-			List<T> result = mapper.queryByMap(cond);
-			addKey2FKGroupCache(property, fkValue, null, result);
-			return result;
-		} catch (Exception t) {
-			throw new DataAccessException(IBatisDAOException.MSG_1_0007, t);
-		} finally {
-			session.commit();
-			session.close();
-		}
+    Map<String, Object> cond = new HashMap<String, Object>();
+    cond.put(property, fkValue);
 
-	}
+    cond.putAll(attchParams);
 
-	@CacheOpParams(time = ONE_DAY)
-	@Cacheable(value = "defaultCache", key = "#root.target.getFKRecCacheKeyPrefix().concat('@').concat(#property).concat('=').concat(#fkValue).concat('@').concat(#attchParams)", unless = "#result == null", condition = "#root.target.fkCacheable()")
-	@Override
-	public List<T> queryByFK(String property, Integer fkValue,
-			Map<String, Object> attchParams) {
+    cond.put("$TKjtTabName", this.get$TKjtTabName(tabNameSuffix));
 
-		validate(property, fkValue);
+    SqlSession session = SqlmapUtils.openSession(getMasterDataSource());
+    try {
+      IMapper<T> mapper = session.getMapper(getMapperClass());
+      Integer eft = mapper.deleteByMap(cond);
+      if (eft > 0) {
+        synCache(eft, property, fkValue, attchParams, tabNameSuffix);
+      }
+      return eft;
+    } catch (Exception t) {
+      throw new DataAccessException(IBatisDAOException.MSG_2_0001, t);
+    } finally {
+      session.commit();
+      session.close();
+    }
+  }
 
-		validate(attchParams);
+  @CacheOpParams(time = ONE_DAY)
+  @Cacheable(value = "defaultCache", key = FkCacheKeyPrefixExpress + "", unless = "#result == null", condition = "#root.target.fkCacheable()")
+  @Override
+  public List<T> queryByFK(String property, Integer fkValue, String tabNameSuffix) {
 
-		Map<String, Object> cond = new HashMap<String, Object>();
-		cond.put(property, fkValue);
-		cond.putAll(attchParams);
-		cond.put("$TKjtTabName", this.get$TKjtTabName(cond));
+    validate(property, fkValue);
 
-		SqlSession session = SqlmapUtils.openSession(getMapQueryDataSource());
-		try {
-			IMapper<T> mapper = (IMapper<T>) session
-					.getMapper(getMapperClass());
-			List<T> result = mapper.queryByMap(cond);
-			addKey2FKGroupCache(property, fkValue, attchParams, result);
-			return result;
-		} catch (Exception t) {
-			throw new DataAccessException(IBatisDAOException.MSG_1_0007, t);
-		} finally {
-			session.commit();
-			session.close();
-		}
-	}
+    Map<String, Object> cond = new HashMap<String, Object>();
+    cond.put(property, fkValue);
+    cond.put("$TKjtTabName", this.get$TKjtTabName(tabNameSuffix));
 
-	@CacheOpParams(time = ONE_DAY)
-	@Cacheable(value = "defaultCache", key = "#root.target.getFKRecCacheKeyPrefix().concat('@').concat(#property).concat('=').concat(#fkValue)", unless = "#result == null", condition = "!#master and #root.target.fkCacheable()")
-	@Override
-	public List<T> queryByFK(String property, Integer fkValue, Boolean master) {
+    SqlSession session = SqlmapUtils.openSession(getMapQueryDataSource());
+    try {
+      IMapper<T> mapper = (IMapper<T>) session.getMapper(getMapperClass());
+      List<T> result = mapper.queryByMap(cond);
+      addKey2FKGroupCache(property, fkValue, null, result, tabNameSuffix);
+      return result;
+    } catch (Exception t) {
+      throw new DataAccessException(IBatisDAOException.MSG_1_0007, t);
+    } finally {
+      session.commit();
+      session.close();
+    }
 
-		validate(property, fkValue);
+  }
 
-		Map<String, Object> cond = new HashMap<String, Object>();
-		cond.put(property, fkValue);
-		cond.put("$TKjtTabName", this.get$TKjtTabName(cond));
-		
-		SqlSession session = SqlmapUtils.openSession(master ? this
-				.getMasterDataSource() : getMapQueryDataSource());
-		try {
-			IMapper<T> mapper = (IMapper<T>) session
-					.getMapper(getMapperClass());
-			List<T> result = mapper.queryByMap(cond);
-			addKey2FKGroupCache(property, fkValue, null, result);
-			return result;
-		} catch (Exception t) {
-			throw new DataAccessException(IBatisDAOException.MSG_1_0007, t);
-		} finally {
-			session.commit();
-			session.close();
-		}
-	}
+  @CacheOpParams(time = ONE_DAY)
+  @Cacheable(value = "defaultCache", key = FkCacheKeyPrefixExpress
+      + ".concat('@').concat(#attchParams)", unless = "#result == null", condition = "#root.target.fkCacheable()")
+  @Override
+  public List<T> queryByFK(String property, Integer fkValue, Map<String, Object> attchParams,
+      String tabNameSuffix) {
 
-	@CacheOpParams(time = ONE_DAY)
-	@Cacheable(value = "defaultCache", key = "#root.target.getFKRecCacheKeyPrefix().concat('@').concat(#property).concat('=').concat(#fkValue).concat('@').concat(#attchParams)", unless = "#result == null", condition = "!#master and #root.target.fkCacheable()")
-	@Override
-	public List<T> queryByFK(String property, Integer fkValue,
-			Map<String, Object> attchParams, Boolean master) {
-		validate(property, fkValue);
-		validate(attchParams);
-		Map<String, Object> cond = new HashMap<String, Object>();
-		cond.put(property, fkValue);
-		cond.putAll(attchParams);
-		cond.put("$TKjtTabName", this.get$TKjtTabName(cond));
-		
-		SqlSession session = SqlmapUtils.openSession(master ? this
-				.getMasterDataSource() : getMapQueryDataSource());
-		try {
-			IMapper<T> mapper = (IMapper<T>) session
-					.getMapper(getMapperClass());
-			List<T> result = mapper.queryByMap(cond);
-			addKey2FKGroupCache(property, fkValue, attchParams, result);
-			return result;
-		} catch (Exception t) {
-			throw new DataAccessException(IBatisDAOException.MSG_1_0007, t);
-		} finally {
-			session.commit();
-			session.close();
-		}
-	}
+    validate(property, fkValue);
 
-	@CacheOpParams(time = ONE_DAY)
-	@Cacheable(value = "defaultCache", key = "#root.target.getFKRecCacheKeyPrefix().concat('@').concat(#property).concat('=').concat(#fkValue)", unless = "#result == null", condition = "#root.target.fkCacheable()")
-	@Override
-	public List<T> queryByFK(String property, Long fkValue) {
+    validate(attchParams);
 
-		validate(property, fkValue);
+    Map<String, Object> cond = new HashMap<String, Object>();
+    cond.put(property, fkValue);
+    cond.putAll(attchParams);
+    cond.put("$TKjtTabName", this.get$TKjtTabName(tabNameSuffix));
 
-		Map<String, Object> cond = new HashMap<String, Object>();
-		cond.put(property, fkValue);
-		cond.put("$TKjtTabName", this.get$TKjtTabName(cond));
-		
-		SqlSession session = SqlmapUtils.openSession(getMapQueryDataSource());
-		try {
-			IMapper<T> mapper = (IMapper<T>) session
-					.getMapper(getMapperClass());
-			List<T> result = mapper.queryByMap(cond);
-			addKey2FKGroupCache(property, fkValue, null, result);
-			return result;
-		} catch (Exception t) {
-			throw new DataAccessException(IBatisDAOException.MSG_1_0007, t);
-		} finally {
-			session.commit();
-			session.close();
-		}
-	}
+    SqlSession session = SqlmapUtils.openSession(getMapQueryDataSource());
+    try {
+      IMapper<T> mapper = (IMapper<T>) session.getMapper(getMapperClass());
+      List<T> result = mapper.queryByMap(cond);
+      addKey2FKGroupCache(property, fkValue, attchParams, result, tabNameSuffix);
+      return result;
+    } catch (Exception t) {
+      throw new DataAccessException(IBatisDAOException.MSG_1_0007, t);
+    } finally {
+      session.commit();
+      session.close();
+    }
+  }
 
-	@CacheOpParams(time = ONE_DAY)
-	@Cacheable(value = "defaultCache", key = "#root.target.getFKRecCacheKeyPrefix().concat('@').concat(#property).concat('=').concat(#fkValue).concat('@').concat(#attchParams)", unless = "#result == null", condition = "#root.target.fkCacheable()")
-	@Override
-	public List<T> queryByFK(String property, Long fkValue,
-			Map<String, Object> attchParams) {
-		validate(property, fkValue);
-		validate(attchParams);
-		Map<String, Object> cond = new HashMap<String, Object>();
-		cond.put(property, fkValue);
-		cond.putAll(attchParams);
-		cond.put("$TKjtTabName", this.get$TKjtTabName(cond));
-		
-		SqlSession session = SqlmapUtils.openSession(getMapQueryDataSource());
-		try {
-			IMapper<T> mapper = (IMapper<T>) session
-					.getMapper(getMapperClass());
-			List<T> result = mapper.queryByMap(cond);
-			addKey2FKGroupCache(property, fkValue, attchParams, result);
-			return result;
-		} catch (Exception t) {
-			throw new DataAccessException(IBatisDAOException.MSG_1_0007, t);
-		} finally {
-			session.commit();
-			session.close();
-		}
-	}
+  @CacheOpParams(time = ONE_DAY)
+  @Cacheable(value = "defaultCache", key = FkCacheKeyPrefixExpress + "", unless = "#result == null", condition = "!#master and #root.target.fkCacheable()")
+  @Override
+  public List<T> queryByFK(String property, Integer fkValue, Boolean master, String tabNameSuffix) {
 
-	@CacheOpParams(time = ONE_DAY)
-	@Cacheable(value = "defaultCache", key = "#root.target.getFKRecCacheKeyPrefix().concat('@').concat(#property).concat('=').concat(#fkValue)", unless = "#result == null", condition = "!#master and #root.target.fkCacheable()")
-	@Override
-	public List<T> queryByFK(String property, Long fkValue, Boolean master) {
+    validate(property, fkValue);
 
-		validate(property, fkValue);
+    Map<String, Object> cond = new HashMap<String, Object>();
+    cond.put(property, fkValue);
+    cond.put("$TKjtTabName", this.get$TKjtTabName(tabNameSuffix));
 
-		Map<String, Object> cond = new HashMap<String, Object>();
-		cond.put(property, fkValue);
-		cond.put("$TKjtTabName", this.get$TKjtTabName(cond));
-		
-		SqlSession session = SqlmapUtils.openSession(master ? this
-				.getMasterDataSource() : getMapQueryDataSource());
-		try {
-			IMapper<T> mapper = (IMapper<T>) session
-					.getMapper(getMapperClass());
-			List<T> result = mapper.queryByMap(cond);
-			addKey2FKGroupCache(property, fkValue, null, result);
-			return result;
-		} catch (Exception t) {
-			throw new DataAccessException(IBatisDAOException.MSG_1_0007, t);
-		} finally {
-			session.commit();
-			session.close();
-		}
-	}
+    SqlSession session = SqlmapUtils.openSession(master ? this.getMasterDataSource()
+        : getMapQueryDataSource());
+    try {
+      IMapper<T> mapper = (IMapper<T>) session.getMapper(getMapperClass());
+      List<T> result = mapper.queryByMap(cond);
+      addKey2FKGroupCache(property, fkValue, null, result, tabNameSuffix);
+      return result;
+    } catch (Exception t) {
+      throw new DataAccessException(IBatisDAOException.MSG_1_0007, t);
+    } finally {
+      session.commit();
+      session.close();
+    }
+  }
 
-	@CacheOpParams(time = ONE_DAY)
-	@Cacheable(value = "defaultCache", key = "#root.target.getFKRecCacheKeyPrefix().concat('@').concat(#property).concat('=').concat(#fkValue).concat('@').concat(#attchParams)", unless = "#result == null", condition = "!#master and #root.target.fkCacheable()")
-	@Override
-	public List<T> queryByFK(String property, Long fkValue,
-			Map<String, Object> attchParams, Boolean master) {
-		validate(property, fkValue);
-		validate(attchParams);
-		Map<String, Object> cond = new HashMap<String, Object>();
-		cond.put(property, fkValue);
-		cond.putAll(attchParams);
-		cond.put("$TKjtTabName", this.get$TKjtTabName(cond));
-		
-		SqlSession session = SqlmapUtils.openSession(master ? this
-				.getMasterDataSource() : getMapQueryDataSource());
-		try {
-			IMapper<T> mapper = (IMapper<T>) session
-					.getMapper(getMapperClass());
-			List<T> result = mapper.queryByMap(cond);
-			addKey2FKGroupCache(property, fkValue, attchParams, result);
-			return result;
-		} catch (Exception t) {
-			throw new DataAccessException(IBatisDAOException.MSG_1_0007, t);
-		} finally {
-			session.commit();
-			session.close();
-		}
-	}
+  @CacheOpParams(time = ONE_DAY)
+  @Cacheable(value = "defaultCache", key = FkCacheKeyPrefixExpress
+      + ".concat('@').concat(#attchParams)", unless = "#result == null", condition = "!#master and #root.target.fkCacheable()")
+  @Override
+  public List<T> queryByFK(String property, Integer fkValue, Map<String, Object> attchParams,
+      Boolean master, String tabNameSuffix) {
+    validate(property, fkValue);
+    validate(attchParams);
+    Map<String, Object> cond = new HashMap<String, Object>();
+    cond.put(property, fkValue);
+    cond.putAll(attchParams);
+    cond.put("$TKjtTabName", this.get$TKjtTabName(tabNameSuffix));
 
-	@CacheEvict(value = "defaultCache", key = "#root.target.getFKRecCacheKeyPrefix().concat('@').concat(#property).concat('=').concat(#fkValue)")
-	@Override
-	public Integer updateByFK(String property, Integer fkValue,
-			Map<String, Object> newValue) {
+    SqlSession session = SqlmapUtils.openSession(master ? this.getMasterDataSource()
+        : getMapQueryDataSource());
+    try {
+      IMapper<T> mapper = (IMapper<T>) session.getMapper(getMapperClass());
+      List<T> result = mapper.queryByMap(cond);
+      addKey2FKGroupCache(property, fkValue, attchParams, result, tabNameSuffix);
+      return result;
+    } catch (Exception t) {
+      throw new DataAccessException(IBatisDAOException.MSG_1_0007, t);
+    } finally {
+      session.commit();
+      session.close();
+    }
+  }
 
-		if (newValue == null || newValue.isEmpty()) {
-			throw new DataAccessException(IBatisDAOException.MSG_1_0008);
-		}
+  @CacheOpParams(time = ONE_DAY)
+  @Cacheable(value = "defaultCache", key = FkCacheKeyPrefixExpress + "", unless = "#result == null", condition = "#root.target.fkCacheable()")
+  @Override
+  public List<T> queryByFK(String property, Long fkValue, String tabNameSuffix) {
 
-		validate(property, fkValue);
+    validate(property, fkValue);
 
-		Map<String, Object> cond = new HashMap<String, Object>();
-		cond.put(property, fkValue);
+    Map<String, Object> cond = new HashMap<String, Object>();
+    cond.put(property, fkValue);
+    cond.put("$TKjtTabName", this.get$TKjtTabName(tabNameSuffix));
 
-		Map<String, Object> params = new HashMap<String, Object>();
-		params.put("updNewMap", newValue);
-		params.put("updCondMap", cond);
-		params.put("$TKjtTabName", this.get$TKjtTabName(cond));
-		
-		SqlSession session = SqlmapUtils.openSession(getMasterDataSource());
-		try {
-			IMapper<T> mapper = session.getMapper(getMapperClass());
-			Integer eft = mapper.cmplxUpdate(params);
-			if (eft > 0) {
-				synCache(eft, property, fkValue, null);
-			}
-			return eft;
-		} catch (Exception t) {
-			throw new DataAccessException(IBatisDAOException.MSG_2_0001, t);
-		} finally {
-			session.commit();
-			session.close();
-		}
-	}
+    SqlSession session = SqlmapUtils.openSession(getMapQueryDataSource());
+    try {
+      IMapper<T> mapper = (IMapper<T>) session.getMapper(getMapperClass());
+      List<T> result = mapper.queryByMap(cond);
+      addKey2FKGroupCache(property, fkValue, null, result, tabNameSuffix);
+      return result;
+    } catch (Exception t) {
+      throw new DataAccessException(IBatisDAOException.MSG_1_0007, t);
+    } finally {
+      session.commit();
+      session.close();
+    }
+  }
 
-	@CacheEvict(value = "defaultCache", key = "#root.target.getFKRecCacheKeyPrefix().concat('@').concat(#property).concat('=').concat(#fkValue).concat('@').concat(#attchParams)")
-	@Override
-	public Integer updateByFK(String property, Integer fkValue,
-			Map<String, Object> attchParams, Map<String, Object> newValue) {
-		if (newValue == null || newValue.isEmpty()) {
-			throw new DataAccessException(IBatisDAOException.MSG_1_0008);
-		}
+  @CacheOpParams(time = ONE_DAY)
+  @Cacheable(value = "defaultCache", key = FkCacheKeyPrefixExpress
+      + ".concat('@').concat(#attchParams)", unless = "#result == null", condition = "#root.target.fkCacheable()")
+  @Override
+  public List<T> queryByFK(String property, Long fkValue, Map<String, Object> attchParams,
+      String tabNameSuffix) {
+    validate(property, fkValue);
+    validate(attchParams);
+    Map<String, Object> cond = new HashMap<String, Object>();
+    cond.put(property, fkValue);
+    cond.putAll(attchParams);
+    cond.put("$TKjtTabName", this.get$TKjtTabName(tabNameSuffix));
 
-		validate(property, fkValue);
+    SqlSession session = SqlmapUtils.openSession(getMapQueryDataSource());
+    try {
+      IMapper<T> mapper = (IMapper<T>) session.getMapper(getMapperClass());
+      List<T> result = mapper.queryByMap(cond);
+      addKey2FKGroupCache(property, fkValue, attchParams, result, tabNameSuffix);
+      return result;
+    } catch (Exception t) {
+      throw new DataAccessException(IBatisDAOException.MSG_1_0007, t);
+    } finally {
+      session.commit();
+      session.close();
+    }
+  }
 
-		validate(attchParams);
+  @CacheOpParams(time = ONE_DAY)
+  @Cacheable(value = "defaultCache", key = FkCacheKeyPrefixExpress + "", unless = "#result == null", condition = "!#master and #root.target.fkCacheable()")
+  @Override
+  public List<T> queryByFK(String property, Long fkValue, Boolean master, String tabNameSuffix) {
 
-		Map<String, Object> cond = new HashMap<String, Object>();
-		cond.put(property, fkValue);
-		cond.putAll(attchParams);
+    validate(property, fkValue);
 
-		Map<String, Object> params = new HashMap<String, Object>();
-		params.put("updNewMap", newValue);
-		params.put("updCondMap", cond);
-		params.put("$TKjtTabName", this.get$TKjtTabName(cond));
-		
-		SqlSession session = SqlmapUtils.openSession(getMasterDataSource());
-		try {
-			IMapper<T> mapper = session.getMapper(getMapperClass());
-			Integer eft = mapper.cmplxUpdate(params);
-			if (eft > 0) {
-				synCache(eft, property, fkValue, attchParams);
-			}
-			return eft;
-		} catch (Exception t) {
-			throw new DataAccessException(IBatisDAOException.MSG_2_0001, t);
-		} finally {
-			session.commit();
-			session.close();
-		}
-	}
+    Map<String, Object> cond = new HashMap<String, Object>();
+    cond.put(property, fkValue);
+    cond.put("$TKjtTabName", this.get$TKjtTabName(tabNameSuffix));
 
-	@CacheEvict(value = "defaultCache", key = "#root.target.getFKRecCacheKeyPrefix().concat('@').concat(#property).concat('=').concat(#fkValue)")
-	@Override
-	public Integer updateByFK(String property, Long fkValue,
-			Map<String, Object> newValue) {
-		if (newValue == null || newValue.isEmpty()) {
-			throw new DataAccessException(IBatisDAOException.MSG_1_0008);
-		}
+    SqlSession session = SqlmapUtils.openSession(master ? this.getMasterDataSource()
+        : getMapQueryDataSource());
+    try {
+      IMapper<T> mapper = (IMapper<T>) session.getMapper(getMapperClass());
+      List<T> result = mapper.queryByMap(cond);
+      addKey2FKGroupCache(property, fkValue, null, result, tabNameSuffix);
+      return result;
+    } catch (Exception t) {
+      throw new DataAccessException(IBatisDAOException.MSG_1_0007, t);
+    } finally {
+      session.commit();
+      session.close();
+    }
+  }
 
-		validate(property, fkValue);
+  @CacheOpParams(time = ONE_DAY)
+  @Cacheable(value = "defaultCache", key = FkCacheKeyPrefixExpress
+      + ".concat('@').concat(#attchParams)", unless = "#result == null", condition = "!#master and #root.target.fkCacheable()")
+  @Override
+  public List<T> queryByFK(String property, Long fkValue, Map<String, Object> attchParams,
+      Boolean master, String tabNameSuffix) {
+    validate(property, fkValue);
+    validate(attchParams);
+    Map<String, Object> cond = new HashMap<String, Object>();
+    cond.put(property, fkValue);
+    cond.putAll(attchParams);
+    cond.put("$TKjtTabName", this.get$TKjtTabName(tabNameSuffix));
 
-		Map<String, Object> cond = new HashMap<String, Object>();
-		cond.put(property, fkValue);
+    SqlSession session = SqlmapUtils.openSession(master ? this.getMasterDataSource()
+        : getMapQueryDataSource());
+    try {
+      IMapper<T> mapper = (IMapper<T>) session.getMapper(getMapperClass());
+      List<T> result = mapper.queryByMap(cond);
+      addKey2FKGroupCache(property, fkValue, attchParams, result, tabNameSuffix);
+      return result;
+    } catch (Exception t) {
+      throw new DataAccessException(IBatisDAOException.MSG_1_0007, t);
+    } finally {
+      session.commit();
+      session.close();
+    }
+  }
 
-		Map<String, Object> params = new HashMap<String, Object>();
-		params.put("updNewMap", newValue);
-		params.put("updCondMap", cond);
-		params.put("$TKjtTabName", this.get$TKjtTabName(cond));
-		
-		SqlSession session = SqlmapUtils.openSession(getMasterDataSource());
-		try {
-			IMapper<T> mapper = session.getMapper(getMapperClass());
-			Integer eft = mapper.cmplxUpdate(params);
-			if (eft > 0) {
-				synCache(eft, property, fkValue, null);
-			}
-			return eft;
-		} catch (Exception t) {
-			throw new DataAccessException(IBatisDAOException.MSG_2_0001, t);
-		} finally {
-			session.commit();
-			session.close();
-		}
-	}
+  @CacheEvict(value = "defaultCache", key = FkCacheKeyPrefixExpress + "")
+  @Override
+  public Integer updateByFK(String property, Integer fkValue, Map<String, Object> newValue,
+      String tabNameSuffix) {
 
-	@CacheEvict(value = "defaultCache", key = "#root.target.getFKRecCacheKeyPrefix().concat('@').concat(#property).concat('=').concat(#fkValue).concat('@').concat(#attchParams)")
-	@Override
-	public Integer updateByFK(String property, Long fkValue,
-			Map<String, Object> attchParams, Map<String, Object> newValue) {
-		if (newValue == null || newValue.isEmpty()) {
-			throw new DataAccessException(IBatisDAOException.MSG_1_0008);
-		}
+    if (newValue == null || newValue.isEmpty()) {
+      throw new DataAccessException(IBatisDAOException.MSG_1_0008);
+    }
 
-		validate(property, fkValue);
-		validate(attchParams);
+    validate(property, fkValue);
 
-		Map<String, Object> cond = new HashMap<String, Object>();
-		cond.put(property, fkValue);
-		cond.putAll(attchParams);
+    Map<String, Object> cond = new HashMap<String, Object>();
+    cond.put(property, fkValue);
 
-		Map<String, Object> params = new HashMap<String, Object>();
-		params.put("updNewMap", newValue);
-		params.put("updCondMap", cond);
-		params.put("$TKjtTabName", this.get$TKjtTabName(cond));
-		
-		SqlSession session = SqlmapUtils.openSession(getMasterDataSource());
-		try {
-			IMapper<T> mapper = session.getMapper(getMapperClass());
-			Integer eft = mapper.cmplxUpdate(params);
-			if (eft > 0) {
-				synCache(eft, property, fkValue, attchParams);
-			}
-			return eft;
-		} catch (Exception t) {
-			throw new DataAccessException(IBatisDAOException.MSG_2_0001, t);
-		} finally {
-			session.commit();
-			session.close();
-		}
-	}
+    Map<String, Object> params = new HashMap<String, Object>();
+    params.put("updNewMap", newValue);
+    params.put("updCondMap", cond);
+    params.put("$TKjtTabName", this.get$TKjtTabName(tabNameSuffix));
 
-	/**
-	 * 参数验证
-	 * 
-	 * @param property
-	 * @param fkValue
-	 */
-	protected void validate(String property, Object fkValue) {
+    SqlSession session = SqlmapUtils.openSession(getMasterDataSource());
+    try {
+      IMapper<T> mapper = session.getMapper(getMapperClass());
+      Integer eft = mapper.cmplxUpdate(params);
+      if (eft > 0) {
+        synCache(eft, property, fkValue, null, tabNameSuffix);
+      }
+      return eft;
+    } catch (Exception t) {
+      throw new DataAccessException(IBatisDAOException.MSG_2_0001, t);
+    } finally {
+      session.commit();
+      session.close();
+    }
+  }
 
-		if (fkValue == null
-				|| Long.valueOf(fkValue.toString()).longValue() <= 0) {
-			throw new DataAccessException(IBatisDAOException.MSG_1_0010);
-		}
+  @CacheEvict(value = "defaultCache", key = FkCacheKeyPrefixExpress
+      + ".concat('@').concat(#attchParams)")
+  @Override
+  public Integer updateByFK(String property, Integer fkValue, Map<String, Object> attchParams,
+      Map<String, Object> newValue, String tabNameSuffix) {
+    if (newValue == null || newValue.isEmpty()) {
+      throw new DataAccessException(IBatisDAOException.MSG_1_0008);
+    }
 
-		if (!isFk(property)) {
-			throw new DataAccessException(IBatisDAOException.MSG_1_0009,property);
-		}
-	}
+    validate(property, fkValue);
 
-	// ##################################################################################################
+    validate(attchParams);
 
-	/**
-	 * 外键缓存开关
-	 */
-	public boolean fkCacheable() {
+    Map<String, Object> cond = new HashMap<String, Object>();
+    cond.put(property, fkValue);
+    cond.putAll(attchParams);
 
-		String cacheable = System.getProperty(CACHE_FLG, "true");
+    Map<String, Object> params = new HashMap<String, Object>();
+    params.put("updNewMap", newValue);
+    params.put("updCondMap", cond);
+    params.put("$TKjtTabName", this.get$TKjtTabName(tabNameSuffix));
 
-		return Boolean.valueOf(cacheable) // 缓存开关
-				&& Boolean.valueOf(System.getProperty(PK_CACHE_FLG, cacheable)) // 主键缓存
-				&& Boolean.valueOf(System.getProperty(FK_CACHE_FLG, cacheable));// 表级缓存
-	}
+    SqlSession session = SqlmapUtils.openSession(getMasterDataSource());
+    try {
+      IMapper<T> mapper = session.getMapper(getMapperClass());
+      Integer eft = mapper.cmplxUpdate(params);
+      if (eft > 0) {
+        synCache(eft, property, fkValue, attchParams, tabNameSuffix);
+      }
+      return eft;
+    } catch (Exception t) {
+      throw new DataAccessException(IBatisDAOException.MSG_2_0001, t);
+    } finally {
+      session.commit();
+      session.close();
+    }
+  }
+
+  @CacheEvict(value = "defaultCache", key = FkCacheKeyPrefixExpress + "")
+  @Override
+  public Integer updateByFK(String property, Long fkValue, Map<String, Object> newValue,
+      String tabNameSuffix) {
+    if (newValue == null || newValue.isEmpty()) {
+      throw new DataAccessException(IBatisDAOException.MSG_1_0008);
+    }
+
+    validate(property, fkValue);
+
+    Map<String, Object> cond = new HashMap<String, Object>();
+    cond.put(property, fkValue);
+
+    Map<String, Object> params = new HashMap<String, Object>();
+    params.put("updNewMap", newValue);
+    params.put("updCondMap", cond);
+    params.put("$TKjtTabName", this.get$TKjtTabName(tabNameSuffix));
+
+    SqlSession session = SqlmapUtils.openSession(getMasterDataSource());
+    try {
+      IMapper<T> mapper = session.getMapper(getMapperClass());
+      Integer eft = mapper.cmplxUpdate(params);
+      if (eft > 0) {
+        synCache(eft, property, fkValue, null, tabNameSuffix);
+      }
+      return eft;
+    } catch (Exception t) {
+      throw new DataAccessException(IBatisDAOException.MSG_2_0001, t);
+    } finally {
+      session.commit();
+      session.close();
+    }
+  }
+
+  @CacheEvict(value = "defaultCache", key = FkCacheKeyPrefixExpress
+      + ".concat('@').concat(#attchParams)")
+  @Override
+  public Integer updateByFK(String property, Long fkValue, Map<String, Object> attchParams,
+      Map<String, Object> newValue, String tabNameSuffix) {
+    if (newValue == null || newValue.isEmpty()) {
+      throw new DataAccessException(IBatisDAOException.MSG_1_0008);
+    }
+
+    validate(property, fkValue);
+    validate(attchParams);
+
+    Map<String, Object> cond = new HashMap<String, Object>();
+    cond.put(property, fkValue);
+    cond.putAll(attchParams);
+
+    Map<String, Object> params = new HashMap<String, Object>();
+    params.put("updNewMap", newValue);
+    params.put("updCondMap", cond);
+    params.put("$TKjtTabName", this.get$TKjtTabName(tabNameSuffix));
+
+    SqlSession session = SqlmapUtils.openSession(getMasterDataSource());
+    try {
+      IMapper<T> mapper = session.getMapper(getMapperClass());
+      Integer eft = mapper.cmplxUpdate(params);
+      if (eft > 0) {
+        synCache(eft, property, fkValue, attchParams, tabNameSuffix);
+      }
+      return eft;
+    } catch (Exception t) {
+      throw new DataAccessException(IBatisDAOException.MSG_2_0001, t);
+    } finally {
+      session.commit();
+      session.close();
+    }
+  }
+
+  /**
+   * 参数验证
+   * 
+   * @param property
+   * @param fkValue
+   */
+  protected void validate(String property, Object fkValue) {
+
+    if (fkValue == null || Long.valueOf(fkValue.toString()).longValue() <= 0) {
+      throw new DataAccessException(IBatisDAOException.MSG_1_0010);
+    }
+
+    if (!isFk(property)) {
+      throw new DataAccessException(IBatisDAOException.MSG_1_0009, property);
+    }
+  }
+
+  // ##################################################################################################
+
+  /**
+   * 外键缓存开关
+   */
+  public boolean fkCacheable() {
+
+    String cacheable = System.getProperty(CACHE_FLG, "true");
+
+    return Boolean.valueOf(cacheable) // 缓存开关
+        && Boolean.valueOf(System.getProperty(PK_CACHE_FLG, cacheable)) // 主键缓存
+        && Boolean.valueOf(System.getProperty(FK_CACHE_FLG, cacheable));// 表级缓存
+  }
 
 }

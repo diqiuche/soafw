@@ -10,8 +10,8 @@ import com.kjt.service.common.dao.IModel;
  *
  * @param <T>
  */
-public interface ILBatisDAO<T extends IModel> extends IBatisDAO<T>,ILDAO<T>{
-	
-	public Class<? extends ILMapper<T>> getMapperClass();
+public interface ILBatisDAO<T extends IModel> extends IBatisDAO<T>, ILDAO<T> {
+
+  public Class<? extends ILMapper<T>> getMapperClass();
 
 }

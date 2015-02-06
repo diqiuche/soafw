@@ -10,58 +10,64 @@ import freemarker.template.TemplateException;
 
 public abstract class DaoGen extends AbsGen {
 
-	protected abstract DB load() throws Exception;
+  protected abstract DB load() throws Exception;
 
-	public void process(String masterDataSourceBean, String slaveDataSourceBean,String mapQueryDataSourceBean, String packageName, String targetJava, String targetResources) throws Exception {
+  public void process(String masterDataSourceBean, String slaveDataSourceBean,
+      String mapQueryDataSourceBean, String packageName, String targetJava, String targetResources)
+      throws Exception {
 
-		DB def = load();
-		process(masterDataSourceBean, slaveDataSourceBean,mapQueryDataSourceBean, def, packageName, targetJava, targetResources);
-	}
+    DB def = load();
+    process(masterDataSourceBean, slaveDataSourceBean, mapQueryDataSourceBean, def, packageName,
+        targetJava, targetResources);
+  }
 
-	protected void process(String masterDataSourceBean, String slaveDataSourceBean,String mapQueryDataSourceBean, DB def, String packageName, String targetJava, String targetResources) throws IOException, TemplateException {
+  protected void process(String masterDataSourceBean, String slaveDataSourceBean,
+      String mapQueryDataSourceBean, DB def, String packageName, String targetJava,
+      String targetResources) throws IOException, TemplateException {
 
-		Map root = new HashMap();
+    Map root = new HashMap();
 
-		List<Tab> tabs = def.getTabs();
+    List<Tab> tabs = def.getTabs();
 
-		int size = tabs == null ? 0 : tabs.size();
+    int size = tabs == null ? 0 : tabs.size();
 
-		String package_ = packageName;
+    String package_ = packageName;
 
-		String java = targetJava;
+    String java = targetJava;
 
-		String resource = targetResources;
+    String resource = targetResources;
 
-		root.put("package", package_);
+    root.put("package", package_);
 
-		package_ = package_.replaceAll("\\.", "/");
+    package_ = package_.replaceAll("\\.", "/");
 
-		List<String> modelNames = new ArrayList<String>();
+    List<String> modelNames = new ArrayList<String>();
 
-		for (int i = 0; i < size; i++) {
+    for (int i = 0; i < size; i++) {
 
-			String name = format(tabs.get(i).getName());
-			modelNames.add(name);
+      String name = format(tabs.get(i).getName());
+      modelNames.add(name);
 
-			root.put("masterDataSource", masterDataSourceBean);
-			root.put("slaveDataSource", slaveDataSourceBean);
-			root.put("mapQueryDataSource", mapQueryDataSourceBean);
-			root.put("upperDataSource", masterDataSourceBean.toUpperCase());
-			root.put("name", name);
-			root.put("tab", tabs.get(i));
-			root.put("dbs", tabs.get(i).getDbs());
-			root.put("cols", tabs.get(i).getCols());
-			root.put("colMaps", tabs.get(i).getColMaps());
+      root.put("masterDataSource", masterDataSourceBean);
+      root.put("slaveDataSource", slaveDataSourceBean);
+      root.put("mapQueryDataSource", mapQueryDataSourceBean);
+      root.put("upperDataSource", masterDataSourceBean.toUpperCase());
+      root.put("name", name);
+      root.put("tab", tabs.get(i));
+      root.put("dbs", tabs.get(i).getDbs());
+      root.put("cols", tabs.get(i).getCols());
+      root.put("colMaps", tabs.get(i).getColMaps());
 
-			create("model.ftl", root, java + package_ + "/dao/model/" + name + ".java");
-			create("idao.ftl", root, java + package_ + "/dao/" + "I" + name + "DAO.java");
-			create("daoimpl.ftl", root, java + package_ + "/dao/ibatis/" + name + "IbatisDAOImpl.java");
-			create("mapper.ftl", root, java + package_ + "/dao/ibatis/mapper/" + name + "Mapper.java");
-			create("mapper.xml.ftl", root, resource + package_ + "/dao/ibatis/mapper/" + name + "Mapper.xml");
-			create("spring.xml.ftl", root, resource +"/META-INF/config/local/"+"spring.xml");
-		}
-		// root.put("modelNames", modelNames);
+      create("model.ftl", root, java + package_ + "/dao/model/" + name + ".java");
+      create("idao.ftl", root, java + package_ + "/dao/" + "I" + name + "DAO.java");
+      create("daoimpl.ftl", root, java + package_ + "/dao/ibatis/" + name + "IbatisDAOImpl.java");
+      create("mapper.ftl", root, java + package_ + "/dao/ibatis/mapper/" + name + "Mapper.java");
+      create("mapper.xml.ftl", root, resource + package_ + "/dao/ibatis/mapper/" + name
+          + "Mapper.xml");
+      create("spring.xml.ftl", root, resource + "/META-INF/config/local/" + "spring.xml");
+    }
+    // root.put("modelNames", modelNames);
 
-		// create("spring.xml.ftl", root, resource + package_ + "/spring-dao.xml");
-	}
+    // create("spring.xml.ftl", root, resource + package_ + "/spring-dao.xml");
+  }
 }

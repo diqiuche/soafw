@@ -1,6 +1,7 @@
 package com.kjt.service.common.dao;
 
 import java.util.Map;
+
 /**
  * 主键为长整型操作接口
  * 
@@ -21,47 +22,58 @@ import java.util.Map;
  * @param <T>
  */
 public interface ILDAO<T> extends ICacheable<T> {
-	/**
-	 * 持久化数据对象，返回当前对象的id
-	 * 
-	 * @param model
-	 * @return
-	 */
-	public Long insert(T model);
+  /**
+   * 持久化数据对象，返回当前对象的id
+   * 
+   * @param model
+   * @param tabNameSuffix
+   *          表名后缀［用于支持表拆分机制，即：数据库操作时的表名规则为:tableName+"_"+tabNameSuffix］
+   * @return
+   */
+  public Long insert(T model, String tabNameSuffix);
 
-	/**
-	 * 通过主键删除业务对象
-	 * 
-	 * @param id
-	 * @return
-	 */
-	public Integer deleteById(Long id);
-	
-	/**
-	 * 通过id，更新业务对象
-	 * 
-	 * @param id
-	 * @param newValue
-	 * @return
-	 */
-	public Integer updateById(Long id, Map<String, Object> newValue);
-	
-	/**
-	 * 通过id查询对象，默认从slave中查询
-	 * 
-	 * @param id
-	 * @return
-	 */
-	public T queryById(Long id);
-	
-	/**
-	 * 通过id查询对象
-	 * 
-	 * @param id
-	 *            对象id
-	 * @param master
-	 *            是否从master中查询,master＝true时从master库中查询,同时重新刷新缓存
-	 * @return
-	 */
-	public T queryById(Long id, Boolean master);
+  /**
+   * 通过主键删除业务对象
+   * 
+   * @param id
+   * @param tabNameSuffix
+   *          表名后缀［用于支持表拆分机制，即：数据库操作时的表名规则为:tableName+"_"+tabNameSuffix］
+   * @return
+   */
+  public Integer deleteById(Long id, String tabNameSuffix);
+
+  /**
+   * 通过id，更新业务对象
+   * 
+   * @param id
+   * @param newValue
+   * @param tabNameSuffix
+   *          表名后缀［用于支持表拆分机制，即：数据库操作时的表名规则为:tableName+"_"+tabNameSuffix］
+   * @return
+   */
+  public Integer updateById(Long id, Map<String, Object> newValue, String tabNameSuffix);
+
+  /**
+   * 通过id查询对象，默认从slave中查询
+   * 
+   * @param id
+   * @param tabNameSuffix
+   *          表名后缀［用于支持表拆分机制，即：数据库操作时的表名规则为:tableName+"_"+tabNameSuffix］
+   * @return
+   */
+  public T queryById(Long id, String tabNameSuffix);
+
+  /**
+   * 通过id查询对象
+   * 
+   * @param id
+   *          对象id
+   * @param master
+   *          是否从master中查询,master＝true时从master库中查询,同时重新刷新缓存
+   * @param tabNameSuffix
+   *          表名后缀［用于支持表拆分机制，即：数据库操作时的表名规则为:tableName+"_"+tabNameSuffix］
+   * @return
+   */
+  public T queryById(Long id, Boolean master, String tabNameSuffix);
+
 }

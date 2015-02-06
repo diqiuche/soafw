@@ -28,125 +28,126 @@ import com.kjt.service.common.exception.DataAccessException;
  *
  * @param <T>
  */
-public abstract class AbsIntIDIBatisDAOImpl<T extends IModel> extends
-		AbsFKIBatisDAOImpl<T> implements IIBatisDAO<T> {
+public abstract class AbsIntIDIBatisDAOImpl<T extends IModel> extends AbsFKIBatisDAOImpl<T>
+    implements IIBatisDAO<T> {
 
-	@Cacheable(value = "defaultCache", key = "#root.target.getPKRecCacheKeyPrefix().concat('@').concat('id').concat('=').concat(#id)", unless = "#result == null", condition = "#root.target.cacheable()")
-	@Override
-	public T queryById(Integer id) {
-		return queryById(id, false);
-	}
+  @Cacheable(value = "defaultCache", key = PkCacheKeyPrefixExpress+"", unless = "#result == null", condition = "#root.target.cacheable()")
+  @Override
+  public T queryById(Integer id, String tabNameSuffix) {
+    return queryById(id, false,tabNameSuffix);
+  }
 
-	@Cacheable(value = "defaultCache", key = "#root.target.getPKRecCacheKeyPrefix().concat('@').concat('id').concat('=').concat(#id)", unless = "#result == null", condition = "!#master and #root.target.cacheable()")
-	@Override
-	public T queryById(Integer id, Boolean master) {
+  @Cacheable(value = "defaultCache", key = PkCacheKeyPrefixExpress+"", unless = "#result == null", condition = "!#master and #root.target.cacheable()")
+  @Override
+  public T queryById(Integer id, Boolean master, String tabNameSuffix) {
 
-		validate(id);
-		Map<String,Object> params = new HashMap<String,Object>();
-		params.put("id", id);
-		params.put("$TKjtTabName", this.get$TKjtTabName(params));
-		
-		SqlSession session = SqlmapUtils.openSession(master ? this
-				.getMasterDataSource() : getSlaveDataSource());
-		try {
-			IIMapper<T> mapper = session.getMapper(getMapperClass());
-			List<T> objs = mapper.queryByMap(params);
-			if(objs==null||objs.isEmpty())
-				return null;
-			return objs.get(0);
-		} catch (Exception t) {
-			t.printStackTrace();
-			throw new DataAccessException(IBatisDAOException.MSG_2_0001, t);
-		} finally {
-			session.commit();
-			session.close();
-		}
-	}
+    validate(id);
+    Map<String, Object> params = new HashMap<String, Object>();
+    params.put("id", id);
+    params.put("$TKjtTabName", this.get$TKjtTabName(tabNameSuffix));
 
-	@Override
-	public Integer insert(T model) {
+    SqlSession session = SqlmapUtils.openSession(master ? this.getMasterDataSource()
+        : getSlaveDataSource());
+    try {
+      IIMapper<T> mapper = session.getMapper(getMapperClass());
+      List<T> objs = mapper.queryByMap(params);
+      if (objs == null || objs.isEmpty()) {
+        return null;
+      }
+      return objs.get(0);
+    } catch (Exception t) {
+      t.printStackTrace();
+      throw new DataAccessException(IBatisDAOException.MSG_2_0001, t);
+    } finally {
+      session.commit();
+      session.close();
+    }
+  }
 
-		SqlSession session = SqlmapUtils.openSession(getMasterDataSource());
-		try {
-			Map<String,Object> params = new HashMap<String,Object>();
-			params.put("model", model);
-			params.put("$TKjtTabName", this.get$TKjtTabName(model));
-			
-			IIMapper<T> mapper = session.getMapper(getMapperClass());
-			Integer id = mapper.insert(params);
-			if (id > 0) {
-				this.incrTabVersion();
-			}
-			return id;
-		} catch (Exception t) {
-			throw new DataAccessException(IBatisDAOException.MSG_2_0001, t);
-		} finally {
-			session.commit();
-			session.close();
-		}
-	}
+  @Override
+  public Integer insert(T model, String tabNameSuffix) {
 
-	@CacheEvict(value = "defaultCache", key = "#root.target.getPKRecCacheKeyPrefix().concat('@').concat('id').concat('=').concat(#id)")
-	@Override
-	public Integer deleteById(Integer id) {
+    SqlSession session = SqlmapUtils.openSession(getMasterDataSource());
+    try {
+      Map<String, Object> params = new HashMap<String, Object>();
+      params.put("model", model);
+      params.put("$TKjtTabName", this.get$TKjtTabName(tabNameSuffix));
 
-		validate(id);
+      IIMapper<T> mapper = session.getMapper(getMapperClass());
+      Integer id = mapper.insert(params);
+      if (id > 0) {
+        this.incrTabVersion(tabNameSuffix);
+      }
+      return id;
+    } catch (Exception t) {
+      throw new DataAccessException(IBatisDAOException.MSG_2_0001, t);
+    } finally {
+      session.commit();
+      session.close();
+    }
+  }
 
-		Map<String, Object> params = new HashMap<String, Object>();
-		params.put("id", id);
-		params.put("$TKjtTabName", this.get$TKjtTabName(params));
-		
-		SqlSession session = SqlmapUtils.openSession(getMasterDataSource());
-		try {
-			IMapper<T> mapper = session.getMapper(getMapperClass());
-			Integer eft = mapper.deleteByMap(params);
-			if (eft > 0) {
-				this.incrTabVersion();
-			}
-			return eft;
-		} catch (Exception t) {
-			throw new DataAccessException(IBatisDAOException.MSG_2_0001, t);
-		} finally {
-			session.commit();
-			session.close();
-		}
-	}
+  @CacheEvict(value = "defaultCache", key = PkCacheKeyPrefixExpress+"")
+  @Override
+  public Integer deleteById(Integer id, String tabNameSuffix) {
 
-	@CacheEvict(value = "defaultCache", key = "#root.target.getPKRecCacheKeyPrefix().concat('@').concat('id').concat('=').concat(#id)")
-	@Override
-	public Integer updateById(Integer id, Map<String, Object> newValue) {
+    validate(id);
 
-		validate(id);
+    Map<String, Object> params = new HashMap<String, Object>();
+    params.put("id", id);
+    params.put("$TKjtTabName", this.get$TKjtTabName(tabNameSuffix));
 
-		if (newValue == null || newValue.isEmpty()) {
-			throw new DataAccessException(IBatisDAOException.MSG_1_0007);
-		}
-		newValue.put("id", id);
-		newValue.put("$TKjtTabName", this.get$TKjtTabName(newValue));
-		
-		SqlSession session = SqlmapUtils.openSession(getMasterDataSource());
-		try {
-			IMapper<T> mapper = session.getMapper(getMapperClass());
-			Integer eft = mapper.updateByMap(newValue);
-			if (eft > 0) {
-				this.incrTabVersion();
-			}
-			return eft;
-		} catch (Exception t) {
-			throw new DataAccessException(IBatisDAOException.MSG_2_0001, t);
-		} finally {
-			session.commit();
-			session.close();
-		}
-	}
+    SqlSession session = SqlmapUtils.openSession(getMasterDataSource());
+    try {
+      IMapper<T> mapper = session.getMapper(getMapperClass());
+      Integer eft = mapper.deleteByMap(params);
+      if (eft > 0) {
+        this.incrTabVersion(tabNameSuffix);
+      }
+      return eft;
+    } catch (Exception t) {
+      throw new DataAccessException(IBatisDAOException.MSG_2_0001, t);
+    } finally {
+      session.commit();
+      session.close();
+    }
+  }
 
-	protected void validate(Integer id) {
-		if (id == null) {
-			throw new DataAccessException(IBatisDAOException.MSG_1_0005);
-		}
-		if (id.intValue() <= 0) {
-			throw new DataAccessException(IBatisDAOException.MSG_1_0006);
-		}
-	}
+  @CacheEvict(value = "defaultCache", key = PkCacheKeyPrefixExpress+"")
+  @Override
+  public Integer updateById(Integer id, Map<String, Object> newValue, String tabNameSuffix) {
+
+    validate(id);
+
+    if (newValue == null || newValue.isEmpty()) {
+      throw new DataAccessException(IBatisDAOException.MSG_1_0007);
+    }
+    newValue.put("id", id);
+    newValue.put("$TKjtTabName", this.get$TKjtTabName(tabNameSuffix));
+
+    SqlSession session = SqlmapUtils.openSession(getMasterDataSource());
+    try {
+      IMapper<T> mapper = session.getMapper(getMapperClass());
+      Integer eft = mapper.updateByMap(newValue);
+      if (eft > 0) {
+        this.incrTabVersion(tabNameSuffix);
+      }
+      return eft;
+    } catch (Exception t) {
+      throw new DataAccessException(IBatisDAOException.MSG_2_0001, t);
+    } finally {
+      session.commit();
+      session.close();
+    }
+  }
+
+  protected void validate(Integer id) {
+    if (id == null) {
+      throw new DataAccessException(IBatisDAOException.MSG_1_0005);
+    }
+    if (id.intValue() <= 0) {
+      throw new DataAccessException(IBatisDAOException.MSG_1_0006);
+    }
+  }
 
 }

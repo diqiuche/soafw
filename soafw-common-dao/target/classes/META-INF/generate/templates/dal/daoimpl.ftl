@@ -55,14 +55,15 @@ public class ${name}IbatisDAOImpl extends AbsLongIDIBatisDAOImpl<${name}> implem
 	}
 	
 	@Override
-	public String get$TKjtTabName(Map<String,Object> params){
-		return "${tab.name}";
-	}
-	
-	@Override
-	public String get$TKjtTabName(${name} params) {
-		return "${tab.name}";
-	}
+	public String get$TKjtTabName(String tabNameSuffix) {
+	  StringBuilder tableName = new StringBuilder("${tab.name}");
+      if(tabNameSuffix!=null&&tabNameSuffix.trim().length()>0){
+        tableName.append("_");
+        tableName.append(tabNameSuffix.trim()); 
+      }
+      return tableName.toString();
+    }
+  
 	
 	<#if tab.pkFieldNum != 1>
 	@Override

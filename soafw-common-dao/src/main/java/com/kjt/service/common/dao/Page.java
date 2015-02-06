@@ -2,49 +2,49 @@ package com.kjt.service.common.dao;
 
 public class Page<T> {
 
-	private Integer pageSize;
-	private Integer start;
-	private Integer end;
-	private T params;
-	private String orders;
-	
-	public Integer getPageSize() {
-		return pageSize;
-	}
+  private Integer pageSize;
+  private Integer start;
+  private Integer end;
+  private T params;
+  private String orders;
 
-	public void setPageSize(Integer pageSize) {
-		this.pageSize = pageSize;
-	}
+  public Integer getPageSize() {
+    return pageSize;
+  }
 
-	public Integer getStart() {
-		return start;
-	}
+  public void setPageSize(Integer pageSize) {
+    this.pageSize = pageSize;
+  }
 
-	public void setStart(Integer start) {
-		this.start = start;
-	}
+  public Integer getStart() {
+    return start;
+  }
 
-	public Integer getEnd() {
-		return end;
-	}
+  public void setStart(Integer start) {
+    this.start = start;
+  }
 
-	public void setEnd(Integer end) {
-		this.end = end;
-	}
+  public Integer getEnd() {
+    return end;
+  }
 
-	public T getParams() {
-		return params;
-	}
+  public void setEnd(Integer end) {
+    this.end = end;
+  }
 
-	public void setParams(T params) {
-		this.params = params;
-	}
+  public T getParams() {
+    return params;
+  }
 
-	public String getOrders() {
-		return orders;
-	}
+  public void setParams(T params) {
+    this.params = params;
+  }
 
-	public void setOrders(String orders) {
-		this.orders = orders;
-	}
+  public String getOrders() {
+    return orders;
+  }
+
+  public void setOrders(String orders) {
+    this.orders = orders;
+  }
 }

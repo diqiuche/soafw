@@ -27,108 +27,106 @@ import org.slf4j.LoggerFactory;
  * TODO: ThreadLocal SqlSession
  */
 public final class SqlmapUtils {
-	
+
+  /**
+   * Add mapper to defined SqlSessionFactory.
+   *
+   * @param mapperType
+   * @param definition
+   */
+  public static void addMapper(Class<?> mapperType, DataSource dataSource) {
+
+    SqlSessionFactory factory = getFactory(dataSource);
+    Configuration configuration = factory.getConfiguration();
+    if (!configuration.hasMapper(mapperType)) {
+      configuration.addMapper(mapperType);
+    }
+  }
+
+  /**
+   * Add mapper to defined SqlSessionFactories.
+   *
+   * @param mapperType
+   * @param definitions
+   */
+  public static void addMapper(Class<?> mapperType, DataSource[] dataSources) {
+    if (dataSources == null || dataSources.length <= 0) {
+      return;
+    }
+    for (DataSource dataSource : dataSources) {
+      addMapper(mapperType, dataSource);
+    }
+  }
+
+  /**
+   * 返回SqlSessionWrapper.
+   *
+   * @param definition
+   * @return
+   */
+  public static SqlSession openSession(DataSource dataSource) {
+    SqlSessionFactory factory = getFactory(dataSource);
+    return factory.openSession();
+  }
+
+  /**
+   * 返回SqlSessionWrapper.
+   *
+   * @param definition
+   * @param executorType
+   * @return
+   */
+  public static SqlSession openSession(DataSource dataSource, ExecutorType executorType) {
+    SqlSessionFactory factory = getFactory(dataSource);
+    return factory.openSession(executorType);
+  }
+
+  //
+
+  /**
+   * 返回所需的SqlSessionFactoryWrapper.
+   *
+   * @param definition
+   *          需要的数据源定要.
+   * @return SqlSessionFactory
+   */
+  public static SqlSessionFactory getFactory(DataSource definition) {
+    if (_factories.containsKey(definition)) {
+      return _factories.get(definition);
+    }
+    return createSqlSessionFactory(definition);
+  }
+
+  //
+
+  private static synchronized SqlSessionFactory createSqlSessionFactory(DataSource dataSource) {
+    SqlSessionFactory factory = _factories.get(dataSource);
+    if (factory != null) {
+      return factory;
+    }
     /**
-     * Add mapper to defined SqlSessionFactory.
-     *
-     * @param mapperType
-     * @param definition
+     * Ｈost Datasource
      */
-    public static void addMapper(Class<?> mapperType, DataSource dataSource) {
-    	
-        SqlSessionFactory factory = getFactory(dataSource);
-        Configuration configuration = factory.getConfiguration();
-        if (!configuration.hasMapper(mapperType)) {
-            configuration.addMapper(mapperType);
-        }
-    }
+    TransactionFactory transactionFactory = new JdbcTransactionFactory();
+    Environment environment = new Environment("Default", transactionFactory, dataSource);
+    Configuration configuration = new Configuration(environment);
+    configuration.addInterceptor(new StatementHandlerPlugin());
+    factory = new SqlSessionFactoryBuilder().build(configuration);
+    _factories.put(dataSource, factory);
 
-    /**
-     * Add mapper to defined SqlSessionFactories.
-     *
-     * @param mapperType
-     * @param definitions
-     */
-    public static void addMapper(Class<?> mapperType, DataSource[] dataSources) {
-    	if(dataSources == null||dataSources.length<=0){
-    		return;
-    	}
-        for (DataSource dataSource : dataSources) {
-            addMapper(mapperType, dataSource);
-        }
-    }
+    return factory;
+  }
 
-    /**
-     * 返回SqlSessionWrapper.
-     *
-     * @param definition
-     * @return
-     */
-    public static SqlSession openSession(DataSource dataSource) {
-        SqlSessionFactory factory = getFactory(dataSource);
-        return factory.openSession();
-    }
+  //
 
-    /**
-     * 返回SqlSessionWrapper.
-     *
-     * @param definition
-     * @param executorType
-     * @return
-     */
-    public static SqlSession openSession(DataSource dataSource, ExecutorType executorType) {
-        SqlSessionFactory factory = getFactory(dataSource);
-        return factory.openSession(executorType);
-    }
+  private static Map<DataSource, SqlSessionFactory> _factories = new HashMap<DataSource, SqlSessionFactory>();
 
+  private transient static Logger _logger = LoggerFactory.getLogger(SqlmapUtils.class);
 
-    //
+  private static final ObjectFactory DEFAULT_OBJECT_FACTORY = new DefaultObjectFactory();
+  private static final ObjectWrapperFactory DEFAULT_OBJECT_WRAPPER_FACTORY = new DefaultObjectWrapperFactory();
 
-    /**
-     * 返回所需的SqlSessionFactoryWrapper.
-     *
-     * @param definition 需要的数据源定要.
-     * @return SqlSessionFactory
-     */
-    public static SqlSessionFactory getFactory(DataSource definition) {
-        if (_factories.containsKey(definition)) {
-            return _factories.get(definition);
-        }
-        return createSqlSessionFactory(definition);
-    }
-
-    //
-
-    private static synchronized SqlSessionFactory createSqlSessionFactory(DataSource dataSource) {
-        SqlSessionFactory factory = _factories.get(dataSource);
-        if (factory != null) {
-            return factory;
-        }
-        /**
-         * Ｈost Datasource
-         */
-        TransactionFactory transactionFactory = new JdbcTransactionFactory();
-        Environment environment = new Environment("Default", transactionFactory, dataSource);
-        Configuration configuration = new Configuration(environment);
-        configuration.addInterceptor(new StatementHandlerPlugin());
-        factory = new SqlSessionFactoryBuilder().build(configuration);
-        _factories.put(dataSource, factory);
-
-        return factory;
-    }
-
-    //
-
-    private static Map<DataSource, SqlSessionFactory> _factories =
-            new HashMap<DataSource, SqlSessionFactory>();
-
-    private transient static Logger _logger = LoggerFactory.getLogger(SqlmapUtils.class);
-    
-    private static final ObjectFactory DEFAULT_OBJECT_FACTORY = new DefaultObjectFactory();
-    private static final ObjectWrapperFactory DEFAULT_OBJECT_WRAPPER_FACTORY = new DefaultObjectWrapperFactory();
-
-	public static MetaObject getMetaObject(Object obj){
-		return MetaObject
-		.forObject(obj,DEFAULT_OBJECT_FACTORY,DEFAULT_OBJECT_WRAPPER_FACTORY);
-	}
+  public static MetaObject getMetaObject(Object obj) {
+    return MetaObject.forObject(obj, DEFAULT_OBJECT_FACTORY, DEFAULT_OBJECT_WRAPPER_FACTORY);
+  }
 }

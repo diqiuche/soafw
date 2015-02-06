@@ -20,63 +20,61 @@ import com.kjt.service.common.util.SPUtil;
 
 @Intercepts({ @Signature(method = "prepare", type = StatementHandler.class, args = { Connection.class }) })
 public class StatementHandlerPlugin implements Interceptor {
-	
-	private static String pid = "unknow";
-	static {
-		pid = ManagementFactory.getRuntimeMXBean().getName();
-	}
 
-	public Object intercept(Invocation invocation) throws Throwable {
+  private static String pid = "unknow";
+  static {
+    pid = ManagementFactory.getRuntimeMXBean().getName();
+  }
 
-		StatementHandler statementHandler = (StatementHandler) invocation
-				.getTarget();
+  public Object intercept(Invocation invocation) throws Throwable {
 
-		MetaObject metaStatementHandler = SqlmapUtils.getMetaObject(statementHandler);
+    StatementHandler statementHandler = (StatementHandler) invocation.getTarget();
 
-		Configuration configuration = (Configuration) metaStatementHandler
-				.getValue("delegate.configuration");
+    MetaObject metaStatementHandler = SqlmapUtils.getMetaObject(statementHandler);
 
-		BoundSql boundSql = (BoundSql) metaStatementHandler
-				.getValue("delegate.boundSql");
+    Configuration configuration = (Configuration) metaStatementHandler
+        .getValue("delegate.configuration");
 
-		metaStatementHandler.setValue("delegate.boundSql.sql",
-				buildSql(boundSql.getSql(), configuration));
+    BoundSql boundSql = (BoundSql) metaStatementHandler.getValue("delegate.boundSql");
 
-		// 将执行权交给下一个拦截器
-		return invocation.proceed();
-	}
+    metaStatementHandler.setValue("delegate.boundSql.sql",
+        buildSql(boundSql.getSql(), configuration));
 
-	private String buildSql(String sql, Configuration configuration) {
+    // 将执行权交给下一个拦截器
+    return invocation.proceed();
+  }
 
-		if (sql.indexOf(" #from_api:") != -1) {
-			return sql;
-		} else {
-			String db = null;
-			Environment env = null;
-			if (configuration != null) {
-				env = configuration.getEnvironment();
-			}
-			if (env != null) {
-				db = env.getId();
-			}
-			StringBuilder sb = new StringBuilder(sql);
-			sb.append(" #from_api:");
-			sb.append(ContextHolder.getReqId());
-			sb.append(pid);
-			sb.append(" ");
-			sb.append(SPUtil.getSpid());
-			sb.append(" ");
-			sb.append(db);
-			sb.append("\n");
-			sql = sb.toString();
-			return sql;
-		}
-	}
+  private String buildSql(String sql, Configuration configuration) {
 
-	public Object plugin(Object target) {
-		return Plugin.wrap(target, this);
-	}
+    if (sql.indexOf(" #from_api:") != -1) {
+      return sql;
+    } else {
+      String db = null;
+      Environment env = null;
+      if (configuration != null) {
+        env = configuration.getEnvironment();
+      }
+      if (env != null) {
+        db = env.getId();
+      }
+      StringBuilder sb = new StringBuilder(sql);
+      sb.append(" #from_api:");
+      sb.append(ContextHolder.getReqId());
+      sb.append(pid);
+      sb.append(" ");
+      sb.append(SPUtil.getSpid());
+      sb.append(" ");
+      sb.append(db);
+      sb.append("\n");
+      sql = sb.toString();
+      return sql;
+    }
+  }
 
-	public void setProperties(Properties properties) {
-	}
+  public Object plugin(Object target) {
+    return Plugin.wrap(target, this);
+  }
+
+  public void setProperties(Properties properties) {
+  }
 }
