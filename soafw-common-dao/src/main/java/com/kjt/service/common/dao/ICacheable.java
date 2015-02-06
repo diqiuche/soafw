@@ -65,6 +65,13 @@ public interface ICacheable<T> {
   public boolean cacheable();
 
   /**
+   * 新增纪录版本号
+   * 
+   * @param tabNameSuffix
+   */
+  public long incrRecVersion(String tabNameSuffix);
+
+  /**
    * 主键缓存(pk)<br>
    * 应用场景:根据主键查询时使用。<br>
    * 查询执行步骤:<br>
@@ -105,6 +112,12 @@ public interface ICacheable<T> {
    * @return 记录缓存版本号
    */
   Long getRecVersion(String tabNameSuffix);
+
+  /**
+   * 新增表级版本号
+   * @param tabNameSuffix
+   */
+  public long incrTabVersion(String tabNameSuffix);
 
   /**
    * 表级缓存<br>

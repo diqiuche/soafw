@@ -73,13 +73,6 @@ public abstract class AbsIBatisDAOImpl<T extends IModel> extends AbsCacheableImp
     config.init();
   }
 
-  @Resource(name = "cacheManager")
-  protected DynamicMemcacheManager cacheManager;
-
-  public CacheManager getCacheManager() {
-    return cacheManager;
-  }
-
   /**
    * 获取数据访问层acc.xml配置信息
    * 
@@ -89,14 +82,8 @@ public abstract class AbsIBatisDAOImpl<T extends IModel> extends AbsCacheableImp
     return config;
   }
 
-  /**
-   * model class sampleName
-   */
-  private String cacheIdentify;
-
   @PostConstruct
   public void init() {
-    cacheIdentify = this.getModelClass().getSimpleName();
     SqlmapUtils.addMapper(getMapperClass(), getMasterDataSource());
     SqlmapUtils.addMapper(getMapperClass(), getSlaveDataSource());
     SqlmapUtils.addMapper(getMapperClass(), getMapQueryDataSource());
@@ -479,13 +466,6 @@ public abstract class AbsIBatisDAOImpl<T extends IModel> extends AbsCacheableImp
   }
 
   // ##################################################################################################
-
-  /**
-   * model class sampleName
-   */
-  public String getCacheIdentify() {
-    return cacheIdentify;
-  }
 
   /**
    * 表级缓存开关 缓存开关必须开启，主键缓存、外键缓存必须开启

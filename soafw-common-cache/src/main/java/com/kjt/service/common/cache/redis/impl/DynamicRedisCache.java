@@ -147,6 +147,19 @@ public class DynamicRedisCache extends PoolableObjDynamicConfig implements
 			}
 		}
 	}
+	
+	public boolean set(String key, String item) {
+		ShardedJedis _jedis = null;
+		try {
+			_jedis = delegate.getResource();
+			_jedis.set(key, item);
+			return true;
+		} finally {
+			if (_jedis != null) {
+				delegate.returnResource(_jedis);
+			}
+		}
+	}
 
 	@Override
 	public boolean set(String key, Object item, int seconds) {

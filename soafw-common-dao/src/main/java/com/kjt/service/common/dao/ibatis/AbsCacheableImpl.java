@@ -5,8 +5,15 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import javax.annotation.Resource;
+
+import org.springframework.cache.CacheManager;
+
+import redis.clients.jedis.exceptions.JedisDataException;
+
 import com.kjt.service.common.cache.mem.impl.DynamicMemCache;
 import com.kjt.service.common.cache.redis.impl.DynamicRedisCache;
+import com.kjt.service.common.cache.spring.DynamicMemcacheManager;
 import com.kjt.service.common.dao.ICacheable;
 import com.kjt.service.common.dao.IModel;
 
@@ -21,6 +28,13 @@ public abstract class AbsCacheableImpl<T extends IModel> implements ICacheable<T
         DynamicMemCache.DEFAULT_CACHE_NAME);
     redisCache = (DynamicRedisCache) this.getCacheManager().getCache(
         DynamicRedisCache.DEFAULT_CACHE_NAME);
+  }
+
+  @Resource(name = "cacheManager")
+  protected DynamicMemcacheManager cacheManager;
+
+  public CacheManager getCacheManager() {
+    return cacheManager;
   }
 
   @Override
@@ -108,8 +122,14 @@ public abstract class AbsCacheableImpl<T extends IModel> implements ICacheable<T
   /**
    * ［表、外键］缓存版本号升级
    */
-  protected void incrTabVersion(String tabNameSuffix) {
-    redisCache.incr(getTabVersionKey(tabNameSuffix), 1);
+  @Override
+  public long incrTabVersion(String tabNameSuffix) {
+    try {
+      return redisCache.incr(getTabVersionKey(tabNameSuffix), 1);
+    } catch (JedisDataException ex) {
+      redisCache.set(getTabVersionKey(tabNameSuffix), "0");
+      return 0;
+    }
   }
 
   /**
@@ -128,8 +148,15 @@ public abstract class AbsCacheableImpl<T extends IModel> implements ICacheable<T
   /**
    * ［主键、外键］缓存版本号升级
    */
-  protected void incrRecVersion(String tabNameSuffix) {
-    redisCache.incr(getRecVersionKey(tabNameSuffix), 1);
+  @Override
+  public long incrRecVersion(String tabNameSuffix) {
+    try {
+      return redisCache.incr(getRecVersionKey(tabNameSuffix), 1);
+    } catch (JedisDataException ex) {
+      redisCache.set(getRecVersionKey(tabNameSuffix), "0");
+      return 0l;
+    }
+
   }
 
   /**
