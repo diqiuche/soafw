@@ -38,6 +38,10 @@ projectservice=$projectid-service
 mvn archetype:generate -DgroupId=com.kjt.service.$projectid -DartifactId=$projectservice
 echo $projectservice build success
 
+projectservice=$projectid-service-impl
+mvn archetype:generate -DgroupId=com.kjt.service.$projectid -DartifactId=$projectservice
+echo $projectservice build success
+
 projectwebid=$projectid-web
 mvn archetype:generate -DgroupId=com.kjt.service.$projectid -DartifactId=$projectwebid -DarchetypeArtifactId=maven-archetype-webapp
 echo $projectwebid build success
