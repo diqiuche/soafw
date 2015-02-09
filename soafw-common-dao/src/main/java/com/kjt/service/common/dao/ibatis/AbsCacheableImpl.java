@@ -39,10 +39,19 @@ public abstract class AbsCacheableImpl<T extends IModel> implements ICacheable<T
 
   @Override
   public boolean cacheable() {
+
     String cacheable = System.getProperty(CACHE_FLG, "true");
 
-    return Boolean.valueOf(cacheable) // 缓存开关
-        && Boolean.valueOf(System.getProperty(PK_CACHE_FLG, cacheable)); // 主键缓存
+    return Boolean.valueOf(cacheable); // 缓存开关
+  }
+
+  public boolean pkCacheable() {
+
+    String query_cacheable = System.getProperty(QUERY_CACHE_FLG, "true");
+
+    return cacheable() // 缓存开关
+        && Boolean.valueOf(query_cacheable) // 查询缓存开关
+        && Boolean.valueOf(System.getProperty(PK_CACHE_FLG, query_cacheable)); // 主键缓存
   }
 
   /**
@@ -109,6 +118,9 @@ public abstract class AbsCacheableImpl<T extends IModel> implements ICacheable<T
    * @param value
    */
   protected void synCache(String tabNameSuffix) {
+    if(!cacheable()){
+      return;
+    }
     /**
      * 改变表版本号：表级缓存、外键缓存实效
      */
@@ -124,6 +136,9 @@ public abstract class AbsCacheableImpl<T extends IModel> implements ICacheable<T
    */
   @Override
   public long incrTabVersion(String tabNameSuffix) {
+    if(!cacheable()){
+      return 0;
+    }
     try {
       return redisCache.incr(getTabVersionKey(tabNameSuffix), 1);
     } catch (JedisDataException ex) {
@@ -150,6 +165,9 @@ public abstract class AbsCacheableImpl<T extends IModel> implements ICacheable<T
    */
   @Override
   public long incrRecVersion(String tabNameSuffix) {
+    if(!cacheable()){
+      return 0;
+    }
     try {
       return redisCache.incr(getRecVersionKey(tabNameSuffix), 1);
     } catch (JedisDataException ex) {
@@ -172,7 +190,7 @@ public abstract class AbsCacheableImpl<T extends IModel> implements ICacheable<T
     return version;
   }
 
-  protected void synPKCache(int eft, Map<String, Object> params, String tabNameSuffix) {
+  private void synPKCache(int eft, Map<String, Object> params, String tabNameSuffix) {
     /**
      * 查询主键ids
      */
@@ -266,7 +284,9 @@ public abstract class AbsCacheableImpl<T extends IModel> implements ICacheable<T
    */
   protected void synCache(int eft, final String property, final Object value,
       final Map<String, Object> attchParams, String tabNameSuffix) {
-
+    if(!cacheable()){
+      return;
+    }
     /**
      * 外键缓存keyPrefix tabName+tabNameSuffix@Rn@RecVersion@TabVersion
      */
@@ -304,7 +324,7 @@ public abstract class AbsCacheableImpl<T extends IModel> implements ICacheable<T
    * 
    * @param key
    */
-  protected void fkCacheEvict(Set<String> keyGroup) {
+  private void fkCacheEvict(Set<String> keyGroup) {
     int size = keyGroup == null ? 0 : keyGroup.size();
     if (size > 0) {
       String[] keyGroups = new String[size];

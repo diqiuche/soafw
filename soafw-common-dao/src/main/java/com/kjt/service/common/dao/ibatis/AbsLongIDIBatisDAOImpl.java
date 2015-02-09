@@ -31,15 +31,15 @@ import com.kjt.service.common.exception.DataAccessException;
 
 public abstract class AbsLongIDIBatisDAOImpl<T extends IModel> extends AbsFKIBatisDAOImpl<T>
     implements ILBatisDAO<T> {
-  
-  @Cacheable(value = "defaultCache", key = PkCacheKeyPrefixExpress+"", unless = "#result == null", condition = "#root.target.cacheable()")
+
+  @Cacheable(value = "defaultCache", key = PkCacheKeyPrefixExpress + "", unless = "#result == null", condition = "#root.target.cacheable()")
   @Override
   public T queryById(Long id, String tabNameSuffix) {
-    return queryById(id, false,tabNameSuffix);
+    return queryById(id, false, tabNameSuffix);
 
   }
 
-  @Cacheable(value = "defaultCache", key = PkCacheKeyPrefixExpress+"", unless = "#result == null", condition = "!#master and #root.target.cacheable()")
+  @Cacheable(value = "defaultCache", key = PkCacheKeyPrefixExpress + "", unless = "#result == null", condition = "!#master and #root.target.cacheable()")
   @Override
   public T queryById(Long id, Boolean master, String tabNameSuffix) {
 
@@ -89,7 +89,7 @@ public abstract class AbsLongIDIBatisDAOImpl<T extends IModel> extends AbsFKIBat
     }
   }
 
-  @CacheEvict(value = "defaultCache", key = PkCacheKeyPrefixExpress+"")
+  @CacheEvict(value = "defaultCache", key = PkCacheKeyPrefixExpress + "", condition = "#root.target.cacheable()")
   @Override
   public Integer deleteById(Long id, String tabNameSuffix) {
 
@@ -115,7 +115,7 @@ public abstract class AbsLongIDIBatisDAOImpl<T extends IModel> extends AbsFKIBat
     }
   }
 
-  @CacheEvict(value = "defaultCache", key = PkCacheKeyPrefixExpress+"")
+  @CacheEvict(value = "defaultCache", key = PkCacheKeyPrefixExpress + "", condition = "#root.target.cacheable()")
   @Override
   public Integer updateById(Long id, Map<String, Object> newValue, String tabNameSuffix) {
 

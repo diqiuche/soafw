@@ -48,7 +48,7 @@ import com.kjt.service.common.exception.DataAccessException;
 public abstract class AbsFKIBatisDAOImpl<T extends IModel> extends AbsIBatisDAOImpl<T> implements
     IFKDAO<T> {
 
-  @CacheEvict(value = "defaultCache", key = FkCacheKeyPrefixExpress + "")
+  @CacheEvict(value = "defaultCache", key = FkCacheKeyPrefixExpress + "", condition = "#root.target.cacheable()")
   @Override
   public Integer deleteByFK(String property, Integer fkValue, String tabNameSuffix) {
 
@@ -75,7 +75,7 @@ public abstract class AbsFKIBatisDAOImpl<T extends IModel> extends AbsIBatisDAOI
   }
 
   @CacheEvict(value = "defaultCache", key = FkCacheKeyPrefixExpress
-      + ".concat('@').concat(#attchParams)")
+      + ".concat('@').concat(#attchParams)", condition = "#root.target.cacheable()")
   @Override
   public Integer deleteByFK(String property, Integer fkValue, Map<String, Object> attchParams,
       String tabNameSuffix) {
@@ -106,7 +106,7 @@ public abstract class AbsFKIBatisDAOImpl<T extends IModel> extends AbsIBatisDAOI
   }
 
   @CacheEvict(value = "defaultCache", key = FkCacheKeyPrefixExpress
-      + ".concat('@').concat(#attchParams)")
+      + ".concat('@').concat(#attchParams)", condition = "#root.target.cacheable()")
   @Override
   public Integer deleteByFK(String property, Long fkValue, String tabNameSuffix) {
 
@@ -133,7 +133,7 @@ public abstract class AbsFKIBatisDAOImpl<T extends IModel> extends AbsIBatisDAOI
     }
   }
 
-  @CacheEvict(value = "defaultCache", key = FkCacheKeyPrefixExpress + "")
+  @CacheEvict(value = "defaultCache", key = FkCacheKeyPrefixExpress + "", condition = "#root.target.cacheable()")
   @Override
   public Integer deleteByFK(String property, Long fkValue, Map<String, Object> attchParams,
       String tabNameSuffix) {
@@ -381,7 +381,7 @@ public abstract class AbsFKIBatisDAOImpl<T extends IModel> extends AbsIBatisDAOI
     }
   }
 
-  @CacheEvict(value = "defaultCache", key = FkCacheKeyPrefixExpress + "")
+  @CacheEvict(value = "defaultCache", key = FkCacheKeyPrefixExpress + "", condition = "#root.target.cacheable()")
   @Override
   public Integer updateByFK(String property, Integer fkValue, Map<String, Object> newValue,
       String tabNameSuffix) {
@@ -417,7 +417,7 @@ public abstract class AbsFKIBatisDAOImpl<T extends IModel> extends AbsIBatisDAOI
   }
 
   @CacheEvict(value = "defaultCache", key = FkCacheKeyPrefixExpress
-      + ".concat('@').concat(#attchParams)")
+      + ".concat('@').concat(#attchParams)", condition = "#root.target.cacheable()")
   @Override
   public Integer updateByFK(String property, Integer fkValue, Map<String, Object> attchParams,
       Map<String, Object> newValue, String tabNameSuffix) {
@@ -454,7 +454,7 @@ public abstract class AbsFKIBatisDAOImpl<T extends IModel> extends AbsIBatisDAOI
     }
   }
 
-  @CacheEvict(value = "defaultCache", key = FkCacheKeyPrefixExpress + "")
+  @CacheEvict(value = "defaultCache", key = FkCacheKeyPrefixExpress + "", condition = "#root.target.cacheable()")
   @Override
   public Integer updateByFK(String property, Long fkValue, Map<String, Object> newValue,
       String tabNameSuffix) {
@@ -489,7 +489,7 @@ public abstract class AbsFKIBatisDAOImpl<T extends IModel> extends AbsIBatisDAOI
   }
 
   @CacheEvict(value = "defaultCache", key = FkCacheKeyPrefixExpress
-      + ".concat('@').concat(#attchParams)")
+      + ".concat('@').concat(#attchParams)", condition = "#root.target.cacheable()")
   @Override
   public Integer updateByFK(String property, Long fkValue, Map<String, Object> attchParams,
       Map<String, Object> newValue, String tabNameSuffix) {
@@ -549,11 +549,12 @@ public abstract class AbsFKIBatisDAOImpl<T extends IModel> extends AbsIBatisDAOI
    */
   public boolean fkCacheable() {
 
-    String cacheable = System.getProperty(CACHE_FLG, "true");
+    String query_cacheable = System.getProperty(QUERY_CACHE_FLG, "true");
 
-    return Boolean.valueOf(cacheable) // 缓存开关
-        && Boolean.valueOf(System.getProperty(PK_CACHE_FLG, cacheable)) // 主键缓存
-        && Boolean.valueOf(System.getProperty(FK_CACHE_FLG, cacheable));// 表级缓存
+    return cacheable() // 缓存开关
+        && Boolean.valueOf(query_cacheable) // 查询缓存开关
+        && Boolean.valueOf(System.getProperty(PK_CACHE_FLG, query_cacheable)) // 主键缓存
+        && Boolean.valueOf(System.getProperty(FK_CACHE_FLG, query_cacheable));// 表级缓存
   }
 
 }

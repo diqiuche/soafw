@@ -9,10 +9,15 @@ import org.springframework.cache.CacheManager;
  *
  */
 public interface ICacheable<T> {
+  
+  /**
+   * 缓存开关通过java -Ddao.cacheable方式进行设置
+   */
+  public static String CACHE_FLG = "dao.cacheable";
   /**
    * 缓存开关通过java -Ddao.query.cacheable方式设置
    */
-  public static String CACHE_FLG = "dao.query.cacheable";
+  public static String QUERY_CACHE_FLG = "dao.query.cacheable";
   /**
    * 主键缓存开关通过java -Ddao.query.cacheable.pk方式设置
    */
@@ -63,6 +68,24 @@ public interface ICacheable<T> {
    * @return
    */
   public boolean cacheable();
+  /**
+   * 当cacheable()=true时
+   * 主键查询是否启用缓存
+   * @return
+   */
+  public boolean pkCacheable();
+  /**
+   * 当cacheable()=true时
+   * 外键查询是否启用缓存
+   * @return
+   */
+  public boolean fkCacheable();
+  /**
+   * 当cacheable()=true时
+   * 表级查询是否启用缓存
+   * @return
+   */
+  public boolean tabCacheable();
 
   /**
    * 新增纪录版本号

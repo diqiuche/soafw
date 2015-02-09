@@ -87,7 +87,7 @@ public abstract class AbsIntIDIBatisDAOImpl<T extends IModel> extends AbsFKIBati
     }
   }
 
-  @CacheEvict(value = "defaultCache", key = PkCacheKeyPrefixExpress+"")
+  @CacheEvict(value = "defaultCache", key = PkCacheKeyPrefixExpress+"", condition = "#root.target.cacheable()")
   @Override
   public Integer deleteById(Integer id, String tabNameSuffix) {
 
@@ -113,7 +113,7 @@ public abstract class AbsIntIDIBatisDAOImpl<T extends IModel> extends AbsFKIBati
     }
   }
 
-  @CacheEvict(value = "defaultCache", key = PkCacheKeyPrefixExpress+"")
+  @CacheEvict(value = "defaultCache", key = PkCacheKeyPrefixExpress+"", condition = "#root.target.cacheable()")
   @Override
   public Integer updateById(Integer id, Map<String, Object> newValue, String tabNameSuffix) {
 
