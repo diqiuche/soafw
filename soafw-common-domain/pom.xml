@@ -8,25 +8,20 @@
 		<artifactId>soafw-common</artifactId>
 		<version>0.0.1-SNAPSHOT</version>
 	</parent>
-	<artifactId>soafw-common-service</artifactId>
-	<name>soafw-common-service</name>
+	<artifactId>soafw-common-domain</artifactId>
+	<name>soafw-common-domain</name>
 	<url>http://maven.apache.org</url>
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<exception.enum.class>com.kjt.service.common.dao.ibatis.IBatisDAOException</exception.enum.class>
 	</properties>
+
 	<dependencies>
-	
-		<dependency>
-			<groupId>com.kjt.service.common</groupId>
-			<artifactId>soafw-common-config</artifactId>
-		</dependency>
+
 		<dependency>
 			<groupId>com.kjt.service.common</groupId>
 			<artifactId>soafw-common-util</artifactId>
 		</dependency>
-		<dependency>
-			<groupId>com.kjt.service.common</groupId>
-			<artifactId>soafw-common-domain</artifactId>
-		</dependency>
+
 	</dependencies>
 </project>

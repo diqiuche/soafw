@@ -62,6 +62,7 @@
 	<modules>
 		<module>soafw-common-util</module>
 		<module>soafw-common-dao</module>
+		<module>soafw-common-domain</module>
 		<module>soafw-common-service</module>
 		<module>soafw-common-web</module>
 		<module>soafw-common-config</module>
@@ -94,6 +95,11 @@
 			<dependency>
 				<groupId>com.kjt.service.common</groupId>
 				<artifactId>soafw-common-config</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.kjt.service.common</groupId>
+				<artifactId>soafw-common-domain</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 			<dependency>
