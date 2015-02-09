@@ -1,9 +1,0 @@
-/Users/alexzhu/soa/ajk-soafw/exception-manager/src/main/java/com/anjuke/service/common/exception/manager/dao/AjkExceptionDao.java
-/Users/alexzhu/soa/ajk-soafw/exception-manager/src/main/java/com/anjuke/service/common/exception/manager/dao/AjkSoaSpDao.java
-/Users/alexzhu/soa/ajk-soafw/exception-manager/src/main/java/com/anjuke/service/common/exception/manager/servlet/ListAjkExceptionServlet.java
-/Users/alexzhu/soa/ajk-soafw/exception-manager/src/main/java/com/anjuke/service/common/exception/manager/model/AjkException.java
-/Users/alexzhu/soa/ajk-soafw/exception-manager/src/main/java/com/anjuke/service/common/exception/manager/dao/DbUtil.java
-/Users/alexzhu/soa/ajk-soafw/exception-manager/src/main/java/com/anjuke/service/common/exception/manager/model/AjkSoaSp.java
-/Users/alexzhu/soa/ajk-soafw/exception-manager/src/main/java/com/anjuke/service/common/exception/manager/servlet/AddAjkExceptionServlet.java
-/Users/alexzhu/soa/ajk-soafw/exception-manager/src/main/java/com/anjuke/service/common/exception/manager/package-info.java
-/Users/alexzhu/soa/ajk-soafw/exception-manager/src/main/java/com/anjuke/service/common/exception/manager/service/AjkSoaExceptionService.java

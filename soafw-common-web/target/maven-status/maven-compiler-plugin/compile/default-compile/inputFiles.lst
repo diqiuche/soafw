@@ -1,9 +1,0 @@
-/Users/alexzhu/soa/soafw/soafw-common-web/src/main/java/com/kjt/service/common/web/interceptor/RequestIDInterceptor.java
-/Users/alexzhu/soa/soafw/soafw-common-web/src/main/java/com/kjt/service/common/web/servlet/ServiceDispatcherServlet.java
-/Users/alexzhu/soa/soafw/soafw-common-web/src/main/java/com/kjt/service/common/resource/AbstractDynamicResource.java
-/Users/alexzhu/soa/soafw/soafw-common-web/src/main/java/com/kjt/service/common/web/result/Result.java
-/Users/alexzhu/soa/soafw/soafw-common-web/src/main/java/com/kjt/service/common/resource/AbstractResource.java
-/Users/alexzhu/soa/soafw/soafw-common-web/src/main/java/com/kjt/service/common/resource/IResource.java
-/Users/alexzhu/soa/soafw/soafw-common-web/src/main/java/com/kjt/service/common/web/filter/CharsetFilter.java
-/Users/alexzhu/soa/soafw/soafw-common-web/src/main/java/com/kjt/service/common/web/cookie/CookieUtils.java
-/Users/alexzhu/soa/soafw/soafw-common-web/src/main/java/com/kjt/service/common/web/spring/ResponseStatusBasicExceptionResolver.java

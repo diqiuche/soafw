@@ -1,8 +1,0 @@
-/Users/alexzhu/soa/soafw/soafw-common-cache/src/main/java/com/kjt/service/common/cache/spring/DynamicMemcacheManager.java
-/Users/alexzhu/soa/soafw/soafw-common-cache/src/main/java/com/kjt/service/common/cache/CacheOpParamsContext.java
-/Users/alexzhu/soa/soafw/soafw-common-cache/src/main/java/com/kjt/service/common/cache/ICache.java
-/Users/alexzhu/soa/soafw/soafw-common-cache/src/main/java/com/kjt/service/common/cache/CacheVersion.java
-/Users/alexzhu/soa/soafw/soafw-common-cache/src/main/java/com/kjt/service/common/cache/annotation/CacheOpParams.java
-/Users/alexzhu/soa/soafw/soafw-common-cache/src/main/java/com/kjt/service/common/cache/redis/impl/DynamicRedisCache.java
-/Users/alexzhu/soa/soafw/soafw-common-cache/src/main/java/com/kjt/service/common/cache/mem/impl/DynamicMemCache.java
-/Users/alexzhu/soa/soafw/soafw-common-cache/src/main/java/com/kjt/service/common/cache/App.java
