@@ -1,9 +1,0 @@
-com/kjt/service/common/web/filter/CharsetFilter.class
-com/kjt/service/common/resource/AbstractDynamicResource.class
-com/kjt/service/common/resource/AbstractResource.class
-com/kjt/service/common/web/interceptor/RequestIDInterceptor.class
-com/kjt/service/common/web/servlet/ServiceDispatcherServlet.class
-com/kjt/service/common/resource/IResource.class
-com/kjt/service/common/web/spring/ResponseStatusBasicExceptionResolver.class
-com/kjt/service/common/web/cookie/CookieUtils.class
-com/kjt/service/common/web/result/Result.class
