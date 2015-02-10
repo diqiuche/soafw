@@ -10,6 +10,7 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<soafw.group.name>com.kjt.service.common</soafw.group.name>
 		<memcached.version>2.0.1</memcached.version>
+		<java.memcached.version>2.6.6</java.memcached.version>
 
 		<mybatis.version>3.2.8</mybatis.version>
 		<mysql.version>5.1.26</mysql.version>
@@ -56,7 +57,7 @@
 		<validation-api.version>1.1.0.Final</validation-api.version>
 		<aspectj.version>1.8.4</aspectj.version>
 		<unirest-java.version>1.3.26</unirest-java.version>
-		
+
 	</properties>
 
 	<modules>
@@ -134,10 +135,17 @@
 				<artifactId>servlet-api</artifactId>
 				<version>${servlet-api.version}</version>
 			</dependency>
+			<!-- 
 			<dependency>
 				<groupId>com.danga</groupId>
 				<artifactId>memcached</artifactId>
 				<version>${memcached.version}</version>
+			</dependency>
+			 -->
+			<dependency>
+				<groupId>com.danga</groupId>
+				<artifactId>java-memcached</artifactId>
+				<version>${java.memcached.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>opensymphony</groupId>
@@ -342,32 +350,14 @@
 				</executions>
 			</plugin>
 			<!-- 异常代码生成插件 -->
-			<!-- 
-			<plugin>
-				<groupId>com.kjt.service.common</groupId>
-				<artifactId>exception-generator</artifactId>
-				<version>0.0.1-SNAPSHOT</version>
-				<configuration>
-					<exceptionEnumClass>${exception.enum.class}</exceptionEnumClass>
-					<configFile>${exception.config}</configFile>
-					<dbpwd>${exception.dbpwd}</dbpwd>
-					<dburl>${exception.dburl}</dburl>
-					<dbuser>${exception.dbuser}</dbuser>
-					<tableName>${exception.tableName}</tableName>
-					<loadType>${exception.loadType}</loadType>
-					<exceptionLevel>${exception.level}</exceptionLevel>
-				</configuration>
-				<executions>
-					<execution>
-						<id>exception-generator</id>
-						<goals>
-							<goal>gen</goal>
-						</goals>
-						<phase>generate-sources</phase>
-					</execution>
-				</executions>
-			</plugin>
-			 -->
+			<!-- <plugin> <groupId>com.kjt.service.common</groupId> <artifactId>exception-generator</artifactId> 
+				<version>0.0.1-SNAPSHOT</version> <configuration> <exceptionEnumClass>${exception.enum.class}</exceptionEnumClass> 
+				<configFile>${exception.config}</configFile> <dbpwd>${exception.dbpwd}</dbpwd> 
+				<dburl>${exception.dburl}</dburl> <dbuser>${exception.dbuser}</dbuser> <tableName>${exception.tableName}</tableName> 
+				<loadType>${exception.loadType}</loadType> <exceptionLevel>${exception.level}</exceptionLevel> 
+				</configuration> <executions> <execution> <id>exception-generator</id> <goals> 
+				<goal>gen</goal> </goals> <phase>generate-sources</phase> </execution> </executions> 
+				</plugin> -->
 			<!-- 异常代码生成插件 -->
 		</plugins>
 	</build>

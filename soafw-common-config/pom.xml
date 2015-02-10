@@ -20,6 +20,9 @@
 			<groupId>com.kjt.service.common</groupId>
 			<artifactId>soafw-common-util</artifactId>
 		</dependency>
-		
+		<dependency>
+			<groupId>com.kjt.service.common</groupId>
+			<artifactId>soafw-common-log</artifactId>
+		</dependency>
 	</dependencies>
 </project>
