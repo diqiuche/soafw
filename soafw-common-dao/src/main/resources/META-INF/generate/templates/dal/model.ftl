@@ -84,16 +84,16 @@ public class ${name} implements IModel{
 	}
 	
 	/**
-	 * 保存时对应的分表；
-	 */
-	private String $TKjtTabName;
-	
-	public String get$TKjtTabName(){
-		return $TKjtTabName;
-	}
-	
+   	* 保存时对应的分表；
+   	*/
+  	private String tKjtTabName;
+
+  	public String getTKjtTabName() {
+    	return tKjtTabName;
+  	}
+
   	@Override
-  	public void set$TKjtTabName(String $tKjtTabName) {
-    	this.$TKjtTabName = $tKjtTabName;
+  	public void setTKjtTabName(String tKjtTabName) {
+    	this.tKjtTabName = tKjtTabName;
   	}
 }

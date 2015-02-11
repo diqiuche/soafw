@@ -5,6 +5,7 @@ import javax.sql.DataSource;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Repository;
 
 import com.kjt.common.cache.dao.ICacheVersionDAO;
@@ -77,13 +78,24 @@ public class CacheVersionIbatisDAOImpl extends AbsStrIDIBatisDAOImpl<CacheVersio
     }
     return mapQueryDataSource;
   }
-
-  @CacheEvict(value = "defaultCache", key = "#objName", condition = "#root.target.cacheable()")
-  public int incrObjVersion(String objName, String tabNameSuffix) {
-    validate(objName);
+  
+  @Cacheable(value = "defaultCache", key = CacheKeyPrefixExpress, unless = "#result == null", condition = "#root.target.cacheable()")
+  @Override
+  public CacheVersion queryById(String id, String tabNameSuffix) {
+    return super.queryById(id, tabNameSuffix);
+  }
+  @Cacheable(value = "defaultCache", key = CacheKeyPrefixExpress + "", unless = "#result == null", condition = "!#master and #root.target.cacheable()")
+  @Override
+  public CacheVersion queryById(String id, Boolean master, String tabNameSuffix) {
+    return super.queryById(id, master, tabNameSuffix);
+  }
+  
+  @CacheEvict(value = "defaultCache", key = CacheKeyPrefixExpress, condition = "#root.target.cacheable()")
+  public int incrObjVersion(String id, String tabNameSuffix) {
+    validate(id);
     CacheVersion model = new CacheVersion();
-    model.setId(objName);
-    model.set$TKjtTabName(this.get$TKjtTabName(tabNameSuffix));
+    model.setId(id);
+    model.setTKjtTabName(this.get$TKjtTabName(tabNameSuffix));
     SqlSession session = SqlmapUtils.openSession(getMasterDataSource());
     try {
       CacheVersionMapper mapper = session.getMapper(getMapperClass());
@@ -97,14 +109,13 @@ public class CacheVersionIbatisDAOImpl extends AbsStrIDIBatisDAOImpl<CacheVersio
       session.close();
     }
   }
-  @CacheOpParams(time = ONE_DAY)
-  @CacheEvict(value = "defaultCache", key = "#objName", condition = "#root.target.cacheable()")
-  public int incrObjRecVersion(String objName, String tabNameSuffix) {
-    validate(objName);
+  @CacheEvict(value = "defaultCache", key = CacheKeyPrefixExpress, condition = "#root.target.cacheable()")
+  public int incrObjRecVersion(String id, String tabNameSuffix) {
+    validate(id);
 
     CacheVersion model = new CacheVersion();
-    model.setId(objName);
-    model.set$TKjtTabName(this.get$TKjtTabName(tabNameSuffix));
+    model.setId(id);
+    model.setTKjtTabName(this.get$TKjtTabName(tabNameSuffix));
 
     SqlSession session = SqlmapUtils.openSession(getMasterDataSource());
     try {
@@ -119,14 +130,13 @@ public class CacheVersionIbatisDAOImpl extends AbsStrIDIBatisDAOImpl<CacheVersio
       session.close();
     }
   }
-
-  @CacheEvict(value = "defaultCache", key = "#objName", condition = "#root.target.cacheable()")
-  public int incrObjTabVersion(String objName, String tabNameSuffix) {
-    validate(objName);
+  @CacheEvict(value = "defaultCache", key = CacheKeyPrefixExpress, condition = "#root.target.cacheable()")
+  public int incrObjTabVersion(String id, String tabNameSuffix) {
+    validate(id);
 
     CacheVersion model = new CacheVersion();
-    model.setId(objName);
-    model.set$TKjtTabName(this.get$TKjtTabName(tabNameSuffix));
+    model.setId(id);
+    model.setTKjtTabName(this.get$TKjtTabName(tabNameSuffix));
 
     SqlSession session = SqlmapUtils.openSession(getMasterDataSource());
     try {
@@ -142,8 +152,8 @@ public class CacheVersionIbatisDAOImpl extends AbsStrIDIBatisDAOImpl<CacheVersio
     }
   }
 
-  protected void validate(String objName) {
-    if (objName == null || objName.trim().length() == 0) {
+  protected void validate(String id) {
+    if (id == null || id.trim().length() == 0) {
       throw new DataAccessException(IBatisDAOException.MSG_1_0004);
     }
   }

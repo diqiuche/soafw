@@ -109,7 +109,7 @@ public abstract class AbsIBatisDAOImpl<T extends IModel> extends AbsCacheableImp
 
     nonePK$FKCheck(params);
 
-    params.put("$TKjtTabName", this.get$TKjtTabName(tabNameSuffix));
+    params.put("tKjtTabName", this.get$TKjtTabName(tabNameSuffix));
 
     SqlSession session = SqlmapUtils.openSession(getMasterDataSource());
     try {
@@ -151,7 +151,7 @@ public abstract class AbsIBatisDAOImpl<T extends IModel> extends AbsCacheableImp
 
     Map<String, Object> params = new HashMap<String, Object>();
 
-    params.put("$TKjtTabName", this.get$TKjtTabName(tabNameSuffix));
+    params.put("tKjtTabName", this.get$TKjtTabName(tabNameSuffix));
 
     params.put("updNewMap", new_);
     params.put("updCondMap", cond);
@@ -190,7 +190,7 @@ public abstract class AbsIBatisDAOImpl<T extends IModel> extends AbsCacheableImp
 
     nonePK$FKCheck(params);
 
-    params.put("$TKjtTabName", this.get$TKjtTabName(tabNameSuffix));
+    params.put("tKjtTabName", this.get$TKjtTabName(tabNameSuffix));
 
     SqlSession session = SqlmapUtils.openSession(getMapQueryDataSource());
     try {
@@ -222,7 +222,7 @@ public abstract class AbsIBatisDAOImpl<T extends IModel> extends AbsCacheableImp
 
     validate(params);
 
-    params.put("$TKjtTabName", this.get$TKjtTabName(tabNameSuffix));
+    params.put("tKjtTabName", this.get$TKjtTabName(tabNameSuffix));
 
     SqlSession session = SqlmapUtils.openSession(getMapQueryDataSource());
     try {
@@ -254,7 +254,7 @@ public abstract class AbsIBatisDAOImpl<T extends IModel> extends AbsCacheableImp
 
     validate(params);
 
-    params.put("$TKjtTabName", this.get$TKjtTabName(tabNameSuffix));
+    params.put("tKjtTabName", this.get$TKjtTabName(tabNameSuffix));
 
     SqlSession session = SqlmapUtils.openSession(master ? getMasterDataSource()
         : getMapQueryDataSource());
@@ -289,7 +289,7 @@ public abstract class AbsIBatisDAOImpl<T extends IModel> extends AbsCacheableImp
 
     nonePK$FKCheck(params);
 
-    params.put("$TKjtTabName", this.get$TKjtTabName(tabNameSuffix));
+    params.put("tKjtTabName", this.get$TKjtTabName(tabNameSuffix));
 
     SqlSession session = SqlmapUtils.openSession(master ? getMasterDataSource()
         : getMapQueryDataSource());
@@ -324,7 +324,7 @@ public abstract class AbsIBatisDAOImpl<T extends IModel> extends AbsCacheableImp
 
     nonePK$FKCheck(params);
 
-    params.put("$TKjtTabName", this.get$TKjtTabName(tabNameSuffix));
+    params.put("tKjtTabName", this.get$TKjtTabName(tabNameSuffix));
 
     SqlSession session = SqlmapUtils.openSession(getMapQueryDataSource());
     try {
@@ -358,7 +358,7 @@ public abstract class AbsIBatisDAOImpl<T extends IModel> extends AbsCacheableImp
 
     nonePK$FKCheck(params);
 
-    params.put("$TKjtTabName", this.get$TKjtTabName(tabNameSuffix));
+    params.put("tKjtTabName", this.get$TKjtTabName(tabNameSuffix));
 
     SqlSession session = SqlmapUtils.openSession(master ? getMasterDataSource()
         : getMapQueryDataSource());
@@ -391,7 +391,7 @@ public abstract class AbsIBatisDAOImpl<T extends IModel> extends AbsCacheableImp
 
     validate(params);
 
-    params.put("$TKjtTabName", this.get$TKjtTabName(tabNameSuffix));
+    params.put("tKjtTabName", this.get$TKjtTabName(tabNameSuffix));
 
     SqlSession session = SqlmapUtils.openSession(getMapQueryDataSource());
     try {
@@ -429,7 +429,7 @@ public abstract class AbsIBatisDAOImpl<T extends IModel> extends AbsCacheableImp
 
     validate(params);
 
-    params.put("$TKjtTabName", this.get$TKjtTabName(tabNameSuffix));
+    params.put("tKjtTabName", this.get$TKjtTabName(tabNameSuffix));
 
     SqlSession session = SqlmapUtils.openSession(master ? this.getMasterDataSource()
         : getMapQueryDataSource());
@@ -468,7 +468,7 @@ public abstract class AbsIBatisDAOImpl<T extends IModel> extends AbsCacheableImp
 
     validate(params);
 
-    params.put("$TKjtTabName", this.get$TKjtTabName(tabNameSuffix));
+    params.put("tKjtTabName", this.get$TKjtTabName(tabNameSuffix));
 
     SqlSession session = SqlmapUtils.openSession(getMapQueryDataSource());
     try {
@@ -507,7 +507,7 @@ public abstract class AbsIBatisDAOImpl<T extends IModel> extends AbsCacheableImp
 
     validate(params);
 
-    params.put("$TKjtTabName", this.get$TKjtTabName(tabNameSuffix));
+    params.put("tKjtTabName", this.get$TKjtTabName(tabNameSuffix));
 
     SqlSession session = SqlmapUtils.openSession(master ? this.getMasterDataSource()
         : getMapQueryDataSource());

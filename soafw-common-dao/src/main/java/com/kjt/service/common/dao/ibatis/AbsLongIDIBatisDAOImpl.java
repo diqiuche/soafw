@@ -65,7 +65,7 @@ public abstract class AbsLongIDIBatisDAOImpl<T extends IModel> extends AbsFKIBat
     Map<String, Object> params = new HashMap<String, Object>();
     params.put("id", id);
 
-    params.put("$TKjtTabName", this.get$TKjtTabName(tabNameSuffix));
+    params.put("tKjtTabName", this.get$TKjtTabName(tabNameSuffix));
 
     SqlSession session = SqlmapUtils.openSession(master ? this.getMasterDataSource()
         : getSlaveDataSource());
@@ -100,7 +100,7 @@ public abstract class AbsLongIDIBatisDAOImpl<T extends IModel> extends AbsFKIBat
       logger.debug("insert(T model={}, String tabNameSuffix={}) - start", model, tabNameSuffix); //$NON-NLS-1$
     }
 
-    model.set$TKjtTabName(this.get$TKjtTabName(tabNameSuffix));
+    model.setTKjtTabName(this.get$TKjtTabName(tabNameSuffix));
 
     SqlSession session = SqlmapUtils.openSession(getMasterDataSource());
     try {
@@ -135,7 +135,7 @@ public abstract class AbsLongIDIBatisDAOImpl<T extends IModel> extends AbsFKIBat
 
     Map<String, Object> params = new HashMap<String, Object>();
     params.put("id", id);
-    params.put("$TKjtTabName", this.get$TKjtTabName(tabNameSuffix));
+    params.put("tKjtTabName", this.get$TKjtTabName(tabNameSuffix));
 
     SqlSession session = SqlmapUtils.openSession(getMasterDataSource());
     try {
@@ -172,7 +172,7 @@ public abstract class AbsLongIDIBatisDAOImpl<T extends IModel> extends AbsFKIBat
       throw new DataAccessException(IBatisDAOException.MSG_1_0007);
     }
     newValue.put("id", id);
-    newValue.put("$TKjtTabName", this.get$TKjtTabName(tabNameSuffix));
+    newValue.put("tKjtTabName", this.get$TKjtTabName(tabNameSuffix));
 
     SqlSession session = SqlmapUtils.openSession(getMasterDataSource());
     try {

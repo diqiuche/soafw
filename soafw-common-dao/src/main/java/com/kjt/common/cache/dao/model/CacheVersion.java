@@ -76,14 +76,14 @@ public class CacheVersion implements IModel{
 	/**
 	 * 保存时对应的分表；
 	 */
-	private String $TKjtTabName;
+	private String tKjtTabName;
 	
-	public String get$TKjtTabName(){
-		return $TKjtTabName;
+	public String getTKjtTabName(){
+		return tKjtTabName;
 	}
 	
   @Override
-  public void set$TKjtTabName(String $tKjtTabName) {
-    this.$TKjtTabName = $tKjtTabName;
+  public void setTKjtTabName(String tKjtTabName) {
+    this.tKjtTabName = tKjtTabName;
   }
 }

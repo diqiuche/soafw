@@ -22,7 +22,7 @@ import com.kjt.service.common.log.Logger;
 import com.kjt.service.common.log.LoggerFactory;
 
 public abstract class AbsCacheableImpl<T extends IModel> implements ICacheable<T> {
-
+  //private int cnt = 0;
   @Resource(name = "CacheVersion")
   private ICacheVersionDAO<CacheVersion> cacheVersionDAO;
   /**
@@ -136,6 +136,7 @@ public abstract class AbsCacheableImpl<T extends IModel> implements ICacheable<T
    * @return
    */
   public String getPKRecCacheKeyPrefix(String tabNameSuffix) {
+    //cnt++;
     if (logger.isDebugEnabled()) {
       logger.debug("getPKRecCacheKeyPrefix(String tabNameSuffix={}) - start", tabNameSuffix); //$NON-NLS-1$
     }
@@ -147,6 +148,7 @@ public abstract class AbsCacheableImpl<T extends IModel> implements ICacheable<T
           .debug(
               "getPKRecCacheKeyPrefix(String tabNameSuffix={}) - end - return value={}", tabNameSuffix, returns); //$NON-NLS-1$
     }
+    //System.out.println("-------: "+cnt);
     return returns;
   }
 
@@ -337,6 +339,7 @@ public abstract class AbsCacheableImpl<T extends IModel> implements ICacheable<T
       logger.debug("getRecVersion(String tabNameSuffix={}) - start", tabNameSuffix); //$NON-NLS-1$
     }
     CacheVersion vObj = cacheVersionDAO.queryById(this.get$TKjtTabName(tabNameSuffix), null);// redisCache.get(getRecVersionKey(tabNameSuffix));
+    
     String vStr = vObj == null ? "0" : vObj.getRecVersion().toString();
     if (vStr == null) {
       if (logger.isDebugEnabled()) {

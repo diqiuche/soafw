@@ -17,7 +17,7 @@
 		rec_version,
 		tab_version
 		FROM
-		${$TKjtTabName}
+		${tKjtTabName}
 		<where>
 			and obj_name=#{id}
 		</where>
@@ -30,7 +30,7 @@
 		rec_version,
 		tab_version
 		FROM
-		${$TKjtTabName}
+		${tKjtTabName}
 		<where>
 			<if test="id !=  null">
 				and obj_name=#{id}
@@ -50,7 +50,7 @@
 		SELECT
 		obj_name
 		FROM
-		${$TKjtTabName}
+		${tKjtTabName}
 		<where>
 			<if test="id !=  null">
 				and obj_name=#{id}
@@ -70,7 +70,7 @@
 		SELECT
 		count(*)
 		FROM
-		${$TKjtTabName}
+		${tKjtTabName}
 		<where>
 			<if test="id !=  null">
 				and obj_name=#{id}
@@ -92,7 +92,7 @@
 		rec_version,
 		tab_version
 		FROM
-		${$TKjtTabName}
+		${tKjtTabName}
 		<where>
 			<if test="params !=  null">
 				<if test="params.id !=  null">
@@ -112,47 +112,46 @@
 
 	<insert id="insert" parameterType="com.kjt.common.cache.dao.model.CacheVersion"
 		useGeneratedKeys="true" keyProperty="id">
-		INSERT INTO ${$TKjtTabName}
+		INSERT INTO ${tKjtTabName}
 		(obj_name,rec_version,tab_version)
 		VALUES(#{id},#{recVersion},#{tabVersion})
 	</insert>
 	<insert id="incrRecVersion" parameterType="com.kjt.common.cache.dao.model.CacheVersion">
-		INSERT INTO ${$TKjtTabName}
+		INSERT INTO
+		${tKjtTabName}
 		(obj_name)
 		VALUES(#{id}) ON
 		DUPLICATE
-		KEY UPDATE
-		<if test="recRersion != null">
-			rec_version = recRersion+1
-		</if>
+		KEY
+		UPDATE
+		rec_version = rec_version+1
+
 	</insert>
 
 	<insert id="incrTabVersion" parameterType="com.kjt.common.cache.dao.model.CacheVersion">
-		INSERT INTO ${$TKjtTabName}
+		INSERT INTO
+		${tKjtTabName}
 		(obj_name)
 		VALUES(#{id}) ON
-		DUPLICATE KEY UPDATE
-		<if test="tabRersion != null">
-			tab_version = tabRersion+1
-		</if>
+		DUPLICATE KEY
+		UPDATE
+		tab_version = tab_version+1
+
 	</insert>
 
 	<insert id="incrVersion" parameterType="com.kjt.common.cache.dao.model.CacheVersion">
-		INSERT INTO ${$TKjtTabName}
+		INSERT INTO
+		${tKjtTabName}
 		(obj_name)
 		VALUES(#{id}) ON
 		DUPLICATE KEY UPDATE
-		<if test="recRersion != null">
-			rec_version = recRersion+1,
-		</if>
-		<if test="tabRersion != null">
-			tab_version = tabRersion+1
-		</if>
+		rec_version = rec_version+1,
+		tab_version = tab_version+1
 	</insert>
 
 	<update id="updateByMap" parameterType="java.util.Map">
 		update
-		${$TKjtTabName}
+		${tKjtTabName}
 		<set>
 			<if test="recVersion !=  null">
 				rec_version=#{recVersion},
@@ -171,7 +170,7 @@
 
 	<update id="cmplxUpdate" parameterType="java.util.Map">
 		update
-		${$TKjtTabName}
+		${tKjtTabName}
 		<set>
 			<if test="updNewMap.id !=  null">
 				obj_name=#{updNewMap.id},
@@ -200,7 +199,7 @@
 	<delete id="deleteByMap" parameterType="java.util.Map">
 		DELETE
 		FROM
-		${$TKjtTabName}
+		${tKjtTabName}
 		<where>
 			<if test="id !=  null">
 				and obj_name=#{id}

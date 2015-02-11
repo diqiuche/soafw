@@ -66,7 +66,7 @@ public abstract class AbsIntIDIBatisDAOImpl<T extends IModel> extends AbsFKIBati
     validate(id);
     Map<String, Object> params = new HashMap<String, Object>();
     params.put("id", id);
-    params.put("$TKjtTabName", this.get$TKjtTabName(tabNameSuffix));
+    params.put("tKjtTabName", this.get$TKjtTabName(tabNameSuffix));
 
     SqlSession session = SqlmapUtils.openSession(master ? this.getMasterDataSource()
         : getSlaveDataSource());
@@ -108,7 +108,7 @@ public abstract class AbsIntIDIBatisDAOImpl<T extends IModel> extends AbsFKIBati
 
     SqlSession session = SqlmapUtils.openSession(getMasterDataSource());
     try {
-      model.set$TKjtTabName(this.get$TKjtTabName(tabNameSuffix));
+      model.setTKjtTabName(this.get$TKjtTabName(tabNameSuffix));
 
       IIMapper<T> mapper = session.getMapper(getMapperClass());
       Integer id = mapper.insert(model);
@@ -143,7 +143,7 @@ public abstract class AbsIntIDIBatisDAOImpl<T extends IModel> extends AbsFKIBati
 
     Map<String, Object> params = new HashMap<String, Object>();
     params.put("id", id);
-    params.put("$TKjtTabName", this.get$TKjtTabName(tabNameSuffix));
+    params.put("tKjtTabName", this.get$TKjtTabName(tabNameSuffix));
 
     SqlSession session = SqlmapUtils.openSession(getMasterDataSource());
     try {
@@ -184,7 +184,7 @@ public abstract class AbsIntIDIBatisDAOImpl<T extends IModel> extends AbsFKIBati
       throw new DataAccessException(IBatisDAOException.MSG_1_0007);
     }
     newValue.put("id", id);
-    newValue.put("$TKjtTabName", this.get$TKjtTabName(tabNameSuffix));
+    newValue.put("tKjtTabName", this.get$TKjtTabName(tabNameSuffix));
 
     SqlSession session = SqlmapUtils.openSession(getMasterDataSource());
     try {

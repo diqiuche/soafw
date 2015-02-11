@@ -171,6 +171,8 @@ public interface ICacheable<T> {
    */
   Integer getThresholds();
 
+  public final String CacheKeyPrefixExpress = "#root.target.get$TKjtTabName(#tabNameSuffix).concat('@').concat('id').concat('=').concat(#id)";
+  
   public final String PkCacheKeyPrefixExpress = "#root.target.getPKRecCacheKeyPrefix(#tabNameSuffix).concat('@').concat('id').concat('=').concat(#id)";
 
   public final String FkCacheKeyPrefixExpress = "#root.target.getFKRecCacheKeyPrefix(#tabNameSuffix).concat('@').concat(#property).concat('=').concat(#fkValue).concat('@')";

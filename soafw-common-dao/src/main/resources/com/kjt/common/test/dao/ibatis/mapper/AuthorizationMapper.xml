@@ -27,7 +27,7 @@
 			expiredate,
 			status
 		FROM
-			${$TKjtTabName}
+			${tKjtTabName}
 		<where>
 			and ID=#{id}
 		</where>
@@ -45,7 +45,7 @@
 			expiredate,
 			status
 		FROM
-			${$TKjtTabName}
+			${tKjtTabName}
 		<where>
 			<if test="id !=  null">
 				and ID=#{id}
@@ -79,7 +79,7 @@
 		SELECT
 			ID
 		FROM
-			${$TKjtTabName}
+			${tKjtTabName}
 		<where>
 			<if test="id !=  null">
 				and ID=#{id}
@@ -113,7 +113,7 @@
 		SELECT
 			count(*)
 		FROM
-			${$TKjtTabName}
+			${tKjtTabName}
 		<where>			
 			<if test="id !=  null">
 				and ID=#{id}
@@ -154,7 +154,7 @@
 			expiredate,
 			status
 		FROM
-			${$TKjtTabName}
+			${tKjtTabName}
 		<where>
 			<if test="params !=  null">
 				<if test="params.id !=  null">
@@ -187,14 +187,14 @@
 	</select>
 
 	<insert id="insert" parameterType="com.kjt.common.test.dao.model.Authorization" useGeneratedKeys="true" keyProperty="id">
-		INSERT INTO	${$TKjtTabName}
+		INSERT INTO	${tKjtTabName}
 			(ID,mallcode,mallname,appid,appsecret,assigndate,expiredate,status)
 			VALUES(#{id},#{mallcode},#{mallname},#{appid},#{appsecret},#{assigndate},#{expiredate},#{status})
 	</insert>
 	
 	<update id="updateByMap" parameterType="java.util.Map">
 		update 
-			${$TKjtTabName}
+			${tKjtTabName}
 		<set> 
 			<if test="mallcode !=  null">			        
 				mallcode=#{mallcode},
@@ -228,7 +228,7 @@
 	
 	<update id="cmplxUpdate" parameterType="java.util.Map">
 		update 
-			${$TKjtTabName}
+			${tKjtTabName}
 		<set>
 			<if test="updNewMap.id !=  null">
 				ID=#{updNewMap.id},
@@ -287,7 +287,7 @@
 	<delete id="deleteByMap" parameterType="java.util.Map">		
 		DELETE
 		FROM
-			${$TKjtTabName} 
+			${tKjtTabName} 
 		<where>
 			<if test="id !=  null">
 				and ID=#{id}

@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.kjt.service.common.dao;
+package com.kjt.service.common.dao.aop;
 
 import java.lang.reflect.Method;
 
@@ -35,7 +35,7 @@ public class CacheAspect {
    * name-pattern:指定方法名,*代表所以,set*,代表以set开头的所有方法.<br>
    * parameters pattern:指定方法参数(声明的类型),(..)代表所有参数,(*)代表一个参数,(*,String)代表第一个参数为任何值 ,第二个为String类型.<br>
    */
-  @Around("execution(@com.anjuke.service.common.cache.annotation.CacheOpParams * * (..))")
+  @Around("execution(@com.kjt.service.common.cache.annotation.CacheOpParams * * (..))")
   public Object processAround(ProceedingJoinPoint pjp) throws Throwable {
     Method method = ((MethodSignature) pjp.getSignature()).getMethod();
     CacheOpParams cacheOpParams = method.getAnnotation(CacheOpParams.class);
