@@ -16,5 +16,6 @@ public interface IModel extends Serializable {
    * @return
    */
   public boolean validate();
-
+  
+  public void set$TKjtTabName(String $TKjtTabName);
 }

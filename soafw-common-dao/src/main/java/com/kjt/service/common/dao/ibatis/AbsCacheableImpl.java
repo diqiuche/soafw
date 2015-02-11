@@ -11,6 +11,8 @@ import org.springframework.cache.CacheManager;
 
 import redis.clients.jedis.exceptions.JedisDataException;
 
+import com.kjt.common.cache.dao.ICacheVersionDAO;
+import com.kjt.common.cache.dao.model.CacheVersion;
 import com.kjt.service.common.cache.mem.impl.DynamicMemCache;
 import com.kjt.service.common.cache.redis.impl.DynamicRedisCache;
 import com.kjt.service.common.cache.spring.DynamicMemcacheManager;
@@ -20,12 +22,16 @@ import com.kjt.service.common.log.Logger;
 import com.kjt.service.common.log.LoggerFactory;
 
 public abstract class AbsCacheableImpl<T extends IModel> implements ICacheable<T> {
+
+  @Resource(name = "CacheVersion")
+  private ICacheVersionDAO<CacheVersion> cacheVersionDAO;
   /**
    * Logger for this class
    */
   private static final Logger logger = LoggerFactory.getLogger(AbsCacheableImpl.class);
 
   protected DynamicMemCache defaultCache;
+
   protected DynamicRedisCache redisCache;
 
   public void init() {
@@ -44,7 +50,7 @@ public abstract class AbsCacheableImpl<T extends IModel> implements ICacheable<T
   }
 
   @Resource(name = "cacheManager")
-  protected DynamicMemcacheManager cacheManager;
+  protected CacheManager cacheManager;
 
   public CacheManager getCacheManager() {
     return cacheManager;
@@ -96,7 +102,9 @@ public abstract class AbsCacheableImpl<T extends IModel> implements ICacheable<T
     String returns = getTabVersionKey(tabNameSuffix) + "@TV" + this.getTabVersion(tabNameSuffix);
 
     if (logger.isDebugEnabled()) {
-      logger.debug("getTabCacheKeyPrefix(String tabNameSuffix={}) - end - return value={}", tabNameSuffix, returns); //$NON-NLS-1$
+      logger
+          .debug(
+              "getTabCacheKeyPrefix(String tabNameSuffix={}) - end - return value={}", tabNameSuffix, returns); //$NON-NLS-1$
     }
     return returns;
   }
@@ -112,10 +120,12 @@ public abstract class AbsCacheableImpl<T extends IModel> implements ICacheable<T
     }
 
     String returns = this.get$TKjtTabName(tabNameSuffix) + "@T"
-        + redisCache.getInteger(redisCache.getPrefix() + "tab.cache.tag", 0);
+        + defaultCache.getInteger(defaultCache.getPrefix() + "tab.cache.tag", 0);
 
     if (logger.isDebugEnabled()) {
-      logger.debug("getTabVersionKey(String tabNameSuffix={}) - end - return value={}", tabNameSuffix, returns); //$NON-NLS-1$
+      logger
+          .debug(
+              "getTabVersionKey(String tabNameSuffix={}) - end - return value={}", tabNameSuffix, returns); //$NON-NLS-1$
     }
     return returns;
   }
@@ -133,7 +143,9 @@ public abstract class AbsCacheableImpl<T extends IModel> implements ICacheable<T
     String returns = getRecVersionKey(tabNameSuffix) + "@RV" + this.getRecVersion(tabNameSuffix);
 
     if (logger.isDebugEnabled()) {
-      logger.debug("getPKRecCacheKeyPrefix(String tabNameSuffix={}) - end - return value={}", tabNameSuffix, returns); //$NON-NLS-1$
+      logger
+          .debug(
+              "getPKRecCacheKeyPrefix(String tabNameSuffix={}) - end - return value={}", tabNameSuffix, returns); //$NON-NLS-1$
     }
     return returns;
   }
@@ -150,7 +162,9 @@ public abstract class AbsCacheableImpl<T extends IModel> implements ICacheable<T
         + "@TV" + getTabVersion(tabNameSuffix);
 
     if (logger.isDebugEnabled()) {
-      logger.debug("getFKRecCacheKeyPrefix(String tabNameSuffix={}) - end - return value={}", tabNameSuffix, returns); //$NON-NLS-1$
+      logger
+          .debug(
+              "getFKRecCacheKeyPrefix(String tabNameSuffix={}) - end - return value={}", tabNameSuffix, returns); //$NON-NLS-1$
     }
     return returns;
   }
@@ -166,10 +180,12 @@ public abstract class AbsCacheableImpl<T extends IModel> implements ICacheable<T
     }
 
     String returns = this.get$TKjtTabName(tabNameSuffix) + "@R"
-        + redisCache.getInteger(redisCache.getPrefix() + "rec.cache.tag", 0);
+        + defaultCache.getInteger(defaultCache.getPrefix() + "rec.cache.tag", 0);
 
     if (logger.isDebugEnabled()) {
-      logger.debug("getRecVersionKey(String tabNameSuffix={}) - end - return value={}", tabNameSuffix, returns); //$NON-NLS-1$
+      logger
+          .debug(
+              "getRecVersionKey(String tabNameSuffix={}) - end - return value={}", tabNameSuffix, returns); //$NON-NLS-1$
     }
     return returns;
   }
@@ -191,7 +207,7 @@ public abstract class AbsCacheableImpl<T extends IModel> implements ICacheable<T
       logger.debug("synCache(String tabNameSuffix={}) - start", tabNameSuffix); //$NON-NLS-1$
     }
 
-    if(!cacheable()){
+    if (!cacheable()) {
       if (logger.isDebugEnabled()) {
         logger.debug("synCache(String tabNameSuffix={}) - end", tabNameSuffix); //$NON-NLS-1$
       }
@@ -220,26 +236,30 @@ public abstract class AbsCacheableImpl<T extends IModel> implements ICacheable<T
       logger.debug("incrTabVersion(String tabNameSuffix={}) - start", tabNameSuffix); //$NON-NLS-1$
     }
 
-    if(!cacheable()){
+    if (!cacheable()) {
       if (logger.isDebugEnabled()) {
-        logger.debug("incrTabVersion(String tabNameSuffix={}) - end - return value={}", tabNameSuffix, 0); //$NON-NLS-1$
+        logger.debug(
+            "incrTabVersion(String tabNameSuffix={}) - end - return value={}", tabNameSuffix, 0); //$NON-NLS-1$
       }
       return 0;
     }
     try {
-      long returnlong = redisCache.incr(getTabVersionKey(tabNameSuffix), 1);
+
+      long eft = cacheVersionDAO.incrTabVersion(getTabVersionKey(tabNameSuffix));
+                                                                                        // 1);
 
       if (logger.isDebugEnabled()) {
-        logger.debug("incrTabVersion(String tabNameSuffix={}) - end - return value={}", tabNameSuffix, returnlong); //$NON-NLS-1$
+        logger
+            .debug(
+                "incrTabVersion(String tabNameSuffix={}) - end - return value={}", tabNameSuffix, eft); //$NON-NLS-1$
       }
-      return returnlong;
+      return eft;
     } catch (JedisDataException ex) {
       logger.error("incrTabVersion(String)", ex); //$NON-NLS-1$
 
-      redisCache.set(getTabVersionKey(tabNameSuffix), "0");
-
       if (logger.isDebugEnabled()) {
-        logger.debug("incrTabVersion(String tabNameSuffix={}) - end - return value={}", tabNameSuffix, 0); //$NON-NLS-1$
+        logger.debug(
+            "incrTabVersion(String tabNameSuffix={}) - end - return value={}", tabNameSuffix, 0); //$NON-NLS-1$
       }
       return 0;
     }
@@ -253,18 +273,20 @@ public abstract class AbsCacheableImpl<T extends IModel> implements ICacheable<T
     if (logger.isDebugEnabled()) {
       logger.debug("getTabVersion(String tabNameSuffix={}) - start", tabNameSuffix); //$NON-NLS-1$
     }
-
-    String vStr = redisCache.get(getTabVersionKey(tabNameSuffix));
+    CacheVersion vObj = cacheVersionDAO.queryById(getTabVersionKey(tabNameSuffix), null);
+    String vStr = vObj == null ? "0" : vObj.getTabVersion().toString();
     if (vStr == null) {
       if (logger.isDebugEnabled()) {
-        logger.debug("getTabVersion(String tabNameSuffix={}) - end - return value={}", tabNameSuffix, 0l); //$NON-NLS-1$
+        logger.debug(
+            "getTabVersion(String tabNameSuffix={}) - end - return value={}", tabNameSuffix, 0l); //$NON-NLS-1$
       }
       return 0l;
     }
     Long version = Long.valueOf(vStr);
 
     if (logger.isDebugEnabled()) {
-      logger.debug("getTabVersion(String tabNameSuffix={}) - end - return value={}", tabNameSuffix, version); //$NON-NLS-1$
+      logger.debug(
+          "getTabVersion(String tabNameSuffix={}) - end - return value={}", tabNameSuffix, version); //$NON-NLS-1$
     }
     return version;
   }
@@ -278,26 +300,28 @@ public abstract class AbsCacheableImpl<T extends IModel> implements ICacheable<T
       logger.debug("incrRecVersion(String tabNameSuffix={}) - start", tabNameSuffix); //$NON-NLS-1$
     }
 
-    if(!cacheable()){
+    if (!cacheable()) {
       if (logger.isDebugEnabled()) {
-        logger.debug("incrRecVersion(String tabNameSuffix={}) - end - return value={}", tabNameSuffix, 0); //$NON-NLS-1$
+        logger.debug(
+            "incrRecVersion(String tabNameSuffix={}) - end - return value={}", tabNameSuffix, 0); //$NON-NLS-1$
       }
       return 0;
     }
     try {
-      long returnlong = redisCache.incr(getRecVersionKey(tabNameSuffix), 1);
-
+      long eft = cacheVersionDAO.incrObjRecVersion(this.get$TKjtTabName(tabNameSuffix), null);
       if (logger.isDebugEnabled()) {
-        logger.debug("incrRecVersion(String tabNameSuffix={}) - end - return value={}", tabNameSuffix, returnlong); //$NON-NLS-1$
+        logger.debug(
+            "incrRecVersion(String tabNameSuffix={}) - end - return value={}", tabNameSuffix, eft); //$NON-NLS-1$
       }
-      return returnlong;
+      return eft;
     } catch (JedisDataException ex) {
       logger.error("incrRecVersion(String)", ex); //$NON-NLS-1$
 
-      redisCache.set(getRecVersionKey(tabNameSuffix), "0");
+      // redisCache.set(getRecVersionKey(tabNameSuffix), "0");
 
       if (logger.isDebugEnabled()) {
-        logger.debug("incrRecVersion(String tabNameSuffix={}) - end - return value={}", tabNameSuffix, 0l); //$NON-NLS-1$
+        logger.debug(
+            "incrRecVersion(String tabNameSuffix={}) - end - return value={}", tabNameSuffix, 0l); //$NON-NLS-1$
       }
       return 0l;
     }
@@ -312,25 +336,29 @@ public abstract class AbsCacheableImpl<T extends IModel> implements ICacheable<T
     if (logger.isDebugEnabled()) {
       logger.debug("getRecVersion(String tabNameSuffix={}) - start", tabNameSuffix); //$NON-NLS-1$
     }
-
-    String vStr = redisCache.get(getRecVersionKey(tabNameSuffix));
+    CacheVersion vObj = cacheVersionDAO.queryById(this.get$TKjtTabName(tabNameSuffix), null);// redisCache.get(getRecVersionKey(tabNameSuffix));
+    String vStr = vObj == null ? "0" : vObj.getRecVersion().toString();
     if (vStr == null) {
       if (logger.isDebugEnabled()) {
-        logger.debug("getRecVersion(String tabNameSuffix={}) - end - return value={}", tabNameSuffix, 0l); //$NON-NLS-1$
+        logger.debug(
+            "getRecVersion(String tabNameSuffix={}) - end - return value={}", tabNameSuffix, 0l); //$NON-NLS-1$
       }
       return 0l;
     }
     Long version = Long.valueOf(vStr);
 
     if (logger.isDebugEnabled()) {
-      logger.debug("getRecVersion(String tabNameSuffix={}) - end - return value={}", tabNameSuffix, version); //$NON-NLS-1$
+      logger.debug(
+          "getRecVersion(String tabNameSuffix={}) - end - return value={}", tabNameSuffix, version); //$NON-NLS-1$
     }
     return version;
   }
 
   private void synPKCache(int eft, Map<String, Object> params, String tabNameSuffix) {
     if (logger.isDebugEnabled()) {
-      logger.debug("synPKCache(int eft={}, Map<String,Object> params={}, String tabNameSuffix={}) - start", eft, params, tabNameSuffix); //$NON-NLS-1$
+      logger
+          .debug(
+              "synPKCache(int eft={}, Map<String,Object> params={}, String tabNameSuffix={}) - start", eft, params, tabNameSuffix); //$NON-NLS-1$
     }
 
     /**
@@ -338,7 +366,9 @@ public abstract class AbsCacheableImpl<T extends IModel> implements ICacheable<T
      */
     if (params == null || params.isEmpty()) {
       if (logger.isDebugEnabled()) {
-        logger.debug("synPKCache(int eft={}, Map<String,Object> params={}, String tabNameSuffix={}) - end", eft, params, tabNameSuffix); //$NON-NLS-1$
+        logger
+            .debug(
+                "synPKCache(int eft={}, Map<String,Object> params={}, String tabNameSuffix={}) - end", eft, params, tabNameSuffix); //$NON-NLS-1$
       }
       return;
     }
@@ -354,7 +384,9 @@ public abstract class AbsCacheableImpl<T extends IModel> implements ICacheable<T
     }
 
     if (logger.isDebugEnabled()) {
-      logger.debug("synPKCache(int eft={}, Map<String,Object> params={}, String tabNameSuffix={}) - end", eft, params, tabNameSuffix); //$NON-NLS-1$
+      logger
+          .debug(
+              "synPKCache(int eft={}, Map<String,Object> params={}, String tabNameSuffix={}) - end", eft, params, tabNameSuffix); //$NON-NLS-1$
     }
   }
 
@@ -385,7 +417,9 @@ public abstract class AbsCacheableImpl<T extends IModel> implements ICacheable<T
   protected void addKey2FKGroupCache(String property, Object value,
       final Map<String, Object> attchParams, final List<T> result, String tabNameSuffix) {
     if (logger.isDebugEnabled()) {
-      logger.debug("addKey2FKGroupCache(String property={}, Object value={}, Map<String,Object> attchParams={}, List<T> result={}, String tabNameSuffix={}) - start", property, value, attchParams, result, tabNameSuffix); //$NON-NLS-1$
+      logger
+          .debug(
+              "addKey2FKGroupCache(String property={}, Object value={}, Map<String,Object> attchParams={}, List<T> result={}, String tabNameSuffix={}) - start", property, value, attchParams, result, tabNameSuffix); //$NON-NLS-1$
     }
 
     /**
@@ -416,7 +450,9 @@ public abstract class AbsCacheableImpl<T extends IModel> implements ICacheable<T
     }
 
     if (logger.isDebugEnabled()) {
-      logger.debug("addKey2FKGroupCache(String property={}, Object value={}, Map<String,Object> attchParams={}, List<T> result={}, String tabNameSuffix={}) - end", property, value, attchParams, result, tabNameSuffix); //$NON-NLS-1$
+      logger
+          .debug(
+              "addKey2FKGroupCache(String property={}, Object value={}, Map<String,Object> attchParams={}, List<T> result={}, String tabNameSuffix={}) - end", property, value, attchParams, result, tabNameSuffix); //$NON-NLS-1$
     }
   }
 
@@ -441,12 +477,16 @@ public abstract class AbsCacheableImpl<T extends IModel> implements ICacheable<T
   protected void synCache(int eft, final String property, final Object value,
       final Map<String, Object> attchParams, String tabNameSuffix) {
     if (logger.isDebugEnabled()) {
-      logger.debug("synCache(int eft={}, String property={}, Object value={}, Map<String,Object> attchParams={}, String tabNameSuffix={}) - start", eft, property, value, attchParams, tabNameSuffix); //$NON-NLS-1$
+      logger
+          .debug(
+              "synCache(int eft={}, String property={}, Object value={}, Map<String,Object> attchParams={}, String tabNameSuffix={}) - start", eft, property, value, attchParams, tabNameSuffix); //$NON-NLS-1$
     }
 
-    if(!cacheable()){
+    if (!cacheable()) {
       if (logger.isDebugEnabled()) {
-        logger.debug("synCache(int eft={}, String property={}, Object value={}, Map<String,Object> attchParams={}, String tabNameSuffix={}) - end", eft, property, value, attchParams, tabNameSuffix); //$NON-NLS-1$
+        logger
+            .debug(
+                "synCache(int eft={}, String property={}, Object value={}, Map<String,Object> attchParams={}, String tabNameSuffix={}) - end", eft, property, value, attchParams, tabNameSuffix); //$NON-NLS-1$
       }
       return;
     }
@@ -482,7 +522,9 @@ public abstract class AbsCacheableImpl<T extends IModel> implements ICacheable<T
     // 删除外键缓存
 
     if (logger.isDebugEnabled()) {
-      logger.debug("synCache(int eft={}, String property={}, Object value={}, Map<String,Object> attchParams={}, String tabNameSuffix={}) - end", eft, property, value, attchParams, tabNameSuffix); //$NON-NLS-1$
+      logger
+          .debug(
+              "synCache(int eft={}, String property={}, Object value={}, Map<String,Object> attchParams={}, String tabNameSuffix={}) - end", eft, property, value, attchParams, tabNameSuffix); //$NON-NLS-1$
     }
   }
 
@@ -520,7 +562,8 @@ public abstract class AbsCacheableImpl<T extends IModel> implements ICacheable<T
    */
   protected void pkCacheEvict(List<String> ids, String tabNameSuffix) {
     if (logger.isDebugEnabled()) {
-      logger.debug("pkCacheEvict(List<String> ids={}, String tabNameSuffix={}) - start", ids, tabNameSuffix); //$NON-NLS-1$
+      logger.debug(
+          "pkCacheEvict(List<String> ids={}, String tabNameSuffix={}) - start", ids, tabNameSuffix); //$NON-NLS-1$
     }
 
     String pkPrefix = this.getPKRecCacheKeyPrefix(tabNameSuffix);
@@ -546,7 +589,8 @@ public abstract class AbsCacheableImpl<T extends IModel> implements ICacheable<T
     }
 
     if (logger.isDebugEnabled()) {
-      logger.debug("pkCacheEvict(List<String> ids={}, String tabNameSuffix={}) - end", ids, tabNameSuffix); //$NON-NLS-1$
+      logger.debug(
+          "pkCacheEvict(List<String> ids={}, String tabNameSuffix={}) - end", ids, tabNameSuffix); //$NON-NLS-1$
     }
   }
 

@@ -211,7 +211,7 @@
 	<insert id="insert" parameterType="${package}.dao.model.${name}" useGeneratedKeys="true" keyProperty="id">
 		INSERT INTO	${r"${$TKjtTabName}"}
 			(<#list colMaps as col>${col.name}<#if col_has_next>,</#if></#list>)
-			VALUES(<#list colMaps as col><#if col.isPK="no">${r"#{model."}${col.fieldName}${r"}"}<#elseif col.isPK="yes" && tab.pkFieldNum==1  &&  col.type.javaType="Integer">${r"#{model.id}"}<#elseif col.isPK="yes" && tab.pkFieldNum==1  &&  col.type.javaType="String">${r"#{model.ids}"}<#else>${r"#{model."}${col.fieldName}${r"}"}</#if><#if col_has_next>,</#if></#list>)
+			VALUES(<#list colMaps as col><#if col.isPK="no">${r"#{"}${col.fieldName}${r"}"}<#elseif col.isPK="yes" && tab.pkFieldNum==1  &&  col.type.javaType="Integer">${r"#{id}"}<#elseif col.isPK="yes" && tab.pkFieldNum==1  &&  col.type.javaType="String">${r"#{ids}"}<#else>${r"#{"}${col.fieldName}${r"}"}</#if><#if col_has_next>,</#if></#list>)
 	</insert>
 	
 	<update id="updateByMap" parameterType="java.util.Map">

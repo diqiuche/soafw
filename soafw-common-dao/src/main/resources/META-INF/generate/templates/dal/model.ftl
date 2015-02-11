@@ -82,4 +82,18 @@ public class ${name} implements IModel{
 		</#list>
 		return passed;
 	}
+	
+	/**
+	 * 保存时对应的分表；
+	 */
+	private String $TKjtTabName;
+	
+	public String get$TKjtTabName(){
+		return $TKjtTabName;
+	}
+	
+  	@Override
+  	public void set$TKjtTabName(String $tKjtTabName) {
+    	this.$TKjtTabName = $tKjtTabName;
+  	}
 }

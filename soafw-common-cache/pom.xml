@@ -19,34 +19,23 @@
 			<groupId>com.kjt.service.common</groupId>
 			<artifactId>soafw-common-config</artifactId>
 		</dependency>
+
 		<dependency>
 			<groupId>com.kjt.service.common</groupId>
-			<artifactId>soafw-common-concurrent</artifactId>
+			<artifactId>soafw-common-log</artifactId>
 		</dependency>
+		
 		<dependency>
 			<groupId>com.danga</groupId>
-			<artifactId>java-memcached</artifactId>
+			<artifactId>memcached</artifactId>
 		</dependency>
-		<!-- 依赖排除问题 屏蔽 by luffy 2015-2-9 -->
-		<!-- 
-		<dependency> 
-			<groupId>opensymphony</groupId> 
-			<artifactId>oscache</artifactId> 
-		</dependency> 
-		-->
+			
 		<dependency>
 			<groupId>redis.clients</groupId>
 			<artifactId>jedis</artifactId>
 			<type>jar</type>
 		</dependency>
-		<dependency>
-			<groupId>org.aspectj</groupId>
-			<artifactId>aspectjrt</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.aspectj</groupId>
-			<artifactId>aspectjweaver</artifactId>
-		</dependency>
+		
 	</dependencies>
 
 </project>

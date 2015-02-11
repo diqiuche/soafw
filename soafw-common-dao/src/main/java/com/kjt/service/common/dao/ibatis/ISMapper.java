@@ -9,10 +9,10 @@ import com.kjt.service.common.dao.IModel;
  *
  * @param <T>
  */
-public interface ILMapper<T extends IModel> extends IMapper<T> {
+public interface ISMapper<T extends IModel> extends IMapper<T> {
 
-  public T queryById(Long id);
+  public T queryById(String id);
 
-  public Long insert(IModel params);
+  public String insert(IModel params);
 
 }

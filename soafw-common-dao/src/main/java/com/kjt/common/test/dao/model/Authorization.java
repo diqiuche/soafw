@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import com.kjt.service.common.annotation.JField;
+import com.kjt.service.common.cache.annotation.CacheOpParams;
 import com.kjt.service.common.dao.IModel;
 
 public class Authorization implements IModel{
@@ -138,4 +139,18 @@ public class Authorization implements IModel{
 		boolean passed = true;
 		return passed;
 	}
+	
+	/**
+	 * 保存时对应的分表；
+	 */
+	private String $TKjtTabName;
+	@CacheOpParams(time=1000)
+	public String get$TKjtTabName(){
+		return $TKjtTabName;
+	}
+	
+  	@Override
+  	public void set$TKjtTabName(String $tKjtTabName) {
+    	this.$TKjtTabName = $tKjtTabName;
+  	}
 }

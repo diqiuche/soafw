@@ -10,35 +10,25 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<soafw.group.name>com.kjt.service.common</soafw.group.name>
 		<memcached.version>2.0.1</memcached.version>
-		<java.memcached.version>2.6.6</java.memcached.version>
-
 		<mybatis.version>3.2.8</mybatis.version>
 		<mysql.version>5.1.26</mysql.version>
 		<mail.version>1.4.1</mail.version>
-
 		<jedis.version>2.6.2</jedis.version>
 		<junit.version>4.7</junit.version>
 		<json-lib.version>2.2.3</json-lib.version>
-
 		<spring.version>4.0.7.RELEASE</spring.version>
 		<hessian.version>4.0.7</hessian.version>
 		<sqljdbc4.version>3.0</sqljdbc4.version>
-
 		<slf4j.version>1.7.5</slf4j.version>
-
 		<logback.version>1.1.2</logback.version>
-
 		<servlet-api.version>2.5</servlet-api.version>
-
 		<commons-lang.version>2.5</commons-lang.version>
 		<commons-pool.version>1.5.4</commons-pool.version>
 		<commons-dbcp.version>1.4</commons-dbcp.version>
 		<commons-configuration.version>1.6</commons-configuration.version>
 		<curator-framework.version>2.4.0</curator-framework.version>
 		<curator-recipes.version>2.4.0</curator-recipes.version>
-
 		<oscache.version>2.4</oscache.version>
-
 		<guava.version>18.0</guava.version>
 
 		<!-- 异常代码生成公共定义 -->
@@ -85,12 +75,7 @@
 			</dependency>
 			<dependency>
 				<groupId>com.kjt.service.common</groupId>
-				<artifactId>soafw-common-concurrent</artifactId>
-				<version>${project.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>com.kjt.service.common</groupId>
-				<artifactId>soafw-common-cache</artifactId>
+				<artifactId>soafw-common-log</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 			<dependency>
@@ -100,7 +85,7 @@
 			</dependency>
 			<dependency>
 				<groupId>com.kjt.service.common</groupId>
-				<artifactId>soafw-common-domain</artifactId>
+				<artifactId>soafw-common-cache</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 			<dependency>
@@ -110,7 +95,22 @@
 			</dependency>
 			<dependency>
 				<groupId>com.kjt.service.common</groupId>
-				<artifactId>soafw-common-log</artifactId>
+				<artifactId>soafw-common-domain</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.kjt.service.common</groupId>
+				<artifactId>soafw-common-concurrent</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.kjt.service.common</groupId>
+				<artifactId>soafw-common-mq</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.kjt.service.common</groupId>
+				<artifactId>soafw-common-rpc</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 			<dependency>
@@ -135,18 +135,13 @@
 				<artifactId>servlet-api</artifactId>
 				<version>${servlet-api.version}</version>
 			</dependency>
-			<!-- 
+			 
 			<dependency>
 				<groupId>com.danga</groupId>
 				<artifactId>memcached</artifactId>
 				<version>${memcached.version}</version>
 			</dependency>
-			 -->
-			<dependency>
-				<groupId>com.danga</groupId>
-				<artifactId>java-memcached</artifactId>
-				<version>${java.memcached.version}</version>
-			</dependency>
+			
 			<dependency>
 				<groupId>opensymphony</groupId>
 				<artifactId>oscache</artifactId>

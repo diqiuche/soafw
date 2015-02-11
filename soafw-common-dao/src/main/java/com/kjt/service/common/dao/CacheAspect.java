@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.kjt.service.common.dao.ibatis;
+package com.kjt.service.common.dao;
 
 import java.lang.reflect.Method;
 

@@ -37,7 +37,7 @@ public abstract class AbsIntIDIBatisDAOImpl<T extends IModel> extends AbsFKIBati
    */
   private static final Logger logger = LoggerFactory.getLogger(AbsIntIDIBatisDAOImpl.class);
 
-  @Cacheable(value = "defaultCache", key = PkCacheKeyPrefixExpress+"", unless = "#result == null", condition = "#root.target.cacheable()")
+  @Cacheable(value = "defaultCache", key = PkCacheKeyPrefixExpress + "", unless = "#result == null", condition = "#root.target.cacheable()")
   @Override
   public T queryById(Integer id, String tabNameSuffix) {
     if (logger.isDebugEnabled()) {
@@ -47,16 +47,20 @@ public abstract class AbsIntIDIBatisDAOImpl<T extends IModel> extends AbsFKIBati
     T returnT = queryById(id, false, tabNameSuffix);
 
     if (logger.isDebugEnabled()) {
-      logger.debug("queryById(Integer id={}, String tabNameSuffix={}) - end - return value={}", id, tabNameSuffix, returnT); //$NON-NLS-1$
+      logger
+          .debug(
+              "queryById(Integer id={}, String tabNameSuffix={}) - end - return value={}", id, tabNameSuffix, returnT); //$NON-NLS-1$
     }
     return returnT;
   }
 
-  @Cacheable(value = "defaultCache", key = PkCacheKeyPrefixExpress+"", unless = "#result == null", condition = "!#master and #root.target.cacheable()")
+  @Cacheable(value = "defaultCache", key = PkCacheKeyPrefixExpress + "", unless = "#result == null", condition = "!#master and #root.target.cacheable()")
   @Override
   public T queryById(Integer id, Boolean master, String tabNameSuffix) {
     if (logger.isDebugEnabled()) {
-      logger.debug("queryById(Integer id={}, Boolean master={}, String tabNameSuffix={}) - start", id, master, tabNameSuffix); //$NON-NLS-1$
+      logger
+          .debug(
+              "queryById(Integer id={}, Boolean master={}, String tabNameSuffix={}) - start", id, master, tabNameSuffix); //$NON-NLS-1$
     }
 
     validate(id);
@@ -71,14 +75,18 @@ public abstract class AbsIntIDIBatisDAOImpl<T extends IModel> extends AbsFKIBati
       List<T> objs = mapper.queryByMap(params);
       if (objs == null || objs.isEmpty()) {
         if (logger.isDebugEnabled()) {
-          logger.debug("queryById(Integer id={}, Boolean master={}, String tabNameSuffix={}) - end - return value={}", id, master, tabNameSuffix, null); //$NON-NLS-1$
+          logger
+              .debug(
+                  "queryById(Integer id={}, Boolean master={}, String tabNameSuffix={}) - end - return value={}", id, master, tabNameSuffix, null); //$NON-NLS-1$
         }
         return null;
       }
       T returnT = objs.get(0);
 
       if (logger.isDebugEnabled()) {
-        logger.debug("queryById(Integer id={}, Boolean master={}, String tabNameSuffix={}) - end - return value={}", id, master, tabNameSuffix, returnT); //$NON-NLS-1$
+        logger
+            .debug(
+                "queryById(Integer id={}, Boolean master={}, String tabNameSuffix={}) - end - return value={}", id, master, tabNameSuffix, returnT); //$NON-NLS-1$
       }
       return returnT;
     } catch (Exception t) {
@@ -100,18 +108,18 @@ public abstract class AbsIntIDIBatisDAOImpl<T extends IModel> extends AbsFKIBati
 
     SqlSession session = SqlmapUtils.openSession(getMasterDataSource());
     try {
-      Map<String, Object> params = new HashMap<String, Object>();
-      params.put("model", model);
-      params.put("$TKjtTabName", this.get$TKjtTabName(tabNameSuffix));
+      model.set$TKjtTabName(this.get$TKjtTabName(tabNameSuffix));
 
       IIMapper<T> mapper = session.getMapper(getMapperClass());
-      Integer id = mapper.insert(params);
+      Integer id = mapper.insert(model);
       if (id > 0) {
         this.incrTabVersion(tabNameSuffix);
       }
 
       if (logger.isDebugEnabled()) {
-        logger.debug("insert(T model={}, String tabNameSuffix={}) - end - return value={}", model, tabNameSuffix, id); //$NON-NLS-1$
+        logger
+            .debug(
+                "insert(T model={}, String tabNameSuffix={}) - end - return value={}", model, tabNameSuffix, id); //$NON-NLS-1$
       }
       return id;
     } catch (Exception t) {
@@ -124,7 +132,7 @@ public abstract class AbsIntIDIBatisDAOImpl<T extends IModel> extends AbsFKIBati
     }
   }
 
-  @CacheEvict(value = "defaultCache", key = PkCacheKeyPrefixExpress+"", condition = "#root.target.cacheable()")
+  @CacheEvict(value = "defaultCache", key = PkCacheKeyPrefixExpress + "", condition = "#root.target.cacheable()")
   @Override
   public Integer deleteById(Integer id, String tabNameSuffix) {
     if (logger.isDebugEnabled()) {
@@ -146,7 +154,9 @@ public abstract class AbsIntIDIBatisDAOImpl<T extends IModel> extends AbsFKIBati
       }
 
       if (logger.isDebugEnabled()) {
-        logger.debug("deleteById(Integer id={}, String tabNameSuffix={}) - end - return value={}", id, tabNameSuffix, eft); //$NON-NLS-1$
+        logger
+            .debug(
+                "deleteById(Integer id={}, String tabNameSuffix={}) - end - return value={}", id, tabNameSuffix, eft); //$NON-NLS-1$
       }
       return eft;
     } catch (Exception t) {
@@ -159,11 +169,13 @@ public abstract class AbsIntIDIBatisDAOImpl<T extends IModel> extends AbsFKIBati
     }
   }
 
-  @CacheEvict(value = "defaultCache", key = PkCacheKeyPrefixExpress+"", condition = "#root.target.cacheable()")
+  @CacheEvict(value = "defaultCache", key = PkCacheKeyPrefixExpress + "", condition = "#root.target.cacheable()")
   @Override
   public Integer updateById(Integer id, Map<String, Object> newValue, String tabNameSuffix) {
     if (logger.isDebugEnabled()) {
-      logger.debug("updateById(Integer id={}, Map<String,Object> newValue={}, String tabNameSuffix={}) - start", id, newValue, tabNameSuffix); //$NON-NLS-1$
+      logger
+          .debug(
+              "updateById(Integer id={}, Map<String,Object> newValue={}, String tabNameSuffix={}) - start", id, newValue, tabNameSuffix); //$NON-NLS-1$
     }
 
     validate(id);
@@ -183,7 +195,9 @@ public abstract class AbsIntIDIBatisDAOImpl<T extends IModel> extends AbsFKIBati
       }
 
       if (logger.isDebugEnabled()) {
-        logger.debug("updateById(Integer id={}, Map<String,Object> newValue={}, String tabNameSuffix={}) - end - return value={}", id, newValue, tabNameSuffix, eft); //$NON-NLS-1$
+        logger
+            .debug(
+                "updateById(Integer id={}, Map<String,Object> newValue={}, String tabNameSuffix={}) - end - return value={}", id, newValue, tabNameSuffix, eft); //$NON-NLS-1$
       }
       return eft;
     } catch (Exception t) {

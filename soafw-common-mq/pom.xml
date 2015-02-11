@@ -20,14 +20,6 @@
 			<groupId>com.kjt.service.common</groupId>
 			<artifactId>soafw-common-config</artifactId>
 		</dependency>
-		<dependency>
-			<groupId>com.kjt.service.common</groupId>
-			<artifactId>soafw-common-util</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>com.kjt.service.common</groupId>
-			<artifactId>soafw-common-cache</artifactId>
-		</dependency>
 		
 		<dependency>
             <groupId>com.rabbitmq</groupId>

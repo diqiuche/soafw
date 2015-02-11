@@ -189,7 +189,7 @@
 	<insert id="insert" parameterType="com.kjt.common.test.dao.model.Authorization" useGeneratedKeys="true" keyProperty="id">
 		INSERT INTO	${$TKjtTabName}
 			(ID,mallcode,mallname,appid,appsecret,assigndate,expiredate,status)
-			VALUES(#{model.id},#{model.mallcode},#{model.mallname},#{model.appid},#{model.appsecret},#{model.assigndate},#{model.expiredate},#{model.status})
+			VALUES(#{id},#{mallcode},#{mallname},#{appid},#{appsecret},#{assigndate},#{expiredate},#{status})
 	</insert>
 	
 	<update id="updateByMap" parameterType="java.util.Map">

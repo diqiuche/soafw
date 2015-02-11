@@ -31,16 +31,16 @@ import com.kjt.service.common.log.LoggerFactory;
  * @param <T>
  */
 
-public abstract class AbsLongIDIBatisDAOImpl<T extends IModel> extends AbsFKIBatisDAOImpl<T>
-    implements ILBatisDAO<T> {
+public abstract class AbsStrIDIBatisDAOImpl<T extends IModel> extends AbsFKIBatisDAOImpl<T>
+    implements ISBatisDAO<T> {
   /**
    * Logger for this class
    */
-  private static final Logger logger = LoggerFactory.getLogger(AbsLongIDIBatisDAOImpl.class);
+  private static final Logger logger = LoggerFactory.getLogger(AbsStrIDIBatisDAOImpl.class);
 
   @Cacheable(value = "defaultCache", key = PkCacheKeyPrefixExpress + "", unless = "#result == null", condition = "#root.target.cacheable()")
   @Override
-  public T queryById(Long id, String tabNameSuffix) {
+  public T queryById(String id, String tabNameSuffix) {
     if (logger.isDebugEnabled()) {
       logger.debug("queryById(Long id={}, String tabNameSuffix={}) - start", id, tabNameSuffix); //$NON-NLS-1$
     }
@@ -56,7 +56,7 @@ public abstract class AbsLongIDIBatisDAOImpl<T extends IModel> extends AbsFKIBat
 
   @Cacheable(value = "defaultCache", key = PkCacheKeyPrefixExpress + "", unless = "#result == null", condition = "!#master and #root.target.cacheable()")
   @Override
-  public T queryById(Long id, Boolean master, String tabNameSuffix) {
+  public T queryById(String id, Boolean master, String tabNameSuffix) {
     if (logger.isDebugEnabled()) {
       logger.debug("queryById(Long id={}, Boolean master={}, String tabNameSuffix={}) - start", id, master, tabNameSuffix); //$NON-NLS-1$
     }
@@ -70,7 +70,7 @@ public abstract class AbsLongIDIBatisDAOImpl<T extends IModel> extends AbsFKIBat
     SqlSession session = SqlmapUtils.openSession(master ? this.getMasterDataSource()
         : getSlaveDataSource());
     try {
-      ILMapper<T> mapper = session.getMapper(getMapperClass());
+      ISMapper<T> mapper = session.getMapper(getMapperClass());
       List<T> objs = mapper.queryByMap(params);
       if (objs == null || objs.isEmpty()) {
         if (logger.isDebugEnabled()) {
@@ -95,18 +95,18 @@ public abstract class AbsLongIDIBatisDAOImpl<T extends IModel> extends AbsFKIBat
   }
 
   @Override
-  public Long insert(T model, String tabNameSuffix) {
+  public String insert(T model, String tabNameSuffix) {
     if (logger.isDebugEnabled()) {
       logger.debug("insert(T model={}, String tabNameSuffix={}) - start", model, tabNameSuffix); //$NON-NLS-1$
     }
-
+    
     model.set$TKjtTabName(this.get$TKjtTabName(tabNameSuffix));
-
+    
     SqlSession session = SqlmapUtils.openSession(getMasterDataSource());
     try {
-      ILMapper<T> mapper = session.getMapper(getMapperClass());
-      Long id = mapper.insert(model);
-      if (id > 0) {
+      ISMapper<T> mapper = session.getMapper(getMapperClass());
+      String id = mapper.insert(model);
+      if (id !=null) {
         this.incrTabVersion(tabNameSuffix);
       }
 
@@ -126,7 +126,7 @@ public abstract class AbsLongIDIBatisDAOImpl<T extends IModel> extends AbsFKIBat
 
   @CacheEvict(value = "defaultCache", key = PkCacheKeyPrefixExpress + "", condition = "#root.target.cacheable()")
   @Override
-  public Integer deleteById(Long id, String tabNameSuffix) {
+  public Integer deleteById(String id, String tabNameSuffix) {
     if (logger.isDebugEnabled()) {
       logger.debug("deleteById(Long id={}, String tabNameSuffix={}) - start", id, tabNameSuffix); //$NON-NLS-1$
     }
@@ -161,7 +161,7 @@ public abstract class AbsLongIDIBatisDAOImpl<T extends IModel> extends AbsFKIBat
 
   @CacheEvict(value = "defaultCache", key = PkCacheKeyPrefixExpress + "", condition = "#root.target.cacheable()")
   @Override
-  public Integer updateById(Long id, Map<String, Object> newValue, String tabNameSuffix) {
+  public Integer updateById(String id, Map<String, Object> newValue, String tabNameSuffix) {
     if (logger.isDebugEnabled()) {
       logger.debug("updateById(Long id={}, Map<String,Object> newValue={}, String tabNameSuffix={}) - start", id, newValue, tabNameSuffix); //$NON-NLS-1$
     }
@@ -196,7 +196,7 @@ public abstract class AbsLongIDIBatisDAOImpl<T extends IModel> extends AbsFKIBat
     }
   }
 
-  protected void validate(Long id) {
+  protected void validate(String id) {
     if (logger.isDebugEnabled()) {
       logger.debug("validate(Long id={}) - start", id); //$NON-NLS-1$
     }
@@ -204,7 +204,7 @@ public abstract class AbsLongIDIBatisDAOImpl<T extends IModel> extends AbsFKIBat
     if (id == null) {
       throw new DataAccessException(IBatisDAOException.MSG_1_0005);
     }
-    if (id.intValue() <= 0) {
+    if (id.trim().length() == 0) {
       throw new DataAccessException(IBatisDAOException.MSG_1_0006);
     }
 
