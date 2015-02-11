@@ -4,6 +4,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.annotation.Resource;
 
@@ -18,11 +20,12 @@ import com.kjt.service.common.cache.redis.impl.DynamicRedisCache;
 import com.kjt.service.common.cache.spring.DynamicMemcacheManager;
 import com.kjt.service.common.dao.ICacheable;
 import com.kjt.service.common.dao.IModel;
+import com.kjt.service.common.exception.DataAccessException;
 import com.kjt.service.common.log.Logger;
 import com.kjt.service.common.log.LoggerFactory;
 
 public abstract class AbsCacheableImpl<T extends IModel> implements ICacheable<T> {
-  //private int cnt = 0;
+  // private int cnt = 0;
   @Resource(name = "CacheVersion")
   private ICacheVersionDAO<CacheVersion> cacheVersionDAO;
   /**
@@ -136,7 +139,6 @@ public abstract class AbsCacheableImpl<T extends IModel> implements ICacheable<T
    * @return
    */
   public String getPKRecCacheKeyPrefix(String tabNameSuffix) {
-    //cnt++;
     if (logger.isDebugEnabled()) {
       logger.debug("getPKRecCacheKeyPrefix(String tabNameSuffix={}) - start", tabNameSuffix); //$NON-NLS-1$
     }
@@ -148,7 +150,6 @@ public abstract class AbsCacheableImpl<T extends IModel> implements ICacheable<T
           .debug(
               "getPKRecCacheKeyPrefix(String tabNameSuffix={}) - end - return value={}", tabNameSuffix, returns); //$NON-NLS-1$
     }
-    //System.out.println("-------: "+cnt);
     return returns;
   }
 
@@ -248,12 +249,11 @@ public abstract class AbsCacheableImpl<T extends IModel> implements ICacheable<T
     try {
 
       long eft = cacheVersionDAO.incrTabVersion(getTabVersionKey(tabNameSuffix));
-                                                                                        // 1);
+      // 1);
 
       if (logger.isDebugEnabled()) {
-        logger
-            .debug(
-                "incrTabVersion(String tabNameSuffix={}) - end - return value={}", tabNameSuffix, eft); //$NON-NLS-1$
+        logger.debug(
+            "incrTabVersion(String tabNameSuffix={}) - end - return value={}", tabNameSuffix, eft); //$NON-NLS-1$
       }
       return eft;
     } catch (JedisDataException ex) {
@@ -338,8 +338,9 @@ public abstract class AbsCacheableImpl<T extends IModel> implements ICacheable<T
     if (logger.isDebugEnabled()) {
       logger.debug("getRecVersion(String tabNameSuffix={}) - start", tabNameSuffix); //$NON-NLS-1$
     }
+
     CacheVersion vObj = cacheVersionDAO.queryById(this.get$TKjtTabName(tabNameSuffix), null);// redisCache.get(getRecVersionKey(tabNameSuffix));
-    
+
     String vStr = vObj == null ? "0" : vObj.getRecVersion().toString();
     if (vStr == null) {
       if (logger.isDebugEnabled()) {
@@ -598,4 +599,15 @@ public abstract class AbsCacheableImpl<T extends IModel> implements ICacheable<T
   }
 
   public abstract List<String> queryIdsByMap(Map<String, Object> params, String tabNameSuffix);
+
+  protected void suffixValidate(String tabNameSuffix) {
+    if (tabNameSuffix == null || tabNameSuffix.trim().length() == 0) {
+      return;
+    }
+    Pattern p = Pattern.compile(TAB_SUFFIX_PATTERN);
+    Matcher m = p.matcher(tabNameSuffix.trim());
+    if (m.matches()) {
+      throw new DataAccessException(IBatisDAOException.MSG_2_0001, "'" + tabNameSuffix + "'后缀不符合规范");
+    }
+  }
 }

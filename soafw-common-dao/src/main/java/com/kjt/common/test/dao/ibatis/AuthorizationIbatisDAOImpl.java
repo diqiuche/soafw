@@ -42,6 +42,7 @@ public class AuthorizationIbatisDAOImpl extends AbsIntIDIBatisDAOImpl<Authorizat
 	
 	@Override
 	public String get$TKjtTabName(String tabNameSuffix) {
+	  suffixValidate(tabNameSuffix);
 	  StringBuilder tableName = new StringBuilder("authorization");
       if(tabNameSuffix!=null&&tabNameSuffix.trim().length()>0){
         tableName.append("_");

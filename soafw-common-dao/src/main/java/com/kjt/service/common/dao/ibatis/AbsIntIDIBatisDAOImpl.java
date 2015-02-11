@@ -43,9 +43,7 @@ public abstract class AbsIntIDIBatisDAOImpl<T extends IModel> extends AbsFKIBati
     if (logger.isDebugEnabled()) {
       logger.debug("queryById(Integer id={}, String tabNameSuffix={}) - start", id, tabNameSuffix); //$NON-NLS-1$
     }
-
     T returnT = queryById(id, false, tabNameSuffix);
-
     if (logger.isDebugEnabled()) {
       logger
           .debug(
@@ -72,6 +70,7 @@ public abstract class AbsIntIDIBatisDAOImpl<T extends IModel> extends AbsFKIBati
         : getSlaveDataSource());
     try {
       IIMapper<T> mapper = session.getMapper(getMapperClass());
+      long start = System.currentTimeMillis();
       List<T> objs = mapper.queryByMap(params);
       if (objs == null || objs.isEmpty()) {
         if (logger.isDebugEnabled()) {

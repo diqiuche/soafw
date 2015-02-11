@@ -50,6 +50,7 @@ public class CacheVersionIbatisDAOImpl extends AbsStrIDIBatisDAOImpl<CacheVersio
 
   @Override
   public String get$TKjtTabName(String tabNameSuffix) {
+    suffixValidate(tabNameSuffix);
     StringBuilder tableName = new StringBuilder("cache_version");
     if (tabNameSuffix != null && tabNameSuffix.trim().length() > 0) {
       tableName.append("_");

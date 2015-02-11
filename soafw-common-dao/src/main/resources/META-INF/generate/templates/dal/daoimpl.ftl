@@ -1,7 +1,5 @@
 package ${package}.dao.ibatis;
 
-import java.util.Map;
-
 import javax.annotation.Resource;
 import javax.sql.DataSource;
 
@@ -58,6 +56,7 @@ public class ${name}IbatisDAOImpl extends AbsLongIDIBatisDAOImpl<${name}> implem
 	
 	@Override
 	public String get$TKjtTabName(String tabNameSuffix) {
+	  suffixValidate(tabNameSuffix);
 	  StringBuilder tableName = new StringBuilder("${tab.name}");
       if(tabNameSuffix!=null&&tabNameSuffix.trim().length()>0){
         tableName.append("_");
