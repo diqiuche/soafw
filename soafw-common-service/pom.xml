@@ -15,23 +15,11 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
 	<dependencies>
-		<dependency>
-			<groupId>com.kjt.service.common</groupId>
-			<artifactId>soafw-common-dao</artifactId>
-		</dependency>
+		
 		<dependency>
 			<groupId>com.kjt.service.common</groupId>
 			<artifactId>soafw-common-domain</artifactId>
 		</dependency>
 		
-		<dependency>
-			<groupId>com.kjt.service.common</groupId>
-			<artifactId>soafw-common-mq</artifactId>
-		</dependency>
-		
-		<dependency>
-			<groupId>com.kjt.service.common</groupId>
-			<artifactId>soafw-common-rpc</artifactId>
-		</dependency>
 	</dependencies>
 </project>

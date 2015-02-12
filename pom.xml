@@ -52,17 +52,19 @@
 
 	<modules>
 		<module>soafw-common-util</module>
+		<module>soafw-common-log</module>
+		<module>soafw-common-config</module>
+		<module>soafw-common-cache</module>
 		<module>soafw-common-dao</module>
 		<module>soafw-common-domain</module>
-		<module>soafw-common-service</module>
-		<module>soafw-common-web</module>
-		<module>soafw-common-config</module>
 		<module>soafw-common-concurrent</module>
-		<module>soafw-common-cache</module>
-		<module>soafw-common-log</module>
 		<module>soafw-common-mq</module>
 		<module>soafw-common-rpc</module>
+		<module>soafw-common-domain</module>
+		<module>soafw-common-service</module>
+		<module>soafw-common-service-impl</module>
 		<module>soafw-common-job</module>
+		<module>soafw-common-web</module>
 		<module>exception-generator-plugin</module>
 	</modules>
 	<dependencyManagement>
@@ -96,6 +98,16 @@
 			<dependency>
 				<groupId>com.kjt.service.common</groupId>
 				<artifactId>soafw-common-domain</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.kjt.service.common</groupId>
+				<artifactId>soafw-common-service</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.kjt.service.common</groupId>
+				<artifactId>soafw-common-service-impl</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 			<dependency>
