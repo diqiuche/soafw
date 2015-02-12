@@ -56,7 +56,6 @@
 		<module>soafw-common-config</module>
 		<module>soafw-common-cache</module>
 		<module>soafw-common-dao</module>
-		<module>soafw-common-domain</module>
 		<module>soafw-common-concurrent</module>
 		<module>soafw-common-mq</module>
 		<module>soafw-common-rpc</module>
