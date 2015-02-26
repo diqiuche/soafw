@@ -3,42 +3,43 @@ package com.kjt.service.common.cache;
 import java.util.Date;
 
 public interface ICache {
-	
-	public boolean set(String key, Object item);
-	/**
-	 * 
-	 * @param key
-	 * @param item
-	 * @param expiry 单位为秒
-	 * @return
-	 */
-	public boolean set(String key, Object item, int expiry);
 
-	public boolean set(String key, Object item, Date expiry);
+    public boolean set(String key, Object item);
 
-	public boolean add(String key, Object item);
+    /**
+     * set
+     * @param key
+     * @param item
+     * @param expiry 单位为秒
+     * @return
+     */
+    public boolean set(String key, Object item, int expiry);
 
-	public boolean add(String key, Object item, int expiry);
+    public boolean set(String key, Object item, Date expiry);
 
-	public boolean add(String key, Object item, Date expiry);
+    public boolean add(String key, Object item);
 
-	public boolean storeCounter(String key, Long counter);
+    public boolean add(String key, Object item, int expiry);
 
-	public long addOrIncr(String key, long incr);
+    public boolean add(String key, Object item, Date expiry);
 
-	public long incr(String key, long incr);
+    public boolean storeCounter(String key, Long counter);
 
-	public boolean replace(String key, Object item);
+    public long addOrIncr(String key, long incr);
 
-	public boolean replace(String key, Object item, int expiry);
+    public long incr(String key, long incr);
 
-	public boolean replace(String key, Object item, Date expiry);
+    public boolean replace(String key, Object item);
 
-	public boolean delete(String key);
+    public boolean replace(String key, Object item, int expiry);
 
-	public Object get(String key);
+    public boolean replace(String key, Object item, Date expiry);
 
-	public Object[] get(String[] keys);
+    public boolean delete(String key);
 
-	public boolean flush();
+    public Object get(String key);
+
+    public Object[] get(String[] keys);
+
+    public boolean flush();
 }

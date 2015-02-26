@@ -58,7 +58,9 @@ public abstract class AbsFKIBatisDAOImpl<T extends IModel> extends AbsIBatisDAOI
   @Override
   public Integer deleteByFK(String property, Integer fkValue, String tabNameSuffix) {
     if (logger.isDebugEnabled()) {
-      logger.debug("deleteByFK(String property={}, Integer fkValue={}, String tabNameSuffix={}) - start", property, fkValue, tabNameSuffix); //$NON-NLS-1$
+      logger
+          .debug(
+              "deleteByFK(String property={}, Integer fkValue={}, String tabNameSuffix={}) - start", property, fkValue, tabNameSuffix); //$NON-NLS-1$
     }
 
     validate(property, fkValue);
@@ -76,7 +78,9 @@ public abstract class AbsFKIBatisDAOImpl<T extends IModel> extends AbsIBatisDAOI
       }
 
       if (logger.isDebugEnabled()) {
-        logger.debug("deleteByFK(String property={}, Integer fkValue={}, String tabNameSuffix={}) - end - return value={}", property, fkValue, tabNameSuffix, eft); //$NON-NLS-1$
+        logger
+            .debug(
+                "deleteByFK(String property={}, Integer fkValue={}, String tabNameSuffix={}) - end - return value={}", property, fkValue, tabNameSuffix, eft); //$NON-NLS-1$
       }
       return eft;
     } catch (Exception t) {
@@ -95,7 +99,9 @@ public abstract class AbsFKIBatisDAOImpl<T extends IModel> extends AbsIBatisDAOI
   public Integer deleteByFK(String property, Integer fkValue, Map<String, Object> attchParams,
       String tabNameSuffix) {
     if (logger.isDebugEnabled()) {
-      logger.debug("deleteByFK(String property={}, Integer fkValue={}, Map<String,Object> attchParams={}, String tabNameSuffix={}) - start", property, fkValue, attchParams, tabNameSuffix); //$NON-NLS-1$
+      logger
+          .debug(
+              "deleteByFK(String property={}, Integer fkValue={}, Map<String,Object> attchParams={}, String tabNameSuffix={}) - start", property, fkValue, attchParams, tabNameSuffix); //$NON-NLS-1$
     }
 
     validate(property, fkValue);
@@ -116,7 +122,9 @@ public abstract class AbsFKIBatisDAOImpl<T extends IModel> extends AbsIBatisDAOI
       }
 
       if (logger.isDebugEnabled()) {
-        logger.debug("deleteByFK(String property={}, Integer fkValue={}, Map<String,Object> attchParams={}, String tabNameSuffix={}) - end - return value={}", property, fkValue, attchParams, tabNameSuffix, eft); //$NON-NLS-1$
+        logger
+            .debug(
+                "deleteByFK(String property={}, Integer fkValue={}, Map<String,Object> attchParams={}, String tabNameSuffix={}) - end - return value={}", property, fkValue, attchParams, tabNameSuffix, eft); //$NON-NLS-1$
       }
       return eft;
     } catch (Exception t) {
@@ -134,7 +142,9 @@ public abstract class AbsFKIBatisDAOImpl<T extends IModel> extends AbsIBatisDAOI
   @Override
   public Integer deleteByFK(String property, Long fkValue, String tabNameSuffix) {
     if (logger.isDebugEnabled()) {
-      logger.debug("deleteByFK(String property={}, Long fkValue={}, String tabNameSuffix={}) - start", property, fkValue, tabNameSuffix); //$NON-NLS-1$
+      logger
+          .debug(
+              "deleteByFK(String property={}, Long fkValue={}, String tabNameSuffix={}) - start", property, fkValue, tabNameSuffix); //$NON-NLS-1$
     }
 
     validate(property, fkValue);
@@ -153,7 +163,9 @@ public abstract class AbsFKIBatisDAOImpl<T extends IModel> extends AbsIBatisDAOI
       }
 
       if (logger.isDebugEnabled()) {
-        logger.debug("deleteByFK(String property={}, Long fkValue={}, String tabNameSuffix={}) - end - return value={}", property, fkValue, tabNameSuffix, eft); //$NON-NLS-1$
+        logger
+            .debug(
+                "deleteByFK(String property={}, Long fkValue={}, String tabNameSuffix={}) - end - return value={}", property, fkValue, tabNameSuffix, eft); //$NON-NLS-1$
       }
       return eft;
     } catch (Exception t) {
@@ -171,7 +183,9 @@ public abstract class AbsFKIBatisDAOImpl<T extends IModel> extends AbsIBatisDAOI
   public Integer deleteByFK(String property, Long fkValue, Map<String, Object> attchParams,
       String tabNameSuffix) {
     if (logger.isDebugEnabled()) {
-      logger.debug("deleteByFK(String property={}, Long fkValue={}, Map<String,Object> attchParams={}, String tabNameSuffix={}) - start", property, fkValue, attchParams, tabNameSuffix); //$NON-NLS-1$
+      logger
+          .debug(
+              "deleteByFK(String property={}, Long fkValue={}, Map<String,Object> attchParams={}, String tabNameSuffix={}) - start", property, fkValue, attchParams, tabNameSuffix); //$NON-NLS-1$
     }
 
     validate(property, fkValue);
@@ -194,7 +208,9 @@ public abstract class AbsFKIBatisDAOImpl<T extends IModel> extends AbsIBatisDAOI
       }
 
       if (logger.isDebugEnabled()) {
-        logger.debug("deleteByFK(String property={}, Long fkValue={}, Map<String,Object> attchParams={}, String tabNameSuffix={}) - end - return value={}", property, fkValue, attchParams, tabNameSuffix, eft); //$NON-NLS-1$
+        logger
+            .debug(
+                "deleteByFK(String property={}, Long fkValue={}, Map<String,Object> attchParams={}, String tabNameSuffix={}) - end - return value={}", property, fkValue, attchParams, tabNameSuffix, eft); //$NON-NLS-1$
       }
       return eft;
     } catch (Exception t) {
@@ -212,7 +228,9 @@ public abstract class AbsFKIBatisDAOImpl<T extends IModel> extends AbsIBatisDAOI
   @Override
   public List<T> queryByFK(String property, Integer fkValue, String tabNameSuffix) {
     if (logger.isDebugEnabled()) {
-      logger.debug("queryByFK(String property={}, Integer fkValue={}, String tabNameSuffix={}) - start", property, fkValue, tabNameSuffix); //$NON-NLS-1$
+      logger
+          .debug(
+              "queryByFK(String property={}, Integer fkValue={}, String tabNameSuffix={}) - start", property, fkValue, tabNameSuffix); //$NON-NLS-1$
     }
 
     validate(property, fkValue);
@@ -228,7 +246,9 @@ public abstract class AbsFKIBatisDAOImpl<T extends IModel> extends AbsIBatisDAOI
       addKey2FKGroupCache(property, fkValue, null, result, tabNameSuffix);
 
       if (logger.isDebugEnabled()) {
-        logger.debug("queryByFK(String property={}, Integer fkValue={}, String tabNameSuffix={}) - end - return value={}", property, fkValue, tabNameSuffix, result); //$NON-NLS-1$
+        logger
+            .debug(
+                "queryByFK(String property={}, Integer fkValue={}, String tabNameSuffix={}) - end - return value={}", property, fkValue, tabNameSuffix, result); //$NON-NLS-1$
       }
       return result;
     } catch (Exception t) {
@@ -249,7 +269,9 @@ public abstract class AbsFKIBatisDAOImpl<T extends IModel> extends AbsIBatisDAOI
   public List<T> queryByFK(String property, Integer fkValue, Map<String, Object> attchParams,
       String tabNameSuffix) {
     if (logger.isDebugEnabled()) {
-      logger.debug("queryByFK(String property={}, Integer fkValue={}, Map<String,Object> attchParams={}, String tabNameSuffix={}) - start", property, fkValue, attchParams, tabNameSuffix); //$NON-NLS-1$
+      logger
+          .debug(
+              "queryByFK(String property={}, Integer fkValue={}, Map<String,Object> attchParams={}, String tabNameSuffix={}) - start", property, fkValue, attchParams, tabNameSuffix); //$NON-NLS-1$
     }
 
     validate(property, fkValue);
@@ -268,7 +290,9 @@ public abstract class AbsFKIBatisDAOImpl<T extends IModel> extends AbsIBatisDAOI
       addKey2FKGroupCache(property, fkValue, attchParams, result, tabNameSuffix);
 
       if (logger.isDebugEnabled()) {
-        logger.debug("queryByFK(String property={}, Integer fkValue={}, Map<String,Object> attchParams={}, String tabNameSuffix={}) - end - return value={}", property, fkValue, attchParams, tabNameSuffix, result); //$NON-NLS-1$
+        logger
+            .debug(
+                "queryByFK(String property={}, Integer fkValue={}, Map<String,Object> attchParams={}, String tabNameSuffix={}) - end - return value={}", property, fkValue, attchParams, tabNameSuffix, result); //$NON-NLS-1$
       }
       return result;
     } catch (Exception t) {
@@ -286,7 +310,9 @@ public abstract class AbsFKIBatisDAOImpl<T extends IModel> extends AbsIBatisDAOI
   @Override
   public List<T> queryByFK(String property, Integer fkValue, Boolean master, String tabNameSuffix) {
     if (logger.isDebugEnabled()) {
-      logger.debug("queryByFK(String property={}, Integer fkValue={}, Boolean master={}, String tabNameSuffix={}) - start", property, fkValue, master, tabNameSuffix); //$NON-NLS-1$
+      logger
+          .debug(
+              "queryByFK(String property={}, Integer fkValue={}, Boolean master={}, String tabNameSuffix={}) - start", property, fkValue, master, tabNameSuffix); //$NON-NLS-1$
     }
 
     validate(property, fkValue);
@@ -303,7 +329,9 @@ public abstract class AbsFKIBatisDAOImpl<T extends IModel> extends AbsIBatisDAOI
       addKey2FKGroupCache(property, fkValue, null, result, tabNameSuffix);
 
       if (logger.isDebugEnabled()) {
-        logger.debug("queryByFK(String property={}, Integer fkValue={}, Boolean master={}, String tabNameSuffix={}) - end - return value={}", property, fkValue, master, tabNameSuffix, result); //$NON-NLS-1$
+        logger
+            .debug(
+                "queryByFK(String property={}, Integer fkValue={}, Boolean master={}, String tabNameSuffix={}) - end - return value={}", property, fkValue, master, tabNameSuffix, result); //$NON-NLS-1$
       }
       return result;
     } catch (Exception t) {
@@ -323,7 +351,9 @@ public abstract class AbsFKIBatisDAOImpl<T extends IModel> extends AbsIBatisDAOI
   public List<T> queryByFK(String property, Integer fkValue, Map<String, Object> attchParams,
       Boolean master, String tabNameSuffix) {
     if (logger.isDebugEnabled()) {
-      logger.debug("queryByFK(String property={}, Integer fkValue={}, Map<String,Object> attchParams={}, Boolean master={}, String tabNameSuffix={}) - start", property, fkValue, attchParams, master, tabNameSuffix); //$NON-NLS-1$
+      logger
+          .debug(
+              "queryByFK(String property={}, Integer fkValue={}, Map<String,Object> attchParams={}, Boolean master={}, String tabNameSuffix={}) - start", property, fkValue, attchParams, master, tabNameSuffix); //$NON-NLS-1$
     }
 
     validate(property, fkValue);
@@ -341,7 +371,9 @@ public abstract class AbsFKIBatisDAOImpl<T extends IModel> extends AbsIBatisDAOI
       addKey2FKGroupCache(property, fkValue, attchParams, result, tabNameSuffix);
 
       if (logger.isDebugEnabled()) {
-        logger.debug("queryByFK(String property={}, Integer fkValue={}, Map<String,Object> attchParams={}, Boolean master={}, String tabNameSuffix={}) - end - return value={}", property, fkValue, attchParams, master, tabNameSuffix, result); //$NON-NLS-1$
+        logger
+            .debug(
+                "queryByFK(String property={}, Integer fkValue={}, Map<String,Object> attchParams={}, Boolean master={}, String tabNameSuffix={}) - end - return value={}", property, fkValue, attchParams, master, tabNameSuffix, result); //$NON-NLS-1$
       }
       return result;
     } catch (Exception t) {
@@ -359,7 +391,9 @@ public abstract class AbsFKIBatisDAOImpl<T extends IModel> extends AbsIBatisDAOI
   @Override
   public List<T> queryByFK(String property, Long fkValue, String tabNameSuffix) {
     if (logger.isDebugEnabled()) {
-      logger.debug("queryByFK(String property={}, Long fkValue={}, String tabNameSuffix={}) - start", property, fkValue, tabNameSuffix); //$NON-NLS-1$
+      logger
+          .debug(
+              "queryByFK(String property={}, Long fkValue={}, String tabNameSuffix={}) - start", property, fkValue, tabNameSuffix); //$NON-NLS-1$
     }
 
     validate(property, fkValue);
@@ -375,7 +409,9 @@ public abstract class AbsFKIBatisDAOImpl<T extends IModel> extends AbsIBatisDAOI
       addKey2FKGroupCache(property, fkValue, null, result, tabNameSuffix);
 
       if (logger.isDebugEnabled()) {
-        logger.debug("queryByFK(String property={}, Long fkValue={}, String tabNameSuffix={}) - end - return value={}", property, fkValue, tabNameSuffix, result); //$NON-NLS-1$
+        logger
+            .debug(
+                "queryByFK(String property={}, Long fkValue={}, String tabNameSuffix={}) - end - return value={}", property, fkValue, tabNameSuffix, result); //$NON-NLS-1$
       }
       return result;
     } catch (Exception t) {
@@ -395,7 +431,9 @@ public abstract class AbsFKIBatisDAOImpl<T extends IModel> extends AbsIBatisDAOI
   public List<T> queryByFK(String property, Long fkValue, Map<String, Object> attchParams,
       String tabNameSuffix) {
     if (logger.isDebugEnabled()) {
-      logger.debug("queryByFK(String property={}, Long fkValue={}, Map<String,Object> attchParams={}, String tabNameSuffix={}) - start", property, fkValue, attchParams, tabNameSuffix); //$NON-NLS-1$
+      logger
+          .debug(
+              "queryByFK(String property={}, Long fkValue={}, Map<String,Object> attchParams={}, String tabNameSuffix={}) - start", property, fkValue, attchParams, tabNameSuffix); //$NON-NLS-1$
     }
 
     validate(property, fkValue);
@@ -412,7 +450,9 @@ public abstract class AbsFKIBatisDAOImpl<T extends IModel> extends AbsIBatisDAOI
       addKey2FKGroupCache(property, fkValue, attchParams, result, tabNameSuffix);
 
       if (logger.isDebugEnabled()) {
-        logger.debug("queryByFK(String property={}, Long fkValue={}, Map<String,Object> attchParams={}, String tabNameSuffix={}) - end - return value={}", property, fkValue, attchParams, tabNameSuffix, result); //$NON-NLS-1$
+        logger
+            .debug(
+                "queryByFK(String property={}, Long fkValue={}, Map<String,Object> attchParams={}, String tabNameSuffix={}) - end - return value={}", property, fkValue, attchParams, tabNameSuffix, result); //$NON-NLS-1$
       }
       return result;
     } catch (Exception t) {
@@ -430,7 +470,9 @@ public abstract class AbsFKIBatisDAOImpl<T extends IModel> extends AbsIBatisDAOI
   @Override
   public List<T> queryByFK(String property, Long fkValue, Boolean master, String tabNameSuffix) {
     if (logger.isDebugEnabled()) {
-      logger.debug("queryByFK(String property={}, Long fkValue={}, Boolean master={}, String tabNameSuffix={}) - start", property, fkValue, master, tabNameSuffix); //$NON-NLS-1$
+      logger
+          .debug(
+              "queryByFK(String property={}, Long fkValue={}, Boolean master={}, String tabNameSuffix={}) - start", property, fkValue, master, tabNameSuffix); //$NON-NLS-1$
     }
 
     validate(property, fkValue);
@@ -447,7 +489,9 @@ public abstract class AbsFKIBatisDAOImpl<T extends IModel> extends AbsIBatisDAOI
       addKey2FKGroupCache(property, fkValue, null, result, tabNameSuffix);
 
       if (logger.isDebugEnabled()) {
-        logger.debug("queryByFK(String property={}, Long fkValue={}, Boolean master={}, String tabNameSuffix={}) - end - return value={}", property, fkValue, master, tabNameSuffix, result); //$NON-NLS-1$
+        logger
+            .debug(
+                "queryByFK(String property={}, Long fkValue={}, Boolean master={}, String tabNameSuffix={}) - end - return value={}", property, fkValue, master, tabNameSuffix, result); //$NON-NLS-1$
       }
       return result;
     } catch (Exception t) {
@@ -467,7 +511,9 @@ public abstract class AbsFKIBatisDAOImpl<T extends IModel> extends AbsIBatisDAOI
   public List<T> queryByFK(String property, Long fkValue, Map<String, Object> attchParams,
       Boolean master, String tabNameSuffix) {
     if (logger.isDebugEnabled()) {
-      logger.debug("queryByFK(String property={}, Long fkValue={}, Map<String,Object> attchParams={}, Boolean master={}, String tabNameSuffix={}) - start", property, fkValue, attchParams, master, tabNameSuffix); //$NON-NLS-1$
+      logger
+          .debug(
+              "queryByFK(String property={}, Long fkValue={}, Map<String,Object> attchParams={}, Boolean master={}, String tabNameSuffix={}) - start", property, fkValue, attchParams, master, tabNameSuffix); //$NON-NLS-1$
     }
 
     validate(property, fkValue);
@@ -485,7 +531,9 @@ public abstract class AbsFKIBatisDAOImpl<T extends IModel> extends AbsIBatisDAOI
       addKey2FKGroupCache(property, fkValue, attchParams, result, tabNameSuffix);
 
       if (logger.isDebugEnabled()) {
-        logger.debug("queryByFK(String property={}, Long fkValue={}, Map<String,Object> attchParams={}, Boolean master={}, String tabNameSuffix={}) - end - return value={}", property, fkValue, attchParams, master, tabNameSuffix, result); //$NON-NLS-1$
+        logger
+            .debug(
+                "queryByFK(String property={}, Long fkValue={}, Map<String,Object> attchParams={}, Boolean master={}, String tabNameSuffix={}) - end - return value={}", property, fkValue, attchParams, master, tabNameSuffix, result); //$NON-NLS-1$
       }
       return result;
     } catch (Exception t) {
@@ -503,7 +551,9 @@ public abstract class AbsFKIBatisDAOImpl<T extends IModel> extends AbsIBatisDAOI
   public Integer updateByFK(String property, Integer fkValue, Map<String, Object> newValue,
       String tabNameSuffix) {
     if (logger.isDebugEnabled()) {
-      logger.debug("updateByFK(String property={}, Integer fkValue={}, Map<String,Object> newValue={}, String tabNameSuffix={}) - start", property, fkValue, newValue, tabNameSuffix); //$NON-NLS-1$
+      logger
+          .debug(
+              "updateByFK(String property={}, Integer fkValue={}, Map<String,Object> newValue={}, String tabNameSuffix={}) - start", property, fkValue, newValue, tabNameSuffix); //$NON-NLS-1$
     }
 
     if (newValue == null || newValue.isEmpty()) {
@@ -529,7 +579,9 @@ public abstract class AbsFKIBatisDAOImpl<T extends IModel> extends AbsIBatisDAOI
       }
 
       if (logger.isDebugEnabled()) {
-        logger.debug("updateByFK(String property={}, Integer fkValue={}, Map<String,Object> newValue={}, String tabNameSuffix={}) - end - return value={}", property, fkValue, newValue, tabNameSuffix, eft); //$NON-NLS-1$
+        logger
+            .debug(
+                "updateByFK(String property={}, Integer fkValue={}, Map<String,Object> newValue={}, String tabNameSuffix={}) - end - return value={}", property, fkValue, newValue, tabNameSuffix, eft); //$NON-NLS-1$
       }
       return eft;
     } catch (Exception t) {
@@ -548,7 +600,9 @@ public abstract class AbsFKIBatisDAOImpl<T extends IModel> extends AbsIBatisDAOI
   public Integer updateByFK(String property, Integer fkValue, Map<String, Object> attchParams,
       Map<String, Object> newValue, String tabNameSuffix) {
     if (logger.isDebugEnabled()) {
-      logger.debug("updateByFK(String property={}, Integer fkValue={}, Map<String,Object> attchParams={}, Map<String,Object> newValue={}, String tabNameSuffix={}) - start", property, fkValue, attchParams, newValue, tabNameSuffix); //$NON-NLS-1$
+      logger
+          .debug(
+              "updateByFK(String property={}, Integer fkValue={}, Map<String,Object> attchParams={}, Map<String,Object> newValue={}, String tabNameSuffix={}) - start", property, fkValue, attchParams, newValue, tabNameSuffix); //$NON-NLS-1$
     }
 
     if (newValue == null || newValue.isEmpty()) {
@@ -577,11 +631,14 @@ public abstract class AbsFKIBatisDAOImpl<T extends IModel> extends AbsIBatisDAOI
       }
 
       if (logger.isDebugEnabled()) {
-        logger.debug("updateByFK(String property={}, Integer fkValue={}, Map<String,Object> attchParams={}, Map<String,Object> newValue={}, String tabNameSuffix={}) - end - return value={}", property, fkValue, attchParams, newValue, tabNameSuffix, eft); //$NON-NLS-1$
+        logger
+            .debug(
+                "updateByFK(String property={}, Integer fkValue={}, Map<String,Object> attchParams={}, Map<String,Object> newValue={}, String tabNameSuffix={}) - end - return value={}", property, fkValue, attchParams, newValue, tabNameSuffix, eft); //$NON-NLS-1$
       }
       return eft;
     } catch (Exception t) {
-      logger.error("updateByFK(String, Integer, Map<String,Object>, Map<String,Object>, String)", t); //$NON-NLS-1$
+      logger
+          .error("updateByFK(String, Integer, Map<String,Object>, Map<String,Object>, String)", t); //$NON-NLS-1$
 
       throw new DataAccessException(IBatisDAOException.MSG_2_0001, t);
     } finally {
@@ -595,7 +652,9 @@ public abstract class AbsFKIBatisDAOImpl<T extends IModel> extends AbsIBatisDAOI
   public Integer updateByFK(String property, Long fkValue, Map<String, Object> newValue,
       String tabNameSuffix) {
     if (logger.isDebugEnabled()) {
-      logger.debug("updateByFK(String property={}, Long fkValue={}, Map<String,Object> newValue={}, String tabNameSuffix={}) - start", property, fkValue, newValue, tabNameSuffix); //$NON-NLS-1$
+      logger
+          .debug(
+              "updateByFK(String property={}, Long fkValue={}, Map<String,Object> newValue={}, String tabNameSuffix={}) - start", property, fkValue, newValue, tabNameSuffix); //$NON-NLS-1$
     }
 
     if (newValue == null || newValue.isEmpty()) {
@@ -621,7 +680,9 @@ public abstract class AbsFKIBatisDAOImpl<T extends IModel> extends AbsIBatisDAOI
       }
 
       if (logger.isDebugEnabled()) {
-        logger.debug("updateByFK(String property={}, Long fkValue={}, Map<String,Object> newValue={}, String tabNameSuffix={}) - end - return value={}", property, fkValue, newValue, tabNameSuffix, eft); //$NON-NLS-1$
+        logger
+            .debug(
+                "updateByFK(String property={}, Long fkValue={}, Map<String,Object> newValue={}, String tabNameSuffix={}) - end - return value={}", property, fkValue, newValue, tabNameSuffix, eft); //$NON-NLS-1$
       }
       return eft;
     } catch (Exception t) {
@@ -640,7 +701,9 @@ public abstract class AbsFKIBatisDAOImpl<T extends IModel> extends AbsIBatisDAOI
   public Integer updateByFK(String property, Long fkValue, Map<String, Object> attchParams,
       Map<String, Object> newValue, String tabNameSuffix) {
     if (logger.isDebugEnabled()) {
-      logger.debug("updateByFK(String property={}, Long fkValue={}, Map<String,Object> attchParams={}, Map<String,Object> newValue={}, String tabNameSuffix={}) - start", property, fkValue, attchParams, newValue, tabNameSuffix); //$NON-NLS-1$
+      logger
+          .debug(
+              "updateByFK(String property={}, Long fkValue={}, Map<String,Object> attchParams={}, Map<String,Object> newValue={}, String tabNameSuffix={}) - start", property, fkValue, attchParams, newValue, tabNameSuffix); //$NON-NLS-1$
     }
 
     if (newValue == null || newValue.isEmpty()) {
@@ -668,7 +731,9 @@ public abstract class AbsFKIBatisDAOImpl<T extends IModel> extends AbsIBatisDAOI
       }
 
       if (logger.isDebugEnabled()) {
-        logger.debug("updateByFK(String property={}, Long fkValue={}, Map<String,Object> attchParams={}, Map<String,Object> newValue={}, String tabNameSuffix={}) - end - return value={}", property, fkValue, attchParams, newValue, tabNameSuffix, eft); //$NON-NLS-1$
+        logger
+            .debug(
+                "updateByFK(String property={}, Long fkValue={}, Map<String,Object> attchParams={}, Map<String,Object> newValue={}, String tabNameSuffix={}) - end - return value={}", property, fkValue, attchParams, newValue, tabNameSuffix, eft); //$NON-NLS-1$
       }
       return eft;
     } catch (Exception t) {

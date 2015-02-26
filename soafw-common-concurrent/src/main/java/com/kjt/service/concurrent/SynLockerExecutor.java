@@ -22,349 +22,323 @@ import com.kjt.service.common.util.DateUtil;
  */
 public abstract class SynLockerExecutor {
 
-	protected Logger _logger = LoggerFactory.getLogger("trace");
+    protected Logger logger = LoggerFactory.getLogger("trace");
 
-	private static CuratorFramework client;
+    private static CuratorFramework client;
 
-	private static DynamicZookeeper loader = new DynamicZookeeper();
+    private static DynamicZookeeper loader = new DynamicZookeeper();
 
-	private String reqId = ContextHolder.getReqId();
+    private String reqId = ContextHolder.getReqId();
 
-	private InterProcessMutex lock = null;
+    private InterProcessMutex lock = null;
 
-	private boolean tryUntilSuccessed = true;// try 50 times
+    private boolean tryUntilSuccessed = true;// try 50 times
 
-	/**
-	 * 
-	 * @param cls
-	 *            调用者类 不能为空
-	 * @param method
-	 *            调用所在的方法名 不能为空
-	 * @param element
-	 *            待锁定的对象（一般是对象的pk值） 不能为空
-	 * @param tryUntilSuccessed
-	 *            当为false时，只try一次，当为true时表示直到成功获取到锁退出
-	 */
-	public SynLockerExecutor(Class cls, String method, Object element,
-			boolean tryUntilSuccessed) {
-		this(cls, method, element, 1, tryUntilSuccessed);
-	}
+    /**
+     * 
+     * @param cls 调用者类 不能为空
+     * @param method 调用所在的方法名 不能为空
+     * @param element 待锁定的对象（一般是对象的pk值） 不能为空
+     * @param tryUntilSuccessed 当为false时，只try一次，当为true时表示直到成功获取到锁退出
+     */
+    public SynLockerExecutor(Class cls, String method, Object element, boolean tryUntilSuccessed) {
+        this(cls, method, element, 1, tryUntilSuccessed);
+    }
 
-	/**
-	 * 
-	 * @param cls
-	 * @param method
-	 * @param element
-	 * @param lockTime
-	 *            [db lockTime] 单位秒
-	 * @param tryUntilSuccessed
-	 *            当为false时，只try一次，当为true时表示直到成功获取到锁退出
-	 */
-	public SynLockerExecutor(Class cls, String method, Object element,
-			Integer lockTime, boolean tryUntilSuccessed) {
-		ContextHolder.setReqId(reqId);
-		this.tryUntilSuccessed = tryUntilSuccessed;
-		StringBuffer holder = new StringBuffer();
-		holder.append(cls.getName());
-		holder.append(".");
-		holder.append(method);
-		holder.append("(");
-		holder.append(element);
-		holder.append(")");
+    /**
+     * 
+     * @param cls
+     * @param method
+     * @param element
+     * @param lockTime [db lockTime] 单位秒
+     * @param tryUntilSuccessed 当为false时，只try一次，当为true时表示直到成功获取到锁退出
+     */
+    public SynLockerExecutor(Class cls, String method, Object element, Integer lockTime,
+            boolean tryUntilSuccessed) {
+        ContextHolder.setReqId(reqId);
+        this.tryUntilSuccessed = tryUntilSuccessed;
+        StringBuffer holder = new StringBuffer();
+        holder.append(cls.getName());
+        holder.append(".");
+        holder.append(method);
+        holder.append("(");
+        holder.append(element);
+        holder.append(")");
 
-		String key = holder.toString();
+        String key = holder.toString();
 
-		long start = System.currentTimeMillis();
-		try {
-			lock(key, lockTime);
-			long executeStart = System.currentTimeMillis();
-			execute();
-		} catch (Exception e) {
-			element = null;
-			throw new RuntimeException(e);
-		} finally {
-			try {
-				unlock(key);
-			} catch (Exception ex) {
-			}
-		}
-	}
+        long start = System.currentTimeMillis();
+        try {
+            lock(key, lockTime);
+            long executeStart = System.currentTimeMillis();
+            execute();
+        } catch (Exception e) {
+            element = null;
+            throw new RuntimeException(e);
+        } finally {
+            try {
+                unlock(key);
+            } catch (Exception ex) {}
+        }
+    }
 
-	/**
-	 * 
-	 * @param element
-	 * @param lockTime
-	 */
-	protected void lock(Object element, Integer lockTime) {
-		long start = System.currentTimeMillis();
-		String key = element.toString();
-		try {
-			zookeeperLocker(key, loader.getLockAcquireTimeout());
+    /**
+     * 
+     * @param element
+     * @param lockTime
+     */
+    protected void lock(Object element, Integer lockTime) {
+        long start = System.currentTimeMillis();
+        String key = element.toString();
+        try {
+            zookeeperLocker(key, loader.getLockAcquireTimeout());
 
-		} catch (Exception ex) {
-			throw new RuntimeException(ex);
-		} finally {
-		}
-	}
+        } catch (Exception ex) {
+            throw new RuntimeException(ex);
+        } finally {}
+    }
 
-	protected void unlock(Object element) {
+    protected void unlock(Object element) {
 
-		String key = element.toString();
+        String key = element.toString();
 
-		zookeeperUnlock(key);
-	}
+        zookeeperUnlock(key);
+    }
 
-	/**
-	 * 连接zookeeper server
-	 */
-	private void conn() {
+    /**
+     * 连接zookeeper server
+     */
+    private void conn() {
 
-		synchronized (SynLockerExecutor.class) {
-			if (client == null) {
-				long start_ = System.currentTimeMillis();
+        synchronized (SynLockerExecutor.class) {
+            if (client == null) {
+                long start_ = System.currentTimeMillis();
 
-				client = loader.getClient();
-			}
-		}
-	}
+                client = loader.getClient();
+            }
+        }
+    }
 
-	/**
-	 * zookeeper 锁实现
-	 * 
-	 * @param key
-	 * @param lockAcquireTimeout
-	 */
-	protected void zookeeperLocker(String key, int lockAcquireTimeout) {
+    /**
+     * zookeeper 锁实现
+     * 
+     * @param key
+     * @param lockAcquireTimeout
+     */
+    protected void zookeeperLocker(String key, int lockAcquireTimeout) {
 
-		long start = System.currentTimeMillis();
+        long start = System.currentTimeMillis();
 
-		conn();
+        conn();
 
-		if (key.indexOf("/") != 0) {
-			key = "/" + key;
-		}
+        if (key.indexOf("/") != 0) {
+            key = "/" + key;
+        }
 
-		start = System.currentTimeMillis();
+        start = System.currentTimeMillis();
 
-		lock = new InterProcessMutex(client, key);
+        lock = new InterProcessMutex(client, key);
 
-		long start_ = start;
-		int getLockFailedCount = 0;
-		while (true) {
-			try {
+        long start_ = start;
+        int getLockFailedCount = 0;
+        while (true) {
+            try {
 
-				getLockFailedCount++;
-				if (!lock.acquire(lockAcquireTimeout, TimeUnit.MILLISECONDS)) {
-					start_ = System.currentTimeMillis();
-					failedCheck(getLockFailedCount);
-					continue;
-				}
+                getLockFailedCount++;
+                if (!lock.acquire(lockAcquireTimeout, TimeUnit.MILLISECONDS)) {
+                    start_ = System.currentTimeMillis();
+                    failedCheck(getLockFailedCount);
+                    continue;
+                }
 
-				/**
-				 * 设置最后访问时间 为housekeeping做准备
-				 */
-				client.setData().forPath(key,
-						String.valueOf(DateUtil.getCurrentUnixTimestamp()).getBytes());
-				break;
-			} catch (KeeperException.ConnectionLossException ex) {
-				client = null;
-			} catch (KeeperException.SessionExpiredException ex) {
-				client = null;
-			} catch (KeeperException.SessionMovedException ex) {
-				client = null;
-			} catch (Exception ex) {
-				throw new RuntimeException(ex);
-			}
-		}
+                /**
+                 * 设置最后访问时间 为housekeeping做准备
+                 */
+                client.setData().forPath(key,
+                        String.valueOf(DateUtil.getCurrentUnixTimestamp()).getBytes());
+                break;
+            } catch (KeeperException.ConnectionLossException ex) {
+                client = null;
+            } catch (KeeperException.SessionExpiredException ex) {
+                client = null;
+            } catch (KeeperException.SessionMovedException ex) {
+                client = null;
+            } catch (Exception ex) {
+                throw new RuntimeException(ex);
+            }
+        }
 
-	}
+    }
 
-	private void zookeeperUnlock(String key) {
+    private void zookeeperUnlock(String key) {
 
-		long start = System.currentTimeMillis();
+        long start = System.currentTimeMillis();
 
-		if (key.indexOf("/") != 0) {
-			key = "/" + key;
-		}
+        if (key.indexOf("/") != 0) {
+            key = "/" + key;
+        }
 
-		try {
-			if (lock != null) {
-				lock.release();
-				lock = null;
-			}
-		} catch (Exception ex) {
-			throw new RuntimeException(ex);
-		} finally {
-		}
-	}
+        try {
+            if (lock != null) {
+                lock.release();
+                lock = null;
+            }
+        } catch (Exception ex) {
+            throw new RuntimeException(ex);
+        } finally {}
+    }
 
-	private void failedCheck(int getLockFailedCount) {
-		if (!tryUntilSuccessed) {
-			int cnt = 3;
-			if (getLockFailedCount > cnt) {
-				throw new RuntimeException(" with 超时");
-			}
-		}
-	}
+    private void failedCheck(int getLockFailedCount) {
+        if (!tryUntilSuccessed) {
+            int cnt = 3;
+            if (getLockFailedCount > cnt) {
+                throw new RuntimeException(" with 超时");
+            }
+        }
+    }
 
-	abstract public void execute() ;
+    public abstract void execute();
 
-	private static class HouseKeeper extends Thread {
-		@Override
-		public void run() {
-			InterProcessMutex lock = null;
-			while (true) {
-				try {
-					synchronized (SynLockerExecutor.class) {
-						if (client == null
-								|| client.getState() != CuratorFrameworkState.STARTED) {
-							Thread.currentThread().sleep(1000);
-							continue;
-						}
-						if (lock == null) {
-							lock = new InterProcessMutex(client, "/"
-									+ HouseKeeper.class);
-						}
-					}
-					while (true) {
-						if (!lock.acquire(loader.getLockAcquireTimeout(),
-								TimeUnit.MILLISECONDS)) {
-							Thread.sleep(86400);
-							continue;
-						}
-						break;
-					}
+    private static class HouseKeeper extends Thread {
+        @Override
+        public void run() {
+            InterProcessMutex lock = null;
+            while (true) {
+                try {
+                    synchronized (SynLockerExecutor.class) {
+                        if (client == null || client.getState() != CuratorFrameworkState.STARTED) {
+                            Thread.currentThread().sleep(1000);
+                            continue;
+                        }
+                        if (lock == null) {
+                            lock = new InterProcessMutex(client, "/" + HouseKeeper.class);
+                        }
+                    }
+                    while (true) {
+                        if (!lock.acquire(loader.getLockAcquireTimeout(), TimeUnit.MILLISECONDS)) {
+                            Thread.sleep(86400);
+                            continue;
+                        }
+                        break;
+                    }
 
-					List<String> childs = client.getChildren().forPath("/");
-					for (int i = 0; i < childs.size(); i++) {
-						check(childs.get(i));
-					}
-				} catch (Exception e) {
-				}
-			}
-		}
+                    List<String> childs = client.getChildren().forPath("/");
+                    for (int i = 0; i < childs.size(); i++) {
+                        check(childs.get(i));
+                    }
+                } catch (Exception e) {}
+            }
+        }
 
-		private void check(String path) throws Exception {
-			if (path.indexOf("/") != 0) {
-				path = "/" + path;
-			}
-			List<String> childs = client.getChildren().forPath(path);
-			if (childs.size() > 0) {
-				for (int i = 0; i < childs.size(); i++) {
-					check(path + "/" + childs.get(i));
-				}
-			} else {
-				String lastime = new String(client.getData().forPath(path));
-				if (lastime != null && lastime.trim().length() > 0) {
-					if (Integer.valueOf(lastime) < DateUtil.getCurrentUnixTimestamp() - 86400) {
-						client.delete().forPath(path);
-					}
-				}
-			}
-		}
-	}
+        private void check(String path) throws Exception {
+            if (path.indexOf("/") != 0) {
+                path = "/" + path;
+            }
+            List<String> childs = client.getChildren().forPath(path);
+            if (childs.size() > 0) {
+                for (int i = 0; i < childs.size(); i++) {
+                    check(path + "/" + childs.get(i));
+                }
+            } else {
+                String lastime = new String(client.getData().forPath(path));
+                if (lastime != null && lastime.trim().length() > 0) {
+                    if (Integer.valueOf(lastime) < DateUtil.getCurrentUnixTimestamp() - 86400) {
+                        client.delete().forPath(path);
+                    }
+                }
+            }
+        }
+    }
 
-	public static void test() {
-		Thread t = new Thread() {
-			public void run() {
-				int idx = 0;
-				while (true) {
-					ContextHolder.setReqId(Thread.currentThread().getName() + "@"
-							+ (++idx));
-					try {
-						new SynLockerExecutor(SynLockerExecutor.class, "test0",
-								1, true) {
-							@Override
-							public void execute() {
-								try {
-									System.err.println(ContextHolder.getReqId()
-											+ " before " + "@"
-											+ System.currentTimeMillis());
-									long t = Double
-											.valueOf(Math.random() * 100)
-											.longValue();
-									Thread.currentThread().sleep(t);
-									System.err.println(ContextHolder.getReqId()
-											+ " exec used: " + t + " after "
-											+ "@" + System.currentTimeMillis());
-								} catch (InterruptedException e) {
-									e.printStackTrace();
-								}
-							}
-						};
-					} catch (Exception ex) {
-						ex.printStackTrace();
-					}
-				}
-			}
-		};
-		t.start();
-		t = new Thread() {
-			public void run() {
-				int idx = 0;
-				while (true) {
-					ContextHolder.setReqId(Thread.currentThread().getName() + "@"
-							+ (++idx));
-					try {
-						new SynLockerExecutor(SynLockerExecutor.class, "test0",
-								1, true) {
-							@Override
-							public void execute() {
-								try {
-									System.err.println(ContextHolder.getReqId()
-											+ " before " + "@"
-											+ System.currentTimeMillis());
-									long t = Double
-											.valueOf(Math.random() * 100)
-											.longValue();
-									Thread.currentThread().sleep(t);
-									System.err.println(ContextHolder.getReqId()
-											+ " exec used: " + t + " after "
-											+ "@" + System.currentTimeMillis());
-								} catch (InterruptedException e) {
-									e.printStackTrace();
-								}
-							}
-						};
-					} catch (Exception ex) {
-						ex.printStackTrace();
-					}
-				}
-			}
-		};
+    public static void test() {
+        Thread t = new Thread() {
+            public void run() {
+                int idx = 0;
+                while (true) {
+                    ContextHolder.setReqId(Thread.currentThread().getName() + "@" + (++idx));
+                    try {
+                        new SynLockerExecutor(SynLockerExecutor.class, "test0", 1, true) {
+                            @Override
+                            public void execute() {
+                                try {
+                                    System.err.println(ContextHolder.getReqId() + " before " + "@"
+                                            + System.currentTimeMillis());
+                                    long t = Double.valueOf(Math.random() * 100).longValue();
+                                    Thread.currentThread().sleep(t);
+                                    System.err.println(ContextHolder.getReqId() + " exec used: "
+                                            + t + " after " + "@" + System.currentTimeMillis());
+                                } catch (InterruptedException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                        };
+                    } catch (Exception ex) {
+                        ex.printStackTrace();
+                    }
+                }
+            }
+        };
+        t.start();
+        t = new Thread() {
+            public void run() {
+                int idx = 0;
+                while (true) {
+                    ContextHolder.setReqId(Thread.currentThread().getName() + "@" + (++idx));
+                    try {
+                        new SynLockerExecutor(SynLockerExecutor.class, "test0", 1, true) {
+                            @Override
+                            public void execute() {
+                                try {
+                                    System.err.println(ContextHolder.getReqId() + " before " + "@"
+                                            + System.currentTimeMillis());
+                                    long t = Double.valueOf(Math.random() * 100).longValue();
+                                    Thread.currentThread().sleep(t);
+                                    System.err.println(ContextHolder.getReqId() + " exec used: "
+                                            + t + " after " + "@" + System.currentTimeMillis());
+                                } catch (InterruptedException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                        };
+                    } catch (Exception ex) {
+                        ex.printStackTrace();
+                    }
+                }
+            }
+        };
 
-		t.start();
-		while (true) {
-			try {
-				Thread.currentThread().sleep(100);
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
-		}
-	}
+        t.start();
+        while (true) {
+            try {
+                Thread.currentThread().sleep(100);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+    }
 
-	private static void list(String sub) {
-		
-		CuratorFramework client = loader.getClient();
+    private static void list(String sub) {
 
-		try {
-			List<String> childs = client.getChildren().forPath("/");
+        CuratorFramework client = loader.getClient();
 
-			for (int i = 0; i < childs.size(); i++) {
-				if (childs.get(i).indexOf(sub) != -1) {
-					client.getData().forPath("/" + childs.get(i));
-					// client.delete().forPath("/"+childs.get(i));
-				}
-			}
+        try {
+            List<String> childs = client.getChildren().forPath("/");
 
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
+            for (int i = 0; i < childs.size(); i++) {
+                if (childs.get(i).indexOf(sub) != -1) {
+                    client.getData().forPath("/" + childs.get(i));
+                    // client.delete().forPath("/"+childs.get(i));
+                }
+            }
 
-	public static void main(String[] args) {
-		// list("xstream");
-		test();
-	}
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void main(String[] args) {
+        // list("xstream");
+        test();
+    }
 
 }

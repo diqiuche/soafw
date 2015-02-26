@@ -121,7 +121,7 @@ public final class SqlmapUtils {
 
   private static Map<DataSource, SqlSessionFactory> _factories = new HashMap<DataSource, SqlSessionFactory>();
 
-  private transient static Logger _logger = LoggerFactory.getLogger(SqlmapUtils.class);
+  private static transient Logger _logger = LoggerFactory.getLogger(SqlmapUtils.class);
 
   private static final ObjectFactory DEFAULT_OBJECT_FACTORY = new DefaultObjectFactory();
   private static final ObjectWrapperFactory DEFAULT_OBJECT_WRAPPER_FACTORY = new DefaultObjectWrapperFactory();

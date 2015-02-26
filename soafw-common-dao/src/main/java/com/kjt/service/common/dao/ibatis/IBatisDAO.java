@@ -7,26 +7,28 @@ import com.kjt.service.common.dao.IModel;
 
 /**
  * ibatis 操作接口
+ * 
  * @author alexzhu
  *
  * @param <T>
  */
-public interface IBatisDAO<T> extends IDAO<T>{
-	
-	public Class<? extends IMapper<T>> getMapperClass();
+public interface IBatisDAO<T> extends IDAO<T> {
 
-	public Class<? extends IModel> getModelClass();
+  public Class<? extends IMapper<T>> getMapperClass();
 
-	public DataSource getMasterDataSource();
+  public Class<? extends IModel> getModelClass();
 
-	public DataSource getSlaveDataSource();
+  public DataSource getMasterDataSource();
 
-	public DataSource getMapQueryDataSource();
-	/**
-	 * 该属性名是否是外键属性
-	 * 
-	 * @param property
-	 * @return
-	 */
-	public boolean isFk(String property);	
+  public DataSource getSlaveDataSource();
+
+  public DataSource getMapQueryDataSource();
+
+  /**
+   * 该属性名是否是外键属性
+   * 
+   * @param property
+   * @return
+   */
+  public boolean isFk(String property);
 }

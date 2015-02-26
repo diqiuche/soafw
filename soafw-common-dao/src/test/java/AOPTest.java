@@ -19,11 +19,11 @@ public class AOPTest {
 
   @Test
   public void aa() {
-    
+
     cacheVersionDAO.incrObjVersion("authorization", null);
   }
-  
-  public static void main(String[] args){
+
+  public static void main(String[] args) {
     String pat = "[0-9a-zA-Z]+(_|-[0-9a-zA-Z]+)*";
     Pattern p = Pattern.compile(pat);
     Matcher m = p.matcher("9-88");

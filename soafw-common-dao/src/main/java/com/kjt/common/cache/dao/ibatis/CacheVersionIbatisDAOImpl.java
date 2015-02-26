@@ -79,18 +79,19 @@ public class CacheVersionIbatisDAOImpl extends AbsStrIDIBatisDAOImpl<CacheVersio
     }
     return mapQueryDataSource;
   }
-  
+
   @Cacheable(value = "defaultCache", key = CacheKeyPrefixExpress, unless = "#result == null", condition = "#root.target.cacheable()")
   @Override
   public CacheVersion queryById(String id, String tabNameSuffix) {
     return super.queryById(id, tabNameSuffix);
   }
+
   @Cacheable(value = "defaultCache", key = CacheKeyPrefixExpress + "", unless = "#result == null", condition = "!#master and #root.target.cacheable()")
   @Override
   public CacheVersion queryById(String id, Boolean master, String tabNameSuffix) {
     return super.queryById(id, master, tabNameSuffix);
   }
-  
+
   @CacheEvict(value = "defaultCache", key = CacheKeyPrefixExpress, condition = "#root.target.cacheable()")
   public int incrObjVersion(String id, String tabNameSuffix) {
     validate(id);
@@ -110,6 +111,7 @@ public class CacheVersionIbatisDAOImpl extends AbsStrIDIBatisDAOImpl<CacheVersio
       session.close();
     }
   }
+
   @CacheEvict(value = "defaultCache", key = CacheKeyPrefixExpress, condition = "#root.target.cacheable()")
   public int incrObjRecVersion(String id, String tabNameSuffix) {
     validate(id);
@@ -131,6 +133,7 @@ public class CacheVersionIbatisDAOImpl extends AbsStrIDIBatisDAOImpl<CacheVersio
       session.close();
     }
   }
+
   @CacheEvict(value = "defaultCache", key = CacheKeyPrefixExpress, condition = "#root.target.cacheable()")
   public int incrObjTabVersion(String id, String tabNameSuffix) {
     validate(id);

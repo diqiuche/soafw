@@ -17,7 +17,6 @@ import com.kjt.common.cache.dao.ICacheVersionDAO;
 import com.kjt.common.cache.dao.model.CacheVersion;
 import com.kjt.service.common.cache.mem.impl.DynamicMemCache;
 import com.kjt.service.common.cache.redis.impl.DynamicRedisCache;
-import com.kjt.service.common.cache.spring.DynamicMemcacheManager;
 import com.kjt.service.common.dao.ICacheable;
 import com.kjt.service.common.dao.IModel;
 import com.kjt.service.common.exception.DataAccessException;

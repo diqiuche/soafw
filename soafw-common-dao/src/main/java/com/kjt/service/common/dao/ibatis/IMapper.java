@@ -8,26 +8,27 @@ import com.kjt.service.common.dao.Page;
 
 /**
  * ibatis 基础数据访问接口
+ * 
  * @author alexzhu
  *
  * @param <T>
  */
 public interface IMapper<T> {
 
-	public Integer deleteByMap(Map<String, Object> params);
+  public Integer deleteByMap(Map<String, Object> params);
 
-	public Integer updateByMap(Map<String, Object> params);
+  public Integer updateByMap(Map<String, Object> params);
 
-	public Integer cmplxUpdate(Map<String, Object> params);
+  public Integer cmplxUpdate(Map<String, Object> params);
 
-	public List<T> queryByMap(Map<String, Object> params);
-	
-	public List<String> queryIdsByMap(Map<String, Object> params);
+  public List<T> queryByMap(Map<String, Object> params);
 
-	public List<T> pageQuery(MapPage<Map<String, Object>> params);
+  public List<String> queryIdsByMap(Map<String, Object> params);
 
-	public List<T> pageQuery(Page<T> cmd);
+  public List<T> pageQuery(MapPage<Map<String, Object>> params);
 
-	public int countByMap(Map<String, Object> params);
+  public List<T> pageQuery(Page<T> cmd);
+
+  public int countByMap(Map<String, Object> params);
 
 }

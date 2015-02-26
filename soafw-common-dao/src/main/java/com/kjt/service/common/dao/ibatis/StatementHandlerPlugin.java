@@ -22,6 +22,7 @@ import com.kjt.service.common.util.SPUtil;
 public class StatementHandlerPlugin implements Interceptor {
 
   private static String pid = "unknow";
+
   static {
     pid = ManagementFactory.getRuntimeMXBean().getName();
   }
