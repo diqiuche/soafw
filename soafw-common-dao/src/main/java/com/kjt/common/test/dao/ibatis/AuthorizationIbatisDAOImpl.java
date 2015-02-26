@@ -75,4 +75,8 @@ public class AuthorizationIbatisDAOImpl extends AbsIntIDIBatisDAOImpl<Authorizat
  		return mapQueryDataSource;
 	}
 	
+	public Authorization aa(String a){
+	  return null;
+	}
+	
 }
