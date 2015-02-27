@@ -71,11 +71,11 @@ public class ConfigFileDict {
 	/**
 	 * web控制层 默认为：web
 	 */
-	public static final String WEB_CONTROLLER_CONFIG_FILE = "weblayer.config";
+	public static final String WEB_CONTROLLER_CONFIG_FILE = "webapp.config";
 	/**
 	 * web控制层 默认为：web
 	 */
-	public static final String DEFAULT_WEB_CONTROLLER_CONFIG_NAME = "weblayer";
+	public static final String DEFAULT_WEB_CONTROLLER_CONFIG_NAME = "webapp";
 	
 	/**
 	 * mq配置文件
