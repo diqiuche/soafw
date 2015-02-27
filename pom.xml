@@ -146,13 +146,13 @@
 				<artifactId>servlet-api</artifactId>
 				<version>${servlet-api.version}</version>
 			</dependency>
-			 
+
 			<dependency>
 				<groupId>com.danga</groupId>
 				<artifactId>memcached</artifactId>
 				<version>${memcached.version}</version>
 			</dependency>
-			
+
 			<dependency>
 				<groupId>opensymphony</groupId>
 				<artifactId>oscache</artifactId>
@@ -356,14 +356,32 @@
 				</executions>
 			</plugin>
 			<!-- 异常代码生成插件 -->
-			<!-- <plugin> <groupId>com.kjt.service.common</groupId> <artifactId>exception-generator</artifactId> 
-				<version>0.0.1-SNAPSHOT</version> <configuration> <exceptionEnumClass>${exception.enum.class}</exceptionEnumClass> 
-				<configFile>${exception.config}</configFile> <dbpwd>${exception.dbpwd}</dbpwd> 
-				<dburl>${exception.dburl}</dburl> <dbuser>${exception.dbuser}</dbuser> <tableName>${exception.tableName}</tableName> 
-				<loadType>${exception.loadType}</loadType> <exceptionLevel>${exception.level}</exceptionLevel> 
-				</configuration> <executions> <execution> <id>exception-generator</id> <goals> 
-				<goal>gen</goal> </goals> <phase>generate-sources</phase> </execution> </executions> 
-				</plugin> -->
+			<!--
+			<plugin>
+				<groupId>com.kjt.service.common</groupId>
+				<artifactId>exception-generator</artifactId>
+				<version>0.0.1-SNAPSHOT</version>
+				<configuration>
+					<exceptionEnumClass>${exception.enum.class}</exceptionEnumClass>
+					<configFile>${exception.config}</configFile>
+					<dbpwd>${exception.dbpwd}</dbpwd>
+					<dburl>${exception.dburl}</dburl>
+					<dbuser>${exception.dbuser}</dbuser>
+					<tableName>${exception.tableName}</tableName>
+					<loadType>${exception.loadType}</loadType>
+					<exceptionLevel>${exception.level}</exceptionLevel>
+				</configuration>
+				<executions>
+					<execution>
+						<id>exception-generator</id>
+						<goals>
+							<goal>gen</goal>
+						</goals>
+						<phase>generate-sources</phase>
+					</execution>
+				</executions>
+			</plugin>
+			-->
 			<!-- 异常代码生成插件 -->
 		</plugins>
 	</build>
