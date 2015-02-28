@@ -15,7 +15,7 @@
 	<name>soj-web</name>
 	<url>http://maven.apache.org</url>
 	<properties>
-		<jetty.port>#{port}</jetty.port>
+		<jetty.port>#{startPort}</jetty.port>
 		<!-- 异常生成定义 -->
 		<exception.level>CONTROLLER</exception.level>
 		<!--AUTO ?groupId + . + service+ . + CommunityServiceExceptionMessage -->

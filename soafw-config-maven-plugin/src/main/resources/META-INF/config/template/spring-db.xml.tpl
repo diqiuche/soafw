@@ -9,15 +9,15 @@
     http://www.springframework.org/schema/context
     http://www.springframework.org/schema/context/spring-context-4.0.xsd">
 
-	<bean id="#{artifactId}DataSourceMaster" class="com.#{artifactId}.service.common.datasource.DynamicDataSource"
+	<bean id="#{artifactId}DataSourceMaster" class="com.kjt.service.common.datasource.DynamicDataSource"
 		init-method="init">
 		<property name="prefix" value="#{artifactId}_db" />
 	</bean>
-	<bean id="#{artifactId}DataSourceSlave" class="com.#{artifactId}.service.common.datasource.DynamicDataSource"
+	<bean id="#{artifactId}DataSourceSlave" class="com.kjt.service.common.datasource.DynamicDataSource"
 		init-method="init">
 		<property name="prefix" value="#{artifactId}_db_slave" />
 	</bean>
-	<bean id="#{artifactId}DataSourceMapQuery" class="com.#{artifactId}.service.common.datasource.DynamicDataSource"
+	<bean id="#{artifactId}DataSourceMapQuery" class="com.kjt.service.common.datasource.DynamicDataSource"
 		init-method="init">
 		<property name="prefix" value="#{artifactId}_db_slave" />
 	</bean>

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.kjt.service.common</groupId>
 	<artifactId>soafw-common</artifactId>
@@ -31,14 +32,14 @@
 		<guava.version>18.0</guava.version>
 
 		<!-- 异常代码生成公共定义 -->
-		<exception.enum.class/>
-		<exception.config/>
+		<exception.enum.class />
+		<exception.config />
 		<exception.loadType>DB</exception.loadType>
 		<exception.tableName>ajk_exception</exception.tableName>
 		<exception.dburl>jdbc:mysql://192.168.1.103:3306/anjuke_db</exception.dburl>
 		<exception.dbuser>caixh</exception.dbuser>
 		<exception.dbpwd>caixh123</exception.dbpwd>
-		<exception.level/>
+		<exception.level />
 		<!-- 异常代码生成公共定义 -->
 		<!-- plugins version -->
 		<maven-compiler-plugin.version>2.4.2</maven-compiler-plugin.version>
@@ -63,10 +64,9 @@
 		<module>soafw-common-service-impl</module>
 		<module>soafw-common-job</module>
 		<module>soafw-common-web</module>
+		<module>soafw-config-maven-plugin</module>
 		<module>exception-generator-plugin</module>
-    <module>config-maven-plugin</module>
-    <module>soafw-config-maven-plugin</module>
-  </modules>
+	</modules>
 	<dependencyManagement>
 		<dependencies>
 			<!-- -->
@@ -357,32 +357,14 @@
 				</executions>
 			</plugin>
 			<!-- 异常代码生成插件 -->
-			<!--
-			<plugin>
-				<groupId>com.kjt.service.common</groupId>
-				<artifactId>exception-generator</artifactId>
-				<version>0.0.1-SNAPSHOT</version>
-				<configuration>
-					<exceptionEnumClass>${exception.enum.class}</exceptionEnumClass>
-					<configFile>${exception.config}</configFile>
-					<dbpwd>${exception.dbpwd}</dbpwd>
-					<dburl>${exception.dburl}</dburl>
-					<dbuser>${exception.dbuser}</dbuser>
-					<tableName>${exception.tableName}</tableName>
-					<loadType>${exception.loadType}</loadType>
-					<exceptionLevel>${exception.level}</exceptionLevel>
-				</configuration>
-				<executions>
-					<execution>
-						<id>exception-generator</id>
-						<goals>
-							<goal>gen</goal>
-						</goals>
-						<phase>generate-sources</phase>
-					</execution>
-				</executions>
-			</plugin>
-			-->
+			<!-- <plugin> <groupId>com.kjt.service.common</groupId> <artifactId>exception-generator</artifactId> 
+				<version>0.0.1-SNAPSHOT</version> <configuration> <exceptionEnumClass>${exception.enum.class}</exceptionEnumClass> 
+				<configFile>${exception.config}</configFile> <dbpwd>${exception.dbpwd}</dbpwd> 
+				<dburl>${exception.dburl}</dburl> <dbuser>${exception.dbuser}</dbuser> <tableName>${exception.tableName}</tableName> 
+				<loadType>${exception.loadType}</loadType> <exceptionLevel>${exception.level}</exceptionLevel> 
+				</configuration> <executions> <execution> <id>exception-generator</id> <goals> 
+				<goal>gen</goal> </goals> <phase>generate-sources</phase> </execution> </executions> 
+				</plugin> -->
 			<!-- 异常代码生成插件 -->
 		</plugins>
 	</build>
