@@ -83,3 +83,7 @@
 + RESTful
 + dubbo
 
+##### deploy
+
++ mvn deploy:deploy-file -DgroupId=com.kjt.service.common -DartifactId=soafw-config-maven-plugin -Dversion=0.0.1-SNAPSHOT -Dfile=target/soafw-config-maven-plugin-0.0.1-SNAPSHOT.jar -Durl=http://192.168.1.110:8081/nexus/content/repositories/thirdparty
+

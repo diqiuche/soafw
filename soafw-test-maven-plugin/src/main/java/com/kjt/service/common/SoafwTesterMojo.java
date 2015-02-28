@@ -17,6 +17,12 @@ package com.kjt.service.common;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.lang.reflect.Method;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.URLClassLoader;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
@@ -30,26 +36,124 @@ import org.apache.maven.plugin.MojoExecutionException;
  */
 public class SoafwTesterMojo extends AbstractMojo {
 
-    
+
     /**
      *
      * @parameter property="project.artifactId"
      */
     private String artifactId;
-    
+
     /**
      * @parameter property="project.basedir"
      * @required
      * @readonly
      */
     private File basedir;
+    private int lenght;
 
     public void execute() throws MojoExecutionException {
-        this.getLog().info("hello,tester..............: " + artifactId);
-        this.getLog().info("hello,tester..............: " + basedir.getAbsolutePath());
+        this.getLog().info("start unit test file gen&check: " + artifactId);
+        String basedPath = basedir.getAbsolutePath();
+
+        String classesDir = basedPath + File.separator + "target" + File.separator + "classes";
+        lenght = classesDir.length() + 1;
+        load(new File(classesDir));
+
+        int size = defines.size();
+        String[] definesArray = new String[size];
+        defines.keySet().toArray(definesArray);
+
+        for (int i = 0; i < size; i++) {
+
+            if (!testImpl.containsKey(definesArray[i] + "Test")) {// 为实现测试
+
+                try {
+                    Class cls = cl.loadClass(definesArray[i]);
+                    Method[] methods = cls.getMethods();
+                    int len = 0;
+                    if (methods != null && (len = methods.length) > 0) {
+                        for (int m = 0; m < len; m++) {
+                            int modf = methods[m].getModifiers();
+                            if(modf==1){//公共方法需要生成
+                                //TODO
+                                /**
+                                 * 单元测试实现的类名＝实现类名＋Test
+                                 * 单元测试方法名=方法名+Test
+                                 * 单元测试文件生成到:basedPath+File.separator+src+File.separator+test+File.separator+java
+                                 */
+                            }
+                        }
+                    }
+                } catch (Exception e) {
+                    this.getLog().info(e.getMessage());
+                } catch (Error er) {
+                    this.getLog().info(er.getMessage());
+                }
+            } else {// 已经有实现过的测试类
+                /**
+                 * 需要检查实现类与测试类单元测试实现范围比较 当实现类的public 方法没有单元测试实现则抛出异常
+                 */
+
+            }
+        }
+
     }
 
+    /**
+     * 未实现测试&符合正常命名规范的类
+     */
+    private Map<String, Integer> defines = new HashMap<String, Integer>();
+    /**
+     * 符合正常命名规范的类&&已经实现过测试用咧
+     */
+    private Map<String, Integer> testImpl = new HashMap<String, Integer>();
 
+    private Map<String, Integer> errorImpl = new HashMap<String, Integer>();
+
+    private ClassLoader cl = null;
+
+    /**
+     * 非接口&&抽象类 并且是 public 或者 protected
+     * 
+     * @param file
+     * @return
+     */
+    private Map<String, Integer> load(File file) {
+
+        if (file.isDirectory()) {
+            File[] files = file.listFiles();
+            int len = files.length;
+            for (int i = 0; i < len; i++) {
+                load(files[i]);
+            }
+        } else {
+            String path = file.getAbsolutePath();
+            String pkgPath = path.substring(lenght);
+            String tmpFile = pkgPath.replaceAll(File.separator, ".");
+            try {
+                if (tmpFile.endsWith(".class")) {
+                    // && !tmpFile.endsWith("Mapper.class")
+                    String clsName = tmpFile.replaceAll(".class", "");
+                    Class cls = cl.loadClass(clsName);
+                    int modf = cls.getModifiers();
+                    if (modf != 1537 && modf != 1025) {// 非接口 && 抽象类
+                        if (clsName.endsWith("ImplTest")) {
+                            testImpl.put(clsName, 1);
+                        } else if (clsName.endsWith("Impl")) {
+                            defines.put(clsName, 1);
+                        } else {// 异常命名的类
+                            errorImpl.put(clsName, 1);
+                        }
+                    }
+                }
+            } catch (Exception e) {
+                this.getLog().info(e.getMessage());
+            } catch (Error er) {
+                this.getLog().info(er.getMessage());
+            }
+        }
+        return defines;
+    }
 
     private void write(String dest, String template, String tpl) throws MojoExecutionException {
         FileWriter fw = null;
@@ -65,6 +169,59 @@ public class SoafwTesterMojo extends AbstractMojo {
                     fw.close();
                 }
             } catch (IOException e) {}
+        }
+    }
+
+    public static void main(String[] args) {
+
+        SoafwTesterMojo mojo = new SoafwTesterMojo();
+
+        String basedPath = "/Users/alexzhu/soa/soafw/soafw-common-dao";
+
+        String classesDir = basedPath + File.separator + "target" + File.separator + "classes";
+
+        try {
+            mojo.cl = new URLClassLoader(new URL[] {new File(classesDir).toURI().toURL()});
+        } catch (MalformedURLException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+
+        mojo.lenght = classesDir.length() + 1;
+        mojo.load(new File(classesDir));
+        System.out.println(mojo.defines);
+        System.out.println(mojo.testImpl);
+        int size = mojo.defines.size();
+        String[] definesArray = new String[size];
+        mojo.defines.keySet().toArray(definesArray);
+        Class cls = null;
+        int val = 0;
+        for (int i = 0; i < size; i++) {
+            try {
+                cls = mojo.cl.loadClass(definesArray[i]);
+            } catch (ClassNotFoundException e1) {
+                // TODO Auto-generated catch block
+                e1.printStackTrace();
+            }
+            val = cls.getModifiers();
+
+            System.out.println(definesArray[i] + " Modifiers: " + val);
+
+            if (!mojo.testImpl.containsKey(definesArray[i] + "Test")) {
+
+                try {
+                    cls = mojo.cl.loadClass(definesArray[i]);
+                    val = cls.getModifiers();
+                    System.out.println(definesArray[i] + " Modifiers: " + val);
+                    if (val != 1025) {
+                        // TODO 生成测试框架代码
+                    }
+                } catch (Exception e) {
+                    System.out.println(e.getMessage());
+                } catch (Error er) {
+                    System.err.println(er.getMessage());
+                }
+            }
         }
     }
 }
