@@ -4,7 +4,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.kjt.service.common</groupId>
 	<artifactId>soafw-common</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>0.0.1</version>
 	<packaging>pom</packaging>
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -343,18 +343,18 @@
 					<skipTests>true</skipTests>
 				</configuration>
 			</plugin>
-			<plugin>
+	<!-- 		<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-source-plugin</artifactId>
 				<executions>
 					<execution>
 						<id>attach-sources</id>
 						<goals>
-							<goal>jar</goal>
+							<goal>test-jar</goal>
 						</goals>
 					</execution>
 				</executions>
-			</plugin>
+			</plugin>  --> 
 			<!-- 异常代码生成插件 -->
 			<!-- <plugin> <groupId>com.kjt.service.common</groupId> <artifactId>exception-generator</artifactId> 
 				<version>0.0.1-SNAPSHOT</version> <configuration> <exceptionEnumClass>${exception.enum.class}</exceptionEnumClass> 
@@ -367,4 +367,45 @@
 			<!-- 异常代码生成插件 -->
 		</plugins>
 	</build>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+<distributionManagement>
+  <repository>
+    <id>nexus-releases</id>
+    <url>http://192.168.1.110:8081/nexus/content/repositories/releases</url>
+  </repository>
+
+  <snapshotRepository>
+    <id>nexus-snapshots</id>
+    <url>http://192.168.1.110:8081/nexus/content/repositories/snapshots</url>
+  </snapshotRepository>
+</distributionManagement>   
+   
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 </project>

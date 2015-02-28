@@ -6,7 +6,8 @@
 	<parent>
 		<groupId>com.kjt.service.common</groupId>
 		<artifactId>soafw-common</artifactId>
-		<version>0.0.1-SNAPSHOT</version>
+		<!-- <version>0.0.1-SNAPSHOT</version> -->
+		<version>0.0.1</version>
 	</parent>
 	<artifactId>soafw-common-web</artifactId>
 	<name>soafw-common-web</name>
