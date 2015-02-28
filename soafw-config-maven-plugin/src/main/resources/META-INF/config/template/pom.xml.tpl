@@ -1,164 +1,195 @@
-<?xml version="1.0"?>
-<project
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
-	xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
-	<parent>
-		<groupId>com.kjt.service.#{artifactId}</groupId>
-		<artifactId>#{artifactId}</artifactId>
-		<version>1.0-SNAPSHOT</version>
-	</parent>
+	<groupId>com.kjt.service.#{artifactId}</groupId>
+	<artifactId>#{artifactId}</artifactId>
+	<version>1.0-SNAPSHOT</version>
+	<packaging>pom</packaging>
 
-	<artifactId>soj-web</artifactId>
-	<packaging>war</packaging>
-	<name>soj-web</name>
-	<url>http://maven.apache.org</url>
 	<properties>
-		<jetty.port>#{startPort}</jetty.port>
-		<!-- 异常生成定义 -->
-		<exception.level>CONTROLLER</exception.level>
-		<!--AUTO ?groupId + . + service+ . + CommunityServiceExceptionMessage -->
-		<exception.enum.class>AUTO</exception.enum.class>
-		<!-- 异常生成定义 END -->
-		<spring.version>4.0.5.RELEASE</spring.version>
-		<zookeeper.version>3.4.6</zookeeper.version>
-		<zkclient.version>0.4</zkclient.version>
-		<junit.version>4.11</junit.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<maven-compiler-plugin.version>2.4.2</maven-compiler-plugin.version>
+		<jackson-databind.version>2.4.2</jackson-databind.version>
+		<soafw-common.version>0.0.1-SNAPSHOT</soafw-common.version>
 
+        <!-- 异常代码生成公共定义 -->
+        <exception.enum.class></exception.enum.class>
+        <exception.loadType>DB</exception.loadType>
+        <exception.tableName>soafw_exception</exception.tableName>
+        <exception.dburl>jdbc:mysql://192.168.1.103:3306/kjt_db</exception.dburl>
+        <exception.dbuser>caixh</exception.dbuser>
+        <exception.dbpwd>caixh123</exception.dbpwd>
+        <exception.level></exception.level>
+        <spId>1</spId>
+        <!-- 异常代码生成公共定义 -->
 	</properties>
+	<modules>
+		<module>#{artifactId}-web</module>
+		<module>#{artifactId}-job</module>
+		<module>#{artifactId}-dao</module>
+		<module>#{artifactId}-rpc</module>
+		<module>#{artifactId}-common</module>
+		<module>#{artifactId}-domain</module>
+		<module>#{artifactId}-service</module>
+		<module>#{artifactId}-service-impl</module>
+	</modules>
+
 	<dependencies>
 		<dependency>
-			<groupId>com.kjt.service.common</groupId>
-			<artifactId>soafw-common-web</artifactId>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-databind</artifactId>
+			<version>${jackson-databind.version}</version>
 		</dependency>
-		<dependency>
-			<groupId>com.kjt.service.#{artifactId}</groupId>
-			<artifactId>#{artifactId}-domain</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>com.kjt.service.#{artifactId}</groupId>
-			<artifactId>#{artifactId}-service</artifactId>
-			
-		</dependency>
-		<dependency>
-			<groupId>com.kjt.service.#{artifactId}</groupId>
-			<artifactId>#{artifactId}-service-impl</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>com.kjt.service.#{artifactId}</groupId>
-			<artifactId>#{artifactId}-common</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>net.sf.json-lib</groupId>
-			<artifactId>json-lib</artifactId>
-			<version>2.2.3</version>
-			<classifier>jdk15</classifier>
-		</dependency>
-
-		<dependency>
-			<groupId>junit</groupId>
-			<artifactId>junit</artifactId>
-			<version>${junit.version}</version>
-			<scope>test</scope>
-		</dependency>
-
-		<!-- spring相关jar包 -->
-		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-context</artifactId>
-			<version>${spring.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-context-support</artifactId>
-			<version>${spring.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-jdbc</artifactId>
-			<version>${spring.version}</version>
-		</dependency>
-
-		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-tx</artifactId>
-			<version>${spring.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-web</artifactId>
-			<version>${spring.version}</version>
-		</dependency>
-
-		<dependency>
-			<groupId>javax.servlet</groupId>
-			<artifactId>javax.servlet-api</artifactId>
-			<version>3.1.0</version>
-			<scope>compile</scope>
-		</dependency>
-
-		<dependency>
-			<groupId>javax.servlet.jsp</groupId>
-			<artifactId>jsp-api</artifactId>
-			<version>2.2</version>
-			<scope>compile</scope>
-		</dependency>
-
-		<dependency>
-			<groupId>javax.servlet.jsp.jstl</groupId>
-			<artifactId>javax.servlet.jsp.jstl-api</artifactId>
-			<version>1.2.1</version>
-			<scope>compile</scope>
-		</dependency>
-
 	</dependencies>
+	<dependencyManagement>
+		<dependencies>
+            <dependency>
+                <groupId>com.kjt.service.common</groupId>
+                <artifactId>soafw-common-util</artifactId>
+                <version>${soafw-common.version}</version>
+            </dependency>
+			<dependency>
+				<groupId>com.kjt.service.#{artifactId}</groupId>
+				<artifactId>#{artifactId}-common</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.kjt.service.#{artifactId}</groupId>
+				<artifactId>#{artifactId}-dao</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.kjt.service.#{artifactId}</groupId>
+				<artifactId>#{artifactId}-domain</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<artifactId>#{artifactId}-rpc</artifactId>
+				<groupId>com.kjt.service.#{artifactId}</groupId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<artifactId>#{artifactId}-service</artifactId>
+				<groupId>com.kjt.service.#{artifactId}</groupId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<artifactId>#{artifactId}-service-impl</artifactId>
+				<groupId>com.kjt.service.#{artifactId}</groupId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.kjt.service.common</groupId>
+				<artifactId>soafw-common-util</artifactId>
+				<version>${soafw-common.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.kjt.service.common</groupId>
+				<artifactId>soafw-common-web</artifactId>
+				<version>${soafw-common.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.kjt.service.common</groupId>
+				<artifactId>soafw-common-domain</artifactId>
+				<version>${soafw-common.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.kjt.service.common</groupId>
+				<artifactId>soafw-common-dao</artifactId>
+				<version>${soafw-common.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.kjt.service.common</groupId>
+				<artifactId>soafw-common-log</artifactId>
+				<version>${soafw-common.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.kjt.service.common</groupId>
+				<artifactId>soafw-common-service</artifactId>
+				<version>${soafw-common.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.kjt.service.common</groupId>
+				<artifactId>soafw-common-rpc</artifactId>
+				<version>${soafw-common.version}</version>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
 
 	<build>
-		<finalName>#{artifactId}-web</finalName>
+		<defaultGoal>package</defaultGoal>
 		<plugins>
-
 			<plugin>
-				<groupId>org.mortbay.jetty</groupId>
-				<artifactId>jetty-maven-plugin</artifactId>
-				<version>8.1.6.v20120903</version>
-
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
 				<configuration>
-					<connectors>
-						<connector implementation="org.eclipse.jetty.server.nio.SelectChannelConnector">
-							<port>${jetty.port}</port>
-						</connector>
-					</connectors>
-					<scanIntervalSeconds>10</scanIntervalSeconds>
-					<stopKey>foo</stopKey>
-					<stopPort>#{stopPort}</stopPort>
-					<webAppConfig>
-						<contextPath>/soj-web</contextPath>
-					</webAppConfig>
+					<source>1.7</source>
+					<target>1.7</target>
+					<encoding>UTF-8</encoding>
 				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<version>${maven-compiler-plugin.version}</version>
+				<configuration>
+					<skipTests>true</skipTests>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-source-plugin</artifactId>
 				<executions>
 					<execution>
-						<id>start-jetty</id>
-						<phase>pre-integration-test</phase>
+						<id>attach-sources</id>
 						<goals>
-							<goal>run</goal>
-						</goals>
-						<configuration>
-							<scanIntervalSeconds>0</scanIntervalSeconds>
-							<daemon>true</daemon>
-						</configuration>
-					</execution>
-					<execution>
-						<id>stop-jetty</id>
-						<phase>post-integration-test</phase>
-						<goals>
-							<goal>stop</goal>
+							<goal>jar</goal>
 						</goals>
 					</execution>
 				</executions>
 			</plugin>
-
+            <!-- 异常代码生成插件 -->
+            <!-- 
+            <plugin>
+                <groupId>com.kjt.service.common</groupId>
+                <artifactId>exception-generator</artifactId>
+                <version>0.0.1-SNAPSHOT</version>
+                <configuration>
+                    <exceptionEnumClass>${exception.enum.class}</exceptionEnumClass>
+                    <dbpwd>${exception.dbpwd}</dbpwd>
+                    <dburl>${exception.dburl}</dburl>
+                    <dbuser>${exception.dbuser}</dbuser>
+                    <tableName>${exception.tableName}</tableName>
+                    <loadType>${exception.loadType}</loadType>
+                    <exceptionLevel>${exception.level}</exceptionLevel>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>exception-generator</id>
+                        <goals>
+                            <goal>gen</goal>
+                        </goals>
+                        <phase>generate-sources</phase>
+                    </execution>
+                </executions>
+            </plugin>
+            -->
+            <!-- 异常代码生成插件 -->
+            <plugin>
+				<groupId>com.kjt.service.common</groupId>
+				<artifactId>soafw-test-maven-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>soafw-test</id>
+						<goals>
+							<goal>gen</goal>
+						</goals>
+						<phase>package</phase>
+					</execution>
+				</executions>
+			</plugin>
 		</plugins>
 	</build>
 </project>

@@ -108,6 +108,7 @@ public class SoafwConfigMojo extends AbstractMojo {
         FileWriter fw = null;
         try {
             new File(dest).mkdirs();
+            template = template.substring(0,template.indexOf(".xml"))+".xml";
             fw = new FileWriter(dest + File.separator + template);
             fw.write(tpl);
         } catch (IOException e) {

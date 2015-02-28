@@ -27,8 +27,9 @@ mvn soafw-config:config -Dtemplate=spring-service.xml -DartifactId=$projectid -D
 mvn soafw-config:config -Dtemplate=web.xml -DartifactId=$projectid -DdestDir=../../projects/$projectid/$projectid-web/src/main/resource/META-INF/config/spring
 mvn soafw-config:config -Dtemplate=application-config.xml -DartifactId=$projectid -DdestDir=../../projects/$projectid/$projectid-web/src/main/resource/META-INF/config/local
 mvn soafw-config:config -Dtemplate=mvc-config.xml -DartifactId=$projectid -DdestDir=../../projects/$projectid/$projectid-web/src/main/webapp/WEB-INF
+mvn soafw-config:config -Dtemplate=pom.xml.web -DartifactId=$projectid -DdestDir=../../projects/$projectid/$projectid-web
 
-mvn soafw-config:config -Dtemplate=pom.xml -DartifactId=$projectid -DdestDir=../../projects/$projectid
+mvn soafw-config:config -Dtemplate=pom.xml.base -DartifactId=$projectid -DdestDir=../../projects/$projectid
 
 
 

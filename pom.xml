@@ -65,6 +65,7 @@
 		<module>soafw-common-job</module>
 		<module>soafw-common-web</module>
 		<module>soafw-config-maven-plugin</module>
+		<module>soafw-test-maven-plugin</module>
 		<module>exception-generator-plugin</module>
 	</modules>
 	<dependencyManagement>
@@ -326,6 +327,7 @@
 
 	<build>
 		<defaultGoal>package</defaultGoal>
+
 		<plugins>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
@@ -357,15 +359,46 @@
 				</executions>
 			</plugin>
 			<!-- 异常代码生成插件 -->
-			<!-- <plugin> <groupId>com.kjt.service.common</groupId> <artifactId>exception-generator</artifactId> 
-				<version>0.0.1-SNAPSHOT</version> <configuration> <exceptionEnumClass>${exception.enum.class}</exceptionEnumClass> 
-				<configFile>${exception.config}</configFile> <dbpwd>${exception.dbpwd}</dbpwd> 
-				<dburl>${exception.dburl}</dburl> <dbuser>${exception.dbuser}</dbuser> <tableName>${exception.tableName}</tableName> 
-				<loadType>${exception.loadType}</loadType> <exceptionLevel>${exception.level}</exceptionLevel> 
-				</configuration> <executions> <execution> <id>exception-generator</id> <goals> 
-				<goal>gen</goal> </goals> <phase>generate-sources</phase> </execution> </executions> 
-				</plugin> -->
-			<!-- 异常代码生成插件 -->
+			<!-- 
+			<plugin>
+				<groupId>com.kjt.service.common</groupId>
+				<artifactId>exception-generator</artifactId>
+				<version>0.0.1-SNAPSHOT</version>
+				<configuration>
+					<exceptionEnumClass>${exception.enum.class}</exceptionEnumClass>
+					<configFile>${exception.config}</configFile>
+					<dbpwd>${exception.dbpwd}</dbpwd>
+					<dburl>${exception.dburl}</dburl>
+					<dbuser>${exception.dbuser}</dbuser>
+					<tableName>${exception.tableName}</tableName>
+					<loadType>${exception.loadType}</loadType>
+					<exceptionLevel>${exception.level}</exceptionLevel>
+				</configuration>
+				<executions>
+					<execution>
+						<id>exception-generator</id>
+						<goals>
+							<goal>gen</goal>
+						</goals>
+						<phase>generate-sources</phase>
+					</execution>
+				</executions>
+			</plugin>
+			 -->
+			
+			<plugin>
+				<groupId>com.kjt.service.common</groupId>
+				<artifactId>soafw-test-maven-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>soafw-test</id>
+						<goals>
+							<goal>gen</goal>
+						</goals>
+						<phase>package</phase>
+					</execution>
+				</executions>
+			</plugin>
 		</plugins>
 	</build>
 </project>
