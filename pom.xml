@@ -386,7 +386,7 @@
 			</plugin>
 			 -->
 			
-			<plugin>
+	<!-- 		<plugin>
 				<groupId>com.kjt.service.common</groupId>
 				<artifactId>soafw-test-maven-plugin</artifactId>
 				<executions>
@@ -399,7 +399,8 @@
 					</execution>
 				</executions>
 			</plugin>
-		</plugins>
+			-->
+		</plugins> 
 	</build>
 
 	
@@ -410,7 +411,7 @@
 	
 	
 	
-<!-- <distributionManagement>
+ <distributionManagement>
   <repository>
     <id>nexus-releases</id>
     <url>http://192.168.1.110:8081/nexus/content/repositories/releases</url>
@@ -422,7 +423,7 @@
   </snapshotRepository>
 </distributionManagement>   
    
-	 -->
+
 	
 	
 	
