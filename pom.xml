@@ -32,14 +32,14 @@
 		<guava.version>18.0</guava.version>
 
 		<!-- 异常代码生成公共定义 -->
-		<exception.enum.class></exception.enum.class>
-		<exception.config></exception.config>
+		<exception.enum.class />
+		<exception.config />
 		<exception.loadType>DB</exception.loadType>
 		<exception.tableName>ajk_exception</exception.tableName>
 		<exception.dburl>jdbc:mysql://192.168.1.103:3306/anjuke_db</exception.dburl>
 		<exception.dbuser>caixh</exception.dbuser>
 		<exception.dbpwd>caixh123</exception.dbpwd>
-		<exception.level></exception.level>
+		<exception.level />
 		<!-- 异常代码生成公共定义 -->
 		<!-- plugins version -->
 		<maven-compiler-plugin.version>2.4.2</maven-compiler-plugin.version>
@@ -64,6 +64,8 @@
 		<module>soafw-common-service-impl</module>
 		<module>soafw-common-job</module>
 		<module>soafw-common-web</module>
+		<module>soafw-config-maven-plugin</module>
+		<module>soafw-test-maven-plugin</module>
 		<module>exception-generator-plugin</module>
 	</modules>
 	<dependencyManagement>
@@ -146,13 +148,13 @@
 				<artifactId>servlet-api</artifactId>
 				<version>${servlet-api.version}</version>
 			</dependency>
-			 
+
 			<dependency>
 				<groupId>com.danga</groupId>
 				<artifactId>memcached</artifactId>
 				<version>${memcached.version}</version>
 			</dependency>
-			
+
 			<dependency>
 				<groupId>opensymphony</groupId>
 				<artifactId>oscache</artifactId>
@@ -325,6 +327,7 @@
 
 	<build>
 		<defaultGoal>package</defaultGoal>
+
 		<plugins>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
@@ -356,17 +359,49 @@
 				</executions>
 			</plugin>  --> 
 			<!-- 异常代码生成插件 -->
-			<!-- <plugin> <groupId>com.kjt.service.common</groupId> <artifactId>exception-generator</artifactId> 
-				<version>0.0.1-SNAPSHOT</version> <configuration> <exceptionEnumClass>${exception.enum.class}</exceptionEnumClass> 
-				<configFile>${exception.config}</configFile> <dbpwd>${exception.dbpwd}</dbpwd> 
-				<dburl>${exception.dburl}</dburl> <dbuser>${exception.dbuser}</dbuser> <tableName>${exception.tableName}</tableName> 
-				<loadType>${exception.loadType}</loadType> <exceptionLevel>${exception.level}</exceptionLevel> 
-				</configuration> <executions> <execution> <id>exception-generator</id> <goals> 
-				<goal>gen</goal> </goals> <phase>generate-sources</phase> </execution> </executions> 
-				</plugin> -->
-			<!-- 异常代码生成插件 -->
+			<!-- 
+			<plugin>
+				<groupId>com.kjt.service.common</groupId>
+				<artifactId>exception-generator</artifactId>
+				<version>0.0.1-SNAPSHOT</version>
+				<configuration>
+					<exceptionEnumClass>${exception.enum.class}</exceptionEnumClass>
+					<configFile>${exception.config}</configFile>
+					<dbpwd>${exception.dbpwd}</dbpwd>
+					<dburl>${exception.dburl}</dburl>
+					<dbuser>${exception.dbuser}</dbuser>
+					<tableName>${exception.tableName}</tableName>
+					<loadType>${exception.loadType}</loadType>
+					<exceptionLevel>${exception.level}</exceptionLevel>
+				</configuration>
+				<executions>
+					<execution>
+						<id>exception-generator</id>
+						<goals>
+							<goal>gen</goal>
+						</goals>
+						<phase>generate-sources</phase>
+					</execution>
+				</executions>
+			</plugin>
+			 -->
+			
+			<plugin>
+				<groupId>com.kjt.service.common</groupId>
+				<artifactId>soafw-test-maven-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>soafw-test</id>
+						<goals>
+							<goal>gen</goal>
+						</goals>
+						<phase>package</phase>
+					</execution>
+				</executions>
+			</plugin>
 		</plugins>
 	</build>
+
 	
 	
 	
@@ -375,8 +410,7 @@
 	
 	
 	
-	
-<distributionManagement>
+<!-- <distributionManagement>
   <repository>
     <id>nexus-releases</id>
     <url>http://192.168.1.110:8081/nexus/content/repositories/releases</url>
@@ -388,7 +422,7 @@
   </snapshotRepository>
 </distributionManagement>   
    
-	
+	 -->
 	
 	
 	
@@ -409,3 +443,4 @@
 	
 	
 </project>
+
