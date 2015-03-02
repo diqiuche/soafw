@@ -24,6 +24,8 @@ import java.net.URLClassLoader;
 import java.util.HashMap;
 import java.util.Map;
 
+import junit.framework.Test;
+
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
 
@@ -74,12 +76,12 @@ public class SoafwTesterMojo extends AbstractMojo {
                     if (methods != null && (len = methods.length) > 0) {
                         for (int m = 0; m < len; m++) {
                             int modf = methods[m].getModifiers();
-                            if(modf==1){//公共方法需要生成
-                                //TODO
+                            if (modf == 1) {// 公共方法需要生成
+                                // TODO
                                 /**
-                                 * 单元测试实现的类名＝实现类名＋Test
-                                 * 单元测试方法名=方法名+Test
-                                 * 单元测试文件生成到:basedPath+File.separator+src+File.separator+test+File.separator+java
+                                 * 单元测试实现的类名＝实现类名＋Test 单元测试方法名=方法名+Test
+                                 * 单元测试文件生成到:basedPath+File.separator
+                                 * +src+File.separator+test+File.separator+java
                                  */
                             }
                         }
@@ -91,9 +93,64 @@ public class SoafwTesterMojo extends AbstractMojo {
                 }
             } else {// 已经有实现过的测试类
                 /**
-                 * 需要检查实现类与测试类单元测试实现范围比较 当实现类的public 方法没有单元测试实现则抛出异常
+                 * 需要检查实现类与测试类单元测试实现范围比较 当发现实现类的public
+                 * 方法没有单元测试实现时则抛出异常MojoExecutionException，不做覆盖（保证已经实现的不被覆盖）
                  */
+                try {
+                    
+                    Map<String,Method> defs = new HashMap<String,Method>();//Key:为当前方法类型＋变量，...字符串md5值
+                    Class cls = cl.loadClass(definesArray[i]);// 加载业务实现类
+                    Method[] methods = cls.getMethods();
+                    int len = 0;
+                    if (methods != null && (len = methods.length) > 0) {
+                        /**
+                         * 提起所有public的方法
+                         */
+                        for (int m = 0; m < len; m++) {
+                            Method tmp = methods[i];
+                            int modf = tmp.getModifiers();
+                            if (modf == 1) {
+                                /**
+                                 * 公共方法
+                                 */
+                                tmp.getParameterTypes();
+                                tmp.getTypeParameters();
+                                /**
+                                 * 构造方法唯一标示
+                                 */
+                            }
+                        }
+                    }
+                    
+                    Map<String,Method> tsts = new HashMap<String,Method>();
+                    Class tstCls = cl.loadClass(definesArray[i] + "Test");// 加载单元测试的实现类
+                    Method[] tstMethods = tstCls.getMethods();
+                    if (tstMethods != null && (len = tstMethods.length) > 0) {
+                        /**
+                         * 提起所有public的方法
+                         */
+                        for (int m = 0; m < len; m++) {
+                            Method tmp = tstMethods[i];
+                            int modf = tmp.getModifiers();
+                            if (modf == 1) {
+                                /**
+                                 * 公共方法
+                                 */
+                                tmp.getAnnotation(org.junit.Test.class);
+                                tmp.getParameterTypes();
+                                tmp.getTypeParameters();
+                                /**
+                                 * 构造方法唯一标示
+                                 */
+                            }
+                        }
+                    }
 
+                } catch (Exception e) {
+                    this.getLog().info(e.getMessage());
+                } catch (Error er) {
+                    this.getLog().info(er.getMessage());
+                }
             }
         }
 
