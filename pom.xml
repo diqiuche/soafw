@@ -342,9 +342,11 @@
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-surefire-plugin</artifactId>
 				<version>${maven-compiler-plugin.version}</version>
+				<!-- 
 				<configuration>
 					<skipTests>true</skipTests>
 				</configuration>
+				 -->
 			</plugin>
 	<!-- 		<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
@@ -386,7 +388,7 @@
 			</plugin>
 			 -->
 			
-	<!-- 		<plugin>
+			<plugin>
 				<groupId>com.kjt.service.common</groupId>
 				<artifactId>soafw-test-maven-plugin</artifactId>
 				<executions>
@@ -399,7 +401,6 @@
 					</execution>
 				</executions>
 			</plugin>
-			-->
 		</plugins> 
 	</build>
 

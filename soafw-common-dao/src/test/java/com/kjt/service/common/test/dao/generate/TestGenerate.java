@@ -8,6 +8,7 @@ public class TestGenerate {
 
   @Test
   public void test() {
+    /*
     try {
       DaoGenFromDB.generateDAO("oper_db", "authorization", "classpath:springtest.xml",
           "com.kjt.common.test", "src/main/java/", "src/main/resources/");
@@ -15,6 +16,6 @@ public class TestGenerate {
       // TODO Auto-generated catch block
       e.printStackTrace();
     }
-
+     */
   }
 }

@@ -24,8 +24,6 @@ import java.net.URLClassLoader;
 import java.util.HashMap;
 import java.util.Map;
 
-import junit.framework.Test;
-
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
 
@@ -52,12 +50,12 @@ public class SoafwTesterMojo extends AbstractMojo {
      */
     private File basedir;
     private int lenght;
-
+    private String classesDir = null;
     public void execute() throws MojoExecutionException {
         this.getLog().info("start unit test file gen&check: " + artifactId);
         String basedPath = basedir.getAbsolutePath();
 
-        String classesDir = basedPath + File.separator + "target" + File.separator + "classes";
+        classesDir = basedPath + File.separator + "target" + File.separator + "classes";
         lenght = classesDir.length() + 1;
         load(new File(classesDir));
 
@@ -185,28 +183,30 @@ public class SoafwTesterMojo extends AbstractMojo {
             }
         } else {
             String path = file.getAbsolutePath();
-            String pkgPath = path.substring(lenght);
-            String tmpFile = pkgPath.replaceAll(File.separator, ".");
-            try {
-                if (tmpFile.endsWith(".class")) {
-                    // && !tmpFile.endsWith("Mapper.class")
-                    String clsName = tmpFile.replaceAll(".class", "");
-                    Class cls = cl.loadClass(clsName);
-                    int modf = cls.getModifiers();
-                    if (modf != 1537 && modf != 1025) {// 非接口 && 抽象类
-                        if (clsName.endsWith("ImplTest")) {
-                            testImpl.put(clsName, 1);
-                        } else if (clsName.endsWith("Impl")) {
-                            defines.put(clsName, 1);
-                        } else {// 异常命名的类
-                            errorImpl.put(clsName, 1);
+            if(path.indexOf(classesDir)==0 && path.length()>lenght){
+                String pkgPath = path.substring(lenght);
+                String tmpFile = pkgPath.replaceAll(File.separator, ".");
+                try {
+                    if (tmpFile.endsWith(".class")) {
+                        // && !tmpFile.endsWith("Mapper.class")
+                        String clsName = tmpFile.replaceAll(".class", "");
+                        Class cls = cl.loadClass(clsName);
+                        int modf = cls.getModifiers();
+                        if (modf != 1537 && modf != 1025) {// 非接口 && 抽象类
+                            if (clsName.endsWith("ImplTest")) {
+                                testImpl.put(clsName, 1);
+                            } else if (clsName.endsWith("Impl")) {
+                                defines.put(clsName, 1);
+                            } else {// 异常命名的类
+                                errorImpl.put(clsName, 1);
+                            }
                         }
                     }
+                } catch (Exception e) {
+                    this.getLog().info(e.getMessage());
+                } catch (Error er) {
+                    this.getLog().info(er.getMessage());
                 }
-            } catch (Exception e) {
-                this.getLog().info(e.getMessage());
-            } catch (Error er) {
-                this.getLog().info(er.getMessage());
             }
         }
         return defines;
@@ -236,6 +236,8 @@ public class SoafwTesterMojo extends AbstractMojo {
         String basedPath = "/Users/alexzhu/soa/soafw/soafw-common-dao";
 
         String classesDir = basedPath + File.separator + "target" + File.separator + "classes";
+        
+        System.out.println(classesDir.indexOf("/Users"));
 
         try {
             mojo.cl = new URLClassLoader(new URL[] {new File(classesDir).toURI().toURL()});
