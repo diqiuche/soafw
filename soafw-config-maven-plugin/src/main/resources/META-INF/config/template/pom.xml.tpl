@@ -176,7 +176,7 @@
                 </executions>
             </plugin>
             -->
-            <!-- 异常代码生成插件 -->
+            <!-- 单元测试框架代码生成插件 -->
             <plugin>
 				<groupId>com.kjt.service.common</groupId>
 				<artifactId>soafw-test-maven-plugin</artifactId>
