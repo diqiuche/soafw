@@ -5,7 +5,7 @@ mkdir -p ../../projects/
 cd ../../projects/
 
 projectid=$1
-mvn archetype:generate -DgroupId=com.kjt.service.$projectid -DartifactId=$projectid $2
+mvn archetype:generate -DgroupId=com.kjt.service.$projectid -DartifactId=$projectid 
 cd $projectid
 rm -rf src
 echo parent build success
@@ -15,47 +15,47 @@ sed -i "" "s/<packaging>jar<\/packaging>/<packaging>pom<\/packaging>/g" pom.xml
 #sed -i  "s/<packaging>jar<\/packaging>/<packaging>pom<\/packaging>/g" pom.xml 
 
 projectcommon=$projectid-common
-mvn archetype:generate -DgroupId=com.kjt.service.$projectid -DartifactId=$projectcommon $2
+mvn archetype:generate -DgroupId=com.kjt.service.$projectid -DartifactId=$projectcommon 
 echo $projectcommon build success
 
 projectconfig=$projectid-config
-mvn archetype:generate -DgroupId=com.kjt.service.$projectid -DartifactId=$projectconfig $2
+mvn archetype:generate -DgroupId=com.kjt.service.$projectid -DartifactId=$projectconfig 
 echo $projectconfig build success
 
 projectcache=$projectid-cache
-mvn archetype:generate -DgroupId=com.kjt.service.$projectid -DartifactId=$projectcache $2
+mvn archetype:generate -DgroupId=com.kjt.service.$projectid -DartifactId=$projectcache 
 echo $projectcache build success
 
 projectdao=$projectid-dao
-mvn archetype:generate -DgroupId=com.kjt.service.$projectid -DartifactId=$projectdao $2
+mvn archetype:generate -DgroupId=com.kjt.service.$projectid -DartifactId=$projectdao 
 echo $projectdao build success
 
 projectrpc=$projectid-rpc
-mvn archetype:generate -DgroupId=com.kjt.service.$projectid -DartifactId=$projectrpc $2
+mvn archetype:generate -DgroupId=com.kjt.service.$projectid -DartifactId=$projectrpc 
 echo $projectrpc build success
 
 projectmq=$projectid-mq
-mvn archetype:generate -DgroupId=com.kjt.service.$projectid -DartifactId=$projectmq $2
+mvn archetype:generate -DgroupId=com.kjt.service.$projectid -DartifactId=$projectmq 
 echo $projectmq build success
 
 projectdomain=$projectid-domain
-mvn archetype:generate -DgroupId=com.kjt.service.$projectid -DartifactId=$projectdomain $2
+mvn archetype:generate -DgroupId=com.kjt.service.$projectid -DartifactId=$projectdomain 
 echo $projectdomain build success
 
 projectservice=$projectid-service
-mvn archetype:generate -DgroupId=com.kjt.service.$projectid -DartifactId=$projectservice $2
+mvn archetype:generate -DgroupId=com.kjt.service.$projectid -DartifactId=$projectservice 
 echo $projectservice build success
 
 projectjob=$projectid-job
-mvn archetype:generate -DgroupId=com.kjt.service.$projectid -DartifactId=$projectjob $2
+mvn archetype:generate -DgroupId=com.kjt.service.$projectid -DartifactId=$projectjob 
 echo $projectjob build success
 
 projectservice=$projectid-service-impl
-mvn archetype:generate -DgroupId=com.kjt.service.$projectid -DartifactId=$projectservice $2
+mvn archetype:generate -DgroupId=com.kjt.service.$projectid -DartifactId=$projectservice 
 echo $projectservice build success
 
 projectwebid=$projectid-web
-mvn archetype:generate -DgroupId=com.kjt.service.$projectid -DartifactId=$projectwebid -DarchetypeArtifactId=maven-archetype-webapp $2
+mvn archetype:generate -DgroupId=com.kjt.service.$projectid -DartifactId=$projectwebid -DarchetypeArtifactId=maven-archetype-webapp 
 echo $projectwebid build success
 
 ##配置文件生成
@@ -92,6 +92,9 @@ mvn soafw-config:config -Dtemplate=pom.xml.mq -DartifactId=$projectid -DdestDir=
 mvn soafw-config:config -Dtemplate=mq.xml -DartifactId=$projectid -DdestDir=../../projects/$projectid/$projectid-mq/src/main/resource/META-INF/config/local
 mvn soafw-config:config -Dtemplate=spring-mq.xml -DartifactId=$projectid -DdestDir=../../projects/$projectid/$projectid-mq/src/main/resource/META-INF/config/spring
 
+##domain
+mvn soafw-config:config -Dtemplate=pom.xml.domain -DartifactId=$projectid -DdestDir=../../projects/$projectid/$projectid-domain
+
 ##service
 mvn soafw-config:config -Dtemplate=pom.xml.svc -DartifactId=$projectid -DdestDir=../../projects/$projectid/$projectid-service
 
@@ -100,16 +103,13 @@ mvn soafw-config:config -Dtemplate=pom.xml.job -DartifactId=$projectid -DdestDir
 mvn soafw-config:config -Dtemplate=job.xml -DartifactId=$projectid -DdestDir=../../projects/$projectid/$projectid-job/src/main/resource/META-INF/config/local
 mvn soafw-config:config -Dtemplate=spring-job.xml -DartifactId=$projectid -DdestDir=../../projects/$projectid/$projectid-job/src/main/resource/META-INF/config/spring
 
-##service impl
-mvn soafw-config:config -Dtemplate=pom.xml.svc -DartifactId=$projectid -DdestDir=../../projects/$projectid/$projectid-service-impl
-mvn soafw-config:config -Dtemplate=service.xml -DartifactId=$projectid -DdestDir=../../projects/$projectid/$projectid-service-impl/src/main/resource/META-INF/config/local
-mvn soafw-config:config -Dtemplate=spring-service.xml -DartifactId=$projectid -DdestDir=../../projects/$projectid/$projectid-service-impl/src/main/resource/META-INF/config/spring
-
 ##web
 mvn soafw-config:config -Dtemplate=pom.xml.web -DartifactId=$projectid -DdestDir=../../projects/$projectid/$projectid-web
 mvn soafw-config:config -Dtemplate=web.xml -DartifactId=$projectid -DdestDir=../../projects/$projectid/$projectid-web/src/main/resource/META-INF/config/spring
 mvn soafw-config:config -Dtemplate=application-config.xml -DartifactId=$projectid -DdestDir=../../projects/$projectid/$projectid-web/src/main/resource/META-INF/config/local
 mvn soafw-config:config -Dtemplate=mvc-config.xml -DartifactId=$projectid -DdestDir=../../projects/$projectid/$projectid-web/src/main/webapp/WEB-INF
 
-
-
+##service impl
+mvn soafw-config:config -Dtemplate=pom.xml.svc.impl -DartifactId=$projectid -DdestDir=../../projects/$projectid/$projectid-service-impl
+mvn soafw-config:config -Dtemplate=service.xml -DartifactId=$projectid -DdestDir=../../projects/$projectid/$projectid-service-impl/src/main/resource/META-INF/config/local
+mvn soafw-config:config -Dtemplate=spring-service.xml -DartifactId=$projectid -DdestDir=../../projects/$projectid/$projectid-service-impl/src/main/resource/META-INF/config/spring

@@ -63,14 +63,12 @@ public class SoafwTesterMojo extends AbstractMojo {
     private Map<String, Integer> errorImpl = new HashMap<String, Integer>();
 
     private ClassLoader cl = null;
-
-    
     
     public void execute() throws MojoExecutionException {
         this.getLog().info("start unit test file gen&check: " + artifactId);
         String basedPath = basedir.getAbsolutePath();
         String testJFilePath;
-        String classesDir = basedPath + File.separator + "target" + File.separator + "classes";
+        classesDir = basedPath + File.separator + "target" + File.separator + "classes";
         lenght = classesDir.length() + 1;
         load(new File(classesDir));//得到三个map
         StringBuffer testJBuf=new StringBuffer();
@@ -275,19 +273,17 @@ public class SoafwTesterMojo extends AbstractMojo {
 
         String basedPath = "/Users/alexzhu/soa/soafw/soafw-common-dao";
 
-        String classesDir = basedPath + File.separator + "target" + File.separator + "classes";
+        mojo.classesDir = basedPath + File.separator + "target" + File.separator + "classes";
         
-        System.out.println(classesDir.indexOf("/Users"));
-
         try {
-            mojo.cl = new URLClassLoader(new URL[] {new File(classesDir).toURI().toURL()});
+            mojo.cl = new URLClassLoader(new URL[] {new File(mojo.classesDir).toURI().toURL()});
         } catch (MalformedURLException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
 
-        mojo.lenght = classesDir.length() + 1;
-        mojo.load(new File(classesDir));
+        mojo.lenght = mojo.classesDir.length() + 1;
+        mojo.load(new File(mojo.classesDir));
         System.out.println(mojo.defines);
         System.out.println(mojo.testImpl);
         int size = mojo.defines.size();

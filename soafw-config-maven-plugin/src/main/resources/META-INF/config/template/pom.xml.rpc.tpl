@@ -1,7 +1,6 @@
-<?xml version="1.0"?>
-<project
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
-	xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
 	<parent>
@@ -10,15 +9,15 @@
 		<version>1.0-SNAPSHOT</version>
 	</parent>
 
-	<artifactId>#{artifactId}-mq</artifactId>
-	<name>#{artifactId}-mq</name>
-	<packaging>jar</packaging>
+	<artifactId>#{artifactId}-rpc</artifactId>
+	<name>#{artifactId}-rpc</name>
 	<url>http://maven.apache.org</url>
 	
 	<dependencies>
 		<dependency>
 			<groupId>com.kjt.service.common</groupId>
 			<artifactId>soafw-common-rpc</artifactId>
+			<version>${soafw-common.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>com.kjt.service.#{artifactId}</groupId>

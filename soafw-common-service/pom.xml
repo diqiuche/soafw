@@ -20,6 +20,10 @@
 			<groupId>com.kjt.service.common</groupId>
 			<artifactId>soafw-common-domain</artifactId>
 		</dependency>
-		
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<scope>test</scope>
+		</dependency>
 	</dependencies>
 </project>

@@ -1,7 +1,6 @@
-<?xml version="1.0"?>
-<project
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
-	xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
 	<parent>
@@ -10,9 +9,9 @@
 		<version>1.0-SNAPSHOT</version>
 	</parent>
 
-	<artifactId>soj-web</artifactId>
+	<artifactId>#{artifactId}-web</artifactId>
 	<packaging>war</packaging>
-	<name>soj-web</name>
+	<name>#{artifactId}-web</name>
 	<url>http://maven.apache.org</url>
 	<properties>
 		<jetty.port>#{startPort}</jetty.port>
@@ -21,6 +20,7 @@
 		<!--AUTO ?groupId + . + service+ . + CommunityServiceExceptionMessage -->
 		<exception.enum.class>AUTO</exception.enum.class>
 		<!-- 异常生成定义 END -->
+		
 		<spring.version>4.0.5.RELEASE</spring.version>
 		<zookeeper.version>3.4.6</zookeeper.version>
 		<zkclient.version>0.4</zkclient.version>
@@ -29,89 +29,66 @@
 
 	</properties>
 	<dependencies>
-		<dependency>
-			<groupId>com.kjt.service.common</groupId>
-			<artifactId>soafw-common-web</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>com.kjt.service.#{artifactId}</groupId>
-			<artifactId>#{artifactId}-domain</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>com.kjt.service.#{artifactId}</groupId>
-			<artifactId>#{artifactId}-service</artifactId>
+            <dependency>
+				<groupId>com.kjt.service.common</groupId>
+				<artifactId>soafw-common-web</artifactId>
+			</dependency>
 			
-		</dependency>
-		<dependency>
-			<groupId>com.kjt.service.#{artifactId}</groupId>
-			<artifactId>#{artifactId}-service-impl</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>com.kjt.service.#{artifactId}</groupId>
-			<artifactId>#{artifactId}-common</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>net.sf.json-lib</groupId>
-			<artifactId>json-lib</artifactId>
-			<version>2.2.3</version>
-			<classifier>jdk15</classifier>
-		</dependency>
-
-		<dependency>
-			<groupId>junit</groupId>
-			<artifactId>junit</artifactId>
-			<version>${junit.version}</version>
-			<scope>test</scope>
-		</dependency>
-
-		<!-- spring相关jar包 -->
-		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-context</artifactId>
-			<version>${spring.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-context-support</artifactId>
-			<version>${spring.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-jdbc</artifactId>
-			<version>${spring.version}</version>
-		</dependency>
-
-		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-tx</artifactId>
-			<version>${spring.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-web</artifactId>
-			<version>${spring.version}</version>
-		</dependency>
-
-		<dependency>
-			<groupId>javax.servlet</groupId>
-			<artifactId>javax.servlet-api</artifactId>
-			<version>3.1.0</version>
-			<scope>compile</scope>
-		</dependency>
-
-		<dependency>
-			<groupId>javax.servlet.jsp</groupId>
-			<artifactId>jsp-api</artifactId>
-			<version>2.2</version>
-			<scope>compile</scope>
-		</dependency>
-
-		<dependency>
-			<groupId>javax.servlet.jsp.jstl</groupId>
-			<artifactId>javax.servlet.jsp.jstl-api</artifactId>
-			<version>1.2.1</version>
-			<scope>compile</scope>
-		</dependency>
+			<dependency>
+				<groupId>net.sf.json-lib</groupId>
+				<artifactId>json-lib</artifactId>
+				<version>2.2.3</version>
+				<classifier>jdk15</classifier>
+			</dependency>
+	
+			<!-- spring相关jar包 -->
+			<dependency>
+				<groupId>org.springframework</groupId>
+				<artifactId>spring-context</artifactId>
+				<version>${spring.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.springframework</groupId>
+				<artifactId>spring-context-support</artifactId>
+				<version>${spring.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.springframework</groupId>
+				<artifactId>spring-jdbc</artifactId>
+				<version>${spring.version}</version>
+			</dependency>
+	
+			<dependency>
+				<groupId>org.springframework</groupId>
+				<artifactId>spring-tx</artifactId>
+				<version>${spring.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.springframework</groupId>
+				<artifactId>spring-web</artifactId>
+				<version>${spring.version}</version>
+			</dependency>
+	
+			<dependency>
+				<groupId>javax.servlet</groupId>
+				<artifactId>javax.servlet-api</artifactId>
+				<version>3.1.0</version>
+				<scope>compile</scope>
+			</dependency>
+	
+			<dependency>
+				<groupId>javax.servlet.jsp</groupId>
+				<artifactId>jsp-api</artifactId>
+				<version>2.2</version>
+				<scope>compile</scope>
+			</dependency>
+	
+			<dependency>
+				<groupId>javax.servlet.jsp.jstl</groupId>
+				<artifactId>javax.servlet.jsp.jstl-api</artifactId>
+				<version>1.2.1</version>
+				<scope>compile</scope>
+			</dependency>
 
 	</dependencies>
 
