@@ -26,14 +26,16 @@
         <!-- 异常代码生成公共定义 -->
 	</properties>
 	<modules>
-		<module>#{artifactId}-web</module>
-		<module>#{artifactId}-job</module>
-		<module>#{artifactId}-dao</module>
-		<module>#{artifactId}-rpc</module>
 		<module>#{artifactId}-common</module>
+		<module>#{artifactId}-config</module>
+		<module>#{artifactId}-cache</module>
+		<module>#{artifactId}-dao</module>
 		<module>#{artifactId}-domain</module>
 		<module>#{artifactId}-service</module>
+		<module>#{artifactId}-job</module>
+		<module>#{artifactId}-rpc</module>
 		<module>#{artifactId}-service-impl</module>
+		<module>#{artifactId}-web</module>
 	</modules>
 
 	<dependencies>
@@ -45,14 +47,19 @@
 	</dependencies>
 	<dependencyManagement>
 		<dependencies>
-            <dependency>
-                <groupId>com.kjt.service.common</groupId>
-                <artifactId>soafw-common-util</artifactId>
-                <version>${soafw-common.version}</version>
-            </dependency>
 			<dependency>
 				<groupId>com.kjt.service.#{artifactId}</groupId>
 				<artifactId>#{artifactId}-common</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.kjt.service.#{artifactId}</groupId>
+				<artifactId>#{artifactId}-config</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.kjt.service.#{artifactId}</groupId>
+				<artifactId>#{artifactId}-cache</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 			<dependency>
@@ -66,12 +73,22 @@
 				<version>${project.version}</version>
 			</dependency>
 			<dependency>
+				<artifactId>#{artifactId}-service</artifactId>
+				<groupId>com.kjt.service.#{artifactId}</groupId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
 				<artifactId>#{artifactId}-rpc</artifactId>
 				<groupId>com.kjt.service.#{artifactId}</groupId>
 				<version>${project.version}</version>
 			</dependency>
 			<dependency>
-				<artifactId>#{artifactId}-service</artifactId>
+				<artifactId>#{artifactId}-mq</artifactId>
+				<groupId>com.kjt.service.#{artifactId}</groupId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<artifactId>#{artifactId}-job</artifactId>
 				<groupId>com.kjt.service.#{artifactId}</groupId>
 				<version>${project.version}</version>
 			</dependency>
@@ -81,39 +98,9 @@
 				<version>${project.version}</version>
 			</dependency>
 			<dependency>
-				<groupId>com.kjt.service.common</groupId>
-				<artifactId>soafw-common-util</artifactId>
-				<version>${soafw-common.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>com.kjt.service.common</groupId>
-				<artifactId>soafw-common-web</artifactId>
-				<version>${soafw-common.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>com.kjt.service.common</groupId>
-				<artifactId>soafw-common-domain</artifactId>
-				<version>${soafw-common.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>com.kjt.service.common</groupId>
-				<artifactId>soafw-common-dao</artifactId>
-				<version>${soafw-common.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>com.kjt.service.common</groupId>
-				<artifactId>soafw-common-log</artifactId>
-				<version>${soafw-common.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>com.kjt.service.common</groupId>
-				<artifactId>soafw-common-service</artifactId>
-				<version>${soafw-common.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>com.kjt.service.common</groupId>
-				<artifactId>soafw-common-rpc</artifactId>
-				<version>${soafw-common.version}</version>
+				<artifactId>#{artifactId}-web</artifactId>
+				<groupId>com.kjt.service.#{artifactId}</groupId>
+				<version>${project.version}</version>
 			</dependency>
 		</dependencies>
 	</dependencyManagement>

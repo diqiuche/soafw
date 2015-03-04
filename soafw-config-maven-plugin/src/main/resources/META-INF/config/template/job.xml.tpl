@@ -3,6 +3,6 @@
 
 <!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
 <properties>
-	<comment>mq开关等动态配置项配置文件</comment>
+	<comment>job开关等动态配置项配置文件</comment>
 	<entry key="version">100</entry>
 </properties>
