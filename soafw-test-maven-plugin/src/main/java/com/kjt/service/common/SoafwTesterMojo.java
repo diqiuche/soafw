@@ -51,27 +51,56 @@ public class SoafwTesterMojo extends AbstractMojo {
     private File basedir;
     private int lenght;
     private String classesDir = null;
+    /**
+     * 未实现测试&符合正常命名规范的类
+     */
+    private Map<String, Integer> defines = new HashMap<String, Integer>();
+    /**
+     * 符合正常命名规范的类&&已经实现过测试用咧
+     */
+    private Map<String, Integer> testImpl = new HashMap<String, Integer>();
+
+    private Map<String, Integer> errorImpl = new HashMap<String, Integer>();
+
+    private ClassLoader cl = null;
+
+    
+    
     public void execute() throws MojoExecutionException {
         this.getLog().info("start unit test file gen&check: " + artifactId);
         String basedPath = basedir.getAbsolutePath();
-
-        classesDir = basedPath + File.separator + "target" + File.separator + "classes";
+        String testJFilePath;
+        String classesDir = basedPath + File.separator + "target" + File.separator + "classes";
         lenght = classesDir.length() + 1;
-        load(new File(classesDir));
-
+        load(new File(classesDir));//得到三个map
+        StringBuffer testJBuf=new StringBuffer();
+        StringBuffer methodBuf=new StringBuffer();
         int size = defines.size();
         String[] definesArray = new String[size];
         defines.keySet().toArray(definesArray);
-
+        this.cl=ClassLoader.getSystemClassLoader();
         for (int i = 0; i < size; i++) {
 
-            if (!testImpl.containsKey(definesArray[i] + "Test")) {// 为实现测试
-
+            if (!testImpl.containsKey(definesArray[i] + "Test")) {// 该文件没有建立对应测试用例 为实现测试
+                
                 try {
                     Class cls = cl.loadClass(definesArray[i]);
                     Method[] methods = cls.getMethods();
+                    
+                    String pkgPath = cls.getPackage().getName().replace(".", File.separator);
+                    
+                    
+                    testJFilePath=basedPath+File.separator+"src"+File.separator
+                            +"test"+File.separator+"java"+File.separator+pkgPath;
+                    
+                    String  testJFileName=cls.getSimpleName()+"Test.java";
+                    
+                    
+                    StringBuffer jHeadBuf=createTestJHeadByClass(cls);
+                    testJBuf.append(jHeadBuf);
                     int len = 0;
                     if (methods != null && (len = methods.length) > 0) {
+
                         for (int m = 0; m < len; m++) {
                             int modf = methods[m].getModifiers();
                             if (modf == 1) {// 公共方法需要生成
@@ -79,16 +108,24 @@ public class SoafwTesterMojo extends AbstractMojo {
                                 /**
                                  * 单元测试实现的类名＝实现类名＋Test 单元测试方法名=方法名+Test
                                  * 单元测试文件生成到:basedPath+File.separator
-                                 * +src+File.separator+test+File.separator+java
+                                 * +src+File.separator+test+File.separator+pkg+definesArray[i]+Test+.java
                                  */
+                                addMethod(methodBuf,methods[m].getName());
+
                             }
                         }
                     }
+                    String testJFile=testJBuf.append(methodBuf).append("}").toString();
+                    write(testJFilePath, testJFileName, testJFile);
+                    
+                    
                 } catch (Exception e) {
                     this.getLog().info(e.getMessage());
                 } catch (Error er) {
                     this.getLog().info(er.getMessage());
                 }
+
+                
             } else {// 已经有实现过的测试类
                 /**
                  * 需要检查实现类与测试类单元测试实现范围比较 当发现实现类的public
@@ -153,20 +190,7 @@ public class SoafwTesterMojo extends AbstractMojo {
         }
 
     }
-
-    /**
-     * 未实现测试&符合正常命名规范的类
-     */
-    private Map<String, Integer> defines = new HashMap<String, Integer>();
-    /**
-     * 符合正常命名规范的类&&已经实现过测试用咧
-     */
-    private Map<String, Integer> testImpl = new HashMap<String, Integer>();
-
-    private Map<String, Integer> errorImpl = new HashMap<String, Integer>();
-
-    private ClassLoader cl = null;
-
+   
     /**
      * 非接口&&抽象类 并且是 public 或者 protected
      * 
@@ -227,6 +251,22 @@ public class SoafwTesterMojo extends AbstractMojo {
                 }
             } catch (IOException e) {}
         }
+    }
+    private void addMethod(StringBuffer methodBuffer,String methodName){
+        methodBuffer.append("  @Test\n");
+        methodBuffer.append("  public void "+methodName+"() {\n");
+        methodBuffer.append("    throw new RuntimeException(\"Test not implemented\");");
+        methodBuffer.append(" }\n");
+        methodBuffer.append("\n");
+        
+        
+    }
+    private StringBuffer createTestJHeadByClass(Class cls){
+        StringBuffer jHeadBuf=new StringBuffer();
+        jHeadBuf.append("package " + cls.getPackage().getName() +"; \n");
+        jHeadBuf.append("import org.testng.annotations.Test; \n");
+        jHeadBuf.append("public class "+cls.getSimpleName()+"Test {");
+        return jHeadBuf;
     }
 
     public static void main(String[] args) {
