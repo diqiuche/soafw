@@ -40,6 +40,7 @@ public class SoafwConfigMojo extends AbstractMojo {
     private String artifactId = "";
     private String destDir = ".";
     private String template = "";
+    private String sufix = "xml";
 
     public void execute() throws MojoExecutionException {
         groupId = System.getProperty("groupId");
@@ -48,6 +49,7 @@ public class SoafwConfigMojo extends AbstractMojo {
         stopPort = System.getProperty("stopPort", stopPort);
         destDir = System.getProperty("destDir", destDir);
         template = System.getProperty("template", template);
+        sufix = System.getProperty("sufix", sufix);
         this.getLog().info(
                 format(groupId, artifactId, startPort, stopPort,
                         new File(destDir).getAbsolutePath(), template));
@@ -108,7 +110,7 @@ public class SoafwConfigMojo extends AbstractMojo {
         FileWriter fw = null;
         try {
             new File(dest).mkdirs();
-            template = template.substring(0,template.indexOf(".xml"))+".xml";
+            template = template.substring(0,template.indexOf("."+sufix))+"."+sufix;
             fw = new FileWriter(dest + File.separator + template);
             fw.write(tpl);
         } catch (IOException e) {

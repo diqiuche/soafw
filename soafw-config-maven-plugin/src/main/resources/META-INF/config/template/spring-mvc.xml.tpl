@@ -11,6 +11,16 @@
     http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd
     http://www.springframework.org/schema/util
     http://www.springframework.org/schema/util/spring-util-4.0.xsd">
+
+	<!-- 把标记了@Controller注解的类转换为bean -->
+	<context:component-scan
+		base-package="com.kjt.service.#{artifactId},com.kjt.service.#{artifactId}.web.controller"
+		use-default-filters="false">
+		<context:include-filter type="annotation"
+			expression="org.springframework.stereotype.Controller" />
+
+	</context:component-scan>
+	
 	<mvc:annotation-driven>
 		<mvc:message-converters>
 			<bean
@@ -21,15 +31,6 @@
 		</mvc:message-converters>
 
 	</mvc:annotation-driven>
-
-	<!-- 把标记了@Controller注解的类转换为bean -->
-	<context:component-scan
-		base-package="com.kjt.service.#{artifactId},com.kjt.service.#{artifactId}.web.controller"
-		use-default-filters="false">
-		<context:include-filter type="annotation"
-			expression="org.springframework.stereotype.Controller" />
-
-	</context:component-scan>
 
 	<bean id="objectMapper"
 		class="org.springframework.http.converter.json.Jackson2ObjectMapperFactoryBean">

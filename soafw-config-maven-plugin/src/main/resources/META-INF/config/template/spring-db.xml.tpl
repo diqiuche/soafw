@@ -8,7 +8,11 @@
     http://www.springframework.org/schema/aop/spring-aop-4.0.xsd
     http://www.springframework.org/schema/context
     http://www.springframework.org/schema/context/spring-context-4.0.xsd">
-
+	
+	<context:component-scan base-package="com.kjt.service.#{artifactId}.*,com.kjt.service.#{artifactId}" />
+	
+	<import resource="classpath*:/META-INF/config/local/spring-cache.xml"/>
+	
 	<bean id="#{artifactId}DataSourceMaster" class="com.kjt.service.common.datasource.DynamicDataSource"
 		init-method="init">
 		<property name="prefix" value="#{artifactId}_db" />
