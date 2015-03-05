@@ -36,7 +36,11 @@
 		<validation-api.version>1.1.0.Final</validation-api.version>
 		<aspectj.version>1.8.4</aspectj.version>
 		<unirest-java.version>1.3.26</unirest-java.version>
-	
+		
+		<dubbo.version>2.5.3</dubbo.version>
+		<zookeeper.version>3.4.6</zookeeper.version>
+		<zkclient.version>0.4</zkclient.version>
+		
 		<soafw-common.version>0.0.1</soafw-common.version>
 
         <!-- 异常代码生成公共定义 -->
@@ -361,7 +365,44 @@
 					<artifactId>unirest-java</artifactId>
 					<version>${unirest-java.version}</version>
 				</dependency>
-			
+				
+				<!-- dubbo -->
+				<dependency>
+					<groupId>com.alibaba</groupId>
+					<artifactId>dubbo</artifactId>
+					<version>${dubbo.version}</version>
+					<exclusions>
+						<exclusion>
+							<groupId>org.springframework</groupId>
+							<artifactId>spring</artifactId>
+						</exclusion>
+						<!-- 指定版本的netty -->
+						<exclusion>
+							<groupId>io.netty</groupId>
+							<artifactId>netty</artifactId>
+						</exclusion>
+					</exclusions>
+				</dependency>
+				
+				<!-- zookeeper -->
+				<dependency>
+					<groupId>org.apache.zookeeper</groupId>
+					<artifactId>zookeeper</artifactId>
+					<version>${zookeeper.version}</version>
+					<exclusions>
+						<exclusion>
+							<groupId>javax.mail</groupId>
+							<artifactId>mail</artifactId>
+						</exclusion>
+					</exclusions>
+				</dependency>
+		
+				<!-- zkClient -->
+				<dependency>
+					<groupId>com.101tec</groupId>
+					<artifactId>zkclient</artifactId>
+					<version>${zkclient.version}</version>
+				</dependency>
 		</dependencies>
 	</dependencyManagement>
 	<build>

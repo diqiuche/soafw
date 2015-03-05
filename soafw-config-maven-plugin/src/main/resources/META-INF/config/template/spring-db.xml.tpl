@@ -9,20 +9,20 @@
     http://www.springframework.org/schema/context
     http://www.springframework.org/schema/context/spring-context-4.0.xsd">
 	
-	<context:component-scan base-package="com.kjt.service.#{artifactId}.*,com.kjt.service.#{artifactId}" />
+	<context:component-scan base-package="com.kjt.service.#{artifactId}.*" />
 	
 	<import resource="classpath*:/META-INF/config/local/spring-cache.xml"/>
 	
-	<bean id="#{artifactId}DataSourceMaster" class="com.kjt.service.common.datasource.DynamicDataSource"
+	<bean id="#{artifactId}" class="com.kjt.service.common.datasource.DynamicDataSource"
 		init-method="init">
-		<property name="prefix" value="#{artifactId}_db" />
+		<property name="prefix" value="#{artifactId}" />
 	</bean>
-	<bean id="#{artifactId}DataSourceSlave" class="com.kjt.service.common.datasource.DynamicDataSource"
+	<bean id="#{artifactId}_slave" class="com.kjt.service.common.datasource.DynamicDataSource"
 		init-method="init">
-		<property name="prefix" value="#{artifactId}_db_slave" />
+		<property name="prefix" value="#{artifactId}_slave" />
 	</bean>
-	<bean id="#{artifactId}DataSourceMapQuery" class="com.kjt.service.common.datasource.DynamicDataSource"
+	<bean id="#{artifactId}map_query" class="com.kjt.service.common.datasource.DynamicDataSource"
 		init-method="init">
-		<property name="prefix" value="#{artifactId}_db_slave" />
+		<property name="prefix" value="#{artifactId}_map_query" />
 	</bean>
 </beans>

@@ -16,10 +16,12 @@
      http://www.springframework.org/schema/context/spring-context-3.0.xsd
  	 http://code.alibabatech.com/schema/dubbo  
  	 http://code.alibabatech.com/schema/dubbo/dubbo.xsd">
-
+	
+	<context:component-scan base-package="com.kjt.service.#{artifactId}.*" />
+	
 	<!-- 消费方应用名，用于计算依赖关系，不是匹配条件，不要与提供方一样 -->
 	<!--
-	<dubbo:application name="kjt-wmshub-job"/>
+	<dubbo:application name="kjt-#{artifactId}-job"/>
 	 -->
     <!-- 使用zookeeper发现服务地址 --> 
     <!--

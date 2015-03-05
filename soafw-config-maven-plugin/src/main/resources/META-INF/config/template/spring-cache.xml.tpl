@@ -11,7 +11,7 @@
     http://www.springframework.org/schema/cache
     http://www.springframework.org/schema/cache/spring-cache-4.0.xsd">
 
-	<context:component-scan base-package="com.kjt.service.#{artifactId}.*,com.kjt.service.#{artifactId}" />
+	<context:component-scan base-package="com.kjt.service.#{artifactId}.*" />
 
 	<cache:annotation-driven cache-manager="cacheManager" />
 

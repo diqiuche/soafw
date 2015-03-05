@@ -7,7 +7,7 @@ public class DaoGen {
 
     public static void main(String[] args) {
         try {
-            DaoGenFromDB.generateDAO("数据库名", "表名", "classpath:spring-dao.gen.xml",
+            DaoGenFromDB.generateDAO("spring-db.xml中的bean id", "表名", "classpath*:/META-INF/config/local/spring-db.xml",
                     "com.kjt.common.tsl", "src/main/java/", "src/main/resources/");
         } catch (Exception e) {
             // TODO Auto-generated catch block

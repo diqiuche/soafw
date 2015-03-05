@@ -17,7 +17,7 @@
  	 http://code.alibabatech.com/schema/dubbo  
  	 http://code.alibabatech.com/schema/dubbo/dubbo.xsd">
 	
-	<context:component-scan base-package="com.kjt.service.#{artifactId}.*,com.kjt.service.#{artifactId}" />
+	<context:component-scan base-package="com.kjt.service.#{artifactId}.*" />
 	
 	<import resource="classpath*:/META-INF/config/local/spring-dao.xml"/>
 	<import resource="classpath*:/META-INF/config/local/spring-rpc.xml"/>
@@ -27,7 +27,7 @@
 	
 	<!-- 提供方应用信息，用于计算依赖关系 -->
 	<!--   
-	<dubbo:application name="kjt-dubbo-app"/>
+	<dubbo:application name="kjt-#{artifactId}-service"/>
 	--> 
     <!-- 使用multicast广播注册中心暴露服务地址 --> 
     <dubbo:registry address="${registry.address}"/>

@@ -42,7 +42,7 @@
 
 	<context-param>
 		<param-name>contextConfigLocation</param-name>
-		<param-value>classpath:/META-INF/config/application-config.xml
+		<param-value>classpath:/META-INF/config/spring/spring-web.xml
 		</param-value>
 	</context-param>
 	<listener>
@@ -58,7 +58,7 @@
 		</servlet-class>
 		<init-param>
 			<param-name>contextConfigLocation</param-name>
-			<param-value>classpath:/META-INF/config/mvc-config.xml</param-value>
+			<param-value>classpath:/META-INF/config/spring/spring-mvc.xml</param-value>
 		</init-param>
 		<load-on-startup>1</load-on-startup>
 	</servlet>

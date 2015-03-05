@@ -5,6 +5,7 @@
     http://www.springframework.org/schema/context
     http://www.springframework.org/schema/context/spring-context-4.0.xsd"
 	default-autowire="byName">
-
+	
+	<context:component-scan base-package="com.kjt.service.#{artifactId}.*" />
 	
 </beans>
