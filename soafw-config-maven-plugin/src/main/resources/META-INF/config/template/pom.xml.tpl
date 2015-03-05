@@ -36,6 +36,7 @@
 		<validation-api.version>1.1.0.Final</validation-api.version>
 		<aspectj.version>1.8.4</aspectj.version>
 		<unirest-java.version>1.3.26</unirest-java.version>
+		<jackson-databind.version>2.4.2</jackson-databind.version>
 		
 		<dubbo.version>2.5.3</dubbo.version>
 		<zookeeper.version>3.4.6</zookeeper.version>
@@ -365,7 +366,11 @@
 					<artifactId>unirest-java</artifactId>
 					<version>${unirest-java.version}</version>
 				</dependency>
-				
+				<dependency>
+					<groupId>com.fasterxml.jackson.core</groupId>
+					<artifactId>jackson-databind</artifactId>
+					<version>${jackson-databind.version}</version>
+				</dependency>
 				<!-- dubbo -->
 				<dependency>
 					<groupId>com.alibaba</groupId>

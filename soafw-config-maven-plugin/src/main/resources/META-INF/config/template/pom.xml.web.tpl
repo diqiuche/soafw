@@ -95,6 +95,12 @@
 			<scope>compile</scope>
 		</dependency>
 		
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-databind</artifactId>
+			<version>${jackson-databind.version}</version>
+		</dependency>
+		
 		<!-- dubbo -->
 		<dependency>
 			<groupId>com.alibaba</groupId>

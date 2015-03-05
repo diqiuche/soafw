@@ -14,7 +14,7 @@
 
 	<!-- 把标记了@Controller注解的类转换为bean -->
 	<context:component-scan
-		base-package="com.kjt.service.#{artifactId},com.kjt.service.#{artifactId}.*"
+		base-package="com.kjt.service.#{artifactId}.*"
 		use-default-filters="false">
 		<context:include-filter type="annotation"
 			expression="org.springframework.stereotype.Controller" />
