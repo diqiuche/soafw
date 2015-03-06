@@ -664,7 +664,7 @@ public abstract class AbsIBatisDAOImpl<T extends IModel> extends AbsCacheableImp
       logger.debug("tabCacheable() - start"); //$NON-NLS-1$
     }
 
-    String query_cacheable = System.getProperty(QUERY_CACHE_FLG, "true");
+    String query_cacheable = System.getProperty(QUERY_CACHE_FLG, "false");
 
     boolean returnboolean = cacheable() // 缓存开关
         && Boolean.valueOf(query_cacheable) // 查询缓存开关

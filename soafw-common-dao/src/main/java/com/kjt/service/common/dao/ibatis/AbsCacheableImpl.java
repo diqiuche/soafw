@@ -64,7 +64,7 @@ public abstract class AbsCacheableImpl<T extends IModel> implements ICacheable<T
       logger.debug("cacheable() - start"); //$NON-NLS-1$
     }
 
-    String cacheable = System.getProperty(CACHE_FLG, "true");
+    String cacheable = System.getProperty(CACHE_FLG, "false");
 
     boolean returnboolean = Boolean.valueOf(cacheable);
 
@@ -79,7 +79,7 @@ public abstract class AbsCacheableImpl<T extends IModel> implements ICacheable<T
       logger.debug("pkCacheable() - start"); //$NON-NLS-1$
     }
 
-    String query_cacheable = System.getProperty(QUERY_CACHE_FLG, "true");
+    String query_cacheable = System.getProperty(QUERY_CACHE_FLG, "false");
 
     boolean returnboolean = cacheable() // 缓存开关
         && Boolean.valueOf(query_cacheable) // 查询缓存开关
@@ -248,7 +248,6 @@ public abstract class AbsCacheableImpl<T extends IModel> implements ICacheable<T
     try {
 
       long eft = cacheVersionDAO.incrTabVersion(getTabVersionKey(tabNameSuffix));
-      // 1);
 
       if (logger.isDebugEnabled()) {
         logger.debug(
@@ -262,6 +261,7 @@ public abstract class AbsCacheableImpl<T extends IModel> implements ICacheable<T
         logger.debug(
             "incrTabVersion(String tabNameSuffix={}) - end - return value={}", tabNameSuffix, 0); //$NON-NLS-1$
       }
+      
       return 0;
     }
   }
@@ -326,7 +326,6 @@ public abstract class AbsCacheableImpl<T extends IModel> implements ICacheable<T
       }
       return 0l;
     }
-
   }
 
   /**
@@ -337,7 +336,6 @@ public abstract class AbsCacheableImpl<T extends IModel> implements ICacheable<T
     if (logger.isDebugEnabled()) {
       logger.debug("getRecVersion(String tabNameSuffix={}) - start", tabNameSuffix); //$NON-NLS-1$
     }
-
     CacheVersion vObj = cacheVersionDAO.queryById(this.get$TKjtTabName(tabNameSuffix), null);// redisCache.get(getRecVersionKey(tabNameSuffix));
 
     String vStr = vObj == null ? "0" : vObj.getRecVersion().toString();

@@ -22,7 +22,9 @@ import ${package}.dao.model.${name};
 <#if tab.pkFieldNum==1>
 	<#if tab.pkFieldType.javaType="Integer">	
 public class ${name}IbatisDAOImpl extends AbsIntIDIBatisDAOImpl<${name}> implements I${name}DAO<${name}> {
-	<#elseif tab.pkFieldType.javaType="String">
+	<#elseif tab.pkFieldType.javaType="java.math.BigInteger">
+public class ${name}IbatisDAOImpl extends AbsBigIIDIBatisDAOImpl<${name}> implements I${name}DAO<${name}> {
+<#elseif tab.pkFieldType.javaType="String">
 public class ${name}IbatisDAOImpl extends AbsStrIDIBatisDAOImpl<${name}> implements I${name}DAO<${name}> {	
 	<#else>
 public class ${name}IbatisDAOImpl extends AbsLongIDIBatisDAOImpl<${name}> implements I${name}DAO<${name}> {

@@ -3,6 +3,8 @@ package ${package}.dao.ibatis.mapper;
 <#if tab.pkFieldNum==1>
 	<#if tab.pkFieldType.javaType="Integer">	
 import com.kjt.service.common.dao.ibatis.IIMapper;
+	<#elseif tab.pkFieldType.javaType="java.math.BigInteger">
+import com.kjt.service.common.dao.ibatis.IBigIMapper;
 	<#elseif tab.pkFieldType.javaType="String">
 import com.kjt.service.common.dao.ibatis.ISMapper;
 	<#else>
@@ -15,6 +17,8 @@ import ${package}.dao.model.${name};
 <#if tab.pkFieldNum==1>
 	<#if tab.pkFieldType.javaType="Integer">	
 public interface ${name}Mapper extends IIMapper<${name}>{
+	<#elseif tab.pkFieldType.javaType="java.math.BigInteger">
+public interface ${name}Mapper extends IBigIMapper<${name}>{	
 	<#elseif tab.pkFieldType.javaType="String">
 public interface ${name}Mapper extends ISMapper<${name}>{
 	<#else>

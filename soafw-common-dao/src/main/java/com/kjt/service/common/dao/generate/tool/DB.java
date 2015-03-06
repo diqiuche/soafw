@@ -14,7 +14,13 @@ public class DB {
     if (size == 0) {
       throw new RuntimeException("数据源必须有一个");
     }
-    TabReader reader = new TabReader(ds[0], dbName, name);
+    TabReader reader = null;
+    if ("mysql".equalsIgnoreCase(System.getProperty("db.type", "mysql"))) {
+      reader = new TabReader(ds[0], dbName, name);
+    } else {
+      reader = new TabReader_SqlSvr(ds[0], dbName, name);
+    }
+
     List<List<Object>> heads = new ArrayList<List<Object>>();
     List<Object> first = new ArrayList<Object>();
 

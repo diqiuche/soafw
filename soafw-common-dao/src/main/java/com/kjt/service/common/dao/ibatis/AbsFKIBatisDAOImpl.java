@@ -780,7 +780,7 @@ public abstract class AbsFKIBatisDAOImpl<T extends IModel> extends AbsIBatisDAOI
       logger.debug("fkCacheable() - start"); //$NON-NLS-1$
     }
 
-    String query_cacheable = System.getProperty(QUERY_CACHE_FLG, "true");
+    String query_cacheable = System.getProperty(QUERY_CACHE_FLG, "false");
 
     boolean returnboolean = cacheable() // 缓存开关
         && Boolean.valueOf(query_cacheable) // 查询缓存开关

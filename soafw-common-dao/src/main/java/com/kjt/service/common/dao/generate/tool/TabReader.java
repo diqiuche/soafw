@@ -12,8 +12,8 @@ import org.springframework.jdbc.core.simple.ParameterizedRowMapper;
 
 public class TabReader {
   private JdbcTemplate jdbcTemplate;
-  private String _table;
-  private String _dbName;
+  protected String _table;
+  protected String _dbName;
   private DataSource dataSource;
 
   public TabReader(DataSource dataSource, String dbName, String table) throws Exception {
@@ -124,8 +124,7 @@ public class TabReader {
   }
 
   public Tab createDef(List<List<Object>> head) {
-    String sql = "SELECT DISTINCT ordinal_position, column_name,column_comment,data_type,column_default,column_key,is_nullable FROM information_schema.columns WHERE table_name='"
-        + _table.trim() + "' AND table_schema='" + _dbName + "'";
+    String sql = getSql();
     List<Col> defs = jdbcTemplate.query(sql, new Object[] {}, new ColMapper());
     int size = defs == null ? 0 : defs.size();
     int pkFieldNum = 0;
@@ -144,5 +143,9 @@ public class TabReader {
     tab.setPkFieldNum(pkFieldNum);
     tab.setPkFieldType(pkFieldType);
     return tab;
+  }
+  protected String getSql(){
+    return "SELECT DISTINCT ordinal_position, column_name,column_comment,data_type,column_default,column_key,is_nullable FROM information_schema.columns WHERE table_name='"
+        + _table.trim() + "' AND table_schema='" + _dbName + "'";
   }
 }

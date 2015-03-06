@@ -21,13 +21,13 @@ import com.kjt.service.common.exception.DataAccessException;
 public class CacheVersionIbatisDAOImpl extends AbsStrIDIBatisDAOImpl<CacheVersion> implements
     ICacheVersionDAO<CacheVersion> {
 
-  @Resource(name = "oper_db")
+  @Resource(name = "cache_db")
   private DataSource masterDataSource;
 
-  @Resource(name = "oper_dbSlave")
+  @Resource(name = "cache_db_slave")
   private DataSource slaveDataSource;
 
-  @Resource(name = "oper_dbMapQuery")
+  @Resource(name = "cache_db_map_query")
   private DataSource mapQueryDataSource;
 
   @Override

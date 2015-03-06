@@ -8,7 +8,7 @@
 		
 		<#list cols as col>
 			<#if col.isPK="yes" && tab.pkFieldNum==1>
-			<#if col.type.javaType="Integer" || col.type.javaType="Long" || col.type.javaType="Float" || col.type.javaType="Double">
+			<#if col.type.javaType="Integer" || col.type.javaType="Long" || col.type.javaType="Float" || col.type.javaType="Double" || col.type.javaType="java.math.BigInteger">
 			<id property="id" column="${col.name}" />
 			<#else>
 			<id property="ids" column="${col.name}" />
@@ -29,7 +29,7 @@
 		<where>
 			<#if tab.pkFieldNum==1>
 			<#list colMaps as col>
-			<#if col.isPK="yes" &&   (col.type.javaType="Integer" || col.type.javaType="Long" || col.type.javaType="Float" || col.type.javaType="Double")>
+			<#if col.isPK="yes" &&   (col.type.javaType="Integer" || col.type.javaType="Long" || col.type.javaType="Float" || col.type.javaType="Double" || col.type.javaType="java.math.BigInteger")>
 			and ${col.name}=${r"#{id}"}
 			<#elseif col.isPK="yes" &&  col.type.javaType="String">
 			and ${col.name}=${r"#{ids}"}
@@ -58,7 +58,7 @@
 		<where>
 			<#if tab.pkFieldNum==1>
 			<#list colMaps as col>
-			<#if tab.pkFieldNum==1 && col.isPK="yes" &&   (col.type.javaType="Integer" || col.type.javaType="Long" || col.type.javaType="Float" || col.type.javaType="Double")>
+			<#if tab.pkFieldNum==1 && col.isPK="yes" &&   (col.type.javaType="Integer" || col.type.javaType="Long" || col.type.javaType="Float" || col.type.javaType="Double" || col.type.javaType="java.math.BigInteger")>
 			<if test="id !=  null">
 				and ${col.name}=${r"#{id}"}
 			</if>
@@ -89,7 +89,7 @@
 		SELECT
 		<#if tab.pkFieldNum==1>
 			<#list colMaps as col>
-			<#if col.isPK="yes" &&  (col.type.javaType="Integer" || col.type.javaType="Long" || col.type.javaType="Float" || col.type.javaType="Double")>
+			<#if col.isPK="yes" &&  (col.type.javaType="Integer" || col.type.javaType="Long" || col.type.javaType="Float" || col.type.javaType="Double" || col.type.javaType="java.math.BigInteger")>
 			${col.name}
 			<#elseif col.isPK="yes" &&  col.type.javaType="String">
 			${col.name}
@@ -107,7 +107,7 @@
 		<where>
 			<#if tab.pkFieldNum==1>
 			<#list colMaps as col>
-			<#if tab.pkFieldNum==1 && col.isPK="yes" &&  (col.type.javaType="Integer" || col.type.javaType="Long" || col.type.javaType="Float" || col.type.javaType="Double")>
+			<#if tab.pkFieldNum==1 && col.isPK="yes" &&  (col.type.javaType="Integer" || col.type.javaType="Long" || col.type.javaType="Float" || col.type.javaType="Double"|| col.type.javaType="java.math.BigInteger")>
 			<if test="id !=  null">
 				and ${col.name}=${r"#{id}"}
 			</if>
@@ -142,7 +142,7 @@
 		<where>			
 			<#if tab.pkFieldNum==1>
 			<#list colMaps as col>
-			<#if col.isPK="yes" &&  (col.type.javaType="Integer" || col.type.javaType="Long" || col.type.javaType="Float" || col.type.javaType="Double")>
+			<#if col.isPK="yes" &&  (col.type.javaType="Integer" || col.type.javaType="Long" || col.type.javaType="Float" || col.type.javaType="Double"|| col.type.javaType="java.math.BigInteger")>
 			<if test="id !=  null">
 				and ${col.name}=${r"#{id}"}
 			</if>
@@ -180,7 +180,7 @@
 			<if test="params !=  null">
 				<#if tab.pkFieldNum==1>
 				<#list colMaps as col>
-				<#if tab.pkFieldNum==1 && col.isPK="yes" &&  (col.type.javaType="Integer" || col.type.javaType="Long" || col.type.javaType="Float" || col.type.javaType="Double")>
+				<#if tab.pkFieldNum==1 && col.isPK="yes" &&  (col.type.javaType="Integer" || col.type.javaType="Long" || col.type.javaType="Float" || col.type.javaType="Double"|| col.type.javaType="java.math.BigInteger")>
 				<if test="params.id !=  null">
 					and ${col.name}=${r"#{params.id"}${r"}"}
 				</if>
@@ -211,7 +211,7 @@
 	<insert id="insert" parameterType="${package}.dao.model.${name}" useGeneratedKeys="true" keyProperty="id">
 		INSERT INTO	${r"${$TKjtTabName}"}
 			(<#list colMaps as col>${col.name}<#if col_has_next>,</#if></#list>)
-			VALUES(<#list colMaps as col><#if col.isPK="no">${r"#{"}${col.fieldName}${r"}"}<#elseif col.isPK="yes" && tab.pkFieldNum==1  &&  col.type.javaType="Integer">${r"#{id}"}<#elseif col.isPK="yes" && tab.pkFieldNum==1  &&  col.type.javaType="String">${r"#{ids}"}<#else>${r"#{"}${col.fieldName}${r"}"}</#if><#if col_has_next>,</#if></#list>)
+			VALUES(<#list colMaps as col><#if col.isPK="no">${r"#{"}${col.fieldName}${r"}"}<#elseif col.isPK="yes" && tab.pkFieldNum==1  &&  (col.type.javaType="Integer" || col.type.javaType="Long" || col.type.javaType="Float" || col.type.javaType="Double" || col.type.javaType="java.math.BigInteger")>${r"#{id}"}<#elseif col.isPK="yes" && tab.pkFieldNum==1  &&  col.type.javaType="String">${r"#{ids}"}<#else>${r"#{"}${col.fieldName}${r"}"}</#if><#if col_has_next>,</#if></#list>)
 	</insert>
 	
 	<update id="updateByMap" parameterType="java.util.Map">
@@ -220,7 +220,7 @@
 		<set> 
 			<#if tab.pkFieldNum==1>
 			<#list colMaps as col>
-			<#if tab.pkFieldNum==1 && col.isPK="yes" &&  (col.type.javaType="Integer" || col.type.javaType="Long" || col.type.javaType="Float" || col.type.javaType="Double")>
+			<#if tab.pkFieldNum==1 && col.isPK="yes" &&  (col.type.javaType="Integer" || col.type.javaType="Long" || col.type.javaType="Float" || col.type.javaType="Double" || col.type.javaType="java.math.BigInteger")>
 			<#elseif tab.pkFieldNum==1 && col.isPK="yes"  &&  col.type.javaType="String">
 			<#else>
 			<if test="${col.fieldName} !=  null">			        
@@ -241,7 +241,7 @@
 		<where>
 			<#if tab.pkFieldNum==1>
 			<#list colMaps as col>
-			<#if tab.pkFieldNum==1 && col.isPK="yes" &&  (col.type.javaType="Integer" || col.type.javaType="Long" || col.type.javaType="Float" || col.type.javaType="Double")>
+			<#if tab.pkFieldNum==1 && col.isPK="yes" &&  (col.type.javaType="Integer" || col.type.javaType="Long" || col.type.javaType="Float" || col.type.javaType="Double" || col.type.javaType="java.math.BigInteger")>
 			<if test="id !=  null">
 				and ${col.name}=${r"#{id}"}
 			</if>
@@ -271,7 +271,7 @@
 		<set>
 			<#if tab.pkFieldNum==1>
 			<#list colMaps as col>
-			<#if tab.pkFieldNum==1 && col.isPK="yes" &&  (col.type.javaType="Integer" || col.type.javaType="Long" || col.type.javaType="Float" || col.type.javaType="Double")>
+			<#if tab.pkFieldNum==1 && col.isPK="yes" &&  (col.type.javaType="Integer" || col.type.javaType="Long" || col.type.javaType="Float" || col.type.javaType="Double" || col.type.javaType="java.math.BigInteger")>
 			<if test="updNewMap.id !=  null">
 				${col.name}=${r"#{updNewMap.id"}${r"}"},
 			</if>
@@ -298,7 +298,7 @@
 		<where>
 			<#if tab.pkFieldNum==1>
 			<#list colMaps as col>
-			<#if tab.pkFieldNum==1 && col.isPK="yes" &&  (col.type.javaType="Integer" || col.type.javaType="Long" || col.type.javaType="Float" || col.type.javaType="Double")>
+			<#if tab.pkFieldNum==1 && col.isPK="yes" &&  (col.type.javaType="Integer" || col.type.javaType="Long" || col.type.javaType="Float" || col.type.javaType="Double" || col.type.javaType="java.math.BigInteger")>
 			<if test="updCondMap.id !=  null">
 				and ${col.name}=${r"#{updCondMap.id"}${r"}"}
 			</if>
@@ -332,7 +332,7 @@
 		<where>
 			<#if tab.pkFieldNum==1>
 			<#list colMaps as col>
-			<#if tab.pkFieldNum==1 && col.isPK="yes" &&  (col.type.javaType="Integer" || col.type.javaType="Long" || col.type.javaType="Float" || col.type.javaType="Double")>
+			<#if tab.pkFieldNum==1 && col.isPK="yes" &&  (col.type.javaType="Integer" || col.type.javaType="Long" || col.type.javaType="Float" || col.type.javaType="Double" || col.type.javaType="java.math.BigInteger")>
 			<if test="id !=  null">
 				and ${col.name}=${r"#{id}"}
 			</if>
