@@ -39,11 +39,12 @@ public class TabReader {
       type = rs.getString("data_type");
       def = rs.getString("column_default") == null ? "" : rs.getString("column_default");
       String key = rs.getString("column_key");
-      isKey = key == null ? "no" : "PRI".equals(key) ? "yes" : "no";
+      isKey = isKey(key);
       String nullable = rs.getString("is_nullable");
-      isNullable = nullable == null ? "yes" : "no".equals(nullable) ? "no" : "yes";
+      isNullable = isNull(nullable);
+      System.out.println(index + " " + name+" type: "+ type + " key: " + key+ " isKey:"+ isKey);
     }
-
+    
     public List toList() {
       List<Object> def_ = new ArrayList<Object>();
       def_.add(index);
@@ -113,6 +114,14 @@ public class TabReader {
       this.isNullable = isNullable;
     }
 
+  }
+  
+  protected String isKey(String key){
+    return key == null ? "no" : "PRI".equals(key) ? "yes" : "no";
+  }
+  
+  protected String isNull(String nullable){
+    return nullable == null ? "yes" : "no".equals(nullable) ? "no" : "yes";
   }
 
   class ColMapper implements ParameterizedRowMapper<Col> {

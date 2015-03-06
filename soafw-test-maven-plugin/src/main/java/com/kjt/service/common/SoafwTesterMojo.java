@@ -169,7 +169,7 @@ public class SoafwTesterMojo extends AbstractMojo {
                                 /**
                                  * 公共方法
                                  */
-                                tmp.getAnnotation(org.junit.Test.class);
+                                //tmp.getAnnotation(org.junit.Test.class);
                                 tmp.getParameterTypes();
                                 tmp.getTypeParameters();
                                 /**

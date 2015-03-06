@@ -11,7 +11,7 @@
 	
 	<context:component-scan base-package="com.kjt.service.#{artifactId}.*" />
 	
-	<import resource="classpath*:/META-INF/config/local/spring-cache.xml"/>
+	<import resource="classpath*:/META-INF/config/spring/spring-cache.xml"/>
 	
 	<bean id="#{artifactId}" class="com.kjt.service.common.datasource.DynamicDataSource"
 		init-method="init">

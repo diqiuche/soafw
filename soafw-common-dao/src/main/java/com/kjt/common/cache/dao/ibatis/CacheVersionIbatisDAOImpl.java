@@ -29,7 +29,10 @@ public class CacheVersionIbatisDAOImpl extends AbsStrIDIBatisDAOImpl<CacheVersio
 
   @Resource(name = "cache_db_map_query")
   private DataSource mapQueryDataSource;
-
+  
+  public CacheVersionIbatisDAOImpl(){
+    System.out.println("init");
+  }
   @Override
   public Class<CacheVersionMapper> getMapperClass() {
 

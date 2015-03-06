@@ -19,9 +19,9 @@
 	
 	<context:component-scan base-package="com.kjt.service.#{artifactId}.*" />
 	
-	<import resource="classpath*:/META-INF/config/local/spring-dao.xml"/>
-	<import resource="classpath*:/META-INF/config/local/spring-rpc.xml"/>
-	<import resource="classpath*:/META-INF/config/local/spring-mq.xml"/>
+	<import resource="classpath*:/META-INF/config/spring/spring-db.xml"/>
+	<import resource="classpath*:/META-INF/config/spring/spring-rpc.xml"/>
+	<import resource="classpath*:/META-INF/config/spring/spring-mq.xml"/>
 	
 	<!--dubbo服务发布配置-->
 	

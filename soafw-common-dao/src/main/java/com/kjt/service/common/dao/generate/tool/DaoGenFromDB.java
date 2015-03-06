@@ -53,8 +53,8 @@ public class DaoGenFromDB extends DaoGen {
     ClassPathXmlApplicationContext cac = new ClassPathXmlApplicationContext(
         springXml != null ? springXml : "generateDAO.xml");
     String masterDataSourceBean = dbName;
-    String slaveDataSourceBean = dbName + "Slave";
-    String mapQueryDataSourceBean = dbName + "MapQuery";
+    String slaveDataSourceBean = dbName + "_slave";
+    String mapQueryDataSourceBean = dbName + "_map_query";
     DataSource masterDataSource = (DataSource) cac.getBean(masterDataSourceBean);
     DataSource[] datasoures = { masterDataSource };
     DaoGenFromDB hf = new DaoGenFromDB(datasoures, masterDataSourceBean, tableName);

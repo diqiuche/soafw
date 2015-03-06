@@ -15,7 +15,6 @@
 	<name>soafw-test-maven-plugin Maven Mojo</name>
 	<url>http://maven.apache.org</url>
 	<properties>
-		<junit.version>4.7</junit.version>
 	</properties>
 	<dependencies>
 		<dependency>
@@ -27,6 +26,7 @@
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
 			<scope>test</scope>
+			<version>4.7</version>
 		</dependency>
 	</dependencies>
 </project>

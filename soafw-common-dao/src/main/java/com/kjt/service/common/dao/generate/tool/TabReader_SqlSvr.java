@@ -28,15 +28,22 @@ public class TabReader_SqlSvr extends TabReader {
     super(dataSource,dbName,table);
   }
 
+  protected String isKey(String key){
+    return key == null ? "no" : "1".equals(key) ? "yes" : "no";
+  }
+  
+  protected String isNull(String nullable){
+    return nullable == null ? "yes" : "0".equals(nullable) ? "no" : "yes";
+  }
+  
   @Override
-  protected String getSql() {
-    return "SELECT ordinal_position=a.colorder,column_name=a.name,column_comment=cast(isnull(g.[value],'') as varchar(100)),"
-        + "data_type=b.name,column_default=isnull(e.text,''),column_key=case when exists(SELECT 1 FROM sysobjects "
-        + "where xtype='PK' and name in (SELECT name FROM sysindexes WHERE indid in(SELECT indid FROM sysindexkeys "
-        + "WHERE id=a.id AND colid=a.colid))) then 'PRI' else 'no' end,is_nullable=case when a.isnullable=1 then 'yes' else "
-        + "'no' end FROM syscolumns a left join systypes b on a.xusertype=b.xusertype inner join sysobjects d on a.id=d.id "
-        + "and d.xtype='U' and d.name<>'dtproperties' left join syscomments e on a.cdefault=e.id left join "
-        + "sys.extended_properties g on a.id=g.major_id and a.colid=g.minor_id left join sys.extended_properties f "
-        + "on d.id=f.major_id and f.minor_id=0 where   d.name='"+_table.trim() + "' order by a.id,a.colorder";
+  protected String getSql() {//cast(isnull(g.[value],'') as varchar(100))
+    return "select ordinal_position=col.column_id,col.name as column_name,column_comment=cast(ep.value as varchar(100)),"
+        + "t.name as data_type,column_default=cast(null as varchar(100)),(select top 1 ind.is_primary_key from sys.index_columns ic "
+        + "left join sys.indexes ind on ic.object_id=ind.object_id and ic.index_id=ind.index_id and ind.name like "
+        + "'PK_%' where ic.object_id=obj.object_id and ic.column_id=col.column_id) as column_key,col.is_nullable as "
+        + "is_nullable from sys.objects obj inner join sys.columns col on obj.object_id=col.object_id left join sys.types t "
+        + "on t.user_type_id=col.user_type_id left join sys.extended_properties ep on ep.major_id=obj.object_id and "
+        + "ep.minor_id=col.column_id and ep.name='MS_Description' where obj.name='"+_table.trim()+"'";
   }
 }

@@ -1,8 +1,8 @@
 package com.kjt.common.test.dao.ibatis.mapper;
 
 import com.kjt.common.test.dao.model.Authorization;
-import com.kjt.service.common.dao.ibatis.ISMapper;
+import com.kjt.service.common.dao.ibatis.IBigIMapper;
 
-public interface AuthorizationMapper extends ISMapper<Authorization>{
+public interface AuthorizationMapper extends IBigIMapper<Authorization>{
 
 }

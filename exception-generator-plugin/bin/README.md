@@ -7,7 +7,7 @@
         <exception.level>2</exception.level>
     </properties>
 	<plugin>
-        <groupId>com.anjuke.service.common</groupId>
+        <groupId>com.kjt.service.common</groupId>
         <artifactId>exception-generator</artifactId>
         <version>0.0.1-SNAPSHOT</version>
         <configuration>
@@ -28,7 +28,7 @@
 ```
 ### 2. 添加 maven properties  若本模块不需要生成异常枚举，不配置以下参数即可
 	<properties>
-        <exception.enum.class>com.anjuke.service.exception.ExceptionEnum</exception.enum.class>
+        <exception.enum.class>com.kjt.service.exception.ExceptionEnum</exception.enum.class>
         <exception.level>2</exception.level>
         <spId>00</spId>
     </properties>

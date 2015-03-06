@@ -84,7 +84,5 @@
 	<!-- 控制器异常处理 -->
 	<bean id="responseStatusBasicExceptionResolver"
 		class="com.kjt.service.common.web.spring.ResponseStatusBasicExceptionResolver" />
-	<!-- <import resource="classpath*:/META-INF/config/application-config.xml" 
-		/> -->
 
 </beans>

@@ -16,7 +16,7 @@
 	<cache:annotation-driven cache-manager="cacheManager" />
 
 	<bean name="cacheManager"
-		class="com.anjuke.service.common.cache.spring.DynamicMemcacheManager">
+		class="com.kjt.service.common.cache.spring.DynamicMemcacheManager">
 		<property name="caches">
 			<list>
 				<ref bean="defaultCache" />
@@ -26,13 +26,13 @@
 	</bean>
 
 	<bean name="defaultCache"
-		class="com.anjuke.service.common.cache.mem.impl.DynamicMemCache"
+		class="com.kjt.service.common.cache.mem.impl.DynamicMemCache"
 		init-method="init">
 		<property name="prefix" value="#{artifactId}" />
 	</bean>
 	
 	<bean name="defaultCache-redis"
-		class="com.anjuke.service.common.cache.redis.impl.DynamicRedisCache"
+		class="com.kjt.service.common.cache.redis.impl.DynamicRedisCache"
 		init-method="init">
 		<property name="prefix" value="#{artifactId}" />
 	</bean>
