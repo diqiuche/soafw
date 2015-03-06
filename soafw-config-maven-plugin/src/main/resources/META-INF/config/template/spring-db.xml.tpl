@@ -21,7 +21,7 @@
 		init-method="init">
 		<property name="prefix" value="#{artifactId}_slave" />
 	</bean>
-	<bean id="#{artifactId}map_query" class="com.kjt.service.common.datasource.DynamicDataSource"
+	<bean id="#{artifactId}_map_query" class="com.kjt.service.common.datasource.DynamicDataSource"
 		init-method="init">
 		<property name="prefix" value="#{artifactId}_map_query" />
 	</bean>

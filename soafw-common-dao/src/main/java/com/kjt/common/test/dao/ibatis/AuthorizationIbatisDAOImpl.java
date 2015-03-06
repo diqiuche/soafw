@@ -5,13 +5,13 @@ import javax.sql.DataSource;
 
 import org.springframework.stereotype.Repository;
 
-import com.kjt.service.common.dao.ibatis.AbsIntIDIBatisDAOImpl;
 import com.kjt.common.test.dao.IAuthorizationDAO;
 import com.kjt.common.test.dao.ibatis.mapper.AuthorizationMapper;
 import com.kjt.common.test.dao.model.Authorization;
+import com.kjt.service.common.dao.ibatis.AbsStrIDIBatisDAOImpl;
 
 @Repository("Authorization")
-public class AuthorizationIbatisDAOImpl extends AbsIntIDIBatisDAOImpl<Authorization> implements IAuthorizationDAO<Authorization> {
+public class AuthorizationIbatisDAOImpl extends AbsStrIDIBatisDAOImpl<Authorization> implements IAuthorizationDAO<Authorization> {
 
 	@Resource(name = "oper_db")
 	private DataSource masterDataSource;
