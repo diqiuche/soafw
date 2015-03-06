@@ -21,10 +21,6 @@
 		<exception.enum.class>AUTO</exception.enum.class>
 		<!-- 异常生成定义 END -->
 		
-		<spring.version>4.0.5.RELEASE</spring.version>
-		<zookeeper.version>3.4.6</zookeeper.version>
-		<zkclient.version>0.4</zkclient.version>
-		<junit.version>4.11</junit.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
 	</properties>
@@ -96,6 +92,18 @@
 		</dependency>
 		
 		<dependency>
+			<groupId>jstl</groupId>  
+			<artifactId>jstl</artifactId>
+			<version>1.1.2</version>
+		</dependency>
+		  
+		<dependency>
+			<groupId>taglibs</groupId>
+			<artifactId>standard</artifactId>
+			<version>1.1.2</version>
+		</dependency>
+		
+		<dependency>
 			<groupId>com.fasterxml.jackson.core</groupId>
 			<artifactId>jackson-databind</artifactId>
 			<version>${jackson-databind.version}</version>
@@ -135,7 +143,7 @@
 			<groupId>com.101tec</groupId>
 			<artifactId>zkclient</artifactId>
 		</dependency>
-			
+		
 	</dependencies>
 
 	<build>
@@ -157,8 +165,15 @@
 					<stopKey>foo</stopKey>
 					<stopPort>#{stopPort}</stopPort>
 					<webAppConfig>
-						<contextPath>/soj-web</contextPath>
+						<contextPath>/#{artifactId}-web</contextPath>
 					</webAppConfig>
+					<requestLog implementation="org.eclipse.jetty.server.NCSARequestLog">
+						<filename>/data1/logs/service/#{artifactId}/request.log.yyyy_mm_dd</filename>
+						<retainDays>7</retainDays>
+						<append>true</append>
+						<extended>false</extended>
+						<logTimeZone>GMT</logTimeZone>
+					</requestLog>
 				</configuration>
 				<executions>
 					<execution>
