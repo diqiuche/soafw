@@ -21,26 +21,26 @@ dbcp.logAbandoned=true
 dbcp.removeAbandoned=true
 db.conn.str=useUnicode=true&characterEncoding=UTF-8&zeroDateTimeBehavior=convertToNull&autoReconnect=true&elideSetAutoCommits=true&cacheServerConfiguration=true
 
-##{artifactId}_db
-#{artifactId}_db.driver = ${jdbc.driver}
-#{artifactId}_db.url = jdbc:mysql://192.168.1.110:3306/oper_db?${db.conn.str}
-#{artifactId}_db.username = root
-#{artifactId}_db.password = Kjt@)!$
-#{artifactId}_db.initialSize = ${dbcp.initialSize}
-#{artifactId}_db.maxActive = ${dbcp.maxActive}
-#{artifactId}_db.maxIdle = 5
-#{artifactId}_db.minIdle = ${dbcp.minIdle}
-#{artifactId}_db.maxWait = ${dbcp.maxWait}
-#{artifactId}_db.removeAbandonedTimeout = ${dbcp.removeAbandonedTimeout}
-#{artifactId}_db.minEvictableIdleTimeMillis= 1000
-#{artifactId}_db.timeBetweenEvictionRunsMillis = 500
-#{artifactId}_db.poolPreparedStatements = ${dbcp.poolPreparedStatements}
-#{artifactId}_db.defaultReadOnly = ${dbcp.defaultReadOnly}
-#{artifactId}_db.logAbandoned = ${dbcp.logAbandoned}
-#{artifactId}_db.removeAbandoned = ${dbcp.removeAbandoned}
-#{artifactId}_db.testOnBorrow = ${dbcp.testOnBorrow}
-#{artifactId}_db.testWhileIdle = ${dbcp.testWhileIdle}
-#{artifactId}_db.validationQuery = ${dbcp.validationQuery}
+##{artifactId}
+#{artifactId}.driver = ${jdbc.driver}
+#{artifactId}.url = jdbc:mysql://192.168.1.110:3306/#{artifactId}_db?${db.conn.str}
+#{artifactId}.username = root
+#{artifactId}.password = Kjt@)!$
+#{artifactId}.initialSize = ${dbcp.initialSize}
+#{artifactId}.maxActive = ${dbcp.maxActive}
+#{artifactId}.maxIdle = 5
+#{artifactId}.minIdle = ${dbcp.minIdle}
+#{artifactId}.maxWait = ${dbcp.maxWait}
+#{artifactId}.removeAbandonedTimeout = ${dbcp.removeAbandonedTimeout}
+#{artifactId}.minEvictableIdleTimeMillis= 1000
+#{artifactId}.timeBetweenEvictionRunsMillis = 500
+#{artifactId}.poolPreparedStatements = ${dbcp.poolPreparedStatements}
+#{artifactId}.defaultReadOnly = ${dbcp.defaultReadOnly}
+#{artifactId}.logAbandoned = ${dbcp.logAbandoned}
+#{artifactId}.removeAbandoned = ${dbcp.removeAbandoned}
+#{artifactId}.testOnBorrow = ${dbcp.testOnBorrow}
+#{artifactId}.testWhileIdle = ${dbcp.testWhileIdle}
+#{artifactId}.validationQuery = ${dbcp.validationQuery}
 
 ##{artifactId}_slave
 #{artifactId}_slave.driver = ${jdbc.driver}
