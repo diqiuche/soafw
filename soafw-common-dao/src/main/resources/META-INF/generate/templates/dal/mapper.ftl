@@ -22,12 +22,4 @@ public interface ${name}Mapper extends ILMapper<${name}>{
 	</#if>
 </#if>
 
-<#if tab.pkFieldNum==1>
-	<#if tab.pkFieldType.javaType="Integer">	
-public interface ${name}Mapper extends IIMapper<${name}>{
-	<#else>
-public interface ${name}Mapper extends ILMapper<${name}>{
-	</#if>
-</#if>
-
 }
