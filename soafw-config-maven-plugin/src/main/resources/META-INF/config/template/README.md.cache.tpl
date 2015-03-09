@@ -15,12 +15,10 @@
 
 +配置
 
-	
-
 	+ 应用配置
 		+ 保存在#{artifactId}-cache/src/main/resource/META-INF/config/spring
 		+ spring-cache.xml
 	+ 资源配置
-		+ 资源文件默认保存在/config目录,当没有找到时，程序会从#{artifactId}-cache/src/main/resource/META-INF/config/local
+		+ 资源文件默认保存在/config目录,当没有找到时，程序会从#{artifactId}-cache/src/main/resource/META-INF/config/local读取配置信息
 		+ cache－mem.properties
 		+ cache-redis.properties

@@ -17,14 +17,14 @@
 		+ 保存在tsl-dao/src/main/resource/META-INF/config/spring
 		+ spring-dao.xml
 	+ 资源配置
-		+ 资源文件默认保存在/config目录,当没有找到时，程序会从tsl-dao/src/main/resource/META-INF/config/local
+		+ 资源文件默认保存在/config目录,当没有找到时，程序会从tsl-dao/src/main/resource/META-INF/config/local中读取配置信息
 		+ database.properties
 		
 + dao操作扩展实现
 	
 	+ 1,在相应的对象数据访问层接口定义接口 aa
 	+ 2,在map接口上定义相关接口 aa
-	+ 3,在map文件上定义sql实现 id 为 aa [注意：parameterType必须为"java.util.Map"，表名必须采用‘${$TKjtTabName}’替换]
+	+ 3,在map文件上定义sql实现 id 为 aa [注意：parameterType必须为"java.util.Map"，表名必须采用‘${tKjtTabName}’替换]
 	+ 4,在数据访问层定义实现，实现代码如下
 		
 		```
