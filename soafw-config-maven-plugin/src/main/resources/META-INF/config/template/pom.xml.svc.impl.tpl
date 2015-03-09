@@ -17,7 +17,6 @@
 		<dependency>
 			<groupId>com.kjt.service.common</groupId>
 			<artifactId>soafw-common-service-impl</artifactId>
-			<version>${soafw-common.version}</version>
 		</dependency>
 		
 		<dependency>

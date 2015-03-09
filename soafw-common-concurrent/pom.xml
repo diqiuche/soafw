@@ -4,7 +4,7 @@
 	<parent>
 		<groupId>com.kjt.service.common</groupId>
 		<artifactId>soafw-common</artifactId>
-		<version>0.0.1</version>
+		<version>1.0-SNAPSHOT</version>
 	</parent>
 	<artifactId>soafw-common-concurrent</artifactId>
 	<name>soafw-common-concurrent</name>

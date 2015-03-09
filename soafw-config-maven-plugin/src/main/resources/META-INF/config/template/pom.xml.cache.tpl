@@ -18,7 +18,6 @@
 		<dependency>
 			<groupId>com.kjt.service.common</groupId>
 			<artifactId>soafw-common-cache</artifactId>
-			<version>${soafw-common.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>com.kjt.service.#{artifactId}</groupId>

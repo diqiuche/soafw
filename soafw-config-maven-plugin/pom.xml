@@ -6,17 +6,13 @@
 	<parent>
         <groupId>com.kjt.service.common</groupId>
         <artifactId>soafw-common</artifactId>
-        <!-- <version>0.0.1-SNAPSHOT</version> -->
-        <version>0.0.1</version>
+        <version>1.0-SNAPSHOT</version>
     </parent>
-	<groupId>com.kjt.service.common</groupId>
 	<artifactId>soafw-config-maven-plugin</artifactId>
-	<version>0.0.1</version>
 	<packaging>maven-plugin</packaging>
 	<name>soafw-config-maven-plugin Maven Mojo</name>
 	<url>http://maven.apache.org</url>
 	<properties>
-		<junit.version>4.7</junit.version>
 	</properties>
 	<dependencies>
 		<dependency>
