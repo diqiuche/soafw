@@ -207,8 +207,8 @@ public class SoafwTesterMojo extends AbstractMojo {
             String path = file.getAbsolutePath();
             if(path.indexOf(classesDir)==0 && path.length()>lenght){
                 String pkgPath = path.substring(lenght);
-                String tmpFile = pkgPath.replaceAll(File.separator, ".");
                 try {
+                    String tmpFile = pkgPath.replaceAll(File.separator, ".");
                     if (tmpFile.endsWith(".class")) {
                         // && !tmpFile.endsWith("Mapper.class")
                         String clsName = tmpFile.replaceAll(".class", "");
