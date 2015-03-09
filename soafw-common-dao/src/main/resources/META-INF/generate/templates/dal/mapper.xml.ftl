@@ -25,7 +25,7 @@
 			${col.name}<#if col_has_next>,</#if>
 		</#list>
 		FROM
-			${r"${$TKjtTabName}"}
+			${r"${tKjtTabName}"}
 		<where>
 			<#if tab.pkFieldNum==1>
 			<#list colMaps as col>
@@ -54,7 +54,7 @@
 			${col.name}<#if col_has_next>,</#if>
 		</#list>
 		FROM
-			${r"${$TKjtTabName}"}
+			${r"${tKjtTabName}"}
 		<where>
 			<#if tab.pkFieldNum==1>
 			<#list colMaps as col>
@@ -103,7 +103,7 @@
 			</#list>
 			</#if>
 		FROM
-			${r"${$TKjtTabName}"}
+			${r"${tKjtTabName}"}
 		<where>
 			<#if tab.pkFieldNum==1>
 			<#list colMaps as col>
@@ -138,7 +138,7 @@
 		SELECT
 			count(*)
 		FROM
-			${r"${$TKjtTabName}"}
+			${r"${tKjtTabName}"}
 		<where>			
 			<#if tab.pkFieldNum==1>
 			<#list colMaps as col>
@@ -175,7 +175,7 @@
 			${col.name}<#if col_has_next>,</#if>
 			</#list>
 		FROM
-			${r"${$TKjtTabName}"}
+			${r"${tKjtTabName}"}
 		<where>
 			<if test="params !=  null">
 				<#if tab.pkFieldNum==1>
@@ -209,14 +209,14 @@
 	</select>
 
 	<insert id="insert" parameterType="${package}.dao.model.${name}" useGeneratedKeys="true" keyProperty="id">
-		INSERT INTO	${r"${$TKjtTabName}"}
+		INSERT INTO	${r"${tKjtTabName}"}
 			(<#list colMaps as col>${col.name}<#if col_has_next>,</#if></#list>)
 			VALUES(<#list colMaps as col><#if col.isPK="no">${r"#{"}${col.fieldName}${r"}"}<#elseif col.isPK="yes" && tab.pkFieldNum==1  &&  (col.type.javaType="Integer" || col.type.javaType="Long" || col.type.javaType="Float" || col.type.javaType="Double" || col.type.javaType="java.math.BigInteger")>${r"#{id}"}<#elseif col.isPK="yes" && tab.pkFieldNum==1  &&  col.type.javaType="String">${r"#{ids}"}<#else>${r"#{"}${col.fieldName}${r"}"}</#if><#if col_has_next>,</#if></#list>)
 	</insert>
 	
 	<update id="updateByMap" parameterType="java.util.Map">
 		update 
-			${r"${$TKjtTabName}"}
+			${r"${tKjtTabName}"}
 		<set> 
 			<#if tab.pkFieldNum==1>
 			<#list colMaps as col>
@@ -267,7 +267,7 @@
 	
 	<update id="cmplxUpdate" parameterType="java.util.Map">
 		update 
-			${r"${$TKjtTabName}"}
+			${r"${tKjtTabName}"}
 		<set>
 			<#if tab.pkFieldNum==1>
 			<#list colMaps as col>
@@ -328,7 +328,7 @@
 	<delete id="deleteByMap" parameterType="java.util.Map">		
 		DELETE
 		FROM
-			${r"${$TKjtTabName}"} 
+			${r"${tKjtTabName}"} 
 		<where>
 			<#if tab.pkFieldNum==1>
 			<#list colMaps as col>
