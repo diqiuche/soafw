@@ -20,7 +20,7 @@
 		<json-lib.version>2.2.3</json-lib.version>
 		<spring.version>4.0.7.RELEASE</spring.version>
 		<hessian.version>4.0.7</hessian.version>
-		<sqljdbc4.version>3.0</sqljdbc4.version>
+		<sqljdbc4.version>4.0</sqljdbc4.version>
 		<slf4j.version>1.7.5</slf4j.version>
 		<logback.version>1.1.2</logback.version>
 		<servlet-api.version>2.5</servlet-api.version>
