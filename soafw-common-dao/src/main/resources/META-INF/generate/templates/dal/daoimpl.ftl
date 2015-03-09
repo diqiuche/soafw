@@ -7,6 +7,8 @@ import org.springframework.stereotype.Repository;
 <#if tab.pkFieldNum==1>
 	<#if tab.pkFieldType.javaType="Integer">	
 import com.kjt.service.common.dao.ibatis.AbsIntIDIBatisDAOImpl;
+	<#elseif tab.pkFieldType.javaType="java.math.BigInteger">
+import com.kjt.service.common.dao.ibatis.AbsBigIIDIBatisDAOImpl;	
 	<#elseif tab.pkFieldType.javaType="String">
 import com.kjt.service.common.dao.ibatis.AbsStrIDIBatisDAOImpl;
 	<#else>
