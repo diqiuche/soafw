@@ -4,8 +4,6 @@
 	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee 
 	http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd">
 	
-<web-app>
-
 	<display-name>Service #{artifactId}</display-name>
 
 	<context-param>
