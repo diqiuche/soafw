@@ -42,7 +42,7 @@
 		<zookeeper.version>3.4.6</zookeeper.version>
 		<zkclient.version>0.4</zkclient.version>
 		
-		<soafw-common.version>0.0.1</soafw-common.version>
+		<soafw-common.version>1.0-SNAPSHOT</soafw-common.version>
 
         <!-- 异常代码生成公共定义 -->
         <exception.enum.class></exception.enum.class>

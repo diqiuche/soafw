@@ -362,7 +362,7 @@
 			<plugin>
 				<groupId>com.kjt.service.common</groupId>
 				<artifactId>exception-generator</artifactId>
-				<version>0.0.1-SNAPSHOT</version>
+				<version>1.0-SNAPSHOT</version>
 				<configuration>
 					<exceptionEnumClass>${exception.enum.class}</exceptionEnumClass>
 					<configFile>${exception.config}</configFile>

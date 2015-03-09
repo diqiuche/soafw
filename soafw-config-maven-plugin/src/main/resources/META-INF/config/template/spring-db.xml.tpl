@@ -38,4 +38,5 @@
 		init-method="init">
 		<property name="prefix" value="#{artifactId}_map_query" />
 	</bean>
+	<!--新增数据库是需要添加 master、slave、map_query三个-->
 </beans>
