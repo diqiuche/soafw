@@ -33,7 +33,7 @@ mvn soafw-config:config -Dsufix=md -Dtemplate=README.md.dao -DartifactId=$projec
 mvn soafw-config:config -Dtemplate=acc.xml -DartifactId=$projectid -DdestDir=../../projects/$projectid/$projectid-dao/src/main/resources/META-INF/config/local
 mvn soafw-config:config -Dsufix=properties -Dtemplate=database.properties -DartifactId=$projectid -DdestDir=../../projects/$projectid/$projectid-dao/src/main/resources/META-INF/config/local
 mvn soafw-config:config -Dtemplate=spring-db.xml -DartifactId=$projectid -DdestDir=../../projects/$projectid/$projectid-dao/src/main/resources/META-INF/config/spring
-mvn soafw-config:config -Dsufix=java -Dtemplate=DaoGen.java -DartifactId=$projectid -DdestDir=../../projects/$projectid/$projectid-dao/src/test/java/com/kjt/service/tsl/dao
+mvn soafw-config:config -Dsufix=java -Dtemplate=DaoGen.java -DartifactId=$projectid -DdestDir=../../projects/$projectid/$projectid-dao/src/test/java/com/kjt/service/$projectid/dao
 
 
 ##rpc

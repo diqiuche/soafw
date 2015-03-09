@@ -25,7 +25,33 @@ public class DaoGenFromDB extends DaoGen {
   }
 
   /**
-   * 生成dao文件
+   * sqlserver database 生成dao文件
+   * 
+   * @param masterDataSourceBean
+   *          主数据源bean名称
+   * @param slaveDataSourceBean
+   *          从数据源bean名称
+   * @param dbName
+   *          db名称
+   * @param tableName
+   *          表名
+   * @param springXml
+   *          spring文件
+   * @param packageName
+   *          包名
+   * @param targetJava
+   *          存放产生java的目录
+   * @param resources
+   *          存放产生xml的目录
+   * @throws Exception
+   */
+  public static void generateSQLSvrDAO(String dbName, String tableName, String springXml,
+      String packageName, String targetJava, String resources) throws Exception {
+    System.setProperty("db.type", "sqlserver");
+    generateDAO(dbName,tableName,springXml,packageName,targetJava,resources); 
+  }
+  /**
+   * mysql database 生成dao文件
    * 
    * @param masterDataSourceBean
    *          主数据源bean名称
