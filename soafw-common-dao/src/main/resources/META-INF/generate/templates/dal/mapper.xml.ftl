@@ -175,7 +175,7 @@
 			${col.name}<#if col_has_next>,</#if>
 			</#list>
 		FROM
-			${r"${tKjtTabName}"}
+			${r"${params.tKjtTabName}"}
 		<where>
 			<if test="params !=  null">
 				<#if tab.pkFieldNum==1>
