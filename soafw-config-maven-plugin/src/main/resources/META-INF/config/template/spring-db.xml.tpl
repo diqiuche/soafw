@@ -13,6 +13,19 @@
 	
 	<import resource="classpath*:/META-INF/config/spring/spring-cache.xml"/>
 	
+	<bean id="cache_db" class="com.kjt.service.common.datasource.DynamicDataSource"
+		init-method="init">
+		<property name="prefix" value="cache_db" />
+	</bean>
+	<bean id="cache_db_slave" class="com.kjt.service.common.datasource.DynamicDataSource"
+		init-method="init">
+		<property name="prefix" value="cache_db_slave" />
+	</bean>
+	<bean id="cache_db_map_query" class="com.kjt.service.common.datasource.DynamicDataSource"
+		init-method="init">
+		<property name="prefix" value="cache_db_map_query" />
+	</bean>
+	
 	<bean id="#{artifactId}" class="com.kjt.service.common.datasource.DynamicDataSource"
 		init-method="init">
 		<property name="prefix" value="#{artifactId}" />
