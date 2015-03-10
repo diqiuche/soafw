@@ -79,7 +79,7 @@ public class SoafwTesterMojo extends AbstractMojo {
         MavenProject project = (MavenProject)this.getPluginContext().get("project");
         
         try {
-            project.getModel().getBuild().
+            project.getModel().getBuild();
             List<Dependency> dependencies = project.getDependencies();//getRuntimeClasspathElements();
             URL[] runtimeUrls = new URL[dependencies.size()];  
             for (int i = 0; i < dependencies.size(); i++) {  
