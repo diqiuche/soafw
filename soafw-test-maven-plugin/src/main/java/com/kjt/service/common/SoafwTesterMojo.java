@@ -22,16 +22,20 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLClassLoader;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
+import org.apache.maven.model.Dependency;
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
+import org.apache.maven.project.MavenProject;
+import org.junit.Test;
 
 /**
  * Goal which gen a timestamp file.
  *
  * @goal gen
- * 
+ * @requiresDependencyResolution compile+runtime
  * @phase process-sources
  */
 public class SoafwTesterMojo extends AbstractMojo {
@@ -63,38 +67,85 @@ public class SoafwTesterMojo extends AbstractMojo {
     private Map<String, Integer> errorImpl = new HashMap<String, Integer>();
 
     private ClassLoader cl = null;
-    
+    private URLClassLoader newLoader = null;
+    private URL[] urls = null;
+
     public void execute() throws MojoExecutionException {
+        
         this.getLog().info("start unit test file gen&check: " + artifactId);
+        
+        this.getLog().info(""+this.getPluginContext());
+        
+        MavenProject project = (MavenProject)this.getPluginContext().get("project");
+        
+        try {
+            project.getModel().getBuild().
+            List<Dependency> dependencies = project.getDependencies();//getRuntimeClasspathElements();
+            URL[] runtimeUrls = new URL[dependencies.size()];  
+            for (int i = 0; i < dependencies.size(); i++) {  
+                String element = (String) dependencies.get(i).getArtifactId();  
+                this.getLog().info("sysPath: "+element);
+                //runtimeUrls[i] = new File(element).toURI().toURL();  
+            }
+            if(true){
+                return;
+            }
+            newLoader = new URLClassLoader(runtimeUrls,  
+                Thread.currentThread().getContextClassLoader());  
+        } catch (Exception e2) {
+            // TODO Auto-generated catch block
+            e2.printStackTrace();
+        }  
+        
         String basedPath = basedir.getAbsolutePath();
         String testJFilePath;
         classesDir = basedPath + File.separator + "target" + File.separator + "classes";
         lenght = classesDir.length() + 1;
-        load(new File(classesDir));//得到三个map
-        StringBuffer testJBuf=new StringBuffer();
-        StringBuffer methodBuf=new StringBuffer();
+
+        try {
+            URL[] urls = {new File(classesDir).toURI().toURL()};
+            this.cl = new URLClassLoader(urls,newLoader);// this.getClass().getClassLoader();
+        } catch (MalformedURLException e1) {
+            e1.printStackTrace();
+        }
+
+        load(new File(classesDir));// 得到三个map
+
+        this.getLog().info("未实现测试&符合正常命名规范的类：" + defines);
+
+        this.getLog().info("符合正常命名规范的类||已经实现过测试用咧：" + testImpl);
+
+        this.getLog().error("异常命名类：" + testImpl);
+
+        StringBuffer testJBuf = new StringBuffer();
+        StringBuffer methodBuf = new StringBuffer();
         int size = defines.size();
         String[] definesArray = new String[size];
         defines.keySet().toArray(definesArray);
-        this.cl=ClassLoader.getSystemClassLoader();
+
+        if (size == 0) {
+            this.getLog().info("未发现实现接口类");
+        }
         for (int i = 0; i < size; i++) {
 
             if (!testImpl.containsKey(definesArray[i] + "Test")) {// 该文件没有建立对应测试用例 为实现测试
-                
+                this.getLog().info("检测到" + definesArray[i] + "没有测试实现");
                 try {
                     Class cls = cl.loadClass(definesArray[i]);
                     Method[] methods = cls.getMethods();
-                    
+
                     String pkgPath = cls.getPackage().getName().replace(".", File.separator);
-                    
-                    
-                    testJFilePath=basedPath+File.separator+"src"+File.separator
-                            +"test"+File.separator+"java"+File.separator+pkgPath;
-                    
-                    String  testJFileName=cls.getSimpleName()+"Test.java";
-                    
-                    
-                    StringBuffer jHeadBuf=createTestJHeadByClass(cls);
+
+
+                    testJFilePath =
+                            basedPath + File.separator + "src" + File.separator + "test"
+                                    + File.separator + "java" + File.separator + pkgPath;
+
+                    String testJFileName = cls.getSimpleName() + "Test.java";
+
+                    this.getLog().info("开始生成" + definesArray[i] + "Test单元测试类");
+
+                    StringBuffer jHeadBuf = createTestJHeadByClass(cls);
                     testJBuf.append(jHeadBuf);
                     int len = 0;
                     if (methods != null && (len = methods.length) > 0) {
@@ -106,32 +157,35 @@ public class SoafwTesterMojo extends AbstractMojo {
                                 /**
                                  * 单元测试实现的类名＝实现类名＋Test 单元测试方法名=方法名+Test
                                  * 单元测试文件生成到:basedPath+File.separator
-                                 * +src+File.separator+test+File.separator+pkg+definesArray[i]+Test+.java
+                                 * +src+File.separator+test+File.separator
+                                 * +pkg+definesArray[i]+Test+.java
                                  */
-                                addMethod(methodBuf,methods[m].getName());
+                                addMethod(methodBuf, methods[m].getName());
 
                             }
                         }
                     }
-                    String testJFile=testJBuf.append(methodBuf).append("}").toString();
+                    String testJFile = testJBuf.append(methodBuf).append("}").toString();
+
+                    this.getLog().info(testJFile);
+
                     write(testJFilePath, testJFileName, testJFile);
-                    
-                    
+
                 } catch (Exception e) {
                     this.getLog().info(e.getMessage());
                 } catch (Error er) {
                     this.getLog().info(er.getMessage());
                 }
 
-                
+
             } else {// 已经有实现过的测试类
                 /**
                  * 需要检查实现类与测试类单元测试实现范围比较 当发现实现类的public
                  * 方法没有单元测试实现时则抛出异常MojoExecutionException，不做覆盖（保证已经实现的不被覆盖）
                  */
                 try {
-                    
-                    Map<String,Method> defs = new HashMap<String,Method>();//Key:为当前方法类型＋变量，...字符串md5值
+
+                    Map<String, Method> defs = new HashMap<String, Method>();// Key:为当前方法类型＋变量，...字符串md5值
                     Class cls = cl.loadClass(definesArray[i]);// 加载业务实现类
                     Method[] methods = cls.getMethods();
                     int len = 0;
@@ -151,11 +205,12 @@ public class SoafwTesterMojo extends AbstractMojo {
                                 /**
                                  * 构造方法唯一标示
                                  */
+
                             }
                         }
                     }
-                    
-                    Map<String,Method> tsts = new HashMap<String,Method>();
+
+                    Map<String, Method> tsts = new HashMap<String, Method>();
                     Class tstCls = cl.loadClass(definesArray[i] + "Test");// 加载单元测试的实现类
                     Method[] tstMethods = tstCls.getMethods();
                     if (tstMethods != null && (len = tstMethods.length) > 0) {
@@ -169,7 +224,10 @@ public class SoafwTesterMojo extends AbstractMojo {
                                 /**
                                  * 公共方法
                                  */
-                                //tmp.getAnnotation(org.junit.Test.class);
+                                Test tst = tmp.getAnnotation(Test.class);
+                                if (tst == null) {
+                                    continue;
+                                }
                                 tmp.getParameterTypes();
                                 tmp.getTypeParameters();
                                 /**
@@ -188,7 +246,7 @@ public class SoafwTesterMojo extends AbstractMojo {
         }
 
     }
-   
+
     /**
      * 非接口&&抽象类 并且是 public 或者 protected
      * 
@@ -205,14 +263,20 @@ public class SoafwTesterMojo extends AbstractMojo {
             }
         } else {
             String path = file.getAbsolutePath();
-            if(path.indexOf(classesDir)==0 && path.length()>lenght){
+            if (path.indexOf(classesDir) == 0 && path.length() > lenght) {
                 String pkgPath = path.substring(lenght);
                 try {
                     String tmpFile = pkgPath.replaceAll(File.separator, ".");
-                    if (tmpFile.endsWith(".class")) {
-                        // && !tmpFile.endsWith("Mapper.class")
+
+                    if (tmpFile.endsWith(".class") && !tmpFile.endsWith("Mapper.class")) {
+
                         String clsName = tmpFile.replaceAll(".class", "");
+
+                        this.getLog().info("检测到单元测试未实现类：" + clsName);
+
                         Class cls = cl.loadClass(clsName);
+                        this.getLog().info("加载成功：" + clsName);
+
                         int modf = cls.getModifiers();
                         if (modf != 1537 && modf != 1025) {// 非接口 && 抽象类
                             if (clsName.endsWith("ImplTest")) {
@@ -225,8 +289,10 @@ public class SoafwTesterMojo extends AbstractMojo {
                         }
                     }
                 } catch (Exception e) {
+                    e.printStackTrace();
                     this.getLog().info(e.getMessage());
                 } catch (Error er) {
+                    er.printStackTrace();
                     this.getLog().info(er.getMessage());
                 }
             }
@@ -250,20 +316,31 @@ public class SoafwTesterMojo extends AbstractMojo {
             } catch (IOException e) {}
         }
     }
-    private void addMethod(StringBuffer methodBuffer,String methodName){
+
+    private void addMethod(StringBuffer methodBuffer, String methodName) {
         methodBuffer.append("  @Test\n");
-        methodBuffer.append("  public void "+methodName+"() {\n");
+        methodBuffer.append("  public void " + methodName + "() {\n");
         methodBuffer.append("    throw new RuntimeException(\"Test not implemented\");");
         methodBuffer.append(" }\n");
         methodBuffer.append("\n");
-        
-        
+
+
     }
-    private StringBuffer createTestJHeadByClass(Class cls){
-        StringBuffer jHeadBuf=new StringBuffer();
-        jHeadBuf.append("package " + cls.getPackage().getName() +"; \n");
-        jHeadBuf.append("import org.testng.annotations.Test; \n");
-        jHeadBuf.append("public class "+cls.getSimpleName()+"Test {");
+
+    private StringBuffer createTestJHeadByClass(Class cls) {
+        StringBuffer jHeadBuf = new StringBuffer();
+
+        jHeadBuf.append("package " + cls.getPackage().getName() + "; \n");
+
+        jHeadBuf.append("import javax.annotation.Resource;\n");
+        jHeadBuf.append("import org.junit.Test;\n");
+        jHeadBuf.append("import org.junit.runner.RunWith;\n");
+        jHeadBuf.append("import org.springframework.test.context.ContextConfiguration;\n");
+        jHeadBuf.append("import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;\n");
+        jHeadBuf.append("@RunWith(SpringJUnit4ClassRunner.class)");
+        jHeadBuf.append("@ContextConfiguration( locations = { \"classpath*:/META-INF/config/spring/spring-db.xml\"})\n");
+
+        jHeadBuf.append("public class " + cls.getSimpleName() + "Test {\n");
         return jHeadBuf;
     }
 
@@ -274,7 +351,7 @@ public class SoafwTesterMojo extends AbstractMojo {
         String basedPath = "/Users/alexzhu/soa/soafw/soafw-common-dao";
 
         mojo.classesDir = basedPath + File.separator + "target" + File.separator + "classes";
-        
+
         try {
             mojo.cl = new URLClassLoader(new URL[] {new File(mojo.classesDir).toURI().toURL()});
         } catch (MalformedURLException e) {

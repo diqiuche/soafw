@@ -51,7 +51,7 @@ public abstract class DaoGen extends AbsGen {
       root.put("masterDataSource", masterDataSourceBean);
       root.put("slaveDataSource", slaveDataSourceBean);
       root.put("mapQueryDataSource", mapQueryDataSourceBean);
-      root.put("upperDataSource", masterDataSourceBean.toUpperCase());
+      root.put("upperDataSource", masterDataSourceBean);
       root.put("name", name);
       root.put("tab", tabs.get(i));
       root.put("dbs", tabs.get(i).getDbs());

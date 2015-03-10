@@ -484,4 +484,15 @@
 			</plugin>
 		</plugins>
 	</build>
+	<distributionManagement>
+		<repository>
+			<id>nexus-releases</id>
+			<url>http://192.168.1.110:8081/nexus/content/repositories/releases</url>
+		</repository>
+
+		<snapshotRepository>
+			<id>nexus-snapshots</id>
+			<url>http://192.168.1.110:8081/nexus/content/repositories/snapshots</url>
+		</snapshotRepository>
+	</distributionManagement>
 </project>

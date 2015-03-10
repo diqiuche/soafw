@@ -8,11 +8,11 @@
 	</bean>
 
 	<bean id="${slaveDataSource}" class="com.kjt.service.common.datasource.DynamicDataSource">
-		<property name="prefix" value="${upperDataSource}_SLAVE" />
+		<property name="prefix" value="${upperDataSource}_slave" />
 	</bean>
 
 	<bean id="${mapQueryDataSource}" class="com.kjt.service.common.datasource.DynamicDataSource">
-		<property name="prefix" value="${upperDataSource}_MAPQUERY" />
+		<property name="prefix" value="${upperDataSource}_map_query" />
 	</bean>
 </beans>
 

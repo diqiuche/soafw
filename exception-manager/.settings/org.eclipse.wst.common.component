@@ -4,6 +4,9 @@
         <wb-resource deploy-path="/" source-path="/src/main/webapp" tag="defaultRootSource"/>
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/main/java"/>
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/main/resources"/>
+        <dependent-module archiveName="soafw-common-util-1.0-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/soafw-common-util/soafw-common-util">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
         <property name="context-root" value="exception-manager"/>
         <property name="java-output-path" value="/exception-manager/target/classes"/>
     </wb-module>
