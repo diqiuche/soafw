@@ -47,7 +47,7 @@ public class StatementHandlerPlugin implements Interceptor {
 
   private String buildSql(String sql, Configuration configuration) {
 
-    if (sql.indexOf(" #from_api:") != -1) {
+    if (sql.indexOf(" /*from_api:") != -1) {
       return sql;
     } else {
       String db = null;
@@ -59,14 +59,14 @@ public class StatementHandlerPlugin implements Interceptor {
         db = env.getId();
       }
       StringBuilder sb = new StringBuilder(sql);
-      sb.append(" #from_api:");
+      sb.append(" /*from_api:");
       sb.append(ContextHolder.getReqId());
       sb.append(pid);
       sb.append(" ");
       sb.append(SPUtil.getSpid());
       sb.append(" ");
       sb.append(db);
-      sb.append("\n");
+      sb.append("*/");
       sql = sb.toString();
       return sql;
     }

@@ -60,6 +60,7 @@ mvn soafw-config:config -Dtemplate=spring-job.xml -DartifactId=$projectid -Ddest
 ##web
 mvn soafw-config:config -Dtemplate=pom.xml.web -DartifactId=$projectid -DdestDir=../../projects/$projectid/$projectid-web
 mvn soafw-config:config -Dtemplate=web.xml -DartifactId=$projectid -DdestDir=../../projects/$projectid/$projectid-web/src/main/webapp/WEB-INF
+mvn soafw-config:config -Dtemplate=logback.xml -DartifactId=$projectid -DdestDir=../../projects/$projectid/$projectid-web/src/main/webapp/WEB-INF
 mvn soafw-config:config -Dtemplate=webapp.xml -DartifactId=$projectid -DdestDir=../../projects/$projectid/$projectid-web/src/main/resources/META-INF/config/local
 mvn soafw-config:config -Dtemplate=spring-web.xml -DartifactId=$projectid -DdestDir=../../projects/$projectid/$projectid-web/src/main/resources/META-INF/config/spring
 mvn soafw-config:config -Dtemplate=spring-mvc.xml -DartifactId=$projectid -DdestDir=../../projects/$projectid/$projectid-web/src/main/resources/META-INF/config/spring
