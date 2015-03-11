@@ -39,7 +39,7 @@ public interface ConfigFileDict {
 	public static final String DEFAULT_ACCESS_CONTROL_CONFIG_NAME = "acc";
 
 	/**
-	 * 访问控制层 默认为：acc.xml
+	 * 缓存 默认为：cache-mem.xml
 	 */
 	public static final String CACHE_MEM_CONFIG_FILE = "cache-mem.config";
 
@@ -50,7 +50,7 @@ public interface ConfigFileDict {
 	
 	/**
 	 * 缓存配置文件名
-	 * 默认为：cache-redis.properties
+	 * 默认为：cache-redis.xml
 	 */
 	public static final String CACHE_REDIS_CONFIG = "cache.redis.config";
 	
@@ -68,18 +68,31 @@ public interface ConfigFileDict {
 	 * 服务层 默认为：service.xml
 	 */
 	public static final String DEFAULT_SERVICE_CONFIG_NAME = "service";
+	
 	/**
-	 * web控制层 默认为：web
+     * 服务层 默认为：job.xml
+     */
+    public static final String JOB_CONFIG_FILE = "job.config";
+
+    /**
+     * 服务层 默认为：service.xml
+     */
+    public static final String DEFAULT_JOB_CONFIG_NAME = "job";
+    
+    
+    
+	/**
+	 * web控制层 默认为：webapp
 	 */
 	public static final String WEB_CONTROLLER_CONFIG_FILE = "webapp.config";
 	/**
-	 * web控制层 默认为：web
+	 * web控制层 默认为：webapp
 	 */
 	public static final String DEFAULT_WEB_CONTROLLER_CONFIG_NAME = "webapp";
 	
 	/**
 	 * mq配置文件
-	 * 默认为：acc.xml
+	 * 默认为：mq.xml
 	 */
 	public static String DEFAULT_MQ_CONFIG_FILE = "mq.config";
 	

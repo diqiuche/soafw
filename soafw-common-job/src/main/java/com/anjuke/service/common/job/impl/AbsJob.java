@@ -2,9 +2,13 @@ package com.anjuke.service.common.job.impl;
 
 import java.util.List;
 
+import org.apache.commons.configuration.Configuration;
+
 import com.anjuke.service.common.job.IJob;
 import com.anjuke.service.common.job.IScheduler;
 import com.anjuke.service.common.job.ITrigger;
+import com.kjt.service.common.config.DynamicConfig;
+import com.kjt.service.common.config.dict.ConfigFileDict;
 
 /**
  * 所有job必须实现该类<br>
@@ -16,6 +20,24 @@ import com.anjuke.service.common.job.ITrigger;
  * @param <T>
  */
 public abstract class AbsJob<T> implements IJob<T>,ITrigger,IScheduler {
+    
+    private static DynamicConfig config = new DynamicConfig();
+
+    static {
+        config.setFileName(System.getProperty(ConfigFileDict.JOB_CONFIG_FILE,
+                ConfigFileDict.DEFAULT_JOB_CONFIG_NAME));
+        config.init();
+    }
+    
+    /**
+     * 获取数据访问层acc.xml配置信息
+     * 
+     * @return
+     */
+    protected Configuration getConfig() {
+        return config;
+    }
+    
 	private String cronExpression;
 	private String id;
 	private int successed;

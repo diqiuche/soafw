@@ -15,16 +15,30 @@
     http://code.alibabatech.com/schema/dubbo/dubbo.xsd"
 	default-autowire="byName">
 	
+	<bean id="kjtService$Config" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		
+		<property name="order" value="2" />
+		<property name="ignoreUnresolvablePlaceholders" value="true" />
+		<property name="locations">
+			<list>
+				<value>classpath*:/META-INF/config/local/dubbo.properties</value>
+				<!--  
+				<value>file:/config/dubbo.properties</value>
+				-->
+			</list>
+		</property>
+	</bean>
+	
 	<!-- 消费方应用名，用于计算依赖关系，不是匹配条件，不要与提供方一样 -->
 	<!--
 	<dubbo:application name="kjt-#{artifactId}-web"/>
 	 -->
     <!-- 使用zookeeper发现服务地址 --> 
     <!--
-    <dubbo:registry address="${registry.address}"/>
+    <dubbo:registry address="${#{artifactId}.registry.address}"/>
     -->
     <!--
-    <dubbo:consumer timeout="10000" init="true" check="false"/>
+    <dubbo:consumer timeout="${#{artifactId}.web.timeout}" init="true" check="false"/>
     -->
     <!-- 使用监控中心 
     <dubbo:monitor protocol="registry"/>

@@ -15,13 +15,24 @@
     http://code.alibabatech.com/schema/dubbo/dubbo.xsd"
 	default-autowire="byName">
 	
-	<!--框架配置：该scan设置请不要轻易改变-->
-	<context:component-scan base-package="com.kjt.service.#{artifactId}.dao.ibatis" />
-	
 	<!--框架配置：该import设置请不要轻易改变-->
 	<import resource="classpath*:/META-INF/config/spring/spring-db.xml"/>
 	<import resource="classpath*:/META-INF/config/spring/spring-rpc.xml"/>
 	<import resource="classpath*:/META-INF/config/spring/spring-mq.xml"/>
+	
+	<bean id="kjtService$Config" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		
+		<property name="order" value="2" />
+		<property name="ignoreUnresolvablePlaceholders" value="true" />
+		<property name="locations">
+			<list>
+				<value>classpath*:/META-INF/config/local/dubbo.properties</value>
+				<!--  
+				<value>file:/config/dubbo.properties</value>
+				-->
+			</list>
+		</property>
+	</bean>
 	
 	<!--dubbo服务发布配置-->
 	
@@ -30,13 +41,13 @@
 	<dubbo:application name="kjt-#{artifactId}-service"/>
 	--> 
     <!-- 使用multicast广播注册中心暴露服务地址 --> 
-    <dubbo:registry address="${registry.address}"/>
+    <dubbo:registry address="${#{artifactId}.registry.address}"/>
     <!-- 使用监控中心 
     <dubbo:monitor protocol="registry"/>
     -->
     <!-- 用dubbo协议在20880端口暴露服务 -->
     <!--
-    <dubbo:protocol name="dubbo" port="${protocol.port}"/>
+    <dubbo:protocol name="dubbo" port="${#{artifactId}.protocol.dubbo.port}"/>
     -->
     
     <!--服务注册信息请在该备注以下添加-->
