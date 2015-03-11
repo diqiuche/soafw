@@ -70,6 +70,7 @@ mvn soafw-config:config -Dtemplate=pom.xml.common -DartifactId=$projectid -Ddest
 
 ##config
 mvn soafw-config:config -Dtemplate=pom.xml.config -DartifactId=$projectid -DdestDir=../../projects/$projectid/$projectid-config
+mvn soafw-config:config -Dsufix=md -Dtemplate=README.md.config -DartifactId=$projectid -DdestDir=../../projects/$projectid/$projectid-config
 
 ##cache
 mvn soafw-config:config -Dtemplate=pom.xml.cache -DartifactId=$projectid -DdestDir=../../projects/$projectid/$projectid-cache
@@ -106,7 +107,9 @@ mvn soafw-config:config -Dtemplate=pom.xml.svc -DartifactId=$projectid -DdestDir
 
 ##job
 mvn soafw-config:config -Dtemplate=pom.xml.job -DartifactId=$projectid -DdestDir=../../projects/$projectid/$projectid-job
+mvn soafw-config:config -Dsufix=md-Dtemplate=README.md.job -DartifactId=$projectid -DdestDir=../../projects/$projectid/$projectid-job
 mvn soafw-config:config -Dtemplate=job.xml -DartifactId=$projectid -DdestDir=../../projects/$projectid/$projectid-job/src/main/resources/META-INF/config/local
+mvn soafw-config:config -Dsufix=properties -Dtemplate=dubbo.properties -DartifactId=$projectid -DdestDir=../../projects/$projectid/$projectid-job/src/main/resources/META-INF/config/local
 mvn soafw-config:config -Dtemplate=spring-job.xml -DartifactId=$projectid -DdestDir=../../projects/$projectid/$projectid-job/src/main/resources/META-INF/config/spring
 
 ##web
@@ -114,10 +117,13 @@ mvn soafw-config:config -Dtemplate=pom.xml.web -DartifactId=$projectid -DdestDir
 mvn soafw-config:config -Dtemplate=web.xml -DartifactId=$projectid -DdestDir=../../projects/$projectid/$projectid-web/src/main/webapp/WEB-INF
 mvn soafw-config:config -Dtemplate=logback.xml -DartifactId=$projectid -DdestDir=../../projects/$projectid/$projectid-web/src/main/webapp/WEB-INF
 mvn soafw-config:config -Dtemplate=webapp.xml -DartifactId=$projectid -DdestDir=../../projects/$projectid/$projectid-web/src/main/resources/META-INF/config/local
+mvn soafw-config:config -Dsufix=properties -Dtemplate=dubbo.properties -DartifactId=$projectid -DdestDir=../../projects/$projectid/$projectid-web/src/main/resources/META-INF/config/local
 mvn soafw-config:config -Dtemplate=spring-dubbo.xml -DartifactId=$projectid -DdestDir=../../projects/$projectid/$projectid-web/src/main/resources/META-INF/config/spring
 mvn soafw-config:config -Dtemplate=spring-mvc.xml -DartifactId=$projectid -DdestDir=../../projects/$projectid/$projectid-web/src/main/resources/META-INF/config/spring
 
 ##service impl
 mvn soafw-config:config -Dtemplate=pom.xml.svc.impl -DartifactId=$projectid -DdestDir=../../projects/$projectid/$projectid-service-impl
+mvn soafw-config:config -Dsufix=md -Dtemplate=README.md.service -DartifactId=$projectid -DdestDir=../../projects/$projectid/$projectid-service-impl
 mvn soafw-config:config -Dtemplate=service.xml -DartifactId=$projectid -DdestDir=../../projects/$projectid/$projectid-service-impl/src/main/resources/META-INF/config/local
+mvn soafw-config:config -Dsufix=properties -Dtemplate=dubbo.properties -DartifactId=$projectid -DdestDir=../../projects/$projectid/$projectid-service-impl/src/main/resources/META-INF/config/local
 mvn soafw-config:config -Dtemplate=spring-service.xml -DartifactId=$projectid -DdestDir=../../projects/$projectid/$projectid-service-impl/src/main/resources/META-INF/config/spring

@@ -1,4 +1,4 @@
-package com.anjuke.service.common.job;
+package com.kjt.service.common.job;
 
 public interface IScheduler {
 	

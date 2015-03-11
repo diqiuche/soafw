@@ -1,14 +1,14 @@
-package com.anjuke.service.common.job.impl;
+package com.kjt.service.common.job.impl;
 
 import java.util.List;
 
 import org.apache.commons.configuration.Configuration;
 
-import com.anjuke.service.common.job.IJob;
-import com.anjuke.service.common.job.IScheduler;
-import com.anjuke.service.common.job.ITrigger;
 import com.kjt.service.common.config.DynamicConfig;
 import com.kjt.service.common.config.dict.ConfigFileDict;
+import com.kjt.service.common.job.IJob;
+import com.kjt.service.common.job.IScheduler;
+import com.kjt.service.common.job.ITrigger;
 
 /**
  * 所有job必须实现该类<br>
