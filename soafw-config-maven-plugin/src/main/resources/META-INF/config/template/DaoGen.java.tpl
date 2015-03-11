@@ -10,11 +10,11 @@ public class DaoGen {
         	/**
         	 * sql server 数据访问层代码生成器
         	 */
-        	//DaoGenFromDB.generateSQLSvrDAO("spring-db.xml中的bean id", "表名", "classpath*:/META-INF/config/spring/spring-db.xml", "com.kjt.service.tsl", "src/main/java/", "src/main/resources/");
+        	//DaoGenFromDB.generateSQLSvrDAO("spring-db.xml中的bean id", "表名", "classpath*:/META-INF/config/spring/spring-db.xml", "com.kjt.service.#{artifactId}", "src/main/java/", "src/main/resources/");
         	/**
         	 * my sql 数据访问层代码生成器
         	 */
-            DaoGenFromDB.generateDAO("spring-db.xml中的bean id", "表名", "classpath*:/META-INF/config/spring/spring-db.xml","com.kjt.service.tsl", "src/main/java/", "src/main/resources/");
+            DaoGenFromDB.generateDAO("spring-db.xml中的bean id", "表名", "classpath*:/META-INF/config/spring/spring-db.xml","com.kjt.service.#{artifactId}", "src/main/java/", "src/main/resources/");
         } catch (Exception e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
