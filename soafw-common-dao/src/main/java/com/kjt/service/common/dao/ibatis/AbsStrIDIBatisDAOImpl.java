@@ -38,7 +38,7 @@ public abstract class AbsStrIDIBatisDAOImpl<T extends IModel> extends AbsFKIBati
    */
   private static final Logger logger = LoggerFactory.getLogger(AbsStrIDIBatisDAOImpl.class);
 
-  @Cacheable(value = "defaultCache", key = PkCacheKeyPrefixExpress + "", unless = "#result == null", condition = "#root.target.cacheable()")
+  @Cacheable(value = "defaultCache", key = PkCacheKeyPrefixExpress + "", unless = "#result == null", condition = "#root.target.pkCacheable()")
   @Override
   public T queryById(String id, String tabNameSuffix) {
     if (logger.isDebugEnabled()) {
@@ -54,7 +54,7 @@ public abstract class AbsStrIDIBatisDAOImpl<T extends IModel> extends AbsFKIBati
 
   }
 
-  @Cacheable(value = "defaultCache", key = PkCacheKeyPrefixExpress + "", unless = "#result == null", condition = "!#master and #root.target.cacheable()")
+  @Cacheable(value = "defaultCache", key = PkCacheKeyPrefixExpress + "", unless = "#result == null", condition = "!#master and #root.target.pkCacheable()")
   @Override
   public T queryById(String id, Boolean master, String tabNameSuffix) {
     if (logger.isDebugEnabled()) {
@@ -124,7 +124,7 @@ public abstract class AbsStrIDIBatisDAOImpl<T extends IModel> extends AbsFKIBati
     }
   }
 
-  @CacheEvict(value = "defaultCache", key = PkCacheKeyPrefixExpress + "", condition = "#root.target.cacheable()")
+  @CacheEvict(value = "defaultCache", key = PkCacheKeyPrefixExpress + "", condition = "#root.target.pkCacheable()")
   @Override
   public Integer deleteById(String id, String tabNameSuffix) {
     if (logger.isDebugEnabled()) {
@@ -159,7 +159,7 @@ public abstract class AbsStrIDIBatisDAOImpl<T extends IModel> extends AbsFKIBati
     }
   }
 
-  @CacheEvict(value = "defaultCache", key = PkCacheKeyPrefixExpress + "", condition = "#root.target.cacheable()")
+  @CacheEvict(value = "defaultCache", key = PkCacheKeyPrefixExpress + "", condition = "#root.target.pkCacheable()")
   @Override
   public Integer updateById(String id, Map<String, Object> newValue, String tabNameSuffix) {
     if (logger.isDebugEnabled()) {

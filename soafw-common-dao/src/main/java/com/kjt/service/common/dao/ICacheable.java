@@ -63,7 +63,7 @@ public interface ICacheable<T> {
   public String get$TKjtTabName(String tabNameSuffix);
 
   /**
-   * 是否启用缓存
+   * 缓存总开关
    * 
    * @return
    */
@@ -75,13 +75,13 @@ public interface ICacheable<T> {
    */
   public boolean pkCacheable();
   /**
-   * 当cacheable()=true时
+   * 当pkCacheable()=true时
    * 外键查询是否启用缓存
    * @return
    */
   public boolean fkCacheable();
   /**
-   * 当cacheable()=true时
+   * 当fkCacheable()=true时
    * 表级查询是否启用缓存
    * @return
    */

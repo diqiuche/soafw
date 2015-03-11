@@ -37,7 +37,7 @@ public abstract class AbsIntIDIBatisDAOImpl<T extends IModel> extends AbsFKIBati
    */
   private static final Logger logger = LoggerFactory.getLogger(AbsIntIDIBatisDAOImpl.class);
 
-  @Cacheable(value = "defaultCache", key = PkCacheKeyPrefixExpress + "", unless = "#result == null", condition = "#root.target.cacheable()")
+  @Cacheable(value = "defaultCache", key = PkCacheKeyPrefixExpress + "", unless = "#result == null", condition = "#root.target.pkCacheable()")
   @Override
   public T queryById(Integer id, String tabNameSuffix) {
     if (logger.isDebugEnabled()) {
@@ -52,7 +52,7 @@ public abstract class AbsIntIDIBatisDAOImpl<T extends IModel> extends AbsFKIBati
     return returnT;
   }
 
-  @Cacheable(value = "defaultCache", key = PkCacheKeyPrefixExpress + "", unless = "#result == null", condition = "!#master and #root.target.cacheable()")
+  @Cacheable(value = "defaultCache", key = PkCacheKeyPrefixExpress + "", unless = "#result == null", condition = "!#master and #root.target.pkCacheable()")
   @Override
   public T queryById(Integer id, Boolean master, String tabNameSuffix) {
     if (logger.isDebugEnabled()) {
@@ -131,7 +131,7 @@ public abstract class AbsIntIDIBatisDAOImpl<T extends IModel> extends AbsFKIBati
     }
   }
 
-  @CacheEvict(value = "defaultCache", key = PkCacheKeyPrefixExpress + "", condition = "#root.target.cacheable()")
+  @CacheEvict(value = "defaultCache", key = PkCacheKeyPrefixExpress + "", condition = "#root.target.pkCacheable()")
   @Override
   public Integer deleteById(Integer id, String tabNameSuffix) {
     if (logger.isDebugEnabled()) {
@@ -168,7 +168,7 @@ public abstract class AbsIntIDIBatisDAOImpl<T extends IModel> extends AbsFKIBati
     }
   }
 
-  @CacheEvict(value = "defaultCache", key = PkCacheKeyPrefixExpress + "", condition = "#root.target.cacheable()")
+  @CacheEvict(value = "defaultCache", key = PkCacheKeyPrefixExpress + "", condition = "#root.target.pkCacheable()")
   @Override
   public Integer updateById(Integer id, Map<String, Object> newValue, String tabNameSuffix) {
     if (logger.isDebugEnabled()) {

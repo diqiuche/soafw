@@ -54,7 +54,7 @@ public abstract class AbsFKIBatisDAOImpl<T extends IModel> extends AbsIBatisDAOI
    */
   private static final Logger logger = LoggerFactory.getLogger(AbsFKIBatisDAOImpl.class);
 
-  @CacheEvict(value = "defaultCache", key = FkCacheKeyPrefixExpress + "", condition = "#root.target.cacheable()")
+  @CacheEvict(value = "defaultCache", key = FkCacheKeyPrefixExpress + "", condition = "#root.target.fkCacheable()")
   @Override
   public Integer deleteByFK(String property, Integer fkValue, String tabNameSuffix) {
     if (logger.isDebugEnabled()) {
@@ -94,7 +94,7 @@ public abstract class AbsFKIBatisDAOImpl<T extends IModel> extends AbsIBatisDAOI
   }
 
   @CacheEvict(value = "defaultCache", key = FkCacheKeyPrefixExpress
-      + ".concat('@').concat(#attchParams)", condition = "#root.target.cacheable()")
+      + ".concat('@').concat(#attchParams)", condition = "#root.target.fkCacheable()")
   @Override
   public Integer deleteByFK(String property, Integer fkValue, Map<String, Object> attchParams,
       String tabNameSuffix) {
@@ -138,7 +138,7 @@ public abstract class AbsFKIBatisDAOImpl<T extends IModel> extends AbsIBatisDAOI
   }
 
   @CacheEvict(value = "defaultCache", key = FkCacheKeyPrefixExpress
-      + ".concat('@').concat(#attchParams)", condition = "#root.target.cacheable()")
+      + ".concat('@').concat(#attchParams)", condition = "#root.target.fkCacheable()")
   @Override
   public Integer deleteByFK(String property, Long fkValue, String tabNameSuffix) {
     if (logger.isDebugEnabled()) {
@@ -178,7 +178,7 @@ public abstract class AbsFKIBatisDAOImpl<T extends IModel> extends AbsIBatisDAOI
     }
   }
 
-  @CacheEvict(value = "defaultCache", key = FkCacheKeyPrefixExpress + "", condition = "#root.target.cacheable()")
+  @CacheEvict(value = "defaultCache", key = FkCacheKeyPrefixExpress + "", condition = "#root.target.fkCacheable()")
   @Override
   public Integer deleteByFK(String property, Long fkValue, Map<String, Object> attchParams,
       String tabNameSuffix) {
@@ -546,7 +546,7 @@ public abstract class AbsFKIBatisDAOImpl<T extends IModel> extends AbsIBatisDAOI
     }
   }
 
-  @CacheEvict(value = "defaultCache", key = FkCacheKeyPrefixExpress + "", condition = "#root.target.cacheable()")
+  @CacheEvict(value = "defaultCache", key = FkCacheKeyPrefixExpress + "", condition = "#root.target.fkCacheable()")
   @Override
   public Integer updateByFK(String property, Integer fkValue, Map<String, Object> newValue,
       String tabNameSuffix) {
@@ -595,7 +595,7 @@ public abstract class AbsFKIBatisDAOImpl<T extends IModel> extends AbsIBatisDAOI
   }
 
   @CacheEvict(value = "defaultCache", key = FkCacheKeyPrefixExpress
-      + ".concat('@').concat(#attchParams)", condition = "#root.target.cacheable()")
+      + ".concat('@').concat(#attchParams)", condition = "#root.target.fkCacheable()")
   @Override
   public Integer updateByFK(String property, Integer fkValue, Map<String, Object> attchParams,
       Map<String, Object> newValue, String tabNameSuffix) {
@@ -647,7 +647,7 @@ public abstract class AbsFKIBatisDAOImpl<T extends IModel> extends AbsIBatisDAOI
     }
   }
 
-  @CacheEvict(value = "defaultCache", key = FkCacheKeyPrefixExpress + "", condition = "#root.target.cacheable()")
+  @CacheEvict(value = "defaultCache", key = FkCacheKeyPrefixExpress + "", condition = "#root.target.fkCacheable()")
   @Override
   public Integer updateByFK(String property, Long fkValue, Map<String, Object> newValue,
       String tabNameSuffix) {
@@ -696,7 +696,7 @@ public abstract class AbsFKIBatisDAOImpl<T extends IModel> extends AbsIBatisDAOI
   }
 
   @CacheEvict(value = "defaultCache", key = FkCacheKeyPrefixExpress
-      + ".concat('@').concat(#attchParams)", condition = "#root.target.cacheable()")
+      + ".concat('@').concat(#attchParams)", condition = "#root.target.fkCacheable()")
   @Override
   public Integer updateByFK(String property, Long fkValue, Map<String, Object> attchParams,
       Map<String, Object> newValue, String tabNameSuffix) {
@@ -771,26 +771,5 @@ public abstract class AbsFKIBatisDAOImpl<T extends IModel> extends AbsIBatisDAOI
   }
 
   // ##################################################################################################
-
-  /**
-   * 外键缓存开关
-   */
-  public boolean fkCacheable() {
-    if (logger.isDebugEnabled()) {
-      logger.debug("fkCacheable() - start"); //$NON-NLS-1$
-    }
-
-    String query_cacheable = System.getProperty(QUERY_CACHE_FLG, "false");
-
-    boolean returnboolean = cacheable() // 缓存开关
-        && Boolean.valueOf(query_cacheable) // 查询缓存开关
-        && Boolean.valueOf(System.getProperty(PK_CACHE_FLG, query_cacheable)) // 主键缓存
-        && Boolean.valueOf(System.getProperty(FK_CACHE_FLG, query_cacheable));
-
-    if (logger.isDebugEnabled()) {
-      logger.debug("fkCacheable() - end - return value={}", returnboolean); //$NON-NLS-1$
-    }
-    return returnboolean;// 表级缓存
-  }
 
 }

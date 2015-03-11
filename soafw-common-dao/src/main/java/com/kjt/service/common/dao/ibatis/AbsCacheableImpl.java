@@ -79,17 +79,18 @@ public abstract class AbsCacheableImpl<T extends IModel> implements ICacheable<T
       logger.debug("pkCacheable() - start"); //$NON-NLS-1$
     }
 
-    String query_cacheable = System.getProperty(QUERY_CACHE_FLG, "false");
-
     boolean returnboolean = cacheable() // 缓存开关
-        && Boolean.valueOf(query_cacheable) // 查询缓存开关
-        && Boolean.valueOf(System.getProperty(PK_CACHE_FLG, query_cacheable));
+        && Boolean.valueOf(System.getProperty(PK_CACHE_FLG, String.valueOf(cacheable())));
 
     if (logger.isDebugEnabled()) {
       logger.debug("pkCacheable() - end - return value={}", returnboolean); //$NON-NLS-1$
     }
     return returnboolean; // 主键缓存
   }
+  
+  abstract public boolean fkCacheable();
+  
+  abstract public boolean tabCacheable();
 
   /**
    * 表级缓存keyPrefix tabName+tabNameSuffix@Tn@TabVersion
