@@ -107,7 +107,7 @@ mvn soafw-config:config -Dtemplate=pom.xml.svc -DartifactId=$projectid -DdestDir
 
 ##job
 mvn soafw-config:config -Dtemplate=pom.xml.job -DartifactId=$projectid -DdestDir=../../projects/$projectid/$projectid-job
-mvn soafw-config:config -Dsufix=md-Dtemplate=README.md.job -DartifactId=$projectid -DdestDir=../../projects/$projectid/$projectid-job
+mvn soafw-config:config -Dsufix=md -Dtemplate=README.md.job -DartifactId=$projectid -DdestDir=../../projects/$projectid/$projectid-job
 mvn soafw-config:config -Dtemplate=job.xml -DartifactId=$projectid -DdestDir=../../projects/$projectid/$projectid-job/src/main/resources/META-INF/config/local
 mvn soafw-config:config -Dsufix=properties -Dtemplate=dubbo.properties -DartifactId=$projectid -DdestDir=../../projects/$projectid/$projectid-job/src/main/resources/META-INF/config/local
 mvn soafw-config:config -Dtemplate=spring-job.xml -DartifactId=$projectid -DdestDir=../../projects/$projectid/$projectid-job/src/main/resources/META-INF/config/spring
