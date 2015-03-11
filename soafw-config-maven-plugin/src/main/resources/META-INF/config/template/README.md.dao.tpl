@@ -14,8 +14,8 @@
 +配置
 	
 	+ 应用配置
-		+ 保存在tsl-dao/src/main/resource/META-INF/config/spring
-		+ spring-dao.xml
+		+ 保存在#{artifactId}-dao/src/main/resource/META-INF/config/spring
+		+ spring-db.xml
 	+ 资源配置
 		+ 资源文件默认保存在/config目录,当没有找到时，程序会从tsl-dao/src/main/resource/META-INF/config/local中读取配置信息
 		+ database.properties
