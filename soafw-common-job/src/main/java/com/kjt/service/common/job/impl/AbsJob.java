@@ -30,7 +30,7 @@ public abstract class AbsJob<T> implements IJob<T>,ITrigger,IScheduler {
     }
     
     /**
-     * 获取数据访问层acc.xml配置信息
+     * 获取数据访问层job.xml配置信息
      * 
      * @return
      */
