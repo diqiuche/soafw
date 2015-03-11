@@ -11,7 +11,6 @@ import org.springframework.stereotype.Repository;
 import com.kjt.common.cache.dao.ICacheVersionDAO;
 import com.kjt.common.cache.dao.ibatis.mapper.CacheVersionMapper;
 import com.kjt.common.cache.dao.model.CacheVersion;
-import com.kjt.service.common.cache.annotation.CacheOpParams;
 import com.kjt.service.common.dao.ibatis.AbsStrIDIBatisDAOImpl;
 import com.kjt.service.common.dao.ibatis.IBatisDAOException;
 import com.kjt.service.common.dao.ibatis.SqlmapUtils;
@@ -31,7 +30,6 @@ public class CacheVersionIbatisDAOImpl extends AbsStrIDIBatisDAOImpl<CacheVersio
   private DataSource mapQueryDataSource;
   
   public CacheVersionIbatisDAOImpl(){
-    System.out.println("init");
   }
   @Override
   public Class<CacheVersionMapper> getMapperClass() {

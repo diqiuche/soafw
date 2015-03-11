@@ -12,7 +12,9 @@
     http://www.springframework.org/schema/context/spring-context-4.0.xsd">
 	
 	<!--框架配置：该scan设置请不要轻易改变-->
-	<context:component-scan base-package="com.kjt.common.cache.dao.ibatis,com.kjt.service.common.dao.ibatis" />
+	<context:component-scan base-package="com.kjt.service.common.dao.ibatis" />
+	<context:component-scan base-package="com.kjt.common.cache.dao.ibatis" />
+	<context:component-scan base-package="com.kjt.service.#{artifactId}.dao.ibatis" />
 	
 	<!--框架配置：该import设置请不要轻易改变-->
 	<import resource="classpath*:/META-INF/config/spring/spring-cache.xml"/>
