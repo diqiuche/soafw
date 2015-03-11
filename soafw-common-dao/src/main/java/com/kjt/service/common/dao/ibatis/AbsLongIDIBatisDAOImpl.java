@@ -33,11 +33,7 @@ import com.kjt.service.common.log.LoggerFactory;
 
 public abstract class AbsLongIDIBatisDAOImpl<T extends IModel> extends AbsFKIBatisDAOImpl<T>
     implements ILBatisDAO<T> {
-  /**
-   * Logger for this class
-   */
-  private static final Logger logger = LoggerFactory.getLogger(AbsLongIDIBatisDAOImpl.class);
-
+ 
   @Cacheable(value = "defaultCache", key = PkCacheKeyPrefixExpress + "", unless = "#result == null", condition = "#root.target.pkCacheable()")
   @Override
   public T queryById(Long id, String tabNameSuffix) {
@@ -86,36 +82,6 @@ public abstract class AbsLongIDIBatisDAOImpl<T extends IModel> extends AbsFKIBat
       return returnT;
     } catch (Exception t) {
       logger.error("queryById(Long, Boolean, String)", t); //$NON-NLS-1$
-
-      throw new DataAccessException(IBatisDAOException.MSG_2_0001, t);
-    } finally {
-      session.commit();
-      session.close();
-    }
-  }
-
-  @Override
-  public Long insert(T model, String tabNameSuffix) {
-    if (logger.isDebugEnabled()) {
-      logger.debug("insert(T model={}, String tabNameSuffix={}) - start", model, tabNameSuffix); //$NON-NLS-1$
-    }
-
-    model.setTKjtTabName(this.get$TKjtTabName(tabNameSuffix));
-
-    SqlSession session = SqlmapUtils.openSession(getMasterDataSource());
-    try {
-      ILMapper<T> mapper = session.getMapper(getMapperClass());
-      Long id = mapper.insert(model);
-      if (id > 0) {
-        this.incrTabVersion(tabNameSuffix);
-      }
-
-      if (logger.isDebugEnabled()) {
-        logger.debug("insert(T model={}, String tabNameSuffix={}) - end - return value={}", model, tabNameSuffix, id); //$NON-NLS-1$
-      }
-      return id;
-    } catch (Exception t) {
-      logger.error("insert(T, String)", t); //$NON-NLS-1$
 
       throw new DataAccessException(IBatisDAOException.MSG_2_0001, t);
     } finally {

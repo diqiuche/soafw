@@ -30,7 +30,7 @@ public abstract class AbsCacheableImpl<T extends IModel> implements ICacheable<T
   /**
    * Logger for this class
    */
-  private static final Logger logger = LoggerFactory.getLogger(AbsCacheableImpl.class);
+  protected final Logger logger = LoggerFactory.getLogger(getClass());
 
   protected DynamicMemCache defaultCache;
 
@@ -58,35 +58,7 @@ public abstract class AbsCacheableImpl<T extends IModel> implements ICacheable<T
     return cacheManager;
   }
 
-  @Override
-  public boolean cacheable() {
-    if (logger.isDebugEnabled()) {
-      logger.debug("cacheable() - start"); //$NON-NLS-1$
-    }
-
-    String cacheable = System.getProperty(CACHE_FLG, "false");
-
-    boolean returnboolean = Boolean.valueOf(cacheable);
-
-    if (logger.isDebugEnabled()) {
-      logger.debug("cacheable() - end - return value={}", returnboolean); //$NON-NLS-1$
-    }
-    return returnboolean; // 缓存开关
-  }
-
-  public boolean pkCacheable() {
-    if (logger.isDebugEnabled()) {
-      logger.debug("pkCacheable() - start"); //$NON-NLS-1$
-    }
-
-    boolean returnboolean = cacheable() // 缓存开关
-        && Boolean.valueOf(System.getProperty(PK_CACHE_FLG, String.valueOf(cacheable())));
-
-    if (logger.isDebugEnabled()) {
-      logger.debug("pkCacheable() - end - return value={}", returnboolean); //$NON-NLS-1$
-    }
-    return returnboolean; // 主键缓存
-  }
+  
   
   abstract public boolean fkCacheable();
   

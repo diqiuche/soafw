@@ -49,11 +49,7 @@ import com.kjt.service.common.log.LoggerFactory;
  */
 public abstract class AbsFKIBatisDAOImpl<T extends IModel> extends AbsIBatisDAOImpl<T> implements
     IFKDAO<T> {
-  /**
-   * Logger for this class
-   */
-  private static final Logger logger = LoggerFactory.getLogger(AbsFKIBatisDAOImpl.class);
-
+ 
   @CacheEvict(value = "defaultCache", key = FkCacheKeyPrefixExpress + "", condition = "#root.target.fkCacheable()")
   @Override
   public Integer deleteByFK(String property, Integer fkValue, String tabNameSuffix) {

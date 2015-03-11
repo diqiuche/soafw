@@ -13,6 +13,6 @@ public interface ISMapper<T extends IModel> extends IMapper<T> {
 
   public T queryById(String id);
 
-  public String insert(IModel params);
+  public Long insert(IModel params);
 
 }

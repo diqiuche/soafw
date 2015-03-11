@@ -3,22 +3,31 @@ package ${package}.dao.ibatis;
 import javax.annotation.Resource;
 import javax.sql.DataSource;
 
+import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
 <#if tab.pkFieldNum==1>
 	<#if tab.pkFieldType.javaType="Integer">	
 import com.kjt.service.common.dao.ibatis.AbsIntIDIBatisDAOImpl;
+import com.kjt.service.common.dao.ibatis.IIMapper;
 	<#elseif tab.pkFieldType.javaType="java.math.BigInteger">
-import com.kjt.service.common.dao.ibatis.AbsBigIIDIBatisDAOImpl;	
+import com.kjt.service.common.dao.ibatis.AbsBigIIDIBatisDAOImpl;
+import com.kjt.service.common.dao.ibatis.IBigIMapper;	
 	<#elseif tab.pkFieldType.javaType="String">
 import com.kjt.service.common.dao.ibatis.AbsStrIDIBatisDAOImpl;
+import com.kjt.service.common.dao.ibatis.ISMapper;
 	<#else>
 import com.kjt.service.common.dao.ibatis.AbsLongIDIBatisDAOImpl;
+import com.kjt.service.common.dao.ibatis.ILMapper;
 	</#if>
 </#if>
+
+import com.kjt.service.common.dao.ibatis.IBatisDAOException;
 
 import ${package}.dao.I${name}DAO;
 import ${package}.dao.ibatis.mapper.${name}Mapper;
 import ${package}.dao.model.${name};
+import com.kjt.service.common.dao.ibatis.SqlmapUtils;
+import com.kjt.service.common.exception.DataAccessException;
 
 @Repository("${name}")
 <#if tab.pkFieldNum==1>
@@ -71,18 +80,6 @@ public class ${name}IbatisDAOImpl extends AbsLongIDIBatisDAOImpl<${name}> implem
       return tableName.toString();
     }
   
-	
-	<#if tab.pkFieldNum != 1>
-	@Override
-	public ${name} queryById(Long id){
-		<#if tab.pkFieldNum==0>
-		throw new RuntimeException("该表没有主键定义，该方法不能适用，请重新实现！");
-		<#else>
-		throw new RuntimeException("复合主键，该方法不能适用，请重新实现！");
-		</#if>		
-	}
-	</#if>
-	
 	@Override
 	public DataSource getMasterDataSource(){
 		return masterDataSource;
@@ -104,5 +101,61 @@ public class ${name}IbatisDAOImpl extends AbsLongIDIBatisDAOImpl<${name}> implem
  		}
  		return mapQueryDataSource;
 	}
+	
+	<#if tab.pkFieldNum != 1>
+	@Override
+	public ${name} queryById(Long id){
+		<#if tab.pkFieldNum==0>
+		throw new RuntimeException("该表没有主键定义，该方法不能适用，请重新实现！");
+		<#else>
+		throw new RuntimeException("复合主键，该方法不能适用，请重新实现！");
+		</#if>		
+	}
+	<#else>
+	
+		<#if tab.pkFieldType.javaType="Integer">	
+	public Integer insert(${name} model, String tabNameSuffix) {
+		<#elseif tab.pkFieldType.javaType="java.math.BigInteger">
+	public java.math.BigInteger insert(${name} model, String tabNameSuffix) {
+		<#elseif tab.pkFieldType.javaType="String">
+	public String insert(${name} model, String tabNameSuffix) {	
+		<#else>
+	public Long insert(${name} model, String tabNameSuffix) {
+		</#if>
+		if (logger.isDebugEnabled()) {
+      		logger.debug("insert(T model={}, String tabNameSuffix={}) - start", model, tabNameSuffix); //$NON-NLS-1$
+    	}
+    	
+    	model.setTKjtTabName(this.get$TKjtTabName(tabNameSuffix));
+    
+    	SqlSession session = SqlmapUtils.openSession(getMasterDataSource());
+    	try {
+    		<#if tab.pkFieldType.javaType="Integer">
+      		IIMapper<${name}> mapper = session.getMapper(getMapperClass());
+      		<#elseif tab.pkFieldType.javaType="java.math.BigInteger">
+      		IBigIMapper<${name}> mapper = session.getMapper(getMapperClass());
+      		<#elseif tab.pkFieldType.javaType="String">
+      		ISMapper<${name}> mapper = session.getMapper(getMapperClass());
+      		<#else>
+      		ILMapper<${name}> mapper = session.getMapper(getMapperClass());
+      		</#if>
+      		Long id = mapper.insert(model);
+      		if (id !=null) {
+        		this.incrTabVersion(tabNameSuffix);
+      		}
+
+      		if (logger.isDebugEnabled()) {
+        		logger.debug("insert(T model={}, String tabNameSuffix={}) - end - return value={}", model, tabNameSuffix, id); //$NON-NLS-1$
+      		}
+      		return model.getId();
+    	} catch (Exception t) {
+      		logger.error("insert(T, String)", t); //$NON-NLS-1$
+      		throw new DataAccessException(IBatisDAOException.MSG_2_0001, t);
+    	} finally {
+     		session.commit();
+     		session.close();
+    	}
+  	}
+	</#if>
 	
 }

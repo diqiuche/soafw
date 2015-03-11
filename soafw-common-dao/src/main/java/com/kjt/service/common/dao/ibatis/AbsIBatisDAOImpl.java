@@ -62,7 +62,6 @@ public abstract class AbsIBatisDAOImpl<T extends IModel> extends AbsCacheableImp
   /**
    * Logger for this class
    */
-  private static final Logger logger = LoggerFactory.getLogger(AbsIBatisDAOImpl.class);
 
   private static DynamicConfig config = new DynamicConfig();
 

@@ -32,10 +32,6 @@ import com.kjt.service.common.log.LoggerFactory;
  */
 public abstract class AbsIntIDIBatisDAOImpl<T extends IModel> extends AbsFKIBatisDAOImpl<T>
     implements IIBatisDAO<T> {
-  /**
-   * Logger for this class
-   */
-  private static final Logger logger = LoggerFactory.getLogger(AbsIntIDIBatisDAOImpl.class);
 
   @Cacheable(value = "defaultCache", key = PkCacheKeyPrefixExpress + "", unless = "#result == null", condition = "#root.target.pkCacheable()")
   @Override
@@ -92,38 +88,6 @@ public abstract class AbsIntIDIBatisDAOImpl<T extends IModel> extends AbsFKIBati
       logger.error("queryById(Integer, Boolean, String)", t); //$NON-NLS-1$
 
       t.printStackTrace();
-      throw new DataAccessException(IBatisDAOException.MSG_2_0001, t);
-    } finally {
-      session.commit();
-      session.close();
-    }
-  }
-
-  @Override
-  public Integer insert(T model, String tabNameSuffix) {
-    if (logger.isDebugEnabled()) {
-      logger.debug("insert(T model={}, String tabNameSuffix={}) - start", model, tabNameSuffix); //$NON-NLS-1$
-    }
-
-    SqlSession session = SqlmapUtils.openSession(getMasterDataSource());
-    try {
-      model.setTKjtTabName(this.get$TKjtTabName(tabNameSuffix));
-
-      IIMapper<T> mapper = session.getMapper(getMapperClass());
-      Integer id = mapper.insert(model);
-      if (id > 0) {
-        this.incrTabVersion(tabNameSuffix);
-      }
-
-      if (logger.isDebugEnabled()) {
-        logger
-            .debug(
-                "insert(T model={}, String tabNameSuffix={}) - end - return value={}", model, tabNameSuffix, id); //$NON-NLS-1$
-      }
-      return id;
-    } catch (Exception t) {
-      logger.error("insert(T, String)", t); //$NON-NLS-1$
-
       throw new DataAccessException(IBatisDAOException.MSG_2_0001, t);
     } finally {
       session.commit();
