@@ -30,19 +30,16 @@
 	</bean>
 	
 	<!-- 消费方应用名，用于计算依赖关系，不是匹配条件，不要与提供方一样 -->
-	<!--
 	<dubbo:application name="kjt-#{artifactId}-job"/>
-	 -->
+	 
     <!-- 使用zookeeper发现服务地址 --> 
-    <!--
     <dubbo:registry address="${#{artifactId}.registry.address}"/>
-    -->
-    <!--
+    
+    <!-- 服务消费者定义 -->
     <dubbo:consumer timeout="${#{artifactId}.job.timeout}" init="true" check="false"/>
-    -->
-    <!-- 使用监控中心 
+    
+    <!-- 使用监控中心 -->
     <dubbo:monitor protocol="registry"/>
-    -->
     
     <!--服务查询定义信息请在该备注以下添加-->
     

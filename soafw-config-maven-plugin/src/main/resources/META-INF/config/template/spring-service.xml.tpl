@@ -37,18 +37,16 @@
 	<!--dubbo服务发布配置-->
 	
 	<!-- 提供方应用信息，用于计算依赖关系 -->
-	<!--   
 	<dubbo:application name="kjt-#{artifactId}-service"/>
-	--> 
+
     <!-- 使用multicast广播注册中心暴露服务地址 --> 
     <dubbo:registry address="${#{artifactId}.registry.address}"/>
-    <!-- 使用监控中心 
+    
+    <!-- 使用监控中心 -->
     <dubbo:monitor protocol="registry"/>
-    -->
+    
     <!-- 用dubbo协议在20880端口暴露服务 -->
-    <!--
     <dubbo:protocol name="dubbo" port="${#{artifactId}.protocol.dubbo.port}"/>
-    -->
     
     <!--服务注册信息请在该备注以下添加-->
     
