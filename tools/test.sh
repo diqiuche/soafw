@@ -59,6 +59,8 @@ mvn soafw-config:config -Dsufix=md -Dtemplate=README.md.job -DartifactId=$projec
 mvn soafw-config:config -Dtemplate=job.xml -DartifactId=$projectid -DdestDir=../../projects/$projectid/$projectid-job/src/main/resources/META-INF/config/local
 mvn soafw-config:config -Dsufix=properties -Dtemplate=dubbo.properties -DartifactId=$projectid -DdestDir=../../projects/$projectid/$projectid-job/src/main/resources/META-INF/config/local
 mvn soafw-config:config -Dtemplate=spring-job.xml -DartifactId=$projectid -DdestDir=../../projects/$projectid/$projectid-job/src/main/resources/META-INF/config/spring
+mvn soafw-config:config -Dsufix=java -Dtemplate=Startup.java.job -DartifactId=$projectid -DdestDir=../../projects/$projectid/$projectid-job/src/main/java/com/kjt/service/$projectid/job
+mvn soafw-config:config -Dtemplate=dist.xml -DartifactId=$projectid -DdestDir=../../projects/$projectid/$projectid-job/src/main/assemble
 
 ##web
 mvn soafw-config:config -Dtemplate=pom.xml.web -DartifactId=$projectid -DdestDir=../../projects/$projectid/$projectid-web
@@ -75,4 +77,5 @@ mvn soafw-config:config -Dsufix=md -Dtemplate=README.md.service -DartifactId=$pr
 mvn soafw-config:config -Dtemplate=service.xml -DartifactId=$projectid -DdestDir=../../projects/$projectid/$projectid-service-impl/src/main/resources/META-INF/config/local
 mvn soafw-config:config -Dsufix=properties -Dtemplate=dubbo.properties -DartifactId=$projectid -DdestDir=../../projects/$projectid/$projectid-service-impl/src/main/resources/META-INF/config/local
 mvn soafw-config:config -Dtemplate=spring-service.xml -DartifactId=$projectid -DdestDir=../../projects/$projectid/$projectid-service-impl/src/main/resources/META-INF/config/spring
-
+mvn soafw-config:config -Dsufix=java -Dtemplate=Startup.java.service -DartifactId=$projectid -DdestDir=../../projects/$projectid/$projectid-service-impl/src/main/java/com/kjt/service/$projectid
+mvn soafw-config:config -Dtemplate=dist.xml -DartifactId=$projectid -DdestDir=../../projects/$projectid/$projectid-service-impl/src/main/assemble
