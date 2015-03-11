@@ -8,8 +8,10 @@
         </encoder>
     </appender>
     <appender name="detail" class="ch.qos.logback.core.rolling.RollingFileAppender">
+    	<!--框架设置：该file信息请不要修改-->
         <file>/data1/logs/service/#{artifactId}/dlog.log</file>
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+        	<!--框架设置：该FileNamePattern信息请不要修改-->
             <FileNamePattern>/data1/logs/service/#{artifactId}/dlog.log-%d{yyyy-MM-dd}</FileNamePattern>
         </rollingPolicy>
         <encoder>
@@ -18,8 +20,10 @@
         </encoder>
     </appender>
     <appender name="error" class="ch.qos.logback.core.rolling.RollingFileAppender">
+    	<!--框架设置：该file信息请不要修改-->
         <file>/data1/logs/service/#{artifactId}/elog.log</file>
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+        	<!--框架设置：该FileNamePattern信息请不要修改-->
             <FileNamePattern>/data1/logs/service/#{artifactId}/elog.log-%d{yyyy-MM-dd}</FileNamePattern>
         </rollingPolicy>
         <encoder>

@@ -69,17 +69,21 @@ public class SoafwTesterMojo extends AbstractMojo {
     private ClassLoader cl = null;
     private URLClassLoader newLoader = null;
     private URL[] urls = null;
+    private MavenProject project = null;
 
     public void execute() throws MojoExecutionException {
         
         this.getLog().info("start unit test file gen&check: " + artifactId);
         
         this.getLog().info(""+this.getPluginContext());
-        
-        MavenProject project = (MavenProject)this.getPluginContext().get("project");
-        
+        //this.project.ge
+       //MavenProject project = (MavenProject)getPluginContext().get("project");
+        //project.gets
+        //this.getLog().info(""+project.getClassRealm());
+        if(true){
+            return;
+        }
         try {
-            project.getModel().getBuild();
             List<Dependency> dependencies = project.getDependencies();//getRuntimeClasspathElements();
             URL[] runtimeUrls = new URL[dependencies.size()];  
             for (int i = 0; i < dependencies.size(); i++) {  
@@ -87,9 +91,7 @@ public class SoafwTesterMojo extends AbstractMojo {
                 this.getLog().info("sysPath: "+element);
                 //runtimeUrls[i] = new File(element).toURI().toURL();  
             }
-            if(true){
-                return;
-            }
+            
             newLoader = new URLClassLoader(runtimeUrls,  
                 Thread.currentThread().getContextClassLoader());  
         } catch (Exception e2) {

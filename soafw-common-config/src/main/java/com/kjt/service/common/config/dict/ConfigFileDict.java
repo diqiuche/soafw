@@ -6,7 +6,7 @@ package com.kjt.service.common.config.dict;
  * @author zxj
  * 
  */
-public class ConfigFileDict {
+public interface ConfigFileDict {
 	
 	/**
 	 * 配置目录位置

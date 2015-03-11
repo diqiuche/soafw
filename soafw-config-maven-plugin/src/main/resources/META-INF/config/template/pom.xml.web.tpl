@@ -58,10 +58,6 @@
 
 		<dependency>
 			<groupId>org.springframework</groupId>
-			<artifactId>spring-tx</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework</groupId>
 			<artifactId>spring-web</artifactId>
 		</dependency>
 
@@ -163,6 +159,7 @@
 						<contextPath>/#{artifactId}-web</contextPath>
 					</webAppConfig>
 					<requestLog implementation="org.eclipse.jetty.server.NCSARequestLog">
+						<!--框架设置：该filename信息请不要修改-->
 						<filename>/data1/logs/service/#{artifactId}/request.log.yyyy_mm_dd</filename>
 						<retainDays>7</retainDays>
 						<append>true</append>

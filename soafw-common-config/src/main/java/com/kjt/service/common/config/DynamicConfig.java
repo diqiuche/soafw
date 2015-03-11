@@ -37,11 +37,7 @@ import com.kjt.service.common.util.StringUtils;
  * @author alexzhu
  * 
  */
-public class DynamicConfig extends ConfigFileDict
-        implements
-            Constants,
-            Configuration,
-            IConfigListener {
+public class DynamicConfig implements ConfigFileDict, Constants, Configuration, IConfigListener {
 
     /**
      * 默认为没有profile<br>

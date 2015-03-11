@@ -1,3 +1,5 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
 <beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xmlns="http://www.springframework.org/schema/beans" xmlns:aop="http://www.springframework.org/schema/aop"
 	xmlns:context="http://www.springframework.org/schema/context"
@@ -9,10 +11,13 @@
     http://www.springframework.org/schema/context
     http://www.springframework.org/schema/context/spring-context-4.0.xsd">
 	
-	<context:component-scan base-package="com.kjt.service.#{artifactId}.*" />
+	<!--框架配置：该scan设置请不要轻易改变-->
+	<context:component-scan base-package="com.kjt.common.cache.dao.ibatis,com.kjt.service.common.dao.ibatis" />
 	
+	<!--框架配置：该import设置请不要轻易改变-->
 	<import resource="classpath*:/META-INF/config/spring/spring-cache.xml"/>
 	
+	<!--框架配置：该数据源设置请不要轻易改变-->
 	<bean id="cache_db" class="com.kjt.service.common.datasource.DynamicDataSource"
 		init-method="init">
 		<property name="prefix" value="cache_db" />
@@ -26,6 +31,8 @@
 		<property name="prefix" value="cache_db_map_query" />
 	</bean>
 	
+	<!--自定义信息请在该备注以下添加-->
+	<!--新增数据库是需要添加 master、slave、map_query三个-->
 	<bean id="#{artifactId}" class="com.kjt.service.common.datasource.DynamicDataSource"
 		init-method="init">
 		<property name="prefix" value="#{artifactId}" />
@@ -38,5 +45,5 @@
 		init-method="init">
 		<property name="prefix" value="#{artifactId}_map_query" />
 	</bean>
-	<!--新增数据库是需要添加 master、slave、map_query三个-->
+	
 </beans>

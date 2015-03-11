@@ -35,15 +35,11 @@
 		<url-pattern>/*</url-pattern>
 	</filter-mapping>
 
-
-
-
-
 	<!-- spring context 上下文内容的 对象 service 层 dao层 以及其他spring管理的对象 -->
 
 	<context-param>
 		<param-name>contextConfigLocation</param-name>
-		<param-value>classpath:/META-INF/config/spring/spring-web.xml
+		<param-value>classpath:/META-INF/config/spring/spring-dubbo.xml
 		</param-value>
 	</context-param>
 	<listener>
