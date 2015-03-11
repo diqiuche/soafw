@@ -15,7 +15,7 @@ public interface IFKDAO<T> extends ICacheable<T> {
   /**
    * 该属性名是否是外键属性
    * 
-   * @param property
+   * @param property model bean属性名
    * @return
    */
   public boolean isFk(String property);
@@ -24,7 +24,7 @@ public interface IFKDAO<T> extends ICacheable<T> {
    * 通过外键property及其fkValue删除对象
    * 
    * @param property
-   *          对象属性名称
+   *          model bean属性名
    * @param fkValue
    *          外键值
    * @param tabNameSuffix
@@ -36,7 +36,7 @@ public interface IFKDAO<T> extends ICacheable<T> {
   /**
    * 
    * @param property
-   *          对象属性名称
+   *          model bean属性名
    * @param fkValue
    *          外键值
    * @param attchParams
@@ -54,7 +54,7 @@ public interface IFKDAO<T> extends ICacheable<T> {
    * 更新执行步骤:<br>
    * 
    * @param property
-   *          对象属性名称
+   *          model bean属性名
    * @param fkValue
    *          外键值
    * @param newValue
@@ -72,7 +72,7 @@ public interface IFKDAO<T> extends ICacheable<T> {
    * 更新执行步骤:<br>
    * 
    * @param property
-   *          对象属性名称
+   *          model bean属性名
    * @param fkValue
    *          外键值
    * @param attchParams
@@ -90,7 +90,7 @@ public interface IFKDAO<T> extends ICacheable<T> {
    * 通过外键property及其fkValue查询对象，默认从slave中查询
    * 
    * @param property
-   *          对象属性名称
+   *          model bean属性名
    * @param fkValue
    *          外键值
    * @param tabNameSuffix
@@ -103,7 +103,7 @@ public interface IFKDAO<T> extends ICacheable<T> {
    * 通过外键property及其fkValue查询对象，默认从slave中查询
    * 
    * @param property
-   *          对象属性名称
+   *          model bean属性名
    * @param fkValue
    *          外键值
    * @param attchParams
@@ -119,7 +119,7 @@ public interface IFKDAO<T> extends ICacheable<T> {
    * 通过外键property及其fkValue查询对象
    * 
    * @param property
-   *          对象属性名称
+   *          model bean属性名
    * @param fkValue
    *          外键值
    * @param master
@@ -133,7 +133,7 @@ public interface IFKDAO<T> extends ICacheable<T> {
   /**
    * 
    * @param property
-   *          对象属性名称
+   *          model bean属性名
    * @param fkValue
    *          外键值
    * @param attchParams
@@ -151,7 +151,7 @@ public interface IFKDAO<T> extends ICacheable<T> {
    * 通过外键property及其fkValue删除对象
    * 
    * @param property
-   *          对象属性名称
+   *          model bean属性名
    * @param fkValue
    *          对象属性值
    * @param tabNameSuffix
@@ -163,7 +163,7 @@ public interface IFKDAO<T> extends ICacheable<T> {
   /**
    * 
    * @param property
-   *          对象属性名称
+   *          model bean属性名
    * @param fkValue
    *          外键值
    * @param attchParams
@@ -179,7 +179,7 @@ public interface IFKDAO<T> extends ICacheable<T> {
    * 通过外键property及其fkValue更新对象
    * 
    * @param property
-   *          对象属性名称
+   *          model bean属性名
    * @param fkValue
    *          外键值
    * @param newValue
@@ -196,7 +196,7 @@ public interface IFKDAO<T> extends ICacheable<T> {
    * 通过外键property及其fkValue更新对象
    * 
    * @param property
-   *          对象属性名称
+   *          model bean属性名
    * @param fkValue
    *          外键值
    * @param attchParams
@@ -214,7 +214,7 @@ public interface IFKDAO<T> extends ICacheable<T> {
    * 通过外键property及其fkValue查询对象，默认从slave中查询
    * 
    * @param property
-   *          对象属性名称
+   *          model bean属性名
    * @param fkValue
    *          外键值
    * @param tabNameSuffix
@@ -228,7 +228,7 @@ public interface IFKDAO<T> extends ICacheable<T> {
    * 通过外键property及其fkValue查询对象，默认从slave中查询
    * 
    * @param property
-   *          对象属性名称
+   *          model bean属性名
    * @param fkValue
    *          外键值
    * @param attchParams
@@ -244,7 +244,7 @@ public interface IFKDAO<T> extends ICacheable<T> {
    * 通过外键property及其fkValue查询对象
    * 
    * @param property
-   *          对象属性名称
+   *          model bean属性名
    * @param fkValue
    *          外键值
    * @param master
@@ -259,7 +259,7 @@ public interface IFKDAO<T> extends ICacheable<T> {
    * 通过外键property及其fkValue查询对象
    * 
    * @param property
-   *          对象属性名称
+   *          model bean属性名
    * @param fkValue
    *          外键值
    * @param attchParams

@@ -77,6 +77,7 @@ public interface IDAO<T> extends ICacheable<T> {
    * 根据条件查询纪录id列表
    * 
    * @param params
+   *          查询条件
    * @param master
    *          是否在master中查询,master＝true时从master库中查询,同时重新刷新缓存
    * @param tabNameSuffix
@@ -89,6 +90,7 @@ public interface IDAO<T> extends ICacheable<T> {
    * 从slave中通过条件进行统计记录数
    * 
    * @param params
+   *          查询条件
    * @param tabNameSuffix
    *          表名后缀［用于支持表拆分机制，即：数据库操作时的表名规则为:tableName+"_"+tabNameSuffix］
    * @return
@@ -99,6 +101,7 @@ public interface IDAO<T> extends ICacheable<T> {
    * 通过条件进行统计记录数
    * 
    * @param params
+   *          查询条件
    * @param master
    *          是否在master中查询,master＝true时从master库中查询,同时重新刷新缓存
    * @param tabNameSuffix
@@ -125,8 +128,11 @@ public interface IDAO<T> extends ICacheable<T> {
   /**
    * 
    * @param params
+   *          查询条件
    * @param page
+   *          第几页
    * @param size
+   *          页最大记录数
    * @param master
    *          是否在master中查询 ,master＝true时从master库中查询,同时重新刷新缓存
    * @param tabNameSuffix
@@ -141,8 +147,11 @@ public interface IDAO<T> extends ICacheable<T> {
    * 必须在子类中实现
    * 
    * @param params
+   *          查询条件
    * @param page
+   *          第几页
    * @param size
+   *          页最大记录数
    * @param orders
    *          有对象格式的字符串eg：name asc,age desc
    * @param tabNameSuffix
@@ -155,9 +164,9 @@ public interface IDAO<T> extends ICacheable<T> {
   /**
    * 必须在子类中实现
    * 
-   * @param params
-   * @param page
-   * @param size
+   * @param params 查询条件
+   * @param page 第几页
+   * @param size 页最大记录数
    * @param orders
    *          有对象格式的字符串eg：name asc,age desc
    * @param master

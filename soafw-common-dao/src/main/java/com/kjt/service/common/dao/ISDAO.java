@@ -26,7 +26,7 @@ public interface ISDAO<T> extends ICacheable<T> {
   /**
    * 持久化数据对象，返回当前对象的id
    * 
-   * @param model
+   * @param model 数据库bean对象
    * @param tabNameSuffix
    *          表名后缀［用于支持表拆分机制，即：数据库操作时的表名规则为:tableName+"_"+tabNameSuffix］
    * @return
@@ -36,7 +36,7 @@ public interface ISDAO<T> extends ICacheable<T> {
   /**
    * 通过主键删除业务对象
    * 
-   * @param id
+   * @param id 主键值
    * @param tabNameSuffix
    *          表名后缀［用于支持表拆分机制，即：数据库操作时的表名规则为:tableName+"_"+tabNameSuffix］
    * @return
@@ -46,7 +46,7 @@ public interface ISDAO<T> extends ICacheable<T> {
   /**
    * 通过id，更新业务对象
    * 
-   * @param id
+   * @param id 主键值
    * @param newValue
    * @param tabNameSuffix
    *          表名后缀［用于支持表拆分机制，即：数据库操作时的表名规则为:tableName+"_"+tabNameSuffix］
@@ -57,7 +57,7 @@ public interface ISDAO<T> extends ICacheable<T> {
   /**
    * 通过id查询对象，默认从slave中查询
    * 
-   * @param id
+   * @param id 主键值
    * @param tabNameSuffix
    *          表名后缀［用于支持表拆分机制，即：数据库操作时的表名规则为:tableName+"_"+tabNameSuffix］
    * @return
@@ -67,8 +67,7 @@ public interface ISDAO<T> extends ICacheable<T> {
   /**
    * 通过id查询对象
    * 
-   * @param id
-   *          对象id
+   * @param id 主键值
    * @param master
    *          是否从master中查询,master＝true时从master库中查询,同时重新刷新缓存
    * @param tabNameSuffix
