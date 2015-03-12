@@ -18,14 +18,22 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.lang.reflect.Method;
-import java.net.MalformedURLException;
+import java.lang.reflect.Modifier;
 import java.net.URL;
 import java.net.URLClassLoader;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.maven.model.Dependency;
+import javassist.ClassClassPath;
+import javassist.ClassPool;
+import javassist.CtClass;
+import javassist.CtMethod;
+import javassist.NotFoundException;
+import javassist.bytecode.CodeAttribute;
+import javassist.bytecode.LocalVariableAttribute;
+import javassist.bytecode.MethodInfo;
+
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.project.MavenProject;
@@ -53,8 +61,6 @@ public class SoafwTesterMojo extends AbstractMojo {
      * @readonly
      */
     private File basedir;
-    private int lenght;
-    private String classesDir = null;
     /**
      * 未实现测试&符合正常命名规范的类
      */
@@ -67,60 +73,50 @@ public class SoafwTesterMojo extends AbstractMojo {
     private Map<String, Integer> errorImpl = new HashMap<String, Integer>();
 
     private ClassLoader cl = null;
-    private URLClassLoader newLoader = null;
-    private URL[] urls = null;
-    private MavenProject project = null;
 
     public void execute() throws MojoExecutionException {
-        
+
         this.getLog().info("start unit test file gen&check: " + artifactId);
-        
-        this.getLog().info(""+this.getPluginContext());
-        //this.project.ge
-       //MavenProject project = (MavenProject)getPluginContext().get("project");
-        //project.gets
-        //this.getLog().info(""+project.getClassRealm());
-        if(true){
-            return;
-        }
-        try {
-            List<Dependency> dependencies = project.getDependencies();//getRuntimeClasspathElements();
-            URL[] runtimeUrls = new URL[dependencies.size()];  
-            for (int i = 0; i < dependencies.size(); i++) {  
-                String element = (String) dependencies.get(i).getArtifactId();  
-                this.getLog().info("sysPath: "+element);
-                //runtimeUrls[i] = new File(element).toURI().toURL();  
-            }
-            
-            newLoader = new URLClassLoader(runtimeUrls,  
-                Thread.currentThread().getContextClassLoader());  
-        } catch (Exception e2) {
-            // TODO Auto-generated catch block
-            e2.printStackTrace();
-        }  
-        
+
+        this.getLog().info("" + this.getPluginContext());
+
         String basedPath = basedir.getAbsolutePath();
-        String testJFilePath;
-        classesDir = basedPath + File.separator + "target" + File.separator + "classes";
-        lenght = classesDir.length() + 1;
+
+        MavenProject project = (MavenProject) getPluginContext().get("project");
 
         try {
-            URL[] urls = {new File(classesDir).toURI().toURL()};
-            this.cl = new URLClassLoader(urls,newLoader);// this.getClass().getClassLoader();
-        } catch (MalformedURLException e1) {
-            e1.printStackTrace();
+            List<String> classpaths = project.getCompileClasspathElements();
+            URL[] runtimeUrls = new URL[classpaths.size() + 1];
+            for (int i = 0; i < classpaths.size(); i++) {
+                String classpath = (String) classpaths.get(i);
+                runtimeUrls[i] = new File(classpath).toURI().toURL();
+            }
+            // 单元测试用例classpath
+            runtimeUrls[classpaths.size()] =
+                    new File(basedPath + File.separator + "target" + File.separator
+                            + "test-classes").toURI().toURL();
+
+            this.cl =
+                    new URLClassLoader(runtimeUrls, Thread.currentThread().getContextClassLoader());
+        } catch (Exception e2) {
+            e2.printStackTrace();
         }
 
-        load(new File(classesDir));// 得到三个map
+        String classesDir = basedPath + File.separator + "target" + File.separator + "classes";
 
-        this.getLog().info("未实现测试&符合正常命名规范的类：" + defines);
+        int length = classesDir.length() + 1;
 
-        this.getLog().info("符合正常命名规范的类||已经实现过测试用咧：" + testImpl);
+        load(classesDir, new File(classesDir), length);// 得到三个map
+        /**
+         * 
+         */
+        String testClassesDir =
+                basedPath + File.separator + "target" + File.separator + "test-classes";
 
-        this.getLog().error("异常命名类：" + testImpl);
+        length = testClassesDir.length() + 1;
 
-        StringBuffer testJBuf = new StringBuffer();
-        StringBuffer methodBuf = new StringBuffer();
+        load(testClassesDir, new File(testClassesDir), length);// 得到三个map
+
         int size = defines.size();
         String[] definesArray = new String[size];
         defines.keySet().toArray(definesArray);
@@ -128,125 +124,181 @@ public class SoafwTesterMojo extends AbstractMojo {
         if (size == 0) {
             this.getLog().info("未发现实现接口类");
         }
+
         for (int i = 0; i < size; i++) {
-
-            if (!testImpl.containsKey(definesArray[i] + "Test")) {// 该文件没有建立对应测试用例 为实现测试
-                this.getLog().info("检测到" + definesArray[i] + "没有测试实现");
-                try {
-                    Class cls = cl.loadClass(definesArray[i]);
-                    Method[] methods = cls.getMethods();
-
-                    String pkgPath = cls.getPackage().getName().replace(".", File.separator);
-
-
-                    testJFilePath =
-                            basedPath + File.separator + "src" + File.separator + "test"
-                                    + File.separator + "java" + File.separator + pkgPath;
-
-                    String testJFileName = cls.getSimpleName() + "Test.java";
-
-                    this.getLog().info("开始生成" + definesArray[i] + "Test单元测试类");
-
-                    StringBuffer jHeadBuf = createTestJHeadByClass(cls);
-                    testJBuf.append(jHeadBuf);
-                    int len = 0;
-                    if (methods != null && (len = methods.length) > 0) {
-
-                        for (int m = 0; m < len; m++) {
-                            int modf = methods[m].getModifiers();
-                            if (modf == 1) {// 公共方法需要生成
-                                // TODO
-                                /**
-                                 * 单元测试实现的类名＝实现类名＋Test 单元测试方法名=方法名+Test
-                                 * 单元测试文件生成到:basedPath+File.separator
-                                 * +src+File.separator+test+File.separator
-                                 * +pkg+definesArray[i]+Test+.java
-                                 */
-                                addMethod(methodBuf, methods[m].getName());
-
-                            }
-                        }
-                    }
-                    String testJFile = testJBuf.append(methodBuf).append("}").toString();
-
-                    this.getLog().info(testJFile);
-
-                    write(testJFilePath, testJFileName, testJFile);
-
-                } catch (Exception e) {
-                    this.getLog().info(e.getMessage());
-                } catch (Error er) {
-                    this.getLog().info(er.getMessage());
-                }
-
-
+            boolean hasmethod = false;
+            if (!testImpl.containsKey(definesArray[i] + "Test")) {
+                genTest(basedPath, definesArray[i]);
             } else {// 已经有实现过的测试类
-                /**
-                 * 需要检查实现类与测试类单元测试实现范围比较 当发现实现类的public
-                 * 方法没有单元测试实现时则抛出异常MojoExecutionException，不做覆盖（保证已经实现的不被覆盖）
-                 */
-                try {
-
-                    Map<String, Method> defs = new HashMap<String, Method>();// Key:为当前方法类型＋变量，...字符串md5值
-                    Class cls = cl.loadClass(definesArray[i]);// 加载业务实现类
-                    Method[] methods = cls.getMethods();
-                    int len = 0;
-                    if (methods != null && (len = methods.length) > 0) {
-                        /**
-                         * 提起所有public的方法
-                         */
-                        for (int m = 0; m < len; m++) {
-                            Method tmp = methods[i];
-                            int modf = tmp.getModifiers();
-                            if (modf == 1) {
-                                /**
-                                 * 公共方法
-                                 */
-                                tmp.getParameterTypes();
-                                tmp.getTypeParameters();
-                                /**
-                                 * 构造方法唯一标示
-                                 */
-
-                            }
-                        }
-                    }
-
-                    Map<String, Method> tsts = new HashMap<String, Method>();
-                    Class tstCls = cl.loadClass(definesArray[i] + "Test");// 加载单元测试的实现类
-                    Method[] tstMethods = tstCls.getMethods();
-                    if (tstMethods != null && (len = tstMethods.length) > 0) {
-                        /**
-                         * 提起所有public的方法
-                         */
-                        for (int m = 0; m < len; m++) {
-                            Method tmp = tstMethods[i];
-                            int modf = tmp.getModifiers();
-                            if (modf == 1) {
-                                /**
-                                 * 公共方法
-                                 */
-                                Test tst = tmp.getAnnotation(Test.class);
-                                if (tst == null) {
-                                    continue;
-                                }
-                                tmp.getParameterTypes();
-                                tmp.getTypeParameters();
-                                /**
-                                 * 构造方法唯一标示
-                                 */
-                            }
-                        }
-                    }
-
-                } catch (Exception e) {
-                    this.getLog().info(e.getMessage());
-                } catch (Error er) {
-                    this.getLog().info(er.getMessage());
-                }
+                appendTest(definesArray[i]);
             }
         }
 
+        for (int i = 0; i < size; i++) {
+            if (testImpl.containsKey(definesArray[i] + "Test")) {
+                defines.remove(definesArray[i]);
+            }
+        }
+
+        this.getLog().info("未实现测试&符合正常命名规范的类：" + defines);
+
+        this.getLog().info("符合正常命名规范的类||已经实现过测试用咧：" + testImpl);
+
+        this.getLog().error("异常命名类：" + errorImpl);
+    }
+
+    private void genTest(String basedPath, String className) {
+        // 该文件没有建立对应测试用例 为实现测试
+        this.getLog().info("检测到" + className + "没有测试实现");
+        Map<String, Integer> methodCnt = new HashMap<String, Integer>();
+        boolean hasmethod = false;
+        try {
+
+            Class cls = cl.loadClass(className);
+
+            String testJFileName = cls.getSimpleName() + "Test.java";
+            String pkgPath = cls.getPackage().getName().replace(".", File.separator);
+
+            String testJFilePath =
+                    basedPath + File.separator + "src" + File.separator + "test" + File.separator
+                            + "java" + File.separator + pkgPath;
+
+            this.getLog().info("开始生成" + className + "Test单元测试类");
+
+            int len = 0;
+            Class[] inters = cls.getInterfaces();
+            if (inters == null || (len = inters.length) == 0) {
+                return;
+            }
+
+            /**
+             * package import
+             */
+            StringBuffer jHeadBuf = createTestJHeadByClass(cls);
+
+            StringBuffer testJBuf = new StringBuffer();
+
+            testJBuf.append(jHeadBuf);
+            for (int j = 0; j < len; j++) {
+                /**
+                 * 接口类方法
+                 */
+                Class interCls = inters[j];
+                this.getLog().info("interface: " + interCls.getName());
+
+                Method[] methods = interCls.getMethods();
+                
+                int mlen = 0;
+                if (methods != null && (mlen = methods.length) > 0) {
+
+                    StringBuffer methodBuf = new StringBuffer();
+
+                    for (int m = 0; m < mlen; m++) {
+                        Method method = methods[m];
+                        int modf = method.getModifiers();
+                        if (modf == 1025) {// 公共方法需要生成
+                            hasmethod = true;
+                            /**
+                             * 单元测试实现的类名＝实现类名＋Test 单元测试方法名=方法名+Test
+                             * 单元测试文件生成到:basedPath+File.separator
+                             * +src+File.separator+test+File.separator
+                             * +pkg+definesArray[i]+Test+.java
+                             */
+                            if (methodCnt.containsKey(method.getName())) {
+                                methodCnt
+                                        .put(method.getName(), methodCnt.get(method.getName()) + 1);
+                            } else {
+                                methodCnt.put(method.getName(), 0);
+                            }
+                            int cnt = methodCnt.get(method.getName());
+
+                            addMethod(methodBuf, method, cnt);
+                        }
+                    }
+
+                    testJBuf.append(methodBuf);
+                }
+            }
+
+            String testJFile = testJBuf.append("}").toString();
+            if (hasmethod) {
+                write(testJFilePath, testJFileName, testJFile);
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            this.getLog().info(e.getMessage());
+        } catch (Error er) {
+            er.printStackTrace();
+            this.getLog().info(er.getMessage());
+        }
+
+    }
+
+    private void appendTest(String className) {
+        /**
+         * 需要检查实现类与测试类单元测试实现范围比较 当发现实现类的public
+         * 方法没有单元测试实现时则抛出异常MojoExecutionException，不做覆盖（保证已经实现的不被覆盖）
+         */
+        try {
+
+            Map<String, Method> defs = new HashMap<String, Method>();// Key:为当前方法类型＋变量，...字符串md5值
+            Class cls = cl.loadClass(className);// 加载业务实现类
+            Method[] methods = cls.getMethods();
+            int len = 0;
+            if (methods != null && (len = methods.length) > 0) {
+                /**
+                 * 提起所有public的方法
+                 */
+                for (int m = 0; m < len; m++) {
+                    Method tmp = methods[m];
+                    int modf = tmp.getModifiers();
+                    if (modf == 1) {
+                        /**
+                         * 公共方法
+                         */
+                        tmp.getParameterTypes();
+                        tmp.getTypeParameters();
+                        /**
+                         * 构造方法唯一标示
+                         */
+
+                    }
+                }
+            }
+
+            Map<String, Method> tsts = new HashMap<String, Method>();
+            Class tstCls = cl.loadClass(className + "Test");// 加载单元测试的实现类
+            Method[] tstMethods = tstCls.getMethods();
+            if (tstMethods != null && (len = tstMethods.length) > 0) {
+                /**
+                 * 提起所有public的方法
+                 */
+                for (int m = 0; m < len; m++) {
+                    Method tmp = tstMethods[m];
+                    int modf = tmp.getModifiers();
+                    if (modf == 1) {
+                        /**
+                         * 公共方法
+                         */
+                        Test tst = tmp.getAnnotation(Test.class);
+                        if (tst == null) {
+                            continue;
+                        }
+                        tmp.getParameterTypes();
+                        tmp.getTypeParameters();
+                        /**
+                         * 构造方法唯一标示
+                         */
+                    }
+                }
+            }
+
+        } catch (Exception e) {
+            this.getLog().info(e.getMessage());
+        } catch (Error er) {
+            this.getLog().info(er.getMessage());
+        }
     }
 
     /**
@@ -255,18 +307,18 @@ public class SoafwTesterMojo extends AbstractMojo {
      * @param file
      * @return
      */
-    private Map<String, Integer> load(File file) {
+    private Map<String, Integer> load(String classesDir, File file, int length) {
 
         if (file.isDirectory()) {
             File[] files = file.listFiles();
             int len = files.length;
             for (int i = 0; i < len; i++) {
-                load(files[i]);
+                load(classesDir, files[i], length);
             }
         } else {
             String path = file.getAbsolutePath();
-            if (path.indexOf(classesDir) == 0 && path.length() > lenght) {
-                String pkgPath = path.substring(lenght);
+            if (path.indexOf(classesDir) == 0 && path.length() > length) {
+                String pkgPath = path.substring(length);
                 try {
                     String tmpFile = pkgPath.replaceAll(File.separator, ".");
 
@@ -274,10 +326,7 @@ public class SoafwTesterMojo extends AbstractMojo {
 
                         String clsName = tmpFile.replaceAll(".class", "");
 
-                        this.getLog().info("检测到单元测试未实现类：" + clsName);
-
                         Class cls = cl.loadClass(clsName);
-                        this.getLog().info("加载成功：" + clsName);
 
                         int modf = cls.getModifiers();
                         if (modf != 1537 && modf != 1025) {// 非接口 && 抽象类
@@ -319,22 +368,34 @@ public class SoafwTesterMojo extends AbstractMojo {
         }
     }
 
-    private void addMethod(StringBuffer methodBuffer, String methodName) {
-        methodBuffer.append("  @Test\n");
-        methodBuffer.append("  public void " + methodName + "() {\n");
-        methodBuffer.append("    throw new RuntimeException(\"Test not implemented\");");
-        methodBuffer.append(" }\n");
+    private void addMethod(StringBuffer methodBuffer, Method method, int cnt)
+            throws NotFoundException {
+        String methodName = method.getName();
+
+        if (cnt > 0) {
+            methodName = methodName + "$" + cnt;
+        }
+        
+        methodBuffer.append("\t@Test\n");
+        methodBuffer.append("\tpublic void " + methodName + "() {\n");
+        Class[] types = method.getParameterTypes();
+        int size = types==null?0:types.length;
+        if(size>0){
+            methodBuffer.append("\t\t//待测试方法参数类型定义参考： ");
+        }
+        for(int i=0;i<size;i++){
+            methodBuffer.append(types[i].getSimpleName()+"\t");
+        }
         methodBuffer.append("\n");
-
-
+        methodBuffer.append("\t\tthrow new RuntimeException(\"Test not implemented\");\n");
+        methodBuffer.append("\t}\n");
     }
 
     private StringBuffer createTestJHeadByClass(Class cls) {
         StringBuffer jHeadBuf = new StringBuffer();
 
         jHeadBuf.append("package " + cls.getPackage().getName() + "; \n");
-
-        jHeadBuf.append("import javax.annotation.Resource;\n");
+        jHeadBuf.append("\n");
         jHeadBuf.append("import org.junit.Test;\n");
         jHeadBuf.append("import org.junit.runner.RunWith;\n");
         jHeadBuf.append("import org.springframework.test.context.ContextConfiguration;\n");
@@ -344,58 +405,5 @@ public class SoafwTesterMojo extends AbstractMojo {
 
         jHeadBuf.append("public class " + cls.getSimpleName() + "Test {\n");
         return jHeadBuf;
-    }
-
-    public static void main(String[] args) {
-
-        SoafwTesterMojo mojo = new SoafwTesterMojo();
-
-        String basedPath = "/Users/alexzhu/soa/soafw/soafw-common-dao";
-
-        mojo.classesDir = basedPath + File.separator + "target" + File.separator + "classes";
-
-        try {
-            mojo.cl = new URLClassLoader(new URL[] {new File(mojo.classesDir).toURI().toURL()});
-        } catch (MalformedURLException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-
-        mojo.lenght = mojo.classesDir.length() + 1;
-        mojo.load(new File(mojo.classesDir));
-        System.out.println(mojo.defines);
-        System.out.println(mojo.testImpl);
-        int size = mojo.defines.size();
-        String[] definesArray = new String[size];
-        mojo.defines.keySet().toArray(definesArray);
-        Class cls = null;
-        int val = 0;
-        for (int i = 0; i < size; i++) {
-            try {
-                cls = mojo.cl.loadClass(definesArray[i]);
-            } catch (ClassNotFoundException e1) {
-                // TODO Auto-generated catch block
-                e1.printStackTrace();
-            }
-            val = cls.getModifiers();
-
-            System.out.println(definesArray[i] + " Modifiers: " + val);
-
-            if (!mojo.testImpl.containsKey(definesArray[i] + "Test")) {
-
-                try {
-                    cls = mojo.cl.loadClass(definesArray[i]);
-                    val = cls.getModifiers();
-                    System.out.println(definesArray[i] + " Modifiers: " + val);
-                    if (val != 1025) {
-                        // TODO 生成测试框架代码
-                    }
-                } catch (Exception e) {
-                    System.out.println(e.getMessage());
-                } catch (Error er) {
-                    System.err.println(er.getMessage());
-                }
-            }
-        }
     }
 }
