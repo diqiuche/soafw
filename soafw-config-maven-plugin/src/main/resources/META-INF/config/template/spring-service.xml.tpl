@@ -16,7 +16,7 @@
 	default-autowire="byName">
 	
 	<!--框架配置：该import设置请不要轻易改变-->
-	<import resource="classpath*:/META-INF/config/spring/spring-db.xml"/>
+	<import resource="classpath*:/META-INF/config/spring/spring-dao.xml"/>
 	<import resource="classpath*:/META-INF/config/spring/spring-rpc.xml"/>
 	<import resource="classpath*:/META-INF/config/spring/spring-mq.xml"/>
 	
