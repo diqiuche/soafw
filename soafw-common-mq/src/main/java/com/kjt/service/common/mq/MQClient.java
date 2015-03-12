@@ -3,7 +3,7 @@ package com.kjt.service.common.mq;
 import com.kjt.service.common.config.PoolableObjDynamicConfig;
 import com.kjt.service.common.config.dict.ConfigFileTypeDict;
 
-public abstract class DynamicMQClient extends PoolableObjDynamicConfig{
+public abstract class MQClient extends PoolableObjDynamicConfig implements IConnector{
 
 	@Override
 	public void init() {
