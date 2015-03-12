@@ -15,6 +15,9 @@
     http://code.alibabatech.com/schema/dubbo/dubbo.xsd"
 	default-autowire="byName">
 	
+	<import resource="classpath*:/META-INF/config/spring/spring-rpc.xml"/>
+	<import resource="classpath*:/META-INF/config/spring/spring-mq.xml"/>
+	
 	<bean id="kjtService$Config" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
 		
 		<property name="order" value="2" />
