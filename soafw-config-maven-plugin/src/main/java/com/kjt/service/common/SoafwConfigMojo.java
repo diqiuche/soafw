@@ -22,6 +22,8 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.text.MessageFormat;
 
+import org.apache.commons.configuration.ConfigurationException;
+import org.apache.commons.configuration.PropertiesConfiguration;
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
 
@@ -50,29 +52,36 @@ public class SoafwConfigMojo extends AbstractMojo {
         destDir = System.getProperty("destDir", destDir);
         template = System.getProperty("template", template);
         sufix = System.getProperty("sufix", sufix);
+        String model = System.getProperty("model", "split");
         this.getLog().info(
-                format(groupId, artifactId, startPort, stopPort,
+                format(model,groupId, artifactId, startPort, stopPort,
                         new File(destDir).getAbsolutePath(), template));
-
-        /**
-         * read template
-         */
-        String tpl = getTemplate(template+".tpl");
-        tpl = format(tpl, "groupId", groupId);
-        tpl = format(tpl, "artifactId", artifactId);
-        tpl = format(tpl, "startPort", startPort);
-        tpl = format(tpl, "stopPort", stopPort);
         
-        this.getLog().info(tpl);
-        /**
-         * write to dest
-         */
-        write(destDir, template, tpl);
+        if("split".equalsIgnoreCase(model)){
+            /**
+             * read template
+             */
+            String tpl = getTemplate(template + ".tpl");
+            tpl = format(tpl, "groupId", groupId);
+            tpl = format(tpl, "artifactId", artifactId);
+            tpl = format(tpl, "startPort", startPort);
+            tpl = format(tpl, "stopPort", stopPort);
+
+            this.getLog().info(tpl);
+            /**
+             * write to dest
+             */
+            write(destDir, template, tpl,sufix);
+        }
+        else{
+            doConfig(destDir,artifactId);
+        }
+        
     }
 
     private String format(String... args) {
         return MessageFormat
-                .format("config: groupId={0},artifactId={1},startPort={2},stopPort={3},toDest={4},template={5}",
+                .format("config: flag={0},groupId={1},artifactId={2},startPort={3},stopPort={4},toDest={5},template={6}",
                         args);
     }
 
@@ -106,11 +115,11 @@ public class SoafwConfigMojo extends AbstractMojo {
         return tpl;
     }
 
-    private void write(String dest, String template, String tpl) throws MojoExecutionException {
+    private void write(String dest, String template, String tpl,String sufix) throws MojoExecutionException {
         FileWriter fw = null;
         try {
             new File(dest).mkdirs();
-            template = template.substring(0,template.indexOf("."+sufix))+"."+sufix;
+            template = template.substring(0, template.indexOf("." + sufix)) + "." + sufix;
             fw = new FileWriter(dest + File.separator + template);
             fw.write(tpl);
         } catch (IOException e) {
@@ -120,8 +129,77 @@ public class SoafwConfigMojo extends AbstractMojo {
                 if (fw != null) {
                     fw.close();
                 }
-            } catch (IOException e) {
+            } catch (IOException e) {}
+        }
+    }
+
+    private void doConfig(String baseDir,String artifactId) throws MojoExecutionException {
+        PropertiesConfiguration configSetting = load();
+        String modules = configSetting.getString("modules");
+        String[] moduleArray = modules.split(";");
+        int len = moduleArray == null ? 0 : moduleArray.length;
+        for (int m = 0; m < len; m++) {
+            String module = moduleArray[m];
+            this.getLog().info("start config module: " + module);//service-impl=1;2;3;4;5;6;7
+            String moduleIdxs = configSetting.getString(module);
+            String[] moduleIdxArray = moduleIdxs.split(";");
+            int iLen = moduleIdxArray == null ? 0 : moduleIdxArray.length;
+            for (int i = 0; i < iLen; i++) {
+                String idx = moduleIdxArray[i];
+                String config = module+"."+idx;
+                String configs = configSetting.getString(config);
+
+                //sufix;template;destDir
+                String[] itemPattern = configs.split(";");
+                String sufix = itemPattern[0];
+                String templateFile = itemPattern[1]+".tpl";
+                String storeDir = itemPattern[2];
+                
+                this.getLog().info("start template: " + templateFile);
+                
+                String tpl = this.getTemplate(templateFile);
+                
+                tpl = format(tpl, "groupId", groupId);
+                tpl = format(tpl, "artifactId", artifactId);
+                tpl = format(tpl, "startPort", startPort);
+                tpl = format(tpl, "stopPort", stopPort);
+                this.getLog().info(tpl);
+                
+                storeDir = format(storeDir, "artifactId", artifactId);
+                
+                String configToDir = baseDir+File.separator+storeDir;
+                
+                this.getLog().info(configToDir);
+                
+                write(configToDir, templateFile, tpl,sufix);
             }
+        }
+    }
+
+    private PropertiesConfiguration load() throws MojoExecutionException {
+        PropertiesConfiguration config = new PropertiesConfiguration();
+        InputStream is =
+                SoafwConfigMojo.class.getClassLoader().getResourceAsStream(
+                        "META-INF/config/template/template.properties");
+        try {
+            config.load(is);
+        } catch (ConfigurationException e) {
+            throw new MojoExecutionException("获取'template.properties'文件失败");
+        }
+        return config;
+    }
+
+    public static void main(String[] args) {
+
+        PropertiesConfiguration config = new PropertiesConfiguration();
+        // config.setDelimiterParsingDisabled(true);
+        InputStream is =
+                SoafwConfigMojo.class.getClassLoader().getResourceAsStream(
+                        "META-INF/config/template/template.properties");
+        try {
+            config.load(is);
+        } catch (ConfigurationException e) {
+            e.printStackTrace();
         }
     }
 }
