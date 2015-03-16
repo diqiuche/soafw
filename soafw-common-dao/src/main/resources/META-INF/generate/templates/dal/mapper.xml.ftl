@@ -210,8 +210,38 @@
 
 	<insert id="insert" parameterType="${package}.dao.model.${name}" useGeneratedKeys="true" keyProperty="id">
 		INSERT INTO	${r"${tKjtTabName}"}
-			(<#list colMaps as col>${col.name}<#if col_has_next>,</#if></#list>)
-			VALUES(<#list colMaps as col><#if col.isPK="no">${r"#{"}${col.fieldName}${r"}"}<#elseif col.isPK="yes" && tab.pkFieldNum==1  &&  (col.type.javaType="Integer" || col.type.javaType="Long" || col.type.javaType="Float" || col.type.javaType="Double" || col.type.javaType="java.math.BigInteger")>${r"#{id}"}<#elseif col.isPK="yes" && tab.pkFieldNum==1  &&  col.type.javaType="String">${r"#{ids}"}<#else>${r"#{"}${col.fieldName}${r"}"}</#if><#if col_has_next>,</#if></#list>)
+		(
+		<trim suffix="" suffixOverrides=",">
+				<#list colMaps as col>
+				<#if col.isPK="no">
+			<if test="${col.fieldName} !=null">
+				<#elseif col.isPK="yes" && tab.pkFieldNum==1  &&  (col.type.javaType="Integer" || col.type.javaType="Long" || col.type.javaType="Float" || col.type.javaType="Double" || col.type.javaType="java.math.BigInteger" || col.type.javaType="String")>
+			<if test="id !=null">
+				<#else>
+			<if test="${col.fieldName} !=null">
+				</#if>
+				${col.name}<#if col_has_next>,</#if>
+			</if>
+				</#list>
+		</trim>
+		)
+		VALUES(
+		<trim suffix="" suffixOverrides=",">
+				<#list colMaps as col>
+				<#if col.isPK="no">
+			<if test="${col.fieldName} !=null">
+				${r"#{"}${col.fieldName}${r"}"}<#if col_has_next>,</#if>
+				<#elseif col.isPK="yes" && tab.pkFieldNum==1  &&  (col.type.javaType="Integer" || col.type.javaType="Long" || col.type.javaType="Float" || col.type.javaType="Double" || col.type.javaType="java.math.BigInteger" || col.type.javaType="String")>
+			<if test="id !=null">
+				${r"#{id}"}<#if col_has_next>,</#if>
+				<#else>
+			<if test="${col.fieldName} !=null">
+				${r"#{"}${col.fieldName}${r"}"}<#if col_has_next>,</#if>
+				</#if>			
+			</if>
+				</#list>
+		</trim>
+		)
 	</insert>
 	
 	<update id="updateByMap" parameterType="java.util.Map">

@@ -31,6 +31,7 @@ public class CacheVersionIbatisDAOImpl extends AbsStrIDIBatisDAOImpl<CacheVersio
   private DataSource mapQueryDataSource;
 
   public CacheVersionIbatisDAOImpl() {
+    System.out.println("init......");
   }
 
   @Override
@@ -88,6 +89,8 @@ public class CacheVersionIbatisDAOImpl extends AbsStrIDIBatisDAOImpl<CacheVersio
       logger.debug("insert(T model={}, String tabNameSuffix={}) - start", model, tabNameSuffix); //$NON-NLS-1$
     }
 
+    validate(model);
+    
     model.setTKjtTabName(this.get$TKjtTabName(tabNameSuffix));
 
     SqlSession session = SqlmapUtils.openSession(getMasterDataSource());

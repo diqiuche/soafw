@@ -126,6 +126,8 @@ public class ${name}IbatisDAOImpl extends AbsLongIDIBatisDAOImpl<${name}> implem
       		logger.debug("insert(T model={}, String tabNameSuffix={}) - start", model, tabNameSuffix); //$NON-NLS-1$
     	}
     	
+    	validate(model);
+    	
     	model.setTKjtTabName(this.get$TKjtTabName(tabNameSuffix));
     
     	SqlSession session = SqlmapUtils.openSession(getMasterDataSource());

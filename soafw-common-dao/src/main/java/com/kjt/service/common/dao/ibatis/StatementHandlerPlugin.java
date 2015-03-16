@@ -40,7 +40,6 @@ public class StatementHandlerPlugin implements Interceptor {
 
     metaStatementHandler.setValue("delegate.boundSql.sql",
         buildSql(boundSql.getSql(), configuration));
-
     // 将执行权交给下一个拦截器
     return invocation.proceed();
   }

@@ -112,9 +112,39 @@
 
 	<insert id="insert" parameterType="com.kjt.common.cache.dao.model.CacheVersion"
 		useGeneratedKeys="true" keyProperty="id">
+		INSERT INTO ${tKjtTabName} 
+		(
+		<trim suffix="" suffixOverrides=",">
+		
+		<if test="id !=null">
+			obj_name,
+		</if>
+		<if test="recVersion !=null">
+			rec_version,
+		</if>
+		<if test="tabVersion !=null">
+			tab_version,
+		</if>
+		</trim>
+		)
+		values (
+		<trim suffix="" suffixOverrides=",">
+		<if test="id !=null">
+			#{id},
+		</if>
+		<if test="recVersion !=null">
+			#{recVersion},
+		</if>
+		<if test="tabVersion !=null">
+			#{tabVersion},
+		</if>
+		</trim>
+		)
+		<!-- 
 		INSERT INTO ${tKjtTabName}
 		(obj_name,rec_version,tab_version)
 		VALUES(#{id},#{recVersion},#{tabVersion})
+		 -->
 	</insert>
 	<insert id="incrRecVersion" parameterType="com.kjt.common.cache.dao.model.CacheVersion">
 		INSERT INTO
