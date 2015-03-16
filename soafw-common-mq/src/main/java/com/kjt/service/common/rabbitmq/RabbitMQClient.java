@@ -10,42 +10,18 @@ import com.rabbitmq.client.Channel;
 import com.rabbitmq.client.Connection;
 import com.rabbitmq.client.ConnectionFactory;
 
-public class RabbitMQClient extends MQClient {
+public abstract class RabbitMQClient extends MQClient {
 
     public static final Address[] DEFAULT_BROKER_ADDRESS = new Address[] {new Address("127.0.0.1",
             5672)};
     public static final Class<ConnectionFactory> DEFAULT_CONNECTION_FACTORY_CLASS =
             ConnectionFactory.class;
+    
+    protected ConnectionFactory connectionFactory;
+    
+    protected Connection connection;
 
-    private ConnectionFactory connectionFactory;
-
-    public ConnectionFactory getConnectionFactory() {
-        return connectionFactory;
-    }
-
-    public void setConnectionFactory(ConnectionFactory connectionFactory) {
-        this.connectionFactory = connectionFactory;
-    }
-
-    private Connection connection;
-
-    public Connection getConnection() {
-        return connection;
-    }
-
-    public void setConnection(Connection connection) {
-        this.connection = connection;
-    }
-
-    private Channel channel;
-
-    public Channel getChannel() {
-        return channel;
-    }
-
-    public void setChannel(Channel channel) {
-        this.channel = channel;
-    }
+    protected Channel channel;
 
     public boolean isConnected() {
         if (connection == null || channel == null) {
@@ -85,17 +61,4 @@ public class RabbitMQClient extends MQClient {
             }
         }
     }
-
-    @Override
-    protected String configToString(Configuration config) {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    @Override
-    protected void build(Configuration config) {
-        // TODO Auto-generated method stub
-
-    }
-
 }

@@ -18,21 +18,13 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.lang.reflect.Method;
-import java.lang.reflect.Modifier;
 import java.net.URL;
 import java.net.URLClassLoader;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javassist.ClassClassPath;
-import javassist.ClassPool;
-import javassist.CtClass;
-import javassist.CtMethod;
 import javassist.NotFoundException;
-import javassist.bytecode.CodeAttribute;
-import javassist.bytecode.LocalVariableAttribute;
-import javassist.bytecode.MethodInfo;
 
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
@@ -71,7 +63,7 @@ public class SoafwTesterMojo extends AbstractMojo {
     private Map<String, Integer> testImpl = new HashMap<String, Integer>();
 
     private Map<String, Integer> errorImpl = new HashMap<String, Integer>();
-
+    private MavenProject project = null;
     private ClassLoader cl = null;
 
     public void execute() throws MojoExecutionException {
@@ -82,7 +74,7 @@ public class SoafwTesterMojo extends AbstractMojo {
 
         String basedPath = basedir.getAbsolutePath();
 
-        MavenProject project = (MavenProject) getPluginContext().get("project");
+        project = (MavenProject) getPluginContext().get("project");
 
         try {
             List<String> classpaths = project.getCompileClasspathElements();
@@ -187,7 +179,7 @@ public class SoafwTesterMojo extends AbstractMojo {
                 this.getLog().info("interface: " + interCls.getName());
 
                 Method[] methods = interCls.getMethods();
-                
+
                 int mlen = 0;
                 if (methods != null && (mlen = methods.length) > 0) {
 
@@ -375,16 +367,16 @@ public class SoafwTesterMojo extends AbstractMojo {
         if (cnt > 0) {
             methodName = methodName + "$" + cnt;
         }
-        
+
         methodBuffer.append("\t@Test\n");
         methodBuffer.append("\tpublic void " + methodName + "() {\n");
         Class[] types = method.getParameterTypes();
-        int size = types==null?0:types.length;
-        if(size>0){
+        int size = types == null ? 0 : types.length;
+        if (size > 0) {
             methodBuffer.append("\t\t//待测试方法参数类型定义参考： ");
         }
-        for(int i=0;i<size;i++){
-            methodBuffer.append(types[i].getSimpleName()+"\t");
+        for (int i = 0; i < size; i++) {
+            methodBuffer.append(types[i].getSimpleName() + "\t");
         }
         methodBuffer.append("\n");
         methodBuffer.append("\t\tthrow new RuntimeException(\"Test not implemented\");\n");
@@ -400,8 +392,32 @@ public class SoafwTesterMojo extends AbstractMojo {
         jHeadBuf.append("import org.junit.runner.RunWith;\n");
         jHeadBuf.append("import org.springframework.test.context.ContextConfiguration;\n");
         jHeadBuf.append("import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;\n");
-        jHeadBuf.append("@RunWith(SpringJUnit4ClassRunner.class)");
-        jHeadBuf.append("@ContextConfiguration( locations = { \"classpath*:/META-INF/config/spring/spring-db.xml\"})\n");
+        jHeadBuf.append("@RunWith(SpringJUnit4ClassRunner.class)\n");
+        String name = project.getName();
+        String suffix = "dao";
+        if (name.endsWith("-common")) {
+            suffix = "common";
+        } else if (name.endsWith("-config")) {
+            suffix = "config";
+        } else if (name.endsWith("-cache")) {
+            suffix = "cache";
+        } else if (name.endsWith("-dao")) {
+            suffix = "dao";
+        } else if (name.endsWith("-mq")) {
+            suffix = "mq";
+        } else if (name.endsWith("-rpc")) {
+            suffix = "rpc";
+        } else if (name.endsWith("-job")) {
+            suffix = "job";
+        } else if (name.endsWith("-web")) {
+            suffix = "dubbo";
+        } else if (name.endsWith("-domain") || name.endsWith("-service")
+                || name.endsWith("-service-impl")) {
+            suffix = "service";
+        }
+        this.getLog().info("ProjectName: " + name);
+        jHeadBuf.append("@ContextConfiguration( locations = { \"classpath*:/META-INF/config/spring/spring-"
+                + suffix + ".xml\"})\n");
 
         jHeadBuf.append("public class " + cls.getSimpleName() + "Test {\n");
         return jHeadBuf;
