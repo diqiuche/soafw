@@ -7,6 +7,7 @@
 		<groupId>com.kjt.service.#{artifactId}</groupId>
 		<artifactId>#{artifactId}</artifactId>
 		<version>1.0-SNAPSHOT</version>
+		<relativePath>../pom.xml</relativePath>
 	</parent>
 
 	<artifactId>#{artifactId}-service-impl</artifactId>
