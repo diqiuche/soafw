@@ -195,6 +195,13 @@ public class SoafwConfigMojo extends AbstractMojo {
         URL resource =
                 SoafwConfigMojo.class.getClassLoader().getResource(
                         "META-INF/config/template/template.properties");
+        SoafwConfigMojo mojo = new SoafwConfigMojo();
+        try {
+            mojo.doConfig("/Users/alexzhu/soa/projects", "test");
+        } catch (MojoExecutionException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
         System.out.println(resource);
     }
 }
