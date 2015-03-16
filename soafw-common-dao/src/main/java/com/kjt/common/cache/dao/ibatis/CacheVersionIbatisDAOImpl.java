@@ -31,7 +31,6 @@ public class CacheVersionIbatisDAOImpl extends AbsStrIDIBatisDAOImpl<CacheVersio
   private DataSource mapQueryDataSource;
 
   public CacheVersionIbatisDAOImpl() {
-    System.out.println("init......");
   }
 
   @Override
