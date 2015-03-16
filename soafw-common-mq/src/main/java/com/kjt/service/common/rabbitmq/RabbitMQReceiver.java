@@ -1,11 +1,9 @@
 package com.kjt.service.common.rabbitmq;
 
-import org.apache.catalina.connector.Connector;
 import org.apache.commons.configuration.Configuration;
 
 import com.kjt.service.common.mq.IMessage;
 import com.kjt.service.common.mq.IReceiver;
-import com.rabbitmq.client.ConnectionFactory;
 
 public class RabbitMQReceiver extends RabbitMQClient implements IReceiver {
 
