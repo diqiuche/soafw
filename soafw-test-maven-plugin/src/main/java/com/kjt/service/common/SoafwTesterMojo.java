@@ -31,6 +31,8 @@ import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.project.MavenProject;
 import org.junit.Test;
 
+import com.kjt.service.common.util.MD5Util;
+
 /**
  * Goal which gen a timestamp file.
  *
@@ -226,7 +228,10 @@ public class SoafwTesterMojo extends AbstractMojo {
         }
 
     }
-
+    /**
+     * 
+     * @param className 待追加实现的类
+     */
     private void appendTest(String className) {
         /**
          * 需要检查实现类与测试类单元测试实现范围比较 当发现实现类的public
@@ -236,6 +241,7 @@ public class SoafwTesterMojo extends AbstractMojo {
 
             Map<String, Method> defs = new HashMap<String, Method>();// Key:为当前方法类型＋变量，...字符串md5值
             Class cls = cl.loadClass(className);// 加载业务实现类
+            Class tstCls = cl.loadClass(className+"Test");//测试实现类
             Method[] methods = cls.getMethods();
             int len = 0;
             if (methods != null && (len = methods.length) > 0) {
@@ -243,14 +249,27 @@ public class SoafwTesterMojo extends AbstractMojo {
                  * 提起所有public的方法
                  */
                 for (int m = 0; m < len; m++) {
-                    Method tmp = methods[m];
-                    int modf = tmp.getModifiers();
+                    Method method = methods[m];
+                    
+                    Class[] types = method.getParameterTypes();
+                    int size = types == null ? 0 : types.length;
+                    StringBuffer paramsSb = new StringBuffer();
+                    for (int i = 0; i < size; i++) {
+                        paramsSb.append("\""+types[i].getSimpleName()+"\"");
+                        if(i<size-1){
+                            paramsSb.append(",");
+                        }
+                    }
+                    
+                    String id = MD5Util.md5Hex(paramsSb.toString());
+                    
+                    int modf = method.getModifiers();
                     if (modf == 1) {
                         /**
                          * 公共方法
                          */
-                        tmp.getParameterTypes();
-                        tmp.getTypeParameters();
+                        method.getParameterTypes();
+                        method.getTypeParameters();
                         /**
                          * 构造方法唯一标示
                          */
@@ -260,7 +279,6 @@ public class SoafwTesterMojo extends AbstractMojo {
             }
 
             Map<String, Method> tsts = new HashMap<String, Method>();
-            Class tstCls = cl.loadClass(className + "Test");// 加载单元测试的实现类
             Method[] tstMethods = tstCls.getMethods();
             if (tstMethods != null && (len = tstMethods.length) > 0) {
                 /**
@@ -359,19 +377,28 @@ public class SoafwTesterMojo extends AbstractMojo {
             } catch (IOException e) {}
         }
     }
-
+    
     private void addMethod(StringBuffer methodBuffer, Method method, int cnt)
             throws NotFoundException {
         String methodName = method.getName();
-
+        methodBuffer.append("\t@Test\n");
+        Class[] types = method.getParameterTypes();
+        int size = types == null ? 0 : types.length;
+        StringBuffer paramsSb = new StringBuffer();
+        for (int i = 0; i < size; i++) {
+            paramsSb.append("\""+types[i].getSimpleName()+"\"");
+            if(i<size-1){
+                paramsSb.append(",");
+            }
+        }
+        String id = MD5Util.md5Hex(paramsSb.toString());
+        methodBuffer.append("\t@SoaFwTest(id=\""+id+"\", method=\""+methodName+"\", params={"+paramsSb.toString()+"})\n");
+        
         if (cnt > 0) {
             methodName = methodName + "$" + cnt;
         }
-
-        methodBuffer.append("\t@Test\n");
         methodBuffer.append("\tpublic void " + methodName + "() {\n");
-        Class[] types = method.getParameterTypes();
-        int size = types == null ? 0 : types.length;
+        size = types == null ? 0 : types.length;
         if (size > 0) {
             methodBuffer.append("\t\t//待测试方法参数类型定义参考： ");
         }
@@ -391,7 +418,8 @@ public class SoafwTesterMojo extends AbstractMojo {
         jHeadBuf.append("import org.junit.Test;\n");
         jHeadBuf.append("import org.junit.runner.RunWith;\n");
         jHeadBuf.append("import org.springframework.test.context.ContextConfiguration;\n");
-        jHeadBuf.append("import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;\n");
+        jHeadBuf.append("import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;\n\n");
+        jHeadBuf.append("import com.kjt.service.common.annotation.SoaFwTest;\n");
         jHeadBuf.append("@RunWith(SpringJUnit4ClassRunner.class)\n");
         String name = project.getName();
         String suffix = "dao";

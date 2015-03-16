@@ -18,6 +18,10 @@
 		<maven>${mavenVersion}</maven>
 	</prerequisites>
 	<dependencies>
+		<dependency>
+			<groupId>com.kjt.service.common</groupId>
+			<artifactId>soafw-common-util</artifactId>
+		</dependency>
 		<!-- Maven core -->
 		<dependency>
 			<groupId>org.codehaus.plexus</groupId>
