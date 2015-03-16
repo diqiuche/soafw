@@ -23,7 +23,8 @@ public interface IBatisDAO<T> extends IDAO<T> {
   public DataSource getSlaveDataSource();
 
   public DataSource getMapQueryDataSource();
-
+  
+  public void validate(IModel model);
   /**
    * 该属性名是否是外键属性
    * 
