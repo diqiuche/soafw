@@ -330,9 +330,9 @@ public class SoafwTesterMojo extends AbstractMojo {
             if (path.indexOf(classesDir) == 0 && path.length() > length) {
                 String pkgPath = path.substring(length);
                 try {
-                    String os = System.getenv("os.name");
+                    String os = System.getProperty("os.name");
                     String exp = File.separator;
-                    if("windows".equalsIgnoreCase(os)){
+                    if(os.toLowerCase().indexOf("window")>=0){
                         exp = "\\\\";
                     }
                     String tmpFile = pkgPath.replaceAll(exp, ".");
