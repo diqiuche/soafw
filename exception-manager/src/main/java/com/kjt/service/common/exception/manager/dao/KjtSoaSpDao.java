@@ -7,17 +7,17 @@ import java.sql.Statement;
 import java.util.List;
 
 import com.google.common.collect.Lists;
-import com.kjt.service.common.exception.manager.model.AjkSoaSp;
+import com.kjt.service.common.exception.manager.model.KjtSoaSp;
 
 /**
  * Created by kevin on 15/1/13.
  */
-public class AjkSoaSpDao {
+public class KjtSoaSpDao {
 
-    public List<AjkSoaSp> list(){
-        String sql="select id,sp_name,sp_description from ajk_soa_sp ";
+    public List<KjtSoaSp> list(){
+        String sql="select id,sp_name,sp_description from kjt_soa_sp ";
 
-        List<AjkSoaSp> ajkSoaSps= Lists.newArrayList();
+        List<KjtSoaSp> ajkSoaSps= Lists.newArrayList();
         Statement statement= null;
         Connection connection=null;
         try {
@@ -25,7 +25,7 @@ public class AjkSoaSpDao {
             statement = connection.createStatement();
             ResultSet rs=statement.executeQuery(sql);
             while(rs.next()){
-                AjkSoaSp ajkSoaSp=new AjkSoaSp();
+                KjtSoaSp ajkSoaSp=new KjtSoaSp();
                 ajkSoaSp.setId(rs.getInt(1));
                 ajkSoaSp.setSp_name(rs.getString(2));
                 ajkSoaSp.setSp_description(rs.getString(3));
@@ -39,16 +39,16 @@ public class AjkSoaSpDao {
 
         return ajkSoaSps;
     }
-    public AjkSoaSp get(int id){
-        AjkSoaSp ajkSoaSp=new AjkSoaSp();
+    public KjtSoaSp get(int id){
+        KjtSoaSp ajkSoaSp=new KjtSoaSp();
         if(id<=0){
             ajkSoaSp.setId(0);
             ajkSoaSp.setSp_name("框架");
             return ajkSoaSp;
         }
-        String sql="select id,sp_name,sp_description from ajk_soa_sp ";
+        String sql="select id,sp_name,sp_description from kjt_soa_sp ";
 
-        List<AjkSoaSp> ajkSoaSps= Lists.newArrayList();
+        List<KjtSoaSp> ajkSoaSps= Lists.newArrayList();
         Statement statement= null;
         Connection connection=null;
         try {
@@ -56,7 +56,7 @@ public class AjkSoaSpDao {
             statement = connection.createStatement();
             ResultSet rs=statement.executeQuery(sql);
             if(rs.next()){
-                ajkSoaSp=new AjkSoaSp();
+                ajkSoaSp=new KjtSoaSp();
                 ajkSoaSp.setId(rs.getInt(1));
                 ajkSoaSp.setSp_name(rs.getString(2));
                 ajkSoaSp.setSp_description(rs.getString(3));

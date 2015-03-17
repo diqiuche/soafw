@@ -8,21 +8,21 @@ import java.sql.Statement;
 import java.util.List;
 
 import com.google.common.collect.Lists;
-import com.kjt.service.common.exception.manager.model.AjkException;
+import com.kjt.service.common.exception.manager.model.KjtException;
 
 /**
  * Created by kevin on 15/1/6.
  */
-public class AjkExceptionDao {
+public class KjtExceptionDao {
 
-    private static final String TABLE_NAME="ajk_exception";
+    private static final String TABLE_NAME="soafw_exception";
 
     public int getMaxCode(int type){
         int max=1;
 
         String sql="select max(code) from "+TABLE_NAME+" where type="+type;
 
-        List<AjkException> ajkExceptions=Lists.newArrayList();
+        List<KjtException> ajkExceptions=Lists.newArrayList();
         Statement statement= null;
         Connection connection=null;
         try {
@@ -43,21 +43,20 @@ public class AjkExceptionDao {
         return max;
     }
 
-    public int addAjkException(AjkException ajkException){
+    public int addAjkException(KjtException kjtException){
         String sql="insert into "+TABLE_NAME+"(code,type,message,spid,level)values(?,?,?,?,?)";
 
-        List<AjkException> ajkExceptions=Lists.newArrayList();
         PreparedStatement pstmt= null;
         Connection connection=null;
         int ret=0;
         try {
             connection=DbUtil.getConnection();
             pstmt = connection.prepareStatement(sql);
-            pstmt.setInt(1,ajkException.getCode());
-            pstmt.setInt(2,ajkException.getType());
-            pstmt.setString(3, ajkException.getMessage());
-            pstmt.setInt(4, ajkException.getSpid());
-            pstmt.setInt(5, ajkException.getLevel());
+            pstmt.setInt(1,kjtException.getCode());
+            pstmt.setInt(2,kjtException.getType());
+            pstmt.setString(3, kjtException.getMessage());
+            pstmt.setInt(4, kjtException.getSpid());
+            pstmt.setInt(5, kjtException.getLevel());
             ret =  pstmt.executeUpdate();
             pstmt.close();
             DbUtil.closeConnection(connection);
@@ -67,11 +66,11 @@ public class AjkExceptionDao {
 
         return ret;
     }
-    public List<AjkException> list(int code){
+    public List<KjtException> list(int code){
 
         String sql="select id,code,type,message,spid ,level from "+TABLE_NAME ;
         sql+=(code>0?" where code = "+code:"");
-        List<AjkException> ajkExceptions=Lists.newArrayList();
+        List<KjtException> ajkExceptions=Lists.newArrayList();
         Statement statement= null;
         Connection connection=null;
         try {
@@ -79,7 +78,7 @@ public class AjkExceptionDao {
             statement = connection.createStatement();
             ResultSet rs=statement.executeQuery(sql);
             while(rs.next()){
-                AjkException ajkException=new AjkException();
+                KjtException ajkException=new KjtException();
                 ajkException.setId(rs.getInt(1));
                 ajkException.setCode(rs.getInt(2));
                 ajkException.setType(rs.getInt(3));

@@ -3,9 +3,9 @@ package com.kjt.service.common.exception.manager.servlet;
 import com.google.common.base.Strings;
 import com.kjt.service.common.exception.basic.ExceptionLevel;
 import com.kjt.service.common.exception.basic.ExceptionType;
-import com.kjt.service.common.exception.manager.dao.AjkExceptionDao;
-import com.kjt.service.common.exception.manager.dao.AjkSoaSpDao;
-import com.kjt.service.common.exception.manager.model.AjkException;
+import com.kjt.service.common.exception.manager.dao.KjtExceptionDao;
+import com.kjt.service.common.exception.manager.dao.KjtSoaSpDao;
+import com.kjt.service.common.exception.manager.model.KjtException;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -18,7 +18,7 @@ import java.io.IOException;
 /**
  * Created by kevin on 15/1/6.
  */
-public class AddAjkExceptionServlet extends HttpServlet {
+public class AddKjtExceptionServlet extends HttpServlet {
 
 
     protected void doPost(HttpServletRequest req, HttpServletResponse resp)
@@ -39,15 +39,15 @@ public class AddAjkExceptionServlet extends HttpServlet {
     {
         req.setAttribute("types", ExceptionType.values());
         req.setAttribute("levels", ExceptionLevel.values());
-        req.setAttribute("sps",new AjkSoaSpDao().list());
+        req.setAttribute("sps",new KjtSoaSpDao().list());
         RequestDispatcher dispatcher = req.getRequestDispatcher("/WEB-INF/pages/add-exception.jsp");
         dispatcher .forward(req, resp);
     }
 
     private synchronized int add(int type,String message,int level,int spid){
-        AjkExceptionDao ajkExceptionDao = new AjkExceptionDao();
+        KjtExceptionDao ajkExceptionDao = new KjtExceptionDao();
         int maxCode =ajkExceptionDao.getMaxCode(type);
-        AjkException ajkException = new AjkException();
+        KjtException ajkException = new KjtException();
         ajkException.setCode(++maxCode);
         ajkException.setMessage(message);
         ajkException.setType(type);

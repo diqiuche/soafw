@@ -6,7 +6,7 @@ import com.kjt.service.common.exception.basic.ExceptionType;
 /**
  * Created by kevin on 15/1/6.
  */
-public class AjkException {
+public class KjtException {
     private int id;
     private int code;
     private int type;
@@ -14,7 +14,7 @@ public class AjkException {
     private int spid;
     private int level;
     private ExceptionType exceptionType;
-    private AjkSoaSp ajkSoaSp;
+    private KjtSoaSp ajkSoaSp;
     private ExceptionLevel exceptionLevel;
 
     public int getId() {
@@ -98,11 +98,11 @@ public class AjkException {
         }
     }
 
-    public AjkSoaSp getAjkSoaSp() {
+    public KjtSoaSp getAjkSoaSp() {
         return ajkSoaSp;
     }
 
-    public void setAjkSoaSp(AjkSoaSp ajkSoaSp) {
+    public void setAjkSoaSp(KjtSoaSp ajkSoaSp) {
         this.ajkSoaSp = ajkSoaSp;
     }
 

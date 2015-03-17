@@ -79,9 +79,6 @@ public class SoafwConfigMojo extends AbstractMojo {
             write(destDir, template, tpl, sufix);
         } else {
             
-            if(!moduleSuffix.isEmpty() && !moduleSuffix.startsWith("-")){
-                moduleSuffix = "-"+moduleSuffix;
-            }
             this.getLog().info("genModule: "+module);
             this.getLog().info("moduleSuffix: "+moduleSuffix);
             doConfig(destDir, artifactId);
@@ -130,7 +127,14 @@ public class SoafwConfigMojo extends AbstractMojo {
         FileWriter fw = null;
         try {
             new File(dest).mkdirs();
-            template = template.substring(0, template.indexOf("." + sufix)) + "." + sufix;
+            if(sufix.isEmpty()){
+                sufix=".tpl";
+                template = template.substring(0, template.indexOf(sufix));
+            }
+            else{
+                template = template.substring(0, template.indexOf(sufix)) + sufix;
+            }
+            
             fw = new FileWriter(dest + File.separator + template);
             fw.write(tpl);
         } catch (IOException e) {
@@ -145,6 +149,10 @@ public class SoafwConfigMojo extends AbstractMojo {
     }
 
     private void doConfig(String baseDir, String artifactId) throws MojoExecutionException {
+        
+        if(!moduleSuffix.isEmpty() && !moduleSuffix.startsWith("-")){
+            moduleSuffix = "-"+moduleSuffix;
+        }
         PropertiesConfiguration configSetting = load();
         String modules = configSetting.getString("modules");
         String[] moduleArray = modules.split(";");
@@ -172,7 +180,9 @@ public class SoafwConfigMojo extends AbstractMojo {
                 this.getLog().info("start template: " + templateFile);
 
                 String tpl = this.getTemplate(templateFile);
-
+                if("SPID.tpl".equals(templateFile)){
+                    this.getLog().info("start template: " + templateFile); 
+                }
                 tpl = format(tpl, "groupId", groupId);
                 tpl = format(tpl, "artifactId", artifactId);
                 tpl = format(tpl, "startPort", startPort);
@@ -214,8 +224,8 @@ public class SoafwConfigMojo extends AbstractMojo {
         SoafwConfigMojo mojo = new SoafwConfigMojo();
         try {
             mojo.module="job";
-            mojo.moduleSuffix="a";
-            mojo.doConfig("/Users/alexzhu/soa/projects", "test");
+            mojo.moduleSuffix="-aa";
+            mojo.doConfig("/Users/alexzhu/soa/projects", "hello");
         } catch (MojoExecutionException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();

@@ -7,7 +7,7 @@
         <exception.level>2</exception.level>
     </properties>
 	<plugin>
-        <groupId>com.anjuke.service.common</groupId>
+        <groupId>com.kjt.service.common</groupId>
         <artifactId>exception-generator</artifactId>
         <version>0.0.1-SNAPSHOT</version>
         <configuration>
@@ -21,14 +21,14 @@
             <!-- 加载方式  DB FILE URL CLOSE (不生成) -->
             <loadType>${exception.loadType}</loadType>
             <exceptionLevel>${exception.level}</exceptionLevel>
-            <!-- 服务代码 ，用来加载异常 请到ajk_soa_sp 表中注册 -->
+            <!-- 服务代码 ，用来加载异常 请到kjt_soa_sp 表中注册 -->
             <spId>${SPID}</spId>
         </configuration>
     </plugin>
 ```
 ### 2. 添加 maven properties  若本模块不需要生成异常枚举，不配置以下参数即可
 	<properties>
-        <exception.enum.class>com.anjuke.service.exception.ExceptionEnum</exception.enum.class>
+        <exception.enum.class>com.kjt.service.exception.ExceptionEnum</exception.enum.class>
         <exception.level>2</exception.level>
         <spId>00</spId>
     </properties>
@@ -37,7 +37,16 @@
 	
 ### 表结构
 
-CREATE TABLE `ajk_exception` (
+CREATE TABLE `kjt_soa_sp` (
+`id` int(11) NOT NULL auto_increment,
+`sp_name` varchar(100) default NULL,
+`sp_description` varchar(500) default NULL,
+PRIMARY KEY  (`id`),
+  UNIQUE KEY `index2` (`sp_name`)
+) ENGINE=MyISAM AUTO_INCREMENT=28 DEFAULT CHARSET=utf8;
+
+
+CREATE TABLE `soafw_exception` (
   `id` int(11) NOT NULL auto_increment,
   `code` int(11) default '0',
   `type` tinyint(4) default '0',

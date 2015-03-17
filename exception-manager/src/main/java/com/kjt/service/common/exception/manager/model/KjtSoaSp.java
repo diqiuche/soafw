@@ -3,7 +3,7 @@ package com.kjt.service.common.exception.manager.model;
 /**
  * Created by kevin on 15/1/13.
  */
-public class AjkSoaSp {
+public class KjtSoaSp {
     private int id;
     private String sp_name;
     private String sp_description;

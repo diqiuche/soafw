@@ -21,7 +21,7 @@
             <!-- 加载方式  DB FILE URL CLOSE (不生成) -->
             <loadType>${exception.loadType}</loadType>
             <exceptionLevel>${exception.level}</exceptionLevel>
-            <!-- 服务代码 ，用来加载异常 请到ajk_soa_sp 表中注册 -->
+            <!-- 服务代码 ，用来加载异常 请到kjt_soa_sp 表中注册 -->
             <spId>${SPID}</spId>
         </configuration>
     </plugin>
@@ -37,7 +37,15 @@
 	
 ### 表结构
 
-CREATE TABLE `ajk_exception` (
+CREATE TABLE `kjt_soa_sp` (
+`id` int(11) NOT NULL auto_increment,
+`sp_name` varchar(100) default NULL,
+`sp_description` varchar(500) default NULL,
+PRIMARY KEY  (`id`),
+  UNIQUE KEY `index2` (`sp_name`)
+) ENGINE=MyISAM AUTO_INCREMENT=28 DEFAULT CHARSET=utf8;
+
+CREATE TABLE `kjt_exception` (
   `id` int(11) NOT NULL auto_increment,
   `code` int(11) default '0',
   `type` tinyint(4) default '0',

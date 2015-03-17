@@ -71,9 +71,19 @@
 + service服务监控信息采集
 
 ##### 相关工具
-+ 数据访问层代码生成器
-+ exception管理工具
 + 服务项目框架生成器
+	+ 项目生成工具
+		+ cd soafw/tool
+		+ ./genAll.sh hello
+	+ job模块项目生成工具
+		+ cd soafw/tool
+		+ ./genJob.sh hello trade
+	+ 数据访问层代码生成器
+		+ import hello-dao as maven 项目
+		+ 在src/test/java中找到com.kjt.service.hello.dao.DaoGen
+		+ 按照提示修改DaoGen.java内容
+		+ 运行DaoGen
+	+ exception管理工具
 + checkstyle
 + 测试框架代码生成器插件－－待完成；
 
@@ -85,5 +95,5 @@
 
 ##### deploy
 
-+ mvn deploy:deploy-file -DgroupId=com.kjt.service.common -DartifactId=soafw-config-maven-plugin -Dversion=0.0.1-SNAPSHOT -Dfile=target/soafw-config-maven-plugin-0.0.1-SNAPSHOT.jar -Durl=http://192.168.1.110:8081/nexus/content/repositories/thirdparty
++ mvn deploy
 

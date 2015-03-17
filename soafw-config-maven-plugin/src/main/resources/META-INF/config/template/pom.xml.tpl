@@ -48,9 +48,9 @@
         <exception.enum.class></exception.enum.class>
         <exception.loadType>DB</exception.loadType>
         <exception.tableName>soafw_exception</exception.tableName>
-        <exception.dburl>jdbc:mysql://192.168.1.103:3306/kjt_db</exception.dburl>
-        <exception.dbuser>caixh</exception.dbuser>
-        <exception.dbpwd>caixh123</exception.dbpwd>
+        <exception.dburl>jdbc:mysql://192.168.1.110:3306/tsl_db</exception.dburl>
+        <exception.dbuser>root</exception.dbuser>
+        <exception.dbpwd>Kjt@)!$</exception.dbpwd>
         <exception.level></exception.level>
         <spId>1</spId>
         <!-- 异常代码生成公共定义 -->

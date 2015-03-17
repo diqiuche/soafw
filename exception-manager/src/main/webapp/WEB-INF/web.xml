@@ -3,22 +3,35 @@
  "http://java.sun.com/dtd/web-app_2_3.dtd" >
 
 <web-app>
-  <display-name>Archetype Created Web Application</display-name>
-    <servlet>
-        <servlet-name>Add</servlet-name>
-        <servlet-class>com.anjuke.service.common.exception.manager.servlet.AddAjkExceptionServlet</servlet-class>
-    </servlet>
-    <servlet>
-        <servlet-name>List</servlet-name>
-        <servlet-class>com.anjuke.service.common.exception.manager.servlet.ListAjkExceptionServlet</servlet-class>
-    </servlet>
-    <!-- ... -->
-    <servlet-mapping>
-        <servlet-name>Add</servlet-name>
-        <url-pattern>/add</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>List</servlet-name>
-        <url-pattern>/list</url-pattern>
-    </servlet-mapping>
+	<display-name>Archetype Created Web Application</display-name>
+
+	<filter>
+		<filter-name>encodingFilter</filter-name>
+		<filter-class>com.kjt.service.common.exception.manager.service.CharsetFilter</filter-class>
+	</filter>
+
+	<filter-mapping>
+		<filter-name>encodingFilter</filter-name>
+		<url-pattern>*</url-pattern>
+	</filter-mapping>
+	
+	<servlet>
+		<servlet-name>Add</servlet-name>
+		<servlet-class>com.kjt.service.common.exception.manager.servlet.AddKjtExceptionServlet</servlet-class>
+	</servlet>
+	<servlet>
+		<servlet-name>List</servlet-name>
+		<servlet-class>com.kjt.service.common.exception.manager.servlet.ListKjtExceptionServlet</servlet-class>
+	</servlet>
+
+	<!-- ... -->
+	<servlet-mapping>
+		<servlet-name>Add</servlet-name>
+		<url-pattern>/add</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>List</servlet-name>
+		<url-pattern>/list</url-pattern>
+	</servlet-mapping>
+
 </web-app>

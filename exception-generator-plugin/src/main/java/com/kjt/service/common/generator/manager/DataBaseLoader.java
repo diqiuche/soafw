@@ -66,6 +66,10 @@ public class DataBaseLoader extends AbstractLoader {
             //e.printStackTrace();
         }
         try {
+            System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
+            System.out.println(">>dburl: "+dburl);
+            System.out.println(">>dbuser: "+dbuser);
+            System.out.println(">>dbpwd: "+dbpwd);
             Connection connection= DriverManager.getConnection(this.dburl,this.dbuser,this.dbpwd);
             return  connection;
         } catch (SQLException e) {
