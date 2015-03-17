@@ -15,8 +15,10 @@ package com.kjt.service.common;
  */
 
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.OutputStreamWriter;
 import java.lang.reflect.Method;
 import java.net.URL;
 import java.net.URLClassLoader;
@@ -367,17 +369,19 @@ public class SoafwTesterMojo extends AbstractMojo {
     }
 
     private void write(String dest, String template, String tpl) throws MojoExecutionException {
-        FileWriter fw = null;
+        //FileWriter fw = null;
+        OutputStreamWriter osw = null;
         try {
             new File(dest).mkdirs();
-            fw = new FileWriter(dest + File.separator + template);
-            fw.write(tpl);
+            osw = new OutputStreamWriter(new FileOutputStream(dest + File.separator + template),"UTF-8");
+            //fw = new FileWriter(dest + File.separator + template);
+            osw.write(tpl);
         } catch (IOException e) {
             throw new MojoExecutionException("", e);
         } finally {
             try {
-                if (fw != null) {
-                    fw.close();
+                if (osw != null) {
+                    osw.close();
                 }
             } catch (IOException e) {}
         }
