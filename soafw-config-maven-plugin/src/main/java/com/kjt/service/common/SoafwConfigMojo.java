@@ -44,7 +44,8 @@ public class SoafwConfigMojo extends AbstractMojo {
     private String destDir = ".";
     private String template = "";
     private String sufix = "xml";
-
+    private String module;
+    private String moduleSuffix="";
     public void execute() throws MojoExecutionException {
         groupId = System.getProperty("groupId");
         artifactId = System.getProperty("artifactId");
@@ -54,6 +55,9 @@ public class SoafwConfigMojo extends AbstractMojo {
         template = System.getProperty("template", template);
         sufix = System.getProperty("sufix", sufix);
         String model = System.getProperty("model", "split");
+        module = System.getProperty("genModule","all");
+        moduleSuffix = System.getProperty("moduleSuffix","").trim();
+        
         this.getLog().info(
                 format(model, groupId, artifactId, startPort, stopPort,
                         new File(destDir).getAbsolutePath(), template));
@@ -74,6 +78,12 @@ public class SoafwConfigMojo extends AbstractMojo {
              */
             write(destDir, template, tpl, sufix);
         } else {
+            
+            if(!moduleSuffix.isEmpty() && !moduleSuffix.startsWith("-")){
+                moduleSuffix = "-"+moduleSuffix;
+            }
+            this.getLog().info("genModule: "+module);
+            this.getLog().info("moduleSuffix: "+moduleSuffix);
             doConfig(destDir, artifactId);
         }
 
@@ -140,14 +150,17 @@ public class SoafwConfigMojo extends AbstractMojo {
         String[] moduleArray = modules.split(";");
         int len = moduleArray == null ? 0 : moduleArray.length;
         for (int m = 0; m < len; m++) {
-            String module = moduleArray[m];
-            this.getLog().info("start config module: " + module);// service-impl=1;2;3;4;5;6;7
-            String moduleIdxs = configSetting.getString(module);
+            String currentModule = moduleArray[m];
+            if(!"all".equals(module) && !module.equals(currentModule)){
+                continue;
+            }
+            this.getLog().info("start config module: " + currentModule);// service-impl=1;2;3;4;5;6;7
+            String moduleIdxs = configSetting.getString(currentModule);
             String[] moduleIdxArray = moduleIdxs.split(";");
             int iLen = moduleIdxArray == null ? 0 : moduleIdxArray.length;
             for (int i = 0; i < iLen; i++) {
                 String idx = moduleIdxArray[i];
-                String config = module + "." + idx;
+                String config = currentModule + "." + idx;
                 String configs = configSetting.getString(config);
 
                 // sufix;template;destDir
@@ -164,9 +177,12 @@ public class SoafwConfigMojo extends AbstractMojo {
                 tpl = format(tpl, "artifactId", artifactId);
                 tpl = format(tpl, "startPort", startPort);
                 tpl = format(tpl, "stopPort", stopPort);
+                tpl = format(tpl,"moduleSuffix",moduleSuffix);
                 this.getLog().info(tpl);
 
                 storeDir = format(storeDir, "artifactId", artifactId);
+                
+                storeDir = format(storeDir,"moduleSuffix",moduleSuffix);
 
                 String configToDir = baseDir + File.separator + storeDir;
 
@@ -197,6 +213,8 @@ public class SoafwConfigMojo extends AbstractMojo {
                         "META-INF/config/template/template.properties");
         SoafwConfigMojo mojo = new SoafwConfigMojo();
         try {
+            mojo.module="job";
+            mojo.moduleSuffix="a";
             mojo.doConfig("/Users/alexzhu/soa/projects", "test");
         } catch (MojoExecutionException e) {
             // TODO Auto-generated catch block

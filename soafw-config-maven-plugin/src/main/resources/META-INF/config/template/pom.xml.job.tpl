@@ -10,8 +10,8 @@
 		<relativePath>../pom.xml</relativePath>
 	</parent>
 
-	<artifactId>#{artifactId}-job</artifactId>
-	<name>#{artifactId}-job</name>
+	<artifactId>#{artifactId}-job#{moduleSuffix}</artifactId>
+	<name>#{artifactId}-job#{moduleSuffix}</name>
 	<url>http://maven.apache.org</url>
 	
 	<dependencies>
