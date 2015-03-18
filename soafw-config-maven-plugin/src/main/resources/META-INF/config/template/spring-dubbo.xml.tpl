@@ -39,7 +39,7 @@
 	<dubbo:application name="kjt-#{artifactId}-web"/>
 	
     <!-- 使用zookeeper发现服务地址 --> 
-    <dubbo:registry address="${#{artifactId}.service.registry.address}"/>
+    <dubbo:registry protocol="zookeeper" address="${#{artifactId}.service.registry.address}"/>
     
     <!-- 服务消费者定义 -->
     <dubbo:consumer timeout="${#{artifactId}.web.timeout}" init="true" check="false"/>
