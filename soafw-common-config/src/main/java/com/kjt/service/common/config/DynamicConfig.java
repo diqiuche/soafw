@@ -51,7 +51,6 @@ public class DynamicConfig implements ConfigFileDict, Constants, Configuration, 
      * System.getProperty(CONFIG_DIR, CONFIG_DIR_DEF) + File.separator + profiel+.+ _settingFileName
      * + File.separator + "." + type;
      */
-    private String fileName = null;
     private String _settingFileName = "common";
     private String type = ConfigFileTypeDict.XML;
     private Configuration delegate;
