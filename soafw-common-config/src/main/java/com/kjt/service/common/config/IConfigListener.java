@@ -6,7 +6,7 @@ public interface IConfigListener{
 	/**
 	 * 加载配置信息
 	 */
-	public String getFileName();
+	public String[] getFileName();
 
 	/**
 	 * 这个方法用在配置变更时通知观察者更新相关的配置，比如重新初始化一些变量（值来源于配置信息） 当配置项发生变化是，系统自动执行 load();

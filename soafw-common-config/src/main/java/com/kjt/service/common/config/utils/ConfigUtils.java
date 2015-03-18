@@ -26,13 +26,15 @@ public class ConfigUtils {
 
 	public void addListener(IConfigListener configListener) {
 		synchronized (configUtilsSingleton) {
-			String configFileName = configListener.getFileName();
+			String[] configFileName = configListener.getFileName();
 
 			// 注册配置文件监听者
 			List<IConfigListener> lastConfigListenerList = configListeners.get(configFileName);
 			if (lastConfigListenerList == null) {
 				lastConfigListenerList = new ArrayList<IConfigListener>();
-				configListeners.put(configFileName, lastConfigListenerList);
+				for(int i=0;i<configFileName.length;i++){
+				    configListeners.put(configFileName[i], lastConfigListenerList);
+				}
 			}
 
 			/**
@@ -44,9 +46,12 @@ public class ConfigUtils {
 			/**
 			 * 一个文件只有一个文件观察者
 			 */
-			if (!watchs.containsKey(configFileName)) {
-				addWatch(configFileName);
+			for(int i=0;i<configFileName.length;i++){
+			    if (!watchs.containsKey(configFileName[i])) {
+	                addWatch(configFileName[i]);
+	            }
 			}
+			
 		}
 	}
 

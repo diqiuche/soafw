@@ -3,12 +3,11 @@ package com.kjt.service.concurrent;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.kjt.service.common.config.utils.Executor;
+import com.kjt.service.common.log.LogUtils;
+import com.kjt.service.common.log.Logger;
+import com.kjt.service.common.log.LoggerFactory;
 import com.kjt.service.common.util.ContextHolder;
-import com.kjt.service.common.util.LogUtils;
 
 public abstract class SynMAsynBizExecutor implements Runnable {
 

@@ -2,11 +2,10 @@ package com.kjt.service.concurrent;
 
 import java.util.Map;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.kjt.service.common.exception.basic.BasicException;
-import com.kjt.service.common.util.LogUtils;
+import com.kjt.service.common.log.LogUtils;
+import com.kjt.service.common.log.Logger;
+import com.kjt.service.common.log.LoggerFactory;
 
 /**
  * 和SynMAsynBizExecutor配套使用，主要是解决让多个同步操作【变成异步同时操作】；提过系统性能；

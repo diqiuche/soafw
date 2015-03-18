@@ -18,17 +18,23 @@
 	<import resource="classpath*:/META-INF/config/spring/spring-rpc.xml"/>
 	<import resource="classpath*:/META-INF/config/spring/spring-mq.xml"/>
 	
-	<bean id="kjtService$Config" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
-		
-		<property name="order" value="2" />
-		<property name="ignoreUnresolvablePlaceholders" value="true" />
-		<property name="locations">
-			<list>
-				<value>classpath*:/META-INF/config/local/dubbo.properties</value>
-				<!--  
-				<value>file:/config/dubbo.properties</value>
-				-->
-			</list>
+	<!--框架配置：该设置请不要轻易改变-->
+	<bean id="dubbo" class="com.kjt.service.common.config.ConfigurationFactoryBean">
+		<property name="name" value="dubbo" />
+        <property name="encoding" value="utf8" />
+	</bean>
+	
+	<bean id="dubboPlaceholder"
+		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="properties">
+			<bean id="propertiesConfigurationFactoryBean"
+				class="com.kjt.service.common.config.CommonsConfigurationFactoryBean">
+				<property name="configurations">  
+			       	<list>  
+			       		<ref bean="dubbo" />
+			        </list>  
+			    </property>				
+			</bean>
 		</property>
 	</bean>
 	

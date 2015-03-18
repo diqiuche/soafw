@@ -28,7 +28,7 @@ import com.kjt.service.common.config.dict.ConfigFileTypeDict;
 import com.kjt.service.common.config.utils.ConfigReloadEvent;
 import com.kjt.service.common.config.utils.ConfigReloadObserver;
 import com.kjt.service.common.config.utils.MailSender;
-import com.kjt.service.common.util.LogUtils;
+import com.kjt.service.common.log.LogUtils;
 import com.kjt.service.common.util.StringUtils;
 import com.kjt.service.concurrent.AsynBizExecutor;
 
@@ -44,7 +44,7 @@ import com.kjt.service.concurrent.AsynBizExecutor;
  */
 public class DynamicDataSource extends PoolableObjDynamicConfig implements DataSource,
     IConfigListener {
-  protected org.slf4j.Logger _logger = org.slf4j.LoggerFactory.getLogger("trace");
+  
   private DataSource delegate;
   private String hostName;
 
@@ -127,7 +127,7 @@ public class DynamicDataSource extends PoolableObjDynamicConfig implements DataS
       } else {
         final DataSource oldDataSource = this.delegate;
         this.delegate = basicDataSource_;
-        LogUtils.timeused(_logger, prefix_ + "reloaded", start);
+        LogUtils.timeused(logger, prefix_ + "reloaded", start);
         new AsynBizExecutor(this.getClass().getName()) {
           @Override
           public void execute() {
@@ -141,7 +141,7 @@ public class DynamicDataSource extends PoolableObjDynamicConfig implements DataS
         };
       }
     } catch (Exception ex) {
-      LogUtils.error(_logger, ex);
+      LogUtils.error(logger, ex);
       this.notify(prefix_, ex.getMessage(), configToString(config));
     }
   }
@@ -161,7 +161,7 @@ public class DynamicDataSource extends PoolableObjDynamicConfig implements DataS
     if (session != null) {
       session.close();
     }
-    LogUtils.timeused(_logger, prefix_ + "verify", start);
+    LogUtils.timeused(logger, prefix_ + "verify", start);
   }
 
   private void notify(String prefix_, String message, String newCfg) {
@@ -188,13 +188,13 @@ public class DynamicDataSource extends PoolableObjDynamicConfig implements DataS
     Map params = new HashMap();
     params.put("subject", hostName + " database configure reload verify failure");
     params.put("body", reloadMsgBuffer.toString());
-    LogUtils.trace(_logger, "db reload mail content:" + params);
+    LogUtils.trace(logger, "db reload mail content:" + params);
     ConfigReloadEvent event = new ConfigReloadEvent(params);
     ConfigReloadObserver observer = new ConfigReloadObserver(dbReloadEventReceiver);
     observer.setSender(new MailSender());
     event.addObserver(observer);
     event.fireEvent();
-    LogUtils.timeused(_logger, prefix_ + "notify", start);
+    LogUtils.timeused(logger, prefix_ + "notify", start);
   }
 
   public Boolean getTestWhileIdle() {
@@ -539,4 +539,22 @@ public class DynamicDataSource extends PoolableObjDynamicConfig implements DataS
     super.init();
     this.build(this.getConfig());
   }
+
+  public static void main(String[] args) {
+    System.setProperty("app.home.dir", "/Users/alexzhu/soa/soafw/soafw-common-dao");
+    DynamicDataSource datasource = new DynamicDataSource();
+    datasource.setPrefix("tsl_db");
+    datasource.setType("properties");
+    datasource.init();
+    while (true) {
+      try {
+        Thread.sleep(1000);
+        datasource.getString("tsl_db");
+      } catch (InterruptedException e) {
+        // TODO Auto-generated catch block
+        e.printStackTrace();
+      }
+    }
+  }
+
 }

@@ -2,8 +2,6 @@ package com.kjt.service.common.config;
 
 import org.apache.commons.configuration.Configuration;
 
-import com.kjt.service.common.log.Logger;
-import com.kjt.service.common.log.LoggerFactory;
 import com.kjt.service.common.util.MD5Util;
 import com.kjt.service.common.util.StringUtils;
 
@@ -11,8 +9,6 @@ public abstract class PoolableObjDynamicConfig extends DynamicConfig {
 	/**
 	 * Logger for this class
 	 */
-	private static final Logger logger = LoggerFactory.getLogger(PoolableObjDynamicConfig.class);
-	
 	private String prefix;
 
 	public void setPrefix(String prefix) {

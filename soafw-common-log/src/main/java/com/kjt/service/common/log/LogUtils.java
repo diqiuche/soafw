@@ -1,10 +1,12 @@
-package com.kjt.service.common.util;
+package com.kjt.service.common.log;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 import java.io.UnsupportedEncodingException;
 
-import org.slf4j.Logger;
+import com.kjt.service.common.util.ContextHolder;
+
+
 
 public class LogUtils {
 	
