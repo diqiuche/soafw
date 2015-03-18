@@ -115,7 +115,7 @@ public class SoafwConfigMojo extends AbstractMojo {
     }
 
     private String format(String tpl, String pattern, String content) {
-        if (content == null || content.length() == 0) {
+        if (content == null) {
             return tpl;
         }
         tpl = tpl.replace("#{" + pattern + "}", content);
@@ -188,6 +188,7 @@ public class SoafwConfigMojo extends AbstractMojo {
                 tpl = format(tpl, "startPort", startPort);
                 tpl = format(tpl, "stopPort", stopPort);
                 tpl = format(tpl,"moduleSuffix",moduleSuffix);
+                
                 this.getLog().info(tpl);
 
                 storeDir = format(storeDir, "artifactId", artifactId);
@@ -224,7 +225,7 @@ public class SoafwConfigMojo extends AbstractMojo {
         SoafwConfigMojo mojo = new SoafwConfigMojo();
         try {
             mojo.module="job";
-            mojo.moduleSuffix="-aa";
+            mojo.moduleSuffix="";
             mojo.doConfig("/Users/alexzhu/soa/projects", "hello");
         } catch (MojoExecutionException e) {
             // TODO Auto-generated catch block
