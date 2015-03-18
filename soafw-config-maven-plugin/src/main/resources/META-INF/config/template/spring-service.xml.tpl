@@ -46,13 +46,13 @@
 	<dubbo:application name="kjt-#{artifactId}-service"/>
 
     <!-- 使用multicast广播注册中心暴露服务地址 --> 
-    <dubbo:registry address="${#{artifactId}.registry.address}"/>
+    <dubbo:registry address="${#{artifactId}.service.registry.address}"/>
+    
+    <!-- 用dubbo协议在20880端口暴露服务 -->
+    <dubbo:protocol name="dubbo" port="${#{artifactId}.service.protocol.dubbo.port}"/>
     
     <!-- 使用监控中心 -->
     <dubbo:monitor protocol="registry"/>
-    
-    <!-- 用dubbo协议在20880端口暴露服务 -->
-    <dubbo:protocol name="dubbo" port="${#{artifactId}.protocol.dubbo.port}"/>
     
     <!--服务注册信息请在该备注以下添加-->
     
