@@ -27,13 +27,13 @@ import com.kjt.service.common.util.StringUtils;
 
 /**
  * 动态检测&加载变化内容<br>
- * config.file.dir：配置文件路径<br>
+ * global.config.dir：配置文件路径<br>
  * 默认为没有profile<br>
  * 当没有设置profile时 <br>
- * System.getProperty(CONFIG_DIR, CONFIG_DIR_DEF) + File.separator + _settingFileName +
+ * System.getProperty(GLOBAL_CONFIG_DIR, GLOBAL_CONFIG_DIR_DEF) + File.separator + _settingFileName +
  * File.separator + "." + type; <br>
  * 当设置了profile时 <br>
- * System.getProperty(CONFIG_DIR, CONFIG_DIR_DEF) + File.separator + profiel+.+ _settingFileName +
+ * System.getProperty(GLOBAL_CONFIG_DIR, GLOBAL_CONFIG_DIR_DEF) + File.separator + profiel+.+ _settingFileName +
  * File.separator + "." + type;
  * 
  * @author alexzhu
@@ -45,10 +45,10 @@ public class DynamicConfig implements ConfigFileDict, Constants, Configuration, 
     /**
      * 默认为没有profile<br>
      * 当没有设置profile时 <br>
-     * System.getProperty(CONFIG_DIR, CONFIG_DIR_DEF) + File.separator + _settingFileName +
+     * System.getProperty(GLOBAL_CONFIG_DIR, GLOBAL_CONFIG_DIR_DEF) + File.separator + _settingFileName +
      * File.separator + "." + type; <br>
      * 当设置了profile时 <br>
-     * System.getProperty(CONFIG_DIR, CONFIG_DIR_DEF) + File.separator + profiel+.+ _settingFileName
+     * System.getProperty(GLOBAL_CONFIG_DIR, GLOBAL_CONFIG_DIR_DEF) + File.separator + profiel+.+ _settingFileName
      * + File.separator + "." + type;
      */
     private String _settingFileName = "common";
@@ -73,7 +73,7 @@ public class DynamicConfig implements ConfigFileDict, Constants, Configuration, 
         CompositeConfiguration compositeConfiguration = new CompositeConfiguration();
         compositeConfiguration.setThrowExceptionOnMissing(_throwExceptionOnMissing);
 
-        addConfig(compositeConfiguration, "/config/" + getProfile() + "%s");
+        addConfig(compositeConfiguration, System.getProperty(SYS_CONFIG_DIR, SYS_CONFIG_DIR_DEF)+File.separator + getProfile() + "%s");
 
         addConfig(compositeConfiguration, getAppHomeDir() +File.separator+"config"+ File.separator + getProfile()
                 + "%s");
@@ -131,7 +131,7 @@ public class DynamicConfig implements ConfigFileDict, Constants, Configuration, 
     private void regist() {
         String configFile = null;
         configFile =
-                System.getProperty(CONFIG_DIR, CONFIG_DIR_DEF) + File.separator + this.getProfile()
+                System.getProperty(SYS_CONFIG_DIR, SYS_CONFIG_DIR_DEF) + File.separator + this.getProfile()
                         + _settingFileName + "." + type;
         /**
          * 全局外围配置不存在 配置文件位置存放在/config
@@ -159,8 +159,8 @@ public class DynamicConfig implements ConfigFileDict, Constants, Configuration, 
      * @return
      */
     private String getProfile() {
-        String profile = System.getProperty("profile");
-        if (profile != null) {
+        String profile = System.getProperty("profile","");
+        if (profile.trim().length()>0) {
             profile = profile + ".";
         } else {
             profile = "";
@@ -169,7 +169,7 @@ public class DynamicConfig implements ConfigFileDict, Constants, Configuration, 
     }
 
     private String getAppHomeDir() {
-        String app$home$dir = System.getProperty("app.home.dir");
+        String app$home$dir = System.getProperty(APP_HOME_DIR);
         if (app$home$dir == null) {
             app$home$dir = "";
         }

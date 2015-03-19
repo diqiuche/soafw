@@ -19,7 +19,7 @@ public class SystemDirDict {
 	/**
 	 * 配置目录位置 默认为：/config
 	 */
-	public static final String CONFIG_DIR_PROPERTY_NAME = "config.file.dir";
+	public static final String CONFIG_DIR_PROPERTY_NAME = "global.config.dir";
 	/**
 	 * 默认配置文件目录
 	 */

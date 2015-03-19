@@ -34,7 +34,7 @@ import com.kjt.service.concurrent.AsynBizExecutor;
 
 /**
  * 支持xml、properties文件格式<br>
- * 配置文件目录：通过设置系统属性‘config.file.dir’设置，其默认值：/config <br>
+ * 配置文件目录：通过设置系统属性‘global.config.dir’设置，其默认值：/config <br>
  * 数据库配置文件名，通过设置系统属性‘database.config’设置，其默认值：database<br>
  * 默认配置文件格式：xml<br>
  * 即默认配置文件为：database.xml <br>
@@ -79,7 +79,7 @@ public class DynamicDataSource extends PoolableObjDynamicConfig implements DataS
     long start = System.currentTimeMillis();
 
     String prefix_ = this.getPrefix();
-
+    logger.info("start datasource:"+prefix_);
     String driverClassName_ = config.getString(prefix_ + "driver");
     String url_ = config.getString(prefix_ + "url");
     String username_ = config.getString(prefix_ + "username");

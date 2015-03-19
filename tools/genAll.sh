@@ -47,6 +47,10 @@ mvn archetype:generate -DarchetypeCatalog=locale -DgroupId=com.kjt.service.$proj
 echo $projectservice build success
 
 projectjob=$projectid-job
+if [ -n $2 ]; then
+	projectjob=$projectjob-$2
+fi
+
 mvn archetype:generate -DarchetypeCatalog=locale -DgroupId=com.kjt.service.$projectid -DartifactId=$projectjob 
 echo $projectjob build success
 
@@ -63,4 +67,4 @@ echo $projectwebid build success
 cd ../soafw/soafw-config-maven-plugin
 
 ##config
-mvn soafw-config:config -DartifactId=$projectid -DdestDir=../../projects -Dmodel=AllIn $2
+mvn soafw-config:config -DartifactId=$projectid -DdestDir=../../projects -Dmodel=AllIn -DmoduleSuffix=$2 $3

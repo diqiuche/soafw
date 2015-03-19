@@ -12,11 +12,13 @@ public interface ConfigFileDict {
 	 * 配置目录位置
 	 * 默认为：/config
 	 */
-	public static String CONFIG_DIR = "config.file.dir";
+	public static String SYS_CONFIG_DIR = "system.config.dir";
 	/**
 	 * 默认配置文件目录
 	 */
-	public static String CONFIG_DIR_DEF = "/config";
+	public static String SYS_CONFIG_DIR_DEF = "/config";
+	
+	public static String APP_HOME_DIR = "app.home.dir";
 	
 	/**
 	 * 数据库配置 默认为：database.properties

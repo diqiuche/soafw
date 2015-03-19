@@ -12,7 +12,7 @@
         <file>/data1/logs/service/#{artifactId}/dlog.log</file>
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
         	<!--框架设置：该FileNamePattern信息请不要修改-->
-            <FileNamePattern>/data1/logs/service/#{artifactId}/wdlog.log-%d{yyyy-MM-dd}</FileNamePattern>
+            <FileNamePattern>/data1/logs/service/#{artifactId}/sdlog.log-%d{yyyy-MM-dd}</FileNamePattern>
         </rollingPolicy>
         <encoder>
             <!-- %-40(%-35logger{35}:%-4line) -->
@@ -24,7 +24,7 @@
         <file>/data1/logs/service/#{artifactId}/elog.log</file>
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
         	<!--框架设置：该FileNamePattern信息请不要修改-->
-            <FileNamePattern>/data1/logs/service/#{artifactId}/welog.log-%d{yyyy-MM-dd}</FileNamePattern>
+            <FileNamePattern>/data1/logs/service/#{artifactId}/selog.log-%d{yyyy-MM-dd}</FileNamePattern>
         </rollingPolicy>
         <encoder>
             <!-- %-40(%-35logger{35}:%-4line) -->

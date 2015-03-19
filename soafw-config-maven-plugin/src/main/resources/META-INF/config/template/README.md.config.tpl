@@ -17,14 +17,19 @@
 		
 	+ 资源&程序开关配置 支持动态加载机制
 		+ 位置
-			
-			默认保存在/config目录中，可以通过-Dconfig.file.dir=/config的方式改变系统配置文件目录，当在该目录中没有找到相应文件时则会在对应模块的src/main/resources/META-INF/config/local/目录中查找相应文件
+			+ 支持3级配置机制
+				+ 1，系统及配置优先级最高，系统级配置目录默认为/config/，可以通过-Dsystem.config.dir=/config的方式进行调整
+				+ 2，应用配置优先级次之，通过-Dapp.home.dir=xxx的方式进行设置
+        			/home/apps/tsl/current/config/ 优先级次之
+				+ 3，优先级最低的配置［对应模块配置］，在对应模块的META-INF/config/local/目录下
 			
 		+ 文件列表
 			+ 资源类型
 				+ cache-mem.properties
 				+ cache-redis.properties
 				+ database.properties
+				+ dubbo.properties
+				
 			+ 开关类型
 				+ acc.xml 数据访问层
 				+ service.xml 服务层
@@ -32,4 +37,3 @@
 				+ mq.xml  mq服务
 				+ job.xml job层
 				+ webapp.xml web层
-	
