@@ -23,7 +23,7 @@ db.conn.str=useUnicode=true&characterEncoding=UTF-8&zeroDateTimeBehavior=convert
 
 #cache
 cache_db.driver = ${jdbc.driver}
-cache_db.url = jdbc:mysql://192.168.1.110:3306/tsl_db?${db.conn.str}
+cache_db.url = jdbc:mysql://192.168.1.110:3306/soafw_db?${db.conn.str}
 cache_db.username = root
 cache_db.password = Kjt@)!$
 cache_db.initialSize = ${dbcp.initialSize}
@@ -44,7 +44,7 @@ cache_db.validationQuery = ${dbcp.validationQuery}
 
 #cache_db_slave
 cache_db_slave.driver = ${jdbc.driver}
-cache_db_slave.url = jdbc:mysql://192.168.1.110:3306/tsl_db?${db.conn.str}
+cache_db_slave.url = jdbc:mysql://192.168.1.110:3306/soafw_db?${db.conn.str}
 cache_db_slave.username = root
 cache_db_slave.password = Kjt@)!$
 cache_db_slave.initialSize = ${dbcp.initialSize}
@@ -65,7 +65,7 @@ cache_db_slave.validationQuery = ${dbcp.validationQuery}
 
 #cache_db_map_query
 cache_db_map_query.driver = ${jdbc.driver}
-cache_db_map_query.url = jdbc:mysql://192.168.1.110:3306/tsl_db?${db.conn.str}
+cache_db_map_query.url = jdbc:mysql://192.168.1.110:3306/soafw_db?${db.conn.str}
 cache_db_map_query.username = root
 cache_db_map_query.password = Kjt@)!$
 cache_db_map_query.initialSize = ${dbcp.initialSize}

@@ -47,8 +47,8 @@
         <!-- 异常代码生成公共定义 -->
         <exception.enum.class></exception.enum.class>
         <exception.loadType>DB</exception.loadType>
-        <exception.tableName>soafw_exception</exception.tableName>
-        <exception.dburl>jdbc:mysql://192.168.1.110:3306/tsl_db</exception.dburl>
+        <exception.tableName>soa_exception</exception.tableName>
+        <exception.dburl>jdbc:mysql://192.168.1.110:3306/soafw_db</exception.dburl>
         <exception.dbuser>root</exception.dbuser>
         <exception.dbpwd>Kjt@)!$</exception.dbpwd>
         <exception.level></exception.level>

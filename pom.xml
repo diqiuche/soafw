@@ -32,15 +32,6 @@
 		<guava.version>18.0</guava.version>
 
 		<!-- 异常代码生成公共定义 -->
-		<exception.enum.class />
-		<exception.config />
-		<exception.loadType>DB</exception.loadType>
-		<exception.tableName>ajk_exception</exception.tableName>
-		<exception.dburl>jdbc:mysql://192.168.1.103:3306/anjuke_db</exception.dburl>
-		<exception.dbuser>caixh</exception.dbuser>
-		<exception.dbpwd>caixh123</exception.dbpwd>
-		<exception.level />
-		<!-- 异常代码生成公共定义 -->
 		<!-- plugins version -->
 		<maven-compiler-plugin.version>2.4.2</maven-compiler-plugin.version>
 		<!-- plugins version -->

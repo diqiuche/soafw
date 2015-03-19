@@ -15,7 +15,7 @@ import com.kjt.service.common.exception.manager.model.KjtException;
  */
 public class KjtExceptionDao {
 
-    private static final String TABLE_NAME="soafw_exception";
+    private static final String TABLE_NAME="soa_exception";
 
     public int getMaxCode(int type){
         int max=1;
