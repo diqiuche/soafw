@@ -15,7 +15,7 @@ import com.kjt.service.common.exception.manager.model.KjtSoaSp;
 public class KjtSoaSpDao {
 
     public List<KjtSoaSp> list(){
-        String sql="select id,sp_name,sp_description from soa_sp ";
+        String sql="select * from soa_provider ";
 
         List<KjtSoaSp> ajkSoaSps= Lists.newArrayList();
         Statement statement= null;
@@ -46,7 +46,7 @@ public class KjtSoaSpDao {
             ajkSoaSp.setSp_name("框架");
             return ajkSoaSp;
         }
-        String sql="select id,sp_name,sp_description from soa_sp ";
+        String sql="select * from soa_provider ";
 
         List<KjtSoaSp> ajkSoaSps= Lists.newArrayList();
         Statement statement= null;

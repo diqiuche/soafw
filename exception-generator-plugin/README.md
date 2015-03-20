@@ -21,7 +21,7 @@
             <!-- 加载方式  DB FILE URL CLOSE (不生成) -->
             <loadType>${exception.loadType}</loadType>
             <exceptionLevel>${exception.level}</exceptionLevel>
-            <!-- 服务代码 ，用来加载异常 请到soa_sp 表中注册 -->
+            <!-- 服务代码 ，用来加载异常 请到soa_provider 表中注册 -->
             <spId>${SPID}</spId>
         </configuration>
     </plugin>
@@ -37,14 +37,16 @@
 	
 ### 表结构
 
-CREATE TABLE `soa_sp` (
-`id` int(11) NOT NULL auto_increment,
-`sp_name` varchar(100) default NULL,
-`sp_description` varchar(500) default NULL,
-PRIMARY KEY  (`id`),
+CREATE TABLE `soa_provider` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `sp_name` varchar(100) DEFAULT NULL,
+  `start_port` int(11) DEFAULT '8000',
+  `stop_port` int(11) DEFAULT '9000',
+  `service_port` int(11) DEFAULT '20880',
+  `sp_description` varchar(500) DEFAULT NULL,
+  PRIMARY KEY (`id`),
   UNIQUE KEY `index2` (`sp_name`)
 ) ENGINE=MyISAM AUTO_INCREMENT=28 DEFAULT CHARSET=utf8;
-
 
 CREATE TABLE `soa_exception` (
   `id` int(11) NOT NULL auto_increment,

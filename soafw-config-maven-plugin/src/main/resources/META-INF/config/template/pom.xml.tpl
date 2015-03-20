@@ -437,7 +437,7 @@
             <plugin>
                 <groupId>com.kjt.service.common</groupId>
                 <artifactId>exception-generator</artifactId>
-                <version>0.0.1-SNAPSHOT</version>
+                <version>${soafw-common.version}</version>
                 <configuration>
                     <exceptionEnumClass>${exception.enum.class}</exceptionEnumClass>
                     <dbpwd>${exception.dbpwd}</dbpwd>
