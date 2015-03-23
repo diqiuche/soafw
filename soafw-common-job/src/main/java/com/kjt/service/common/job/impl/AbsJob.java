@@ -4,7 +4,7 @@ import java.lang.reflect.Field;
 import java.util.List;
 
 import org.quartz.CronExpression;
-import org.springframework.scheduling.support.CronTrigger;
+import org.quartz.CronTrigger;
 
 import com.kjt.service.common.config.DynamicConfig;
 import com.kjt.service.common.config.IConfigListener;
