@@ -23,6 +23,7 @@ import com.kjt.service.common.config.utils.ConfigUtils;
 import com.kjt.service.common.log.Logger;
 import com.kjt.service.common.log.LoggerFactory;
 import com.kjt.service.common.util.Constants;
+import com.kjt.service.common.util.MD5Util;
 import com.kjt.service.common.util.StringUtils;
 
 /**
@@ -178,32 +179,6 @@ public class DynamicConfig implements ConfigFileDict, Constants, Configuration, 
 
     public Configuration build() {
         return buildCompositeConfiguration();
-
-        /*
-         * PropertiesConfiguration config = new PropertiesConfiguration();
-         * 
-         * if ("xml".equalsIgnoreCase(this.getType())) { config = new XMLPropertiesConfiguration();
-         * }
-         * 
-         * config.setDelimiterParsingDisabled(isDelimiterParsingDisabled());
-         * 
-         * FileInputStream fileInputStream = null;
-         * 
-         * try { fileInputStream = new FileInputStream(getFileName()); if
-         * (!StringUtils.isEmpty(this.getEncoding())) { config.load(fileInputStream,
-         * this.getEncoding()); } else { config.load(fileInputStream); } return config; } catch
-         * (Exception e) {
-         * 
-         * InputStream is = this.getClass() .getClassLoader() .getResourceAsStream(
-         * "META-INF/config/local/" + this.getProfile() + this._settingFileName + "." +
-         * this.getType()); if (is == null) { throw new RuntimeException(e); } try {
-         * config.load(is); return config; } catch (ConfigurationException e1) { throw new
-         * RuntimeException(e1); } finally { try { if (is != null) is.close(); } catch (IOException
-         * ex) {} }
-         * 
-         * } finally { try { if (fileInputStream != null) fileInputStream.close(); } catch
-         * (IOException e) {} }
-         */
     }
 
     /**
@@ -249,9 +224,72 @@ public class DynamicConfig implements ConfigFileDict, Constants, Configuration, 
         this.delimiterParsingDisabled = delimiterParsingDisabled;
     }
 
-    public synchronized void onUpdate(Configuration delegate) {
+    @Override
+    public final synchronized void onUpdate(Configuration config) {
+        
+        if (logger.isDebugEnabled()) {
+            logger.debug("onUpdate() - start"); //$NON-NLS-1$
+        }
+
+        
+        String oldStr = this.configToString(this.getConfig());
+        
+        String newStr = this.configToString(config);
+        
+        String old_ = MD5Util.md5Hex(oldStr);
+        
+        String new_ = MD5Util.md5Hex(newStr);
+        /**
+         * 当前配置项没有变化
+         */
+        if(old_.equals(new_)){
+            if (logger.isDebugEnabled()) {
+                logger.debug("onUpdate(当前配置项没有变化) - end"); //$NON-NLS-1$
+            }
+            return;
+        }
+       
+        /**
+         * 配置变化
+         */
+        build(config);
+        /**
+         * 更新老配置
+         */
         this.delegate = delegate;
+        
+        onUpdated();
+        
+        if (logger.isInfoEnabled()) {
+            logger.info("onUpdate(String old={}, Integer new={}) - end", oldStr,newStr); //$NON-NLS-1$
+        }
     }
+    
+    protected String configToString(Configuration config){
+        if(config==null){
+            return "";
+        }
+        Iterator<String> it = config.getKeys();
+        if(it==null){
+            return "";
+        }
+        StringBuilder sb = new StringBuilder();
+        while(it.hasNext()){
+            String key = it.next();
+            sb.append(key+"="+config.getString(key)+"\n");
+        }
+        return sb.toString();
+    }
+    /**
+     * 构造新的对象：datasource、memcache
+     * @param config
+     */
+    protected void build(Configuration config){}
+    /**
+     * 事件
+     */
+    protected void onUpdated(){};
+    
 
     private boolean _throwExceptionOnMissing = false;
 
