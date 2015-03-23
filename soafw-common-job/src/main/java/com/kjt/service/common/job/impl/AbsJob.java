@@ -1,11 +1,14 @@
 package com.kjt.service.common.job.impl;
 
+import java.lang.reflect.Field;
 import java.util.List;
 
-import org.apache.commons.configuration.Configuration;
+import org.quartz.CronExpression;
+import org.springframework.scheduling.support.CronTrigger;
 
 import com.kjt.service.common.config.DynamicConfig;
-import com.kjt.service.common.config.dict.ConfigFileDict;
+import com.kjt.service.common.config.IConfigListener;
+import com.kjt.service.common.config.dict.ConfigFileTypeDict;
 import com.kjt.service.common.job.IJob;
 import com.kjt.service.common.job.IScheduler;
 import com.kjt.service.common.job.ITrigger;
@@ -19,24 +22,7 @@ import com.kjt.service.common.job.ITrigger;
  *
  * @param <T>
  */
-public abstract class AbsJob<T> implements IJob<T>,ITrigger,IScheduler {
-    
-    private static DynamicConfig config = new DynamicConfig();
-
-    static {
-        config.setFileName(System.getProperty(ConfigFileDict.JOB_CONFIG_FILE,
-                ConfigFileDict.DEFAULT_JOB_CONFIG_NAME));
-        config.init();
-    }
-    
-    /**
-     * 获取数据访问层job.xml配置信息
-     * 
-     * @return
-     */
-    protected Configuration getConfig() {
-        return config;
-    }
+public abstract class AbsJob<T> extends DynamicConfig implements IJob<T>,ITrigger,IScheduler,IConfigListener {
     
 	private String cronExpression;
 	private String id;
@@ -45,6 +31,10 @@ public abstract class AbsJob<T> implements IJob<T>,ITrigger,IScheduler {
 
 	public AbsJob(String id) {
 		this.id = id;
+		this.setFileName(System.getProperty(JOB_CONFIG_FILE, DEFAULT_JOB_CONFIG_NAME));
+        this.setType(ConfigFileTypeDict.XML);
+        super.init();
+        this.build(this.getConfig());
 		createMonitor();
 	}
 
@@ -92,13 +82,9 @@ public abstract class AbsJob<T> implements IJob<T>,ITrigger,IScheduler {
 		return cronExpression;
 	}
 	
-	protected void init(){
-		
-	}
-	
 	@Override
 	public void doStart() {
-		init();
+		
 	}
 	/**
 	 * 单数据处理
@@ -114,4 +100,27 @@ public abstract class AbsJob<T> implements IJob<T>,ITrigger,IScheduler {
 		 * 
 		 */
 	}
+	
+	private CronTrigger trigger;
+
+    public void setTrigger(CronTrigger trigger) {
+        this.trigger = trigger;
+    }
+    
+    protected void updateCronTriggerExp(String expression){
+        Field field = null;
+        try {
+            System.out.println("before: "+trigger.getExpression());
+            Class cls = trigger.getClass();
+            field = cls.getDeclaredField("cronEx");
+            field.setAccessible(true);
+            field.set(trigger, new CronExpression(expression));
+            System.out.println("after: "+trigger.getExpression());
+        } catch (NoSuchFieldException e) {
+            e.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    
 }

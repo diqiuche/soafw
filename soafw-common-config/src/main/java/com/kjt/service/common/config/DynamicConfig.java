@@ -256,7 +256,7 @@ public class DynamicConfig implements ConfigFileDict, Constants, Configuration, 
         /**
          * 更新老配置
          */
-        this.delegate = delegate;
+        this.delegate = config;
         
         onUpdated();
         
