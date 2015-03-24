@@ -258,7 +258,7 @@ public class DynamicConfig implements ConfigFileDict, Constants, Configuration, 
          */
         this.delegate = config;
         
-        onUpdated();
+        notifyChanged();
         
         if (logger.isInfoEnabled()) {
             logger.info("onUpdate(String old={}, Integer new={}) - end", oldStr,newStr); //$NON-NLS-1$
@@ -288,7 +288,9 @@ public class DynamicConfig implements ConfigFileDict, Constants, Configuration, 
     /**
      * 事件
      */
-    protected void onUpdated(){};
+    protected void notifyChanged(){
+        logger.info(this._settingFileName+" has been changed");
+    }
     
 
     private boolean _throwExceptionOnMissing = false;

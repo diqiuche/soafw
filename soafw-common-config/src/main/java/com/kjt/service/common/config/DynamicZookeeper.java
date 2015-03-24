@@ -57,24 +57,6 @@ public class DynamicZookeeper extends PoolableObjDynamicConfig{
 	}
 
 	@Override
-	protected String configToString(Configuration config) {
-		String prefix_ = getPrefix();
-
-		StringBuffer sb = new StringBuffer();
-
-		sb.append(config.getInt(prefix_ + "connectionString")).append("|");
-		sb.append(config.getInt(prefix_ + "connectionTimeoutMs")).append(
-				"|");
-		sb.append(config.getInt(prefix_ + "sessionTimeoutMs")).append("|");
-		sb.append(config.getInt(prefix_ + "lockAcquireTimeout"))
-				.append("|");
-		sb.append(config.getInt(prefix_ + "maxRetryTimes")).append("|");
-		sb.append(config.getInt(prefix_ + "retryIntervalInMs"));
-
-		return sb.toString();
-	}
-
-	@Override
 	protected synchronized void build(Configuration config) {
 
 		connString = config.getString("connectionString");

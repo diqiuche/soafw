@@ -205,61 +205,6 @@ public class DynamicDataSource extends PoolableObjDynamicConfig implements DataS
     ((BasicDataSource) this.delegate).setTestWhileIdle(testWhileIdle);
   }
 
-  protected String configToString(Configuration config) {
-
-    String prefix_ = getPrefix();
-
-    String driverClassName_ = config.getString(prefix_ + "driver", this.getDriverClassName());
-    String url_ = config.getString(prefix_ + "url", this.getUrl());
-    String username_ = config.getString(prefix_ + "username", this.getUsername());
-    String password_ = config.getString(prefix_ + "password", this.getPassword());
-    Integer initialSize_ = config.getInteger(prefix_ + "initialSize", this.getInitialSize());
-    Integer maxActive_ = config.getInteger(prefix_ + "maxActive", this.getMaxActive());
-    Integer maxIdle_ = config.getInteger(prefix_ + "maxIdle", this.getMaxIdle());
-    Integer minIdle_ = config.getInteger(prefix_ + "minIdle", this.getMinIdle());
-    Long maxWait_ = config.getLong(prefix_ + "maxWait", this.getMaxWait());
-    Integer removeAbandonedTimeout_ = config.getInteger(prefix_ + "removeAbandonedTimeout",
-        this.getRemoveAbandonedTimeout());
-    Long minEvictableIdleTimeMillis_ = config.getLong(prefix_ + "minEvictableIdleTimeMillis",
-        this.getMinEvictableIdleTimeMillis());
-    Long timeBetweenEvictionRunsMillis_ = config.getLong(prefix_ + "timeBetweenEvictionRunsMillis",
-        this.getTimeBetweenEvictionRunsMillis());
-    Boolean poolPreparedStatements_ = config.getBoolean(prefix_ + "poolPreparedStatements",
-        this.getPoolPreparedStatements());
-    Boolean defaultReadOnly_ = config.getBoolean(prefix_ + "defaultReadOnly",
-        this.getDefaultReadOnly());
-    Boolean logAbandoned_ = config.getBoolean(prefix_ + "logAbandoned", this.getLogAbandoned());
-    Boolean removeAbandoned_ = config.getBoolean(prefix_ + "removeAbandoned",
-        this.getRemoveAbandoned());
-    Boolean testOnBorrow_ = config.getBoolean(prefix_ + "testOnBorrow", this.getTestOnBorrow());
-    Boolean testWhileIdle_ = config.getBoolean(prefix_ + "testWhileIdle", this.getTestWhileIdle());
-    String validationQuery_ = config.getString(prefix_ + "validationQuery",
-        this.getValidationQuery());
-
-    StringBuffer sb_ = new StringBuffer();
-    sb_.append(driverClassName_ + "|");
-    sb_.append(url_ + "|");
-    sb_.append(username_ + "|");
-    sb_.append(password_ + "|");
-    sb_.append(initialSize_ + "|");
-    sb_.append(maxActive_ + "|");
-    sb_.append(maxIdle_ + "|");
-    sb_.append(minIdle_ + "|");
-    sb_.append(maxWait_ + "|");
-    sb_.append(poolPreparedStatements_ + "|");
-    sb_.append(defaultReadOnly_ + "|");
-    sb_.append(logAbandoned_ + "|");
-    sb_.append(removeAbandoned_ + "|");
-    sb_.append(removeAbandonedTimeout_ + "|");
-    sb_.append(testOnBorrow_ + "|");
-    sb_.append(validationQuery_ + "|");
-    sb_.append(minEvictableIdleTimeMillis_ + "|");
-    sb_.append(testWhileIdle_ + "|");
-    sb_.append(timeBetweenEvictionRunsMillis_);
-
-    return sb_.toString();
-  }
-
   private String dbReloadEventReceiver;
 
   public void setDbReloadEventReceiver(String dbReloadEventReceiver) {

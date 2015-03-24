@@ -17,10 +17,6 @@ public interface IJob<T> {
      */
     public String getId();
 
-    public String getCronExpression();
-
-    public void setCronExpression(String cronExpression);
-
     /**
      * 发生异常调用该类
      * 
