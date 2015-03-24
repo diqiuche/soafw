@@ -4,6 +4,4 @@ public interface ITrigger {
 	
 	public IJob getJobDetail();
 	
-	public String getCronExpression();
-	
 }
