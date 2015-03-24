@@ -1,10 +1,8 @@
 package com.kjt.service.common.job.impl;
 
 import java.lang.reflect.Field;
-import java.util.Iterator;
 import java.util.List;
 
-import org.apache.commons.configuration.Configuration;
 import org.quartz.CronExpression;
 import org.quartz.CronTrigger;
 
@@ -102,24 +100,6 @@ public abstract class AbsJob<T> extends PoolableObjDynamicConfig
 		 */
     }
 
-    protected String configToString(Configuration config) {
-        if (config == null) {
-            return "";
-        }
-        String prefix = this.getPrefix();
-        Iterator<String> keys = config.getKeys(prefix);
-        if (keys == null) {
-            return "";
-        }
-        StringBuilder sb = new StringBuilder();
-        while (keys.hasNext()) {
-            String key = keys.next();
-            sb.append(key + "=" + config.getString(key) + "\n");
-        }
-        return sb.toString();
-
-    }
-
     private CronTrigger trigger;
 
     public void setTrigger(CronTrigger trigger) {
@@ -128,7 +108,7 @@ public abstract class AbsJob<T> extends PoolableObjDynamicConfig
 
     protected void notifyChanged() {
         String cronExpression = trigger.getCronExpression();
-        String currentCronExpression = this.getString(id + ".CronExpression");
+        String currentCronExpression = this.getString(this.getPrefix() + "CronExpression");
         if (currentCronExpression != null && currentCronExpression.trim().length() > 0
                 && !currentCronExpression.equalsIgnoreCase(cronExpression)) {
             this.updateCronTriggerExp(currentCronExpression);
