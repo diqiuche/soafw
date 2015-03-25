@@ -11,7 +11,7 @@ cd $projectid
 suffix=""
 
 if [ -n "$2" ]; then
-suffix="-"$2
+	suffix="-"$2
 fi
 
 
@@ -24,4 +24,4 @@ echo $projectjob build success
 cd ../soafw/soafw-config-maven-plugin
 
 ##config
-mvn soafw-config:config -DartifactId=$projectid -DdestDir=../../projects -Dmodel=AllIn -DgenModule=job -DmoduleSuffix=$2 $3
+mvn soafw-config:config -DartifactId=$projectid -DdestDir=../../projects -Dmodel=AllIn -DgenModule=job -DmoduleSuffix=$2 -X

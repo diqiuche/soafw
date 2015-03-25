@@ -171,7 +171,7 @@ public class SoafwConfigMojo extends AbstractMojo {
     private static final String LINE_SEPARATOR = System.getProperty("line.separator");
 
     private String getTemplate(String template) throws MojoExecutionException {
-
+        this.getLog().info("template: "+template);
         InputStream is =
                 this.getClass().getClassLoader()
                         .getResourceAsStream("META-INF/config/template/" + template);

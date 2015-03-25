@@ -47,7 +47,7 @@ mvn archetype:generate -DarchetypeCatalog=locale -DgroupId=com.kjt.service.$proj
 echo $projectservice build success
 
 projectjob=$projectid-job
-if [ -n $2 ]; then
+if [ -n "$2" ]; then
 	projectjob=$projectjob-$2
 fi
 
