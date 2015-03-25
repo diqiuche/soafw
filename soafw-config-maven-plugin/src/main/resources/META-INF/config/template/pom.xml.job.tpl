@@ -57,6 +57,14 @@
 					<groupId>javax.mail</groupId>
 					<artifactId>mail</artifactId>
 				</exclusion>
+				<exclusion>
+					<groupId>log4j</groupId>
+					<artifactId>log4j</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>org.slf4j</groupId>
+					<artifactId>slf4j-log4j12</artifactId>
+				</exclusion>
 			</exclusions>
 		</dependency>
 

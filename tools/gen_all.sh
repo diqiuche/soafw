@@ -67,4 +67,4 @@ echo $projectwebid build success
 cd ../soafw/soafw-config-maven-plugin
 
 ##config
-mvn soafw-config:config -DartifactId=$projectid -DdestDir=../../projects -Dmodel=AllIn -DmoduleSuffix=$2 $3
+mvn soafw-config:config -DartifactId=$projectid -DdestDir=../../projects -Dmodel=AllIn -DmoduleSuffix=$2 -X
