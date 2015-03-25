@@ -275,7 +275,11 @@ public class SoafwConfigMojo extends AbstractMojo {
                 String configToDir = baseDir + File.separator + storeDir;
 
                 this.getLog().info(configToDir);
-
+                
+                templateFile = format(templateFile, "artifactId", artifactId);
+                
+                templateFile = format(templateFile, "moduleSuffix", ((moduleSuffix==null||moduleSuffix.trim().length()==0)?"":moduleSuffix.substring(1)));
+                
                 write(configToDir, templateFile, tpl, sufix);
             }
         }

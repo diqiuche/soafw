@@ -5,20 +5,15 @@ import java.util.List;
 
 import org.quartz.CronExpression;
 import org.quartz.CronTrigger;
-import org.quartz.Job;
 import org.quartz.JobDetail;
-import org.quartz.JobKey;
 import org.quartz.Scheduler;
 import org.quartz.TriggerKey;
-import org.quartz.impl.JobDetailImpl;
 import org.quartz.impl.triggers.CronTriggerImpl;
 
 import com.kjt.service.common.config.IConfigListener;
 import com.kjt.service.common.config.PoolableObjDynamicConfig;
 import com.kjt.service.common.config.dict.ConfigFileTypeDict;
 import com.kjt.service.common.job.IJob;
-import com.kjt.service.common.job.IScheduler;
-import com.kjt.service.common.job.ITrigger;
 
 /**
  * 所有job必须实现该类<br>

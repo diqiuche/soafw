@@ -24,6 +24,12 @@
         <property name="encoding" value="utf8" />
 	</bean>
 	
+	<bean id="job" class="com.kjt.service.common.config.ConfigurationFactoryBean">
+		<property name="name" value="job" />
+        <property name="encoding" value="utf8" />
+        <property name="type" value="xml" />
+	</bean>
+	
 	<bean id="dubboPlaceholder"
 		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
 		<property name="properties">
@@ -32,6 +38,7 @@
 				<property name="configurations">  
 			       	<list>  
 			       		<ref bean="dubbo" />
+			       		<ref bean="job" />
 			        </list>  
 			    </property>				
 			</bean>
@@ -50,8 +57,14 @@
     <!-- 使用监控中心 -->
     <dubbo:monitor protocol="registry"/>
     
-    <!--服务查询定义信息请在该备注以下添加-->
+    <!--框架配置：该设置请不要轻易改变-->
     <context:component-scan base-package="com.kjt.service.#{artifactId}" />
+    
+    <!--扩展区域-->
+    
+    <!--job 定义-->
+    <import resource="classpath*:/META-INF/config/spring/job-task.xml"/>
+    <!--服务查询定义信息请在该备注以下添加-->
     <!--
 	<dubbo:reference id="xxxService" interface="com.kjt.service.#{artifactId}.IXxxxService" />
 	-->
