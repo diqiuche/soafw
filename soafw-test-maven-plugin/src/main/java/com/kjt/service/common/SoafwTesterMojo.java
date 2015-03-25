@@ -16,7 +16,6 @@ package com.kjt.service.common;
 
 import java.io.File;
 import java.io.FileOutputStream;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.lang.reflect.Method;
@@ -79,7 +78,9 @@ public class SoafwTesterMojo extends AbstractMojo {
         String basedPath = basedir.getAbsolutePath();
 
         project = (MavenProject) getPluginContext().get("project");
-
+        
+        this.getLog().info("ProjectName: " + project.getName());
+        
         try {
             List<String> classpaths = project.getCompileClasspathElements();
             URL[] runtimeUrls = new URL[classpaths.size() + 1];
@@ -159,8 +160,6 @@ public class SoafwTesterMojo extends AbstractMojo {
                     basedPath + File.separator + "src" + File.separator + "test" + File.separator
                             + "java" + File.separator + pkgPath;
 
-            this.getLog().info("开始生成" + className + "Test单元测试类");
-
             int len = 0;
             Class[] inters = cls.getInterfaces();
             if (inters == null || (len = inters.length) == 0) {
@@ -180,13 +179,25 @@ public class SoafwTesterMojo extends AbstractMojo {
                  * 接口类方法
                  */
                 Class interCls = inters[j];
-                this.getLog().info("interface: " + interCls.getName());
-
-                Method[] methods = interCls.getMethods();
+                
+                this.getLog().info("@interface: " + interCls.getName());
+                
+                String name = project.getName();
+                
+                Method[] methods = null;
+                
+                if(name.endsWith("-dao")){
+                    
+                    methods = interCls.getDeclaredMethods();
+                }else{
+                    methods = interCls.getMethods();
+                }
 
                 int mlen = 0;
                 if (methods != null && (mlen = methods.length) > 0) {
-
+                    
+                    this.getLog().info("开始生成" + className + "Test单元测试类");
+                    
                     StringBuffer methodBuf = new StringBuffer();
 
                     for (int m = 0; m < mlen; m++) {
@@ -213,6 +224,9 @@ public class SoafwTesterMojo extends AbstractMojo {
                     }
 
                     testJBuf.append(methodBuf);
+                }
+                else{
+                    this.getLog().info(className + "没有待测试方法");
                 }
             }
 
@@ -452,7 +466,7 @@ public class SoafwTesterMojo extends AbstractMojo {
                 || name.endsWith("-service-impl")) {
             suffix = "service";
         }
-        this.getLog().info("ProjectName: " + name);
+        
         jHeadBuf.append("@ContextConfiguration( locations = { \"classpath*:/META-INF/config/spring/spring-"
                 + suffix + ".xml\"})\n");
 
