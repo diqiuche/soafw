@@ -5,6 +5,13 @@ import java.util.List;
 
 import org.quartz.CronExpression;
 import org.quartz.CronTrigger;
+import org.quartz.Job;
+import org.quartz.JobDetail;
+import org.quartz.JobKey;
+import org.quartz.Scheduler;
+import org.quartz.TriggerKey;
+import org.quartz.impl.JobDetailImpl;
+import org.quartz.impl.triggers.CronTriggerImpl;
 
 import com.kjt.service.common.config.IConfigListener;
 import com.kjt.service.common.config.PoolableObjDynamicConfig;
@@ -23,12 +30,9 @@ import com.kjt.service.common.job.ITrigger;
  * @param <T>
  */
 public abstract class AbsJob<T> extends PoolableObjDynamicConfig
-        implements
+        implements 
             IJob<T>,
-            ITrigger,
-            IScheduler,
             IConfigListener {
-
     private String id;
     private int successed;
     private int failed;
@@ -42,7 +46,37 @@ public abstract class AbsJob<T> extends PoolableObjDynamicConfig
         this.build(this.getConfig());
         createMonitor();
     }
-
+    
+    private void regist(){
+        try {
+            // 触发器  
+            ((CronTriggerImpl)trigger).setCronExpression(this.getString(this.getPrefix() + "CronExpression"));// 触发器时间设定  
+            scheduler.scheduleJob(jobDetail, trigger);  
+            // 启动  
+            if (!scheduler.isShutdown()){  
+                scheduler.start();  
+            }  
+        } catch (Exception e) {  
+            throw new RuntimeException(e);  
+        }  
+    }
+    
+    /** 
+     * 移除一个任务(使用默认的任务组名，触发器名，触发器组名) 
+     * 
+     * @param jobName 
+     */  
+    public void unregist() {  
+        try {  
+            TriggerKey triggerKey = trigger.getKey();
+            scheduler.pauseTrigger(triggerKey);// 停止触发器  
+            scheduler.unscheduleJob(triggerKey);// 移除触发器  
+            scheduler.deleteJob(jobDetail.getKey());// 删除任务  
+        } catch (Exception e) {  
+            throw new RuntimeException(e);  
+        }  
+    }  
+    
     @Override
     public String getId() {
         return id;
@@ -73,17 +107,6 @@ public abstract class AbsJob<T> extends PoolableObjDynamicConfig
         }
     }
 
-    @Override
-    public IJob getJobDetail() {
-        return this;
-    }
-
-
-    @Override
-    public void doStart() {
-
-    }
-
     /**
      * 单数据处理
      * 
@@ -100,10 +123,22 @@ public abstract class AbsJob<T> extends PoolableObjDynamicConfig
 		 */
     }
 
+    private JobDetail jobDetail;
+    
+    public void setJobDetail(JobDetail jobDetail) {
+        this.jobDetail = jobDetail;
+    }
+
     private CronTrigger trigger;
 
     public void setTrigger(CronTrigger trigger) {
         this.trigger = trigger;
+    }
+    
+    private Scheduler scheduler;
+
+    public void setScheduler(Scheduler scheduler) {
+        this.scheduler = scheduler;
     }
 
     protected void notifyChanged() {
@@ -124,6 +159,8 @@ public abstract class AbsJob<T> extends PoolableObjDynamicConfig
             field.setAccessible(true);
             field.set(trigger, new CronExpression(expression));
             System.out.println("after: " + trigger.getCronExpression());
+            unregist();
+            regist();
         } catch (NoSuchFieldException e) {
             e.printStackTrace();
         } catch (Exception e) {

@@ -48,7 +48,7 @@
     <dubbo:monitor protocol="registry"/>
     
     <!--服务查询定义信息请在该备注以下添加-->
-    
+	<context:component-scan base-package="com.kjt.service.#{artifactId}" />
     <!--
 	<dubbo:reference id="xxxService" interface="com.kjt.service.#{artifactId}.IXxxxService" />
 	-->

@@ -15,10 +15,10 @@
     http://code.alibabatech.com/schema/dubbo/dubbo.xsd"
 	default-autowire="byName">
 	
+	<!--框架配置：该设置请不要轻易改变-->
 	<import resource="classpath*:/META-INF/config/spring/spring-rpc.xml"/>
 	<import resource="classpath*:/META-INF/config/spring/spring-mq.xml"/>
 	
-	<!--框架配置：该设置请不要轻易改变-->
 	<bean id="dubbo" class="com.kjt.service.common.config.ConfigurationFactoryBean">
 		<property name="name" value="dubbo" />
         <property name="encoding" value="utf8" />
@@ -51,7 +51,7 @@
     <dubbo:monitor protocol="registry"/>
     
     <!--服务查询定义信息请在该备注以下添加-->
-    
+    <context:component-scan base-package="com.kjt.service.#{artifactId}" />
     <!--
 	<dubbo:reference id="xxxService" interface="com.kjt.service.#{artifactId}.IXxxxService" />
 	-->

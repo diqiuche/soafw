@@ -9,10 +9,10 @@
     </appender>
     <appender name="detail" class="ch.qos.logback.core.rolling.RollingFileAppender">
     	<!--框架设置：该file信息请不要修改-->
-        <file>/data1/logs/service/#{artifactId}/dlog.log</file>
+        <file>/data1/logs/service/#{artifactId}/j#{moduleSuffix}dlog.log</file>
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
         	<!--框架设置：该FileNamePattern信息请不要修改-->
-            <FileNamePattern>/data1/logs/service/#{artifactId}/jobdlog.log-%d{yyyy-MM-dd}</FileNamePattern>
+            <FileNamePattern>/data1/logs/service/#{artifactId}/j#{moduleSuffix}dlog.log-%d{yyyy-MM-dd}</FileNamePattern>
         </rollingPolicy>
         <encoder>
             <!-- %-40(%-35logger{35}:%-4line) -->
@@ -21,10 +21,10 @@
     </appender>
     <appender name="error" class="ch.qos.logback.core.rolling.RollingFileAppender">
     	<!--框架设置：该file信息请不要修改-->
-        <file>/data1/logs/service/#{artifactId}/elog.log</file>
+        <file>/data1/logs/service/#{artifactId}/j#{moduleSuffix}elog.log</file>
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
         	<!--框架设置：该FileNamePattern信息请不要修改-->
-            <FileNamePattern>/data1/logs/service/#{artifactId}/jobelog.log-%d{yyyy-MM-dd}</FileNamePattern>
+            <FileNamePattern>/data1/logs/service/#{artifactId}/j#{moduleSuffix}elog.log-%d{yyyy-MM-dd}</FileNamePattern>
         </rollingPolicy>
         <encoder>
             <!-- %-40(%-35logger{35}:%-4line) -->
@@ -32,9 +32,9 @@
         </encoder>
     </appender>
     <logger name="org.springframework" level="WARN"/>
-    <logger name="java.sql.Connection" level="DEBUG"/>
+    <logger name="java.sql.Connection" level="INFO"/>
     <logger name="java.sql.ResultSet" level="INFO"/>
-    <logger name="com.boaotech.util" level="DEBUG"/>
+    <logger name="com.kjt.service" level="INFO"/>
     <root level="TRACE">
         <appender-ref ref="STDOUT"/>
         <appender-ref ref="detail"/>
