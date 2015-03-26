@@ -14,10 +14,12 @@ public class JobImpl extends AbsJob implements IJob{
     }
     
     public void excute(){
-        List<String> datas = new ArrayList<String>();
+
+        List<String> datas = new ArrayList<String>();//@TODO 实现数据
         datas.add("alex.zhu");
         doProcess(datas);
     }
+    
     private Date start = new Date();
     @Override
     protected void doProcess(Object datas) {
