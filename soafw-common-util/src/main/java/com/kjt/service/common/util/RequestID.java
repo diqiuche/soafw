@@ -4,13 +4,17 @@ import java.util.UUID;
 
 public class RequestID {
 
-    private static final ThreadLocal<String> REQUEST_ID =
-        new ThreadLocal<String>();
+    private static final ThreadLocal<String> REQUEST_ID = new ThreadLocal<String>();
+
+    public static String genId() {
+        String uuid = UUID.randomUUID().toString();
+        return uuid;
+    }
 
     public static void set(String rid) {
         String uuid = "";
         if (null == rid) {
-            uuid = UUID.randomUUID().toString();
+            uuid = genId();
         } else {
             uuid = rid;
         }

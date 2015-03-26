@@ -13,7 +13,7 @@ public class JobImpl extends AbsJob implements IJob{
         super(id);
     }
     
-    public void excute(){
+    public void execute(){
 
         List<String> datas = new ArrayList<String>();//@TODO 实现数据
         datas.add("alex.zhu");

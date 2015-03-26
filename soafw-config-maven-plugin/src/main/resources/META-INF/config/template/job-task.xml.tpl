@@ -21,8 +21,8 @@
 		<property name="targetObject">  
 			<ref bean="job#{moduleSuffix}"/>  
 		</property>  
-		<property name="targetMethod">  <!-- 要执行的方法名称 -->  
-			<value>excute</value>  
+		<property name="targetMethod">  <!-- 要执行的方法名称，框架生成，请不要随意修改！ -->  
+			<value>start</value>  
 		</property>  
 	</bean> 
 	
