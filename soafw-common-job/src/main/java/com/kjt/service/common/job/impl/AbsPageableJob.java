@@ -20,7 +20,7 @@ public abstract class AbsPageableJob<T> extends AbsDynamicJob<T> implements IPag
         super(id);
     }
 
-    public void start() {
+    final public void start() {
         if (logger.isInfoEnabled()) {
             logger.info("start() - start"); //$NON-NLS-1$
         }
@@ -55,7 +55,7 @@ public abstract class AbsPageableJob<T> extends AbsDynamicJob<T> implements IPag
         int total = datas == null ? 0 : datas.size();
 
         if (logger.isInfoEnabled()) {
-            logger.info("doProcess(List<T> datas.size={}) - start", total); //$NON-NLS-1$
+            logger.info("pageDataProcess(List<T> datas.size={}) - start", total); //$NON-NLS-1$
         }
 
         for (int i = 0; i < total; i++) {
@@ -63,14 +63,15 @@ public abstract class AbsPageableJob<T> extends AbsDynamicJob<T> implements IPag
                 doProcess(datas.get(i));
                 this.onSuccessed();
             } catch (Exception ex) {
-                logger.error("doProcess(List<T>)", ex); //$NON-NLS-1$
+                logger.error("pageDataProcess(List<T>)", ex); //$NON-NLS-1$
                 this.onError(ex);
             }
         }
 
         if (logger.isInfoEnabled()) {
             logger.info(
-                    "doProcess(List<T> total={},successed={},failed=) - end", total, this.getSuccessed(), this.getFailed()); //$NON-NLS-1$
+                    "pageDataProcess(List<T> total={},successed={},failed=) - end", total, this.getSuccessed(), this.getFailed()); //$NON-NLS-1$
         }
     }
+
 }

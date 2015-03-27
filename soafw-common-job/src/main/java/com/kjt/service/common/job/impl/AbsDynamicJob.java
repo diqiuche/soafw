@@ -16,7 +16,7 @@ import com.kjt.service.common.job.IJob;
 import com.kjt.service.common.log.Logger;
 import com.kjt.service.common.log.LoggerFactory;
 
-public abstract class AbsDynamicJob<T> extends PoolableObjDynamicConfig
+abstract class AbsDynamicJob<T> extends PoolableObjDynamicConfig
         implements
             IJob<T>,
             IConfigListener {
@@ -61,15 +61,6 @@ public abstract class AbsDynamicJob<T> extends PoolableObjDynamicConfig
 
     final public int getSuccessed() {
         return successed;
-    }
-
-    /**
-     * 创建监控线程，实现每分钟进行提交监控数据
-     */
-    private void createMonitor() {
-        /**
-         * 
-         */
     }
 
     private JobDetail jobDetail;
@@ -172,5 +163,14 @@ public abstract class AbsDynamicJob<T> extends PoolableObjDynamicConfig
         if (logger.isInfoEnabled()) {
             logger.info("unregist() - end"); //$NON-NLS-1$
         }
+    }
+    
+    /**
+     * 创建监控线程，实现每分钟进行提交监控数据
+     */
+    private void createMonitor() {
+        /**
+         * 
+         */
     }
 }

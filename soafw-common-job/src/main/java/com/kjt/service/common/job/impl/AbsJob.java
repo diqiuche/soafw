@@ -13,15 +13,15 @@ import com.kjt.service.common.util.RequestID;
  * @author alexzhu
  *
  * @param <T>
- * @deprecated
+ * @deprecated replace by AbsPageableJob
  */
-public abstract class AbsJob<T> extends AbsDynamicJob<T> implements IJob<T>{
+public abstract class AbsJob<T> extends AbsDynamicJob<T> implements IJob<T> {
 
     public AbsJob(String id) {
         super(id);
     }
-    
-    final public void start(){
+
+    final public void start() {
         if (logger.isInfoEnabled()) {
             logger.info("start() - start"); //$NON-NLS-1$
         }
@@ -34,10 +34,13 @@ public abstract class AbsJob<T> extends AbsDynamicJob<T> implements IJob<T>{
         }
     }
 
-    final public void doProcess(List<T> datas) {
+    /**
+     * @param datas
+     */
+    final protected void doProcess(List<T> datas) {
 
         int total = datas == null ? 0 : datas.size();
-        
+
         if (logger.isInfoEnabled()) {
             logger.info("doProcess(List<T> datas.size={}) - start", total); //$NON-NLS-1$
         }
@@ -53,13 +56,14 @@ public abstract class AbsJob<T> extends AbsDynamicJob<T> implements IJob<T>{
         }
 
         if (logger.isInfoEnabled()) {
-            logger.info("doProcess(List<T> total={},successed={},failed=) - end", total,this.getSuccessed(),this.getFailed()); //$NON-NLS-1$
+            logger.info(
+                    "doProcess(List<T> total={},successed={},failed=) - end", total, this.getSuccessed(), this.getFailed()); //$NON-NLS-1$
         }
     }
 
     /**
-     * 实现job的执行
-     * eg:调用service获取数据
+     * 实现job的执行 eg:调用service获取数据
      */
     public abstract void execute();
+
 }
