@@ -4,18 +4,18 @@ import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 import java.io.UnsupportedEncodingException;
 
-import com.kjt.service.common.util.ContextHolder;
+import com.kjt.service.common.util.RequestID;
 
 
 
 public class LogUtils {
 	
 	public static void error(Logger logger,String message){
-		logger.error(ContextHolder.getReqId() + message);
+		logger.error(RequestID.get() + message);
 	}
 	
 	public static void error(Logger logger,Exception ex){
-		logger.error(ContextHolder.getReqId() + estacktack2Str(ex));
+		logger.error(RequestID.get() + estacktack2Str(ex));
 	}
 	
 	public static String estacktack2Str(Exception ex){
@@ -35,10 +35,10 @@ public class LogUtils {
 	}
 	
 	public static void trace(Logger logger,String message){
-		logger.info(ContextHolder.getReqId() + message);
+		logger.info(RequestID.get() + message);
 	}
 	
 	public static void timeused(Logger logger,String point,long start){
-		logger.info(ContextHolder.getReqId() + point + " timeused: "+(System.currentTimeMillis()-start));
+		logger.info(RequestID.get() + point + " timeused: "+(System.currentTimeMillis()-start));
 	}
 }

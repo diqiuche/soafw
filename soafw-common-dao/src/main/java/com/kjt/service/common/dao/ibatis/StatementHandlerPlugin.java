@@ -15,7 +15,7 @@ import org.apache.ibatis.plugin.Signature;
 import org.apache.ibatis.reflection.MetaObject;
 import org.apache.ibatis.session.Configuration;
 
-import com.kjt.service.common.util.ContextHolder;
+import com.kjt.service.common.util.RequestID;
 import com.kjt.service.common.util.SPUtil;
 
 @Intercepts({ @Signature(method = "prepare", type = StatementHandler.class, args = { Connection.class }) })
@@ -59,7 +59,7 @@ public class StatementHandlerPlugin implements Interceptor {
       }
       StringBuilder sb = new StringBuilder(sql);
       sb.append(" /*from_api:");
-      sb.append(ContextHolder.getReqId());
+      sb.append(RequestID.get());
       sb.append(pid);
       sb.append(" ");
       sb.append(SPUtil.getSpid());

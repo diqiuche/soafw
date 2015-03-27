@@ -11,7 +11,7 @@ import com.kjt.service.common.exception.basic.BasicException;
 import com.kjt.service.common.log.LogUtils;
 import com.kjt.service.common.log.Logger;
 import com.kjt.service.common.log.LoggerFactory;
-import com.kjt.service.common.util.ContextHolder;
+import com.kjt.service.common.util.RequestID;
 
 /**
  * 分页并发执行器
@@ -24,7 +24,7 @@ public abstract class BSynMAsynBizExecutor<T> {
     protected Logger logger = LoggerFactory.getLogger("trace");
     private static int processNum = Runtime.getRuntime().availableProcessors();
     private List<T> results = new CopyOnWriteArrayList<T>();
-    private String reqId = (String) ContextHolder.getReqId();
+    private String reqId = (String) RequestID.get();
 
     /**
      * 分页并发执行器 默认5个并发线程处理

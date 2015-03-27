@@ -7,13 +7,13 @@ import com.kjt.service.common.config.utils.Executor;
 import com.kjt.service.common.log.LogUtils;
 import com.kjt.service.common.log.Logger;
 import com.kjt.service.common.log.LoggerFactory;
-import com.kjt.service.common.util.ContextHolder;
+import com.kjt.service.common.util.RequestID;
 
 public abstract class SynMAsynBizExecutor implements Runnable {
 
     protected static Logger _logger = LoggerFactory.getLogger("trace");
 
-    private String reqId = (String) ContextHolder.getReqId();
+    private String reqId = (String) RequestID.get();
     protected String bizMethod = null;
     private Integer index = 0;
     protected Map<Integer, Object> map = null;
@@ -54,7 +54,7 @@ public abstract class SynMAsynBizExecutor implements Runnable {
     @Override
     public void run() {
         final long start = System.currentTimeMillis();
-        ContextHolder.setReqId(this.getReqId());
+        RequestID.set(this.getReqId());
         try {
             execute();
         } catch (Exception ex) {

@@ -11,8 +11,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.kjt.service.common.config.DynamicZookeeper;
-import com.kjt.service.common.util.ContextHolder;
 import com.kjt.service.common.util.DateUtil;
+import com.kjt.service.common.util.RequestID;
 
 /**
  * 并发处理协调器
@@ -28,7 +28,7 @@ public abstract class SynLockerExecutor {
 
     private static DynamicZookeeper loader = new DynamicZookeeper();
 
-    private String reqId = ContextHolder.getReqId();
+    private String reqId = RequestID.get();
 
     private InterProcessMutex lock = null;
 
@@ -55,7 +55,7 @@ public abstract class SynLockerExecutor {
      */
     public SynLockerExecutor(Class cls, String method, Object element, Integer lockTime,
             boolean tryUntilSuccessed) {
-        ContextHolder.setReqId(reqId);
+        RequestID.set(reqId);
         this.tryUntilSuccessed = tryUntilSuccessed;
         StringBuffer holder = new StringBuffer();
         holder.append(cls.getName());
@@ -255,18 +255,18 @@ public abstract class SynLockerExecutor {
             public void run() {
                 int idx = 0;
                 while (true) {
-                    ContextHolder.setReqId(Thread.currentThread().getName() + "@" + (++idx));
+                    RequestID.set(Thread.currentThread().getName() + "@" + (++idx));
                     try {
                         new SynLockerExecutor(SynLockerExecutor.class, "test0", 1, true) {
                             @Override
                             public void execute() {
                                 try {
-                                    System.err.println(ContextHolder.getReqId() + " before " + "@"
+                                    System.err.println(RequestID.get() + " before " + "@"
                                             + System.currentTimeMillis());
                                     long t = Double.valueOf(Math.random() * 100).longValue();
                                     Thread.currentThread().sleep(t);
-                                    System.err.println(ContextHolder.getReqId() + " exec used: "
-                                            + t + " after " + "@" + System.currentTimeMillis());
+                                    System.err.println(RequestID.get() + " exec used: " + t
+                                            + " after " + "@" + System.currentTimeMillis());
                                 } catch (InterruptedException e) {
                                     e.printStackTrace();
                                 }
@@ -283,18 +283,18 @@ public abstract class SynLockerExecutor {
             public void run() {
                 int idx = 0;
                 while (true) {
-                    ContextHolder.setReqId(Thread.currentThread().getName() + "@" + (++idx));
+                    RequestID.set(Thread.currentThread().getName() + "@" + (++idx));
                     try {
                         new SynLockerExecutor(SynLockerExecutor.class, "test0", 1, true) {
                             @Override
                             public void execute() {
                                 try {
-                                    System.err.println(ContextHolder.getReqId() + " before " + "@"
+                                    System.err.println(RequestID.get() + " before " + "@"
                                             + System.currentTimeMillis());
                                     long t = Double.valueOf(Math.random() * 100).longValue();
                                     Thread.currentThread().sleep(t);
-                                    System.err.println(ContextHolder.getReqId() + " exec used: "
-                                            + t + " after " + "@" + System.currentTimeMillis());
+                                    System.err.println(RequestID.get() + " exec used: " + t
+                                            + " after " + "@" + System.currentTimeMillis());
                                 } catch (InterruptedException e) {
                                     e.printStackTrace();
                                 }
