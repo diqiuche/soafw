@@ -7,9 +7,8 @@ import java.util.List;
  * @author alexzhu
  *
  * @param <T>
- * @deprecated
  */
-public interface IJob<T> {
+public interface IPageableJob<T> {
 
     /**
      * 获取job的名称，必须唯一
@@ -30,16 +29,21 @@ public interface IJob<T> {
      */
     public void onSuccessed();
     /**
-     * 实现job的执行
-     * eg:调用service获取数据
+     * 获取总页数
+     * @return
      */
-    public void execute();
+    public int getPages();
+    /**
+     * 实现job的执行
+     * eg:调用service获取数据、或者解析文件读取数据
+     */
+    public List<T> pageLoad();
 
     /**
-     * 批处理实现
+     * 单数据处理实现
      * 
-     * @param datas
+     * @param data
      */
-    public void doProcess(List<T> datas);
+    public void doProcess(T data);
 
 }

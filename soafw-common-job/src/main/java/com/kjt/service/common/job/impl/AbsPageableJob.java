@@ -13,7 +13,7 @@ import org.quartz.impl.triggers.CronTriggerImpl;
 import com.kjt.service.common.config.IConfigListener;
 import com.kjt.service.common.config.PoolableObjDynamicConfig;
 import com.kjt.service.common.config.dict.ConfigFileTypeDict;
-import com.kjt.service.common.job.IJob;
+import com.kjt.service.common.job.IPageableJob;
 import com.kjt.service.common.log.Logger;
 import com.kjt.service.common.log.LoggerFactory;
 import com.kjt.service.common.util.RequestID;
@@ -26,11 +26,10 @@ import com.kjt.service.common.util.RequestID;
  * @author alexzhu
  *
  * @param <T>
- * @deprecated
  */
-public abstract class AbsJob<T> extends PoolableObjDynamicConfig
-        implements 
-            IJob<T>,
+public abstract class AbsPageableJob<T> extends PoolableObjDynamicConfig
+        implements
+            IPageableJob<T>,
             IConfigListener {
     /**
      * Logger for this class
@@ -41,7 +40,7 @@ public abstract class AbsJob<T> extends PoolableObjDynamicConfig
     private int successed;
     private int failed;
 
-    public AbsJob(String id) {
+    public AbsPageableJob(String id) {
         this.id = id;
         this.setPrefix(id);
         this.setFileName(System.getProperty(JOB_CONFIG_FILE, DEFAULT_JOB_CONFIG_NAME));
@@ -50,57 +49,58 @@ public abstract class AbsJob<T> extends PoolableObjDynamicConfig
         this.build(this.getConfig());
         createMonitor();
     }
-    
-    private void regist(){
+
+    private void regist() {
         if (logger.isInfoEnabled()) {
             logger.info("regist() - start"); //$NON-NLS-1$
         }
 
         try {
-            // 触发器  
-            ((CronTriggerImpl)trigger).setCronExpression(this.getString(this.getPrefix() + "CronExpression"));// 触发器时间设定  
-            scheduler.scheduleJob(jobDetail, trigger);  
-            // 启动  
-            if (!scheduler.isShutdown()){  
-                scheduler.start();  
-            }  
+            // 触发器
+            ((CronTriggerImpl) trigger).setCronExpression(this.getString(this.getPrefix()
+                    + "CronExpression"));// 触发器时间设定
+            scheduler.scheduleJob(jobDetail, trigger);
+            // 启动
+            if (!scheduler.isShutdown()) {
+                scheduler.start();
+            }
         } catch (Exception e) {
             logger.error("regist()", e); //$NON-NLS-1$
-  
-            throw new RuntimeException(e);  
-        }  
+
+            throw new RuntimeException(e);
+        }
 
         if (logger.isInfoEnabled()) {
             logger.info("regist() - end"); //$NON-NLS-1$
         }
     }
-    
-    /** 
-     * 移除一个任务(使用默认的任务组名，触发器名，触发器组名) 
+
+    /**
+     * 移除一个任务(使用默认的任务组名，触发器名，触发器组名)
      * 
-     * @param jobName 
-     */  
+     * @param jobName
+     */
     public void unregist() {
         if (logger.isInfoEnabled()) {
             logger.info("unregist() - start"); //$NON-NLS-1$
         }
-  
-        try {  
+
+        try {
             TriggerKey triggerKey = trigger.getKey();
-            scheduler.pauseTrigger(triggerKey);// 停止触发器  
-            scheduler.unscheduleJob(triggerKey);// 移除触发器  
-            scheduler.deleteJob(jobDetail.getKey());// 删除任务  
+            scheduler.pauseTrigger(triggerKey);// 停止触发器
+            scheduler.unscheduleJob(triggerKey);// 移除触发器
+            scheduler.deleteJob(jobDetail.getKey());// 删除任务
         } catch (Exception e) {
             logger.error("unregist()", e); //$NON-NLS-1$
-  
-            throw new RuntimeException(e);  
-        }  
+
+            throw new RuntimeException(e);
+        }
 
         if (logger.isInfoEnabled()) {
             logger.info("unregist() - end"); //$NON-NLS-1$
         }
-    }  
-    
+    }
+
     @Override
     public String getId() {
         return id;
@@ -115,23 +115,41 @@ public abstract class AbsJob<T> extends PoolableObjDynamicConfig
     final public void onSuccessed() {
         successed++;
     }
-    final public void start(){
+
+    public void start() {
         if (logger.isInfoEnabled()) {
             logger.info("start() - start"); //$NON-NLS-1$
         }
-
         RequestID.set(null);
-        execute();
-
+        int pages = this.getPages();
+        if (logger.isInfoEnabled()) {
+            logger.info("pages() ={} ", pages); //$NON-NLS-1$
+        }
+        for (int i = 0; i < pages; i++) {
+            pageProcess();
+        }
         if (logger.isInfoEnabled()) {
             logger.info("start() - end"); //$NON-NLS-1$
         }
     }
-    @Override
-    final public void doProcess(List<T> datas) {
+
+    private void pageProcess() {
+        if (logger.isInfoEnabled()) {
+            logger.info("pageProcess() - start"); //$NON-NLS-1$
+        }
+
+        List<T> pageDatas = this.pageLoad();
+        this.pageDataProcess(pageDatas);
+
+        if (logger.isInfoEnabled()) {
+            logger.info("pageProcess() - end"); //$NON-NLS-1$
+        }
+    }
+
+    private void pageDataProcess(List<T> datas) {
 
         int total = datas == null ? 0 : datas.size();
-        
+
         if (logger.isInfoEnabled()) {
             logger.info("doProcess(List<T> datas.size={}) - start", total); //$NON-NLS-1$
         }
@@ -147,16 +165,11 @@ public abstract class AbsJob<T> extends PoolableObjDynamicConfig
         }
 
         if (logger.isInfoEnabled()) {
-            logger.info("doProcess(List<T> total={},successed={},failed=) - end", total,successed,failed); //$NON-NLS-1$
+            logger.info(
+                    "doProcess(List<T> total={},successed={},failed=) - end", total, successed, failed); //$NON-NLS-1$
         }
     }
 
-    /**
-     * 单数据处理
-     * 
-     * @param datas
-     */
-    protected abstract void doProcess(T datas);
 
     /**
      * 创建监控线程，实现每分钟进行提交监控数据
@@ -168,7 +181,7 @@ public abstract class AbsJob<T> extends PoolableObjDynamicConfig
     }
 
     private JobDetail jobDetail;
-    
+
     public void setJobDetail(JobDetail jobDetail) {
         this.jobDetail = jobDetail;
     }
@@ -178,7 +191,7 @@ public abstract class AbsJob<T> extends PoolableObjDynamicConfig
     public void setTrigger(CronTrigger trigger) {
         this.trigger = trigger;
     }
-    
+
     private Scheduler scheduler;
 
     public void setScheduler(Scheduler scheduler) {
