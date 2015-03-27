@@ -1,13 +1,12 @@
 package com.kjt.service.common.job;
 
-import java.util.List;
 
 /**
  * 
  * @author alexzhu
  *
  * @param <T>
- * @deprecated
+ * 
  */
 public interface IJob<T> {
 
@@ -17,29 +16,16 @@ public interface IJob<T> {
      * @return
      */
     public String getId();
+    /**
+     * job程序运行入口
+     */
+    public void start();
 
     /**
-     * 发生异常调用该类
-     * 
-     * @param ex
-     */
-    public void onError(Exception ex);
-
-    /**
-     * 成功是调用该方法
-     */
-    public void onSuccessed();
-    /**
-     * 实现job的执行
-     * eg:调用service获取数据
-     */
-    public void execute();
-
-    /**
-     * 批处理实现
+     * 单数据处理实现
      * 
      * @param datas
      */
-    public void doProcess(List<T> datas);
+    public void doProcess(T datas);
 
 }

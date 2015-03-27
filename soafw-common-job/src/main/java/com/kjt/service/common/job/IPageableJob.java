@@ -8,14 +8,7 @@ import java.util.List;
  *
  * @param <T>
  */
-public interface IPageableJob<T> {
-
-    /**
-     * 获取job的名称，必须唯一
-     * 
-     * @return
-     */
-    public String getId();
+public interface IPageableJob<T> extends IJob<T>{
 
     /**
      * 发生异常调用该类
@@ -38,12 +31,5 @@ public interface IPageableJob<T> {
      * eg:调用service获取数据、或者解析文件读取数据
      */
     public List<T> pageLoad();
-
-    /**
-     * 单数据处理实现
-     * 
-     * @param data
-     */
-    public void doProcess(T data);
 
 }
