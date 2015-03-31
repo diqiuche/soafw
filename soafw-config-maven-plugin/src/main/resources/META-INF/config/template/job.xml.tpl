@@ -5,4 +5,5 @@
 <properties>
 	<comment>job开关等动态配置项配置文件</comment>
 	<entry key="version">100</entry>
+	<entry key="#{artifactId}.job#{moduleSuffix}.CronExpression">0 0/2 * * * ?</entry>
 </properties>
