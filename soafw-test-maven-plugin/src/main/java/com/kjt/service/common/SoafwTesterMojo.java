@@ -275,7 +275,7 @@ public class SoafwTesterMojo extends AbstractMojo {
 
                 this.getLog().info("@interface: " + interCls.getName());
 
-                String name = "tsl-service-impl";//project.getName();
+                String name = project.getName();
 
                 Method[] methods = null;
 
