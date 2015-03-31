@@ -27,5 +27,16 @@ public interface IJob<T> {
      * @param datas
      */
     public void doProcess(T datas);
+    
+    /**
+     * 当发生exception时，调用
+     * @param ex
+     */
+    public void onError(Exception ex);
+    
+    /**
+     * 当成功处理完时，调用
+     */
+    public void onSuccessed();
 
 }

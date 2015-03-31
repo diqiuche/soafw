@@ -48,8 +48,10 @@ public abstract class AbsJob<T> extends AbsDynamicJob<T> implements IJob<T> {
         for (int i = 0; i < total; i++) {
             try {
                 doProcess(datas.get(i));
+                this.increaseSuccessNum();
                 this.onSuccessed();
             } catch (Exception ex) {
+                this.increaseErrorNum();
                 logger.error("doProcess(List<T>)", ex); //$NON-NLS-1$
                 this.onError(ex);
             }
@@ -60,7 +62,7 @@ public abstract class AbsJob<T> extends AbsDynamicJob<T> implements IJob<T> {
                     "doProcess(List<T> total={},successed={},failed=) - end", total, this.getSuccessed(), this.getFailed()); //$NON-NLS-1$
         }
     }
-
+    
     /**
      * 实现job的执行 eg:调用service获取数据
      */

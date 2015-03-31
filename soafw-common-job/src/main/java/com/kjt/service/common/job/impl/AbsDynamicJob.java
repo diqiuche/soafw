@@ -47,16 +47,23 @@ abstract class AbsDynamicJob<T> extends PoolableObjDynamicConfig
         return id;
     }
 
-    final public void onError(Exception ex) {
+    public void onError(Exception ex) {
+        throw new RuntimeException(ex);
+    }
+    
+    protected void increaseErrorNum(){
         failed++;
+    }
+    
+    protected void increaseSuccessNum(){
+        successed++;
     }
 
     final public int getFailed() {
         return failed;
     }
 
-    final public void onSuccessed() {
-        successed++;
+    public void onSuccessed() {
     }
 
     final public int getSuccessed() {

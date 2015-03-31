@@ -20,6 +20,14 @@ public abstract class AbsPageableJob<T> extends AbsDynamicJob<T> implements IPag
     public AbsPageableJob(String id) {
         super(id);
     }
+    private int processed=0;
+    /**
+     * 获取已处理页数
+     * @return
+     */
+    public int getProcessed() {
+        return processed;
+    }
 
     final public void start() {
         if (logger.isInfoEnabled()) {
@@ -35,6 +43,7 @@ public abstract class AbsPageableJob<T> extends AbsDynamicJob<T> implements IPag
         }
         for (int i = 0; i < pages; i++) {
             pageProcess();
+            processed++;
         }
         if (logger.isInfoEnabled()) {
             LogUtils.timeused(logger, "start", start);
@@ -75,14 +84,18 @@ public abstract class AbsPageableJob<T> extends AbsDynamicJob<T> implements IPag
         }
 
         for (int i = 0; i < total; i++) {
+            T data = datas.get(i);
             try {
                 long start = System.currentTimeMillis();
-                doProcess(datas.get(i));
+                doProcess(data);
+                this.increaseSuccessNum();
                 this.onSuccessed();
                 if (logger.isDebugEnabled()) {
                     LogUtils.timeused(logger, "doProcess", start);
                 }
             } catch (Exception ex) {
+                this.increaseErrorNum();
+                logger.error(data.toString());
                 logger.error("pageDataProcess(List<T>)", ex); //$NON-NLS-1$
                 this.onError(ex);
             }
