@@ -86,7 +86,7 @@ cache_db_map_query.validationQuery = ${dbcp.validationQuery}
 
 ##{artifactId}_db
 #{artifactId}_db.driver = ${jdbc.driver}
-#{artifactId}_db.url = jdbc:mysql://192.168.1.110:3306/#{artifactId}_db_db?${db.conn.str}
+#{artifactId}_db.url = jdbc:mysql://192.168.1.110:3306/#{artifactId}_db?${db.conn.str}
 #{artifactId}_db.username = root
 #{artifactId}_db.password = Kjt@)!$
 #{artifactId}_db.initialSize = ${dbcp.initialSize}
@@ -107,7 +107,7 @@ cache_db_map_query.validationQuery = ${dbcp.validationQuery}
 
 ##{artifactId}_db_slave
 #{artifactId}_db_slave.driver = ${jdbc.driver}
-#{artifactId}_db_slave.url = jdbc:mysql://192.168.1.110:3306/#{artifactId}_db_db?${db.conn.str}
+#{artifactId}_db_slave.url = jdbc:mysql://192.168.1.110:3306/#{artifactId}_db?${db.conn.str}
 #{artifactId}_db_slave.username = root
 #{artifactId}_db_slave.password = Kjt@)!$
 #{artifactId}_db_slave.initialSize = ${dbcp.initialSize}
@@ -128,7 +128,7 @@ cache_db_map_query.validationQuery = ${dbcp.validationQuery}
 
 ##{artifactId}_db_map_query
 #{artifactId}_db_map_query.driver = ${jdbc.driver}
-#{artifactId}_db_map_query.url = jdbc:mysql://192.168.1.110:3306/#{artifactId}_db_db?${db.conn.str}
+#{artifactId}_db_map_query.url = jdbc:mysql://192.168.1.110:3306/#{artifactId}_db?${db.conn.str}
 #{artifactId}_db_map_query.username = root
 #{artifactId}_db_map_query.password = Kjt@)!$
 #{artifactId}_db_map_query.initialSize = ${dbcp.initialSize}
