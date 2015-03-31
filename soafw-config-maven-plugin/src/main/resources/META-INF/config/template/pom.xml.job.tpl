@@ -31,6 +31,16 @@
 			<scope>test</scope>
 		</dependency>
 		
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-test</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-tx</artifactId>
+			<version>${spring.version}</version>
+		</dependency>
+		
 		<!-- dubbo -->
 		<dependency>
 			<groupId>com.alibaba</groupId>

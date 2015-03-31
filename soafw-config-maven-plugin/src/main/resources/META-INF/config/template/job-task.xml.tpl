@@ -10,16 +10,16 @@
         http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-4.0.xsd">
  
 	<!-- 执行任务  -->
-	<bean id="job#{moduleSuffix}" class="com.kjt.service.#{artifactId}.job.JobImpl">
+	<bean id="job#{moduleSuffix}Impl" class="com.kjt.service.#{artifactId}.job.JobImpl">
 		<constructor-arg><value>#{artifactId}.job#{moduleSuffix}</value></constructor-arg> 
-		<property name="jobDetail" ref="jobDetail" />
-		<property name="trigger" ref="trigger" />
-		<property name="scheduler" ref="scheduler" />
+		<property name="jobDetail" ref="jobDetailImpl" />
+		<property name="trigger" ref="triggerImpl" />
+		<property name="scheduler" ref="schedulerImpl" />
 	</bean> 
 
-	<bean id="jobDetail" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">  
+	<bean id="jobDetailImpl" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">  
 		<property name="targetObject">  
-			<ref bean="job#{moduleSuffix}"/>  
+			<ref bean="job#{moduleSuffix}Impl"/>  
 		</property>  
 		<property name="targetMethod">  <!-- 要执行的方法名称，框架生成，请不要随意修改！ -->  
 			<value>start</value>  
@@ -27,18 +27,18 @@
 	</bean> 
 	
     <!-- 任务触发器  -->
-    <bean id="trigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">   
-        <property name="jobDetail" ref="jobDetail" />   
+    <bean id="triggerImpl" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">   
+        <property name="jobDetail" ref="jobDetailImpl" />   
         <!--  每一小时运行一次(待定)  -->
         <property name="cronExpression" value="${#{artifactId}.job#{moduleSuffix}.CronExpression}" />   
     </bean>
 	
 	<!-- 任务调度器 --> 
-	<bean id="scheduler" class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
+	<bean id="schedulerImpl" class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
 		<property name="triggers">
 			<list>
 				<!--  触发器列表  -->
-				<ref bean="trigger" />
+				<ref bean="triggerImpl" />
 			</list>
 		</property>
 	</bean>  
