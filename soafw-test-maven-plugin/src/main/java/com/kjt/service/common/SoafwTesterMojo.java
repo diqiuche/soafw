@@ -548,7 +548,7 @@ public class SoafwTesterMojo extends AbstractMojo {
             tmpMethodBuffer.append(types[i].getSimpleName() + "\t");
         }
         tmpMethodBuffer.append("\n");
-        tmpMethodBuffer.append("\t\tthrow new RuntimeException(\"Test not implemented\");\n");
+        tmpMethodBuffer.append("\t\tthrow new RuntimeException(\""+methodName+" test not implemented\");\n");
         tmpMethodBuffer.append("\t}\n");
 
         methodMap.put(id, tmpMethodBuffer.toString());
