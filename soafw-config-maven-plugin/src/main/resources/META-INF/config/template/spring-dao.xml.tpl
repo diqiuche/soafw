@@ -35,17 +35,17 @@
 	
 	<!--自定义信息请在该备注以下添加-->
 	<!--新增数据库是需要添加 master、slave、map_query三个-->
-	<bean id="#{artifactId}" class="com.kjt.service.common.datasource.DynamicDataSource"
+	<bean id="#{artifactId}_db" class="com.kjt.service.common.datasource.DynamicDataSource"
 		init-method="init">
-		<property name="prefix" value="#{artifactId}" />
+		<property name="prefix" value="#{artifactId}_db" />
 	</bean>
-	<bean id="#{artifactId}_slave" class="com.kjt.service.common.datasource.DynamicDataSource"
+	<bean id="#{artifactId}_db_slave" class="com.kjt.service.common.datasource.DynamicDataSource"
 		init-method="init">
-		<property name="prefix" value="#{artifactId}_slave" />
+		<property name="prefix" value="#{artifactId}_db_slave" />
 	</bean>
-	<bean id="#{artifactId}_map_query" class="com.kjt.service.common.datasource.DynamicDataSource"
+	<bean id="#{artifactId}_db_map_query" class="com.kjt.service.common.datasource.DynamicDataSource"
 		init-method="init">
-		<property name="prefix" value="#{artifactId}_map_query" />
+		<property name="prefix" value="#{artifactId}_db_map_query" />
 	</bean>
 	
 </beans>

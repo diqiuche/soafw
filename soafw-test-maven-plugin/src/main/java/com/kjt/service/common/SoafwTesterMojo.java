@@ -334,7 +334,7 @@ public class SoafwTesterMojo extends AbstractMojo {
                 }
 
                 String id = test.id();
-
+                
                 if (methodDefs.containsKey(id)) {
                     methodDefs.remove(id);
                 }

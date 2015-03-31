@@ -3,16 +3,16 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 	
-	<bean id="${masterDataSource}" class="com.kjt.service.common.datasource.DynamicDataSource">
-		<property name="prefix" value="${upperDataSource}" />
+	<bean id="${masterDataSource}_db" class="com.kjt.service.common.datasource.DynamicDataSource">
+		<property name="prefix" value="${upperDataSource}_db" />
 	</bean>
 
-	<bean id="${slaveDataSource}" class="com.kjt.service.common.datasource.DynamicDataSource">
-		<property name="prefix" value="${upperDataSource}_slave" />
+	<bean id="${upperDataSource}_db_slave" class="com.kjt.service.common.datasource.DynamicDataSource">
+		<property name="prefix" value="${upperDataSource}_db_slave" />
 	</bean>
 
-	<bean id="${mapQueryDataSource}" class="com.kjt.service.common.datasource.DynamicDataSource">
-		<property name="prefix" value="${upperDataSource}_map_query" />
+	<bean id="${upperDataSource}_db_map_query" class="com.kjt.service.common.datasource.DynamicDataSource">
+		<property name="prefix" value="${upperDataSource}_db_map_query" />
 	</bean>
 </beans>
 
