@@ -468,11 +468,65 @@
 						<goals>
 							<goal>gen</goal>
 						</goals>
-						<phase>package</phase>
+						<phase>generate-test-sources</phase>
 					</execution>
 				</executions>
 			</plugin>
 		</plugins>
+		<pluginManagement>
+			<plugins>
+				<!--This plugin's configuration is used to store Eclipse m2e settings only. It has no influence on the Maven build itself.-->
+				<plugin>
+					<groupId>org.eclipse.m2e</groupId>
+					<artifactId>lifecycle-mapping</artifactId>
+					<version>1.0.0</version>
+					<configuration>
+						<lifecycleMappingMetadata>
+							<pluginExecutions>
+								<pluginExecution>
+									<pluginExecutionFilter>
+										<groupId>
+											com.kjt.service.common
+										</groupId>
+										<artifactId>
+											exception-generator
+										</artifactId>
+										<versionRange>
+											[1.0-SNAPSHOT,)
+										</versionRange>
+										<goals>
+											<goal>gen</goal>
+										</goals>
+									</pluginExecutionFilter>
+									<action>
+										<ignore></ignore>
+									</action>
+								</pluginExecution>
+								<pluginExecution>
+									<pluginExecutionFilter>
+										<groupId>
+											com.kjt.service.common
+										</groupId>
+										<artifactId>
+											soafw-test-maven-plugin
+										</artifactId>
+										<versionRange>
+											[1.0-SNAPSHOT,)
+										</versionRange>
+										<goals>
+											<goal>gen</goal>
+										</goals>
+									</pluginExecutionFilter>
+									<action>
+										<ignore></ignore>
+									</action>
+								</pluginExecution>
+							</pluginExecutions>
+						</lifecycleMappingMetadata>
+					</configuration>
+				</plugin>
+			</plugins>
+		</pluginManagement>
 	</build>
 	<distributionManagement>
 		<repository>
