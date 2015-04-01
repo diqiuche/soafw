@@ -19,8 +19,6 @@ import com.kjt.service.common.config.dict.ConfigFileDict;
 import com.kjt.service.common.dao.IModel;
 import com.kjt.service.common.dao.MapPage;
 import com.kjt.service.common.exception.DataAccessException;
-import com.kjt.service.common.log.Logger;
-import com.kjt.service.common.log.LoggerFactory;
 import com.kjt.service.common.util.BeanUtil;
 
 /**
@@ -608,8 +606,15 @@ public abstract class AbsIBatisDAOImpl<T extends IModel> extends AbsCacheableImp
     StringBuffer orders_ = new StringBuffer();
     for (int i = 0; i < len; i++) {
       String[] tmp = order[i].split(" ");
-      orders_.append(BeanUtil.getJField(model, tmp[0], JField.class));
-      orders_.append(" ").append(tmp[1]);
+      int tlen = tmp==null?0:tmp.length;
+      
+      if (tmp != null && tlen > 0) {
+        orders_.append(BeanUtil.getJField(model, tmp[0], JField.class));
+      }
+      
+      if (tmp != null && tlen > 1) {
+        orders_.append(" ").append(tmp[1]);
+      }
       if (i < len - 1) {
         orders_.append(",");
       }
