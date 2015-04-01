@@ -32,8 +32,14 @@
 				
 			+ 开关类型
 				+ acc.xml 数据访问层
+					+ key命名规范: 服务名.dao.配置项名; eg; tsl.dao.aaa
 				+ service.xml 服务层
+					+ key命名规范: 服务名.svc.配置项名; eg; tsl.svc.bbb
 				+ rpc.xml 第三方服务远程调用相关配置
+					+ key命名规范: 服务名.rpc.配置项名; eg; tsl.rpc.ccc
 				+ mq.xml  mq服务
+					+ key命名规范: 服务名.mq.配置项名; eg; tsl.mq.ddd
 				+ job.xml job层
+					+ key命名规范: 服务名.job名称.配置项名; eg; tsl.job.eee
 				+ webapp.xml web层
+					+ key命名规范: 服务名.web.配置项名; eg; tsl.web.fff

@@ -17,9 +17,6 @@ public abstract class PoolableObjDynamicConfig extends DynamicConfig {
 	}
 	
 	public String getPrefix(){
-		if (logger.isDebugEnabled()) {
-			logger.debug("getPrefix() - start"); //$NON-NLS-1$
-		}
 
 		String prefix_ = prefix;
 		if (!StringUtils.isEmpty(prefix) && !prefix.endsWith(".")) {
@@ -29,8 +26,8 @@ public abstract class PoolableObjDynamicConfig extends DynamicConfig {
 			prefix_="";
 		}
 
-		if (logger.isDebugEnabled()) {
-			logger.debug("getPrefix() - end - return value={}", prefix_); //$NON-NLS-1$
+		if (!StringUtils.isEmpty(prefix_)) {
+			logger.info("getPrefix() - end - return value={}", prefix_); //$NON-NLS-1$
 		}
 		return prefix_;
 	}

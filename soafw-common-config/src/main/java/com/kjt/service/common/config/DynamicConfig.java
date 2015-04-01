@@ -243,8 +243,8 @@ public class DynamicConfig implements ConfigFileDict, Constants, Configuration, 
          * 当前配置项没有变化
          */
         if(old_.equals(new_)){
-            if (logger.isDebugEnabled()) {
-                logger.debug("onUpdate(当前配置项没有变化) - end"); //$NON-NLS-1$
+            if (logger.isInfoEnabled()) {
+                logger.info("onUpdate(当前配置项没有变化) - end"); //$NON-NLS-1$
             }
             return;
         }

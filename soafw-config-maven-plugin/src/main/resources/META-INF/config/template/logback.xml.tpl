@@ -31,9 +31,11 @@
             <Pattern>[%date{yyyy-MM-dd HH:mm:ss}] [%-5level] [%logger:%line] --%mdc{client} %msg%n</Pattern>
         </encoder>
     </appender>
-    <logger name="org.springframework" level="WARN"/>
+    <logger name="org.springframework" level="INFO"/>
     <logger name="java.sql.Connection" level="INFO"/>
     <logger name="java.sql.ResultSet" level="INFO"/>
+    <logger name="org.apache.zookeeper" level="INFO"/>
+    <logger name="com.kjt.service.common" level="INFO"/>
     <logger name="com.kjt.service" level="INFO"/>
     <root level="TRACE">
         <appender-ref ref="STDOUT"/>
