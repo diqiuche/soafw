@@ -38,7 +38,6 @@ abstract class AbsDynamicJob<T> extends PoolableObjDynamicConfig
         this.setFileName(System.getProperty(JOB_CONFIG_FILE, DEFAULT_JOB_CONFIG_NAME));
         this.setType(ConfigFileTypeDict.XML);
         super.init();
-        this.build(this.getConfig());
         createMonitor();
     }
 

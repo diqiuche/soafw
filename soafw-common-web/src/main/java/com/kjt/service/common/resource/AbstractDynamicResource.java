@@ -1,25 +1,16 @@
 package com.kjt.service.common.resource;
 
-import org.apache.commons.configuration.Configuration;
-
 import com.kjt.service.common.config.DynamicConfig;
 import com.kjt.service.common.config.dict.ConfigFileDict;
+import com.kjt.service.common.config.dict.ConfigFileTypeDict;
 
-public abstract class AbstractDynamicResource  implements IResource{
-	private static DynamicConfig config = new DynamicConfig();
+public abstract class AbstractDynamicResource  extends DynamicConfig implements IResource{
 
-	static {
-		config.setFileName(System.getProperty(ConfigFileDict.WEB_CONTROLLER_CONFIG_FILE,
-				ConfigFileDict.DEFAULT_WEB_CONTROLLER_CONFIG_NAME));
-		config.init();
+	public AbstractDynamicResource(){
+	    this.setFileName(System.getProperty(ConfigFileDict.WEB_CONTROLLER_CONFIG_FILE,
+            ConfigFileDict.DEFAULT_WEB_CONTROLLER_CONFIG_NAME));
+        this.setType(ConfigFileTypeDict.XML);
+        super.init();
 	}
 
-	/**
-	 * 获取数据访问层resource.xml配置信息
-	 * 
-	 * @return
-	 */
-	protected Configuration getConfig() {
-		return config;
-	}
 }
