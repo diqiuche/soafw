@@ -606,12 +606,12 @@ public abstract class AbsIBatisDAOImpl<T extends IModel> extends AbsCacheableImp
     StringBuffer orders_ = new StringBuffer();
     for (int i = 0; i < len; i++) {
       String[] tmp = order[i].split(" ");
-      int tlen = tmp==null?0:tmp.length;
-      
+      int tlen = tmp == null ? 0 : tmp.length;
+
       if (tmp != null && tlen > 0) {
         orders_.append(BeanUtil.getJField(model, tmp[0], JField.class));
       }
-      
+
       if (tmp != null && tlen > 1) {
         orders_.append(" ").append(tmp[1]);
       }

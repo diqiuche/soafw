@@ -2,12 +2,11 @@ package com.kjt.service.common.util;
 
 import java.lang.reflect.Field;
 
-import com.anjuke.core.dal.IModel;
 import com.kjt.service.common.annotation.JField;
 
 public class BeanUtil {
 
-	public static String getJField(Class<? extends IModel> model,String property,Class<JField> annotation){
+	public static String getJField(Class model,String property,Class<JField> annotation){
 		Field tmp = null;
 		try {
 			tmp = model.getDeclaredField(property);
