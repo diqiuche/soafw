@@ -15,11 +15,17 @@ import org.apache.ibatis.plugin.Signature;
 import org.apache.ibatis.reflection.MetaObject;
 import org.apache.ibatis.session.Configuration;
 
+import com.kjt.service.common.log.Logger;
+import com.kjt.service.common.log.LoggerFactory;
 import com.kjt.service.common.util.RequestID;
 import com.kjt.service.common.util.SPUtil;
 
 @Intercepts({ @Signature(method = "prepare", type = StatementHandler.class, args = { Connection.class }) })
 public class StatementHandlerPlugin implements Interceptor {
+  /**
+   * Logger for this class
+   */
+  private static final Logger logger = LoggerFactory.getLogger(StatementHandlerPlugin.class);
 
   private static String pid = "unknow";
 
@@ -40,8 +46,13 @@ public class StatementHandlerPlugin implements Interceptor {
 
     metaStatementHandler.setValue("delegate.boundSql.sql",
         buildSql(boundSql.getSql(), configuration));
+    if (logger.isDebugEnabled()) {
+      logger
+      .debug("intercept(Invocation invocation={}) - end - return value={}", boundSql.getSql()); //$NON-NLS-1$
+    }
     // 将执行权交给下一个拦截器
-    return invocation.proceed();
+    Object returnObject = invocation.proceed();
+    return returnObject;
   }
 
   private String buildSql(String sql, Configuration configuration) {
@@ -67,6 +78,7 @@ public class StatementHandlerPlugin implements Interceptor {
       sb.append(db);
       sb.append("*/");
       sql = sb.toString();
+
       return sql;
     }
   }
