@@ -20,9 +20,12 @@ public abstract class AbsPageableJob<T> extends AbsDynamicJob<T> implements IPag
     public AbsPageableJob(String id) {
         super(id);
     }
-    private int processed=0;
+
+    private int processed = 0;
+
     /**
      * 获取已处理页数
+     * 
      * @return
      */
     public int getProcessed() {
@@ -30,24 +33,36 @@ public abstract class AbsPageableJob<T> extends AbsDynamicJob<T> implements IPag
     }
 
     final public void start() {
+        
         if (logger.isInfoEnabled()) {
             logger.info("start() - start"); //$NON-NLS-1$
         }
+        
+        processed = 0;
+        this.failedReset();
+        this.successedReset();
         RequestID.set(null);
+        
         long start = System.currentTimeMillis();
-        int pages = this.getPages();
-        if (logger.isInfoEnabled()) {
-            logger.info("pages() ={} ", pages); //$NON-NLS-1$
-            LogUtils.timeused(logger, "getPages", start);
-            start = System.currentTimeMillis();
-        }
-        for (int i = 0; i < pages; i++) {
-            pageProcess();
-            processed++;
-        }
-        if (logger.isInfoEnabled()) {
-            LogUtils.timeused(logger, "start", start);
-            logger.info("start() - end"); //$NON-NLS-1$
+        try {
+            int pages = this.getPages();
+            if (logger.isInfoEnabled()) {
+                logger.info("pages() ={} ", pages); //$NON-NLS-1$
+                LogUtils.timeused(logger, "getPages", start);
+                start = System.currentTimeMillis();
+            }
+            for (int i = 0; i < pages; i++) {
+                pageProcess();
+                processed++;
+            }
+        } catch (Exception ex) {
+            LogUtils.error(logger, ex);
+            this.onError(ex);
+        } finally {
+            if (logger.isInfoEnabled()) {
+                LogUtils.timeused(logger, "start", start);
+                logger.info("start() - end"); //$NON-NLS-1$
+            }
         }
     }
 
@@ -55,20 +70,20 @@ public abstract class AbsPageableJob<T> extends AbsDynamicJob<T> implements IPag
         if (logger.isInfoEnabled()) {
             logger.info("pageProcess() - start"); //$NON-NLS-1$
         }
-        
+
         long temp = System.currentTimeMillis();
         long start = temp;
         List<T> pageDatas = this.pageLoad();
         if (logger.isInfoEnabled()) {
             LogUtils.timeused(logger, "pageLoad", start);
         }
-        
+
         start = System.currentTimeMillis();
         this.pageDataProcess(pageDatas);
         if (logger.isInfoEnabled()) {
             LogUtils.timeused(logger, "pageDataProcess", start);
         }
-        
+
         if (logger.isInfoEnabled()) {
             LogUtils.timeused(logger, "pageProcess", temp);
             logger.info("pageProcess() - end"); //$NON-NLS-1$

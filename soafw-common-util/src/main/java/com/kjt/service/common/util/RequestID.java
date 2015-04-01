@@ -18,7 +18,7 @@ public class RequestID {
         } else {
             uuid = rid;
         }
-        REQUEST_ID.set(uuid);
+        REQUEST_ID.set(uuid+" ");
     }
 
     public static void unset() {
@@ -26,6 +26,10 @@ public class RequestID {
     }
 
     public static String get() {
+        String uuid = REQUEST_ID.get();
+        if(uuid==null||uuid.trim().length()==0){
+            set(null);
+        }
         return REQUEST_ID.get();
     }
 }

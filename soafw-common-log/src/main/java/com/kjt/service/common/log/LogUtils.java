@@ -11,11 +11,11 @@ import com.kjt.service.common.util.RequestID;
 public class LogUtils {
 	
 	public static void error(Logger logger,String message){
-		logger.error(RequestID.get() + message);
+		logger.error( message);
 	}
 	
 	public static void error(Logger logger,Exception ex){
-		logger.error(RequestID.get() + estacktack2Str(ex));
+		logger.error( estacktack2Str(ex));
 	}
 	
 	public static String estacktack2Str(Exception ex){
@@ -35,10 +35,10 @@ public class LogUtils {
 	}
 	
 	public static void trace(Logger logger,String message){
-		logger.info(RequestID.get() + message);
+		logger.info( message);
 	}
 	
 	public static void timeused(Logger logger,String point,long start){
-		logger.info(RequestID.get() + point + " timeused: "+(System.currentTimeMillis()-start));
+		logger.info(point + " timeused: "+(System.currentTimeMillis()-start));
 	}
 }

@@ -55,6 +55,14 @@ abstract class AbsDynamicJob<T> extends PoolableObjDynamicConfig
         failed++;
     }
     
+    protected void failedReset(){
+        failed=0;
+    }
+    
+    protected void successedReset(){
+        successed=0;
+    }
+    
     protected void increaseSuccessNum(){
         successed++;
     }
