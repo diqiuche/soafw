@@ -468,7 +468,7 @@
 						<goals>
 							<goal>gen</goal>
 						</goals>
-						<phase>generate-test-sources</phase>
+						<phase>generate-sources</phase>
 					</execution>
 				</executions>
 			</plugin>
