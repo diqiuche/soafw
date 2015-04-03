@@ -3,8 +3,9 @@ package com.kjt.service.common.dao.generate.tool;
 import java.util.HashMap;
 import java.util.Map;
 
-public class MySqlType extends HashMap {
-  {
+public class MySqlType extends DataTypeMap {
+  
+  protected void init() {
     add(new Type("VARCHAR", "String"));
     add(new Type("CHAR", "String"));
     add(new Type("BLOB", "byte[]"));
@@ -42,16 +43,4 @@ public class MySqlType extends HashMap {
     add(new Type("OTHER", "String"));
   }
 
-  public void add(Type type) {
-    put(type.getSqlType(), type);
-  }
-
-  public Type getType(String type) {
-    Type result = null;
-    result = (Type) get(type);
-    if (result == null) {
-      result = (Type) get("other");
-    }
-    return result;
-  }
 }

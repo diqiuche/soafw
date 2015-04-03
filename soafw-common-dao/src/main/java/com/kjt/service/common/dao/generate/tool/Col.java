@@ -33,9 +33,6 @@ public class Col {
       throw new RuntimeException("表'" + tab + "'的'" + name + "'字段没有定义字类型");
     }
     typeStr = typeStr.trim().toLowerCase();
-    if("CompanyCode".equals(name)){
-      System.out.println(name);
-    }
     type = Type.get(typeStr);
     if (type == null) {
       throw new RuntimeException("表'" + tab + "'的'" + name + "'字段类型定义错误");

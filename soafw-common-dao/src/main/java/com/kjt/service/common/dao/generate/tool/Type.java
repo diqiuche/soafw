@@ -1,22 +1,20 @@
 package com.kjt.service.common.dao.generate.tool;
 
-import java.util.HashMap;
-import java.util.Map;
 
 public class Type {
 
   private String sqlType;
   private String javaType;
-  private static Map<String, Type> map = new HashMap<String, Type>();
+  private static DataTypeMap typeMap = null;
   
   static {
     //mysql
     if ("mysql".equalsIgnoreCase(System.getProperty("db.type", "mysql"))){
-      map = new MySqlType();
+      typeMap = new MySqlType();
     }
     else{
     //sql server
-      map = new SqlServerType();
+      typeMap = new SqlServerType();
     }
   }
 
@@ -42,14 +40,13 @@ public class Type {
   }
 
   public static void add(Type type) {
-    map.put(type.getSqlType(), type);
+    typeMap.put(type.getSqlType(), type);
   }
 
   public static Type get(String type) {
-    Type result = null;
-    result = map.get(type);
+    Type result = typeMap.getType(type);
     if (result == null) {
-      result = map.get("other");
+      result = typeMap.getType("other");
     }
     return result;
   }
