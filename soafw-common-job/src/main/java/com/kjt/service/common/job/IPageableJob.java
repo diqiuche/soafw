@@ -15,7 +15,7 @@ public interface IPageableJob<T> extends IJob<T>{
      * 
      * @param ex
      */
-    public void onError(Exception ex);
+    public void onError(JobException ex);
 
     /**
      * 成功是调用该方法

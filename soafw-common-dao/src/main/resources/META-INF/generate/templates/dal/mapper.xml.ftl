@@ -205,7 +205,7 @@
 				</#if>
 			</if>
 		</where>
-			<if test="${r"#{orders}"} !=  null"> order by ${r"#{orders}"} </if> limit ${r"#{start}"},${r"#{end}"}
+			<if test="${r"#{orders}"} !=  null"> order by ${r"${orders}"} </if> limit ${r"#{start}"},${r"#{end}"}
 	</select>
 
 	<insert id="insert" parameterType="${package}.dao.model.${name}" useGeneratedKeys="true" keyProperty="id">

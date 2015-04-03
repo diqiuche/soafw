@@ -13,6 +13,7 @@ import com.kjt.service.common.config.IConfigListener;
 import com.kjt.service.common.config.PoolableObjDynamicConfig;
 import com.kjt.service.common.config.dict.ConfigFileTypeDict;
 import com.kjt.service.common.job.IJob;
+import com.kjt.service.common.job.JobException;
 import com.kjt.service.common.log.Logger;
 import com.kjt.service.common.log.LoggerFactory;
 
@@ -46,8 +47,11 @@ abstract class AbsDynamicJob<T> extends PoolableObjDynamicConfig
         return id;
     }
 
-    public void onError(Exception ex) {
-        throw new RuntimeException(ex);
+    public void onError(JobException ex) {
+        if (logger.isInfoEnabled()) {
+            logger.info("onError(Exception ex={}) - start", ex); //$NON-NLS-1$
+        }
+        throw ex;
     }
     
     protected void increaseErrorNum(){
@@ -71,6 +75,9 @@ abstract class AbsDynamicJob<T> extends PoolableObjDynamicConfig
     }
 
     public void onSuccessed() {
+        if (logger.isInfoEnabled()) {
+            logger.info("onSuccessed()"); //$NON-NLS-1$
+        }
     }
 
     final public int getSuccessed() {

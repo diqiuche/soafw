@@ -75,7 +75,14 @@ public class SoafwTesterMojo extends AbstractMojo {
     private String basedPath = null;
 
     public void execute() throws MojoExecutionException {
-
+        
+        String flg = System.getProperty("skip.tester.gen", "false");
+        
+        if("false".equalsIgnoreCase(flg)){
+            this.getLog().info("test gener skip: " + artifactId);
+            return;
+        }
+        
         this.getLog().info("start unit test file gen&check: " + artifactId);
 
         this.getLog().info("" + this.getPluginContext());
@@ -549,7 +556,7 @@ public class SoafwTesterMojo extends AbstractMojo {
         }
         tmpMethodBuffer.append("\n");
         tmpMethodBuffer.append("\t\tthrow new RuntimeException(\""+methodName+" test not implemented\");\n");
-        tmpMethodBuffer.append("\t}\n");
+        tmpMethodBuffer.append("\t}\n\n");
 
         methodMap.put(id, tmpMethodBuffer.toString());
 

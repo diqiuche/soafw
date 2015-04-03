@@ -24,15 +24,15 @@ public interface IJob<T> {
     /**
      * 单数据处理实现
      * 
-     * @param datas
+     * @param data
      */
-    public void doProcess(T datas);
+    public void doProcess(T data);
     
     /**
      * 当发生exception时，调用
      * @param ex
      */
-    public void onError(Exception ex);
+    public void onError(JobException ex);
     
     /**
      * 当成功处理完时，调用

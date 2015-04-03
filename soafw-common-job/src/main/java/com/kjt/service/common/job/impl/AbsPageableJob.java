@@ -2,12 +2,15 @@ package com.kjt.service.common.job.impl;
 
 import java.util.List;
 
+import com.kjt.service.common.job.DataProcessException;
+import com.kjt.service.common.job.GetPageException;
 import com.kjt.service.common.job.IPageableJob;
+import com.kjt.service.common.job.PageLoadException;
 import com.kjt.service.common.log.LogUtils;
 import com.kjt.service.common.util.RequestID;
 
 /**
- * 所有job必须实现该类<br>
+ * 所有分页处理job必须实现该类<br>
  * 该类有个线程负责提交监控数据<br>
  * 该线程会提交正常量、出错量、性能、及心跳数据到监控中心
  * 
@@ -33,93 +36,98 @@ public abstract class AbsPageableJob<T> extends AbsDynamicJob<T> implements IPag
     }
 
     final public void start() {
-        
         if (logger.isInfoEnabled()) {
             logger.info("start() - start"); //$NON-NLS-1$
         }
-        
+
         processed = 0;
         this.failedReset();
         this.successedReset();
         RequestID.set(null);
-        
         long start = System.currentTimeMillis();
+        long tmpStart = start;
+        int pages = 0;
         try {
-            int pages = this.getPages();
+            pages = this.getPages();
             if (logger.isInfoEnabled()) {
-                logger.info("pages() ={} ", pages); //$NON-NLS-1$
-                LogUtils.timeused(logger, "getPages", start);
-                start = System.currentTimeMillis();
+                LogUtils.timeused(logger, "execute", tmpStart);
             }
             for (int i = 0; i < pages; i++) {
                 pageProcess();
                 processed++;
             }
+            this.onSuccessed();
+        } catch (PageLoadException ex) {
+            throw ex;
+        } catch (DataProcessException ex) {
+            throw ex;
         } catch (Exception ex) {
-            LogUtils.error(logger, ex);
-            this.onError(ex);
+            logger.error("start()", ex); //$NON-NLS-1$
+
+            this.onError(new GetPageException(ex));
         } finally {
             if (logger.isInfoEnabled()) {
                 LogUtils.timeused(logger, "start", start);
-                logger.info("start() - end"); //$NON-NLS-1$
             }
+            logger.info(
+                    "start() - end totalPage={},processed={},total={},success={},failed={}",
+                    pages, processed, (this.getSuccessed() + this.getFailed()),
+                    this.getSuccessed(), this.getFailed());
         }
     }
 
     private void pageProcess() {
-        if (logger.isInfoEnabled()) {
-            logger.info("pageProcess() - start"); //$NON-NLS-1$
-        }
+        List<T> pageDatas = null;
+        long start = System.currentTimeMillis();
+        long tmpStart = start;
+        try {
+            pageDatas = this.pageLoad();
+            if (logger.isInfoEnabled()) {
+                LogUtils.timeused(logger, "pageLoad", tmpStart);
+            }
+            this.pageDataProcess(pageDatas);
 
-        long temp = System.currentTimeMillis();
-        long start = temp;
-        List<T> pageDatas = this.pageLoad();
-        if (logger.isInfoEnabled()) {
-            LogUtils.timeused(logger, "pageLoad", start);
-        }
-
-        start = System.currentTimeMillis();
-        this.pageDataProcess(pageDatas);
-        if (logger.isInfoEnabled()) {
-            LogUtils.timeused(logger, "pageDataProcess", start);
-        }
-
-        if (logger.isInfoEnabled()) {
-            LogUtils.timeused(logger, "pageProcess", temp);
-            logger.info("pageProcess() - end"); //$NON-NLS-1$
+        } catch (DataProcessException ex) {
+            throw ex;
+        } catch (Exception ex) {
+            this.onError(new PageLoadException(ex));
+        } finally {
+            if (logger.isInfoEnabled()) {
+                LogUtils.timeused(logger, "pageProcess", tmpStart);
+            }
         }
     }
 
     private void pageDataProcess(List<T> datas) {
 
         int total = datas == null ? 0 : datas.size();
-
-        if (logger.isInfoEnabled()) {
-            logger.info("pageDataProcess(List<T> datas.size={}) - start", total); //$NON-NLS-1$
-        }
-
-        for (int i = 0; i < total; i++) {
-            T data = datas.get(i);
-            try {
-                long start = System.currentTimeMillis();
-                doProcess(data);
-                this.increaseSuccessNum();
-                this.onSuccessed();
-                if (logger.isDebugEnabled()) {
-                    LogUtils.timeused(logger, "doProcess", start);
+        long start = System.currentTimeMillis();
+        long tmpStart = start;
+        try {
+            for (int i = 0; i < total; i++) {
+                T data = datas.get(i);
+                try {
+                    tmpStart = System.currentTimeMillis();
+                    doProcess(data);
+                    this.increaseSuccessNum();
+                    if (logger.isInfoEnabled()) {
+                        LogUtils.timeused(logger, "doProcess", tmpStart);
+                    }
+                } catch (Exception ex) {
+                    this.increaseErrorNum();
+                    if (logger.isInfoEnabled()) {
+                        LogUtils.timeused(logger, "doProcess", tmpStart);
+                    }
+                    this.logger.error("error process: "+data.toString());
+                    this.onError(new DataProcessException(ex));
                 }
-            } catch (Exception ex) {
-                this.increaseErrorNum();
-                logger.error(data.toString());
-                logger.error("pageDataProcess(List<T>)", ex); //$NON-NLS-1$
-                this.onError(ex);
+            }
+        } catch (DataProcessException ex) {
+            throw ex;
+        } finally {
+            if (logger.isInfoEnabled()) {
+                LogUtils.timeused(logger, "pageDataProcess", start);
             }
         }
-
-        if (logger.isInfoEnabled()) {
-            logger.info(
-                    "pageDataProcess(List<T> total={},successed={},failed=) - end", total, this.getSuccessed(), this.getFailed()); //$NON-NLS-1$
-        }
     }
-
 }
