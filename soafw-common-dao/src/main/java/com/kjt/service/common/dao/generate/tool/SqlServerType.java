@@ -1,10 +1,8 @@
 package com.kjt.service.common.dao.generate.tool;
 
 import java.util.HashMap;
-import java.util.Map;
 
 public class SqlServerType extends HashMap {
-  private Map<String, Type> map = new HashMap<String, Type>();
   {
     add(new Type("bigint", "java.math.BigInteger"));
     add(new Type("binary", "byte[]"));
@@ -38,15 +36,15 @@ public class SqlServerType extends HashMap {
     add(new Type("OTHER", "String"));
   }
 
-  public void add(Type type) {
+  private void add(Type type) {
     put(type.getSqlType(), type);
   }
 
-  public Type get(String type) {
+  public Type getType(String type) {
     Type result = null;
-    result = map.get(type);
+    result = (Type)get(type);
     if (result == null) {
-      map.get("OTHER");
+      result = (Type) get("other");
     }
     return result;
   }

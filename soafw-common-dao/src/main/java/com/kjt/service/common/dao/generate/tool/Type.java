@@ -49,7 +49,7 @@ public class Type {
     Type result = null;
     result = map.get(type);
     if (result == null) {
-      map.get("OTHER");
+      result = map.get("other");
     }
     return result;
   }

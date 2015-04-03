@@ -4,7 +4,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class MySqlType extends HashMap {
-  private Map<String, Type> map = new HashMap<String, Type>();
   {
     add(new Type("VARCHAR", "String"));
     add(new Type("CHAR", "String"));
@@ -47,11 +46,11 @@ public class MySqlType extends HashMap {
     put(type.getSqlType(), type);
   }
 
-  public Type get(String type) {
+  public Type getType(String type) {
     Type result = null;
-    result = map.get(type);
+    result = (Type) get(type);
     if (result == null) {
-      map.get("OTHER");
+      result = (Type) get("other");
     }
     return result;
   }

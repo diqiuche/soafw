@@ -18,16 +18,30 @@
 			</#if>
 		</#list>
 	</resultMap>
-
-	<select id="queryById" parameterType="java.util.Map" resultMap="${name}RslMap">
-		SELECT
+	<sql id="Id_Column_List">
+		<#if tab.pkFieldNum==1>
+			<#list colMaps as col>
+			<#if col.isPK="yes" &&  (col.type.javaType="Integer" || col.type.javaType="Long" || col.type.javaType="Float" || col.type.javaType="Double" || col.type.javaType="java.math.BigInteger")>
+			${col.name}
+			<#elseif col.isPK="yes" &&  col.type.javaType="String">
+			${col.name}
+			</#if>
+			</#list>
+			<#else>			
+			<#list colMaps as col>
+			<#if col.isPK="yes">
+				${col.name}
+			</#if>
+			</#list>
+		</#if>
+	</sql>
+	<sql id="Base_Column_List">
 		<#list colMaps as col>
 			${col.name}<#if col_has_next>,</#if>
 		</#list>
-		FROM
-			${r"${tKjtTabName}"}
-		<where>
-			<#if tab.pkFieldNum==1>
+	</sql>
+	<sql id="Id_Where_Clause">
+		<#if tab.pkFieldNum==1>
 			<#list colMaps as col>
 			<#if col.isPK="yes" &&   (col.type.javaType="Integer" || col.type.javaType="Long" || col.type.javaType="Float" || col.type.javaType="Double" || col.type.javaType="java.math.BigInteger")>
 			and ${col.name}=${r"#{id}"}
@@ -44,19 +58,9 @@
 			</#if>
 			</#list>
 			</#if>
-		</where>
-			limit 1
-	</select>
-
-	<select id="queryByMap" parameterType="java.util.Map" resultMap="${name}RslMap">				
-		SELECT
-		<#list colMaps as col>
-			${col.name}<#if col_has_next>,</#if>
-		</#list>
-		FROM
-			${r"${tKjtTabName}"}
-		<where>
-			<#if tab.pkFieldNum==1>
+	</sql>
+	<sql id="Normal_Where_Clause">
+		<#if tab.pkFieldNum==1>
 			<#list colMaps as col>
 			<#if tab.pkFieldNum==1 && col.isPK="yes" &&   (col.type.javaType="Integer" || col.type.javaType="Long" || col.type.javaType="Float" || col.type.javaType="Double" || col.type.javaType="java.math.BigInteger")>
 			<if test="id !=  null">
@@ -81,55 +85,37 @@
 			</#if>
 			</#list>
 			</#if>
+	</sql>
+	
+	<select id="queryById" parameterType="java.util.Map" resultMap="${name}RslMap">
+		SELECT
+			<include refid="Base_Column_List" />
+		FROM
+			${r"${tKjtTabName}"}
+		<where>
+			<include refid="Id_Where_Clause" />
+		</where>
+			limit 1
+	</select>
+
+	<select id="queryByMap" parameterType="java.util.Map" resultMap="${name}RslMap">				
+		SELECT
+			<include refid="Base_Column_List" />
+		FROM
+			${r"${tKjtTabName}"}
+		<where>
+			<include refid="Normal_Where_Clause" />
 		</where>
 		
 	</select>
 	
 	<select id="queryIdsByMap" parameterType="java.util.Map" resultType="java.lang.Long">				
 		SELECT
-		<#if tab.pkFieldNum==1>
-			<#list colMaps as col>
-			<#if col.isPK="yes" &&  (col.type.javaType="Integer" || col.type.javaType="Long" || col.type.javaType="Float" || col.type.javaType="Double" || col.type.javaType="java.math.BigInteger")>
-			${col.name}
-			<#elseif col.isPK="yes" &&  col.type.javaType="String">
-			${col.name}
-			</#if>
-			</#list>
-			<#else>			
-			<#list colMaps as col>
-			<#if col.isPK="yes">
-				${col.name}
-			</#if>
-			</#list>
-			</#if>
+			<include refid="Id_Column_List" />
 		FROM
 			${r"${tKjtTabName}"}
 		<where>
-			<#if tab.pkFieldNum==1>
-			<#list colMaps as col>
-			<#if tab.pkFieldNum==1 && col.isPK="yes" &&  (col.type.javaType="Integer" || col.type.javaType="Long" || col.type.javaType="Float" || col.type.javaType="Double"|| col.type.javaType="java.math.BigInteger")>
-			<if test="id !=  null">
-				and ${col.name}=${r"#{id}"}
-			</if>
-			<#elseif tab.pkFieldNum==1 && col.isPK="yes"  &&  col.type.javaType="String">
-			<if test="ids !=  null">
-				and ${col.name}=${r"#{ids}"}	
-			</if>
-			<#else>
-			<if test="${col.fieldName} !=  null">			        
-				and ${col.name}=${r"#{"}${col.fieldName}${r"}"}
-			</if>
-			</#if>			
-			</#list>
-			<#else>			
-			<#list colMaps as col>
-			<#if col.isPK="yes">
-			<if test="${col.fieldName} !=  null">			        
-				and ${col.name}=${r"#{"}${col.fieldName}${r"}"}
-			</if>
-			</#if>
-			</#list>
-			</#if>
+			<include refid="Normal_Where_Clause" />
 		</where>
 		
 	</select>
@@ -140,40 +126,14 @@
 		FROM
 			${r"${tKjtTabName}"}
 		<where>			
-			<#if tab.pkFieldNum==1>
-			<#list colMaps as col>
-			<#if col.isPK="yes" &&  (col.type.javaType="Integer" || col.type.javaType="Long" || col.type.javaType="Float" || col.type.javaType="Double"|| col.type.javaType="java.math.BigInteger")>
-			<if test="id !=  null">
-				and ${col.name}=${r"#{id}"}
-			</if>
-			<#elseif tab.pkFieldNum==1 && col.isPK="yes"  &&  col.type.javaType="String">
-			<if test="ids !=  null">
-				and ${col.name}=${r"#{ids}"}		
-			</if>
-			<#else>
-			<if test="${col.fieldName} !=  null">			        
-				and ${col.name}=${r"#{"}${col.fieldName}${r"}"}
-			</if>
-			</#if>			
-			</#list>
-			<#else>			
-			<#list colMaps as col>
-			<#if col.isPK="yes">
-			<if test="${col.fieldName} !=  null">			        
-				and ${col.name}=${r"#{"}${col.fieldName}${r"}"}
-			</if>
-			</#if>
-			</#list>
-			</#if>
+			<include refid="Normal_Where_Clause" />
 		</where>
 				
 	</select>
 	
 	<select id="pageQuery" parameterType="com.kjt.service.common.dao.Page" resultMap="${name}RslMap" fetchSize="15">
 		SELECT
-			<#list colMaps as col>
-			${col.name}<#if col_has_next>,</#if>
-			</#list>
+			<include refid="Base_Column_List" />
 		FROM
 			${r"${params.tKjtTabName}"}
 		<where>
@@ -269,28 +229,7 @@
 			</#if>
 		</set>
 		<where>
-			<#if tab.pkFieldNum==1>
-			<#list colMaps as col>
-			<#if tab.pkFieldNum==1 && col.isPK="yes" &&  (col.type.javaType="Integer" || col.type.javaType="Long" || col.type.javaType="Float" || col.type.javaType="Double" || col.type.javaType="java.math.BigInteger")>
-			<if test="id !=  null">
-				and ${col.name}=${r"#{id}"}
-			</if>
-			<#elseif tab.pkFieldNum==1 && col.isPK="yes"  &&  col.type.javaType="String">
-			<if test="ids !=  null">
-				and ${col.name}=${r"#{ids}"}	
-			</if>
-			<#else>
-			</#if>			
-			</#list>
-			<#else>			
-			<#list colMaps as col>
-			<#if col.isPK="yes">
-			<if test="${col.fieldName} !=  null">			        
-				and ${col.name}=${r"#{"}${col.fieldName}${r"}"}
-			</if>
-			</#if>
-			</#list>
-			</#if>
+			<include refid="Normal_Where_Clause" />
 		</where>
 		
 	</update>
@@ -360,31 +299,7 @@
 		FROM
 			${r"${tKjtTabName}"} 
 		<where>
-			<#if tab.pkFieldNum==1>
-			<#list colMaps as col>
-			<#if tab.pkFieldNum==1 && col.isPK="yes" &&  (col.type.javaType="Integer" || col.type.javaType="Long" || col.type.javaType="Float" || col.type.javaType="Double" || col.type.javaType="java.math.BigInteger")>
-			<if test="id !=  null">
-				and ${col.name}=${r"#{id}"}
-			</if>
-			<#elseif tab.pkFieldNum==1 && col.isPK="yes"  &&  col.type.javaType="String">
-			<if test="ids !=  null">
-				and ${col.name}=${r"#{ids"}${r"}"}
-			</if>
-			<#else>
-			<if test="${col.fieldName} !=  null">			        
-				and ${col.name}=${r"#{"}${col.fieldName}${r"}"}
-			</if>
-			</#if>			
-			</#list>
-			<#else>			
-			<#list colMaps as col>
-			<#if col.isPK="yes">
-			<if test="${col.fieldName} !=  null">			        
-				and ${col.name}=${r"#{"}${col.fieldName}${r"}"}
-			</if>
-			</#if>
-			</#list>
-			</#if>		
+			<include refid="Normal_Where_Clause" />		
 		</where>
 		
 	</delete>
