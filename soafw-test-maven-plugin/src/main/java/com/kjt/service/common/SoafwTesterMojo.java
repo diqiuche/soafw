@@ -76,9 +76,9 @@ public class SoafwTesterMojo extends AbstractMojo {
 
     public void execute() throws MojoExecutionException {
         
-        String flg = System.getProperty("skip.tester.gen", "false");
+        String flg = System.getProperty("skip.tester.gen", "true");
         
-        if("false".equalsIgnoreCase(flg)){
+        if("true".equalsIgnoreCase(flg)){
             this.getLog().info("test gener skip: " + artifactId);
             return;
         }
