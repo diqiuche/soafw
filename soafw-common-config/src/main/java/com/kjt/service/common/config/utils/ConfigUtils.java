@@ -59,6 +59,7 @@ public class ConfigUtils {
 		ConfigWatchdog watchDog = new ConfigWatchdog(configFilename);
 		watchDog.setDelay(1000);
 		watchDog.start();
+		watchs.put(configFilename, watchDog);
 	}
 
 	class ConfigWatchdog extends FileWatchdog {
