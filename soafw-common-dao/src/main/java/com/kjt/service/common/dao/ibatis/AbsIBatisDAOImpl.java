@@ -626,6 +626,11 @@ public abstract class AbsIBatisDAOImpl<T extends IModel> extends AbsCacheableImp
           .debug(
               "convert(Class model={}, String orders={}) - end - return value={}", model, orders, returnString); //$NON-NLS-1$
     }
+    
+    if(returnString.trim().length()==0){
+      return null;
+    }
+    
     return returnString;
   }
 
