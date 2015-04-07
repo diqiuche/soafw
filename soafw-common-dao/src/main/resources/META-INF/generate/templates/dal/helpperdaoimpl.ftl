@@ -1,5 +1,7 @@
 package ${package}.dao.ibatis;
 
+import java.util.List;
+
 import javax.annotation.Resource;
 import javax.sql.DataSource;
 
@@ -10,11 +12,13 @@ import com.kjt.service.common.dao.ibatis.IBatisDAOException;
 
 import ${package}.dao.I${name}HelpperDAO;
 import ${package}.dao.ibatis.mapper.${name}HelpperMapper;
+import ${package}.dao.model.${name};
 import ${package}.dao.model.${name}Helpper;
+import com.kjt.service.common.dao.ibatis.AbsHelpperIBatisDAOImpl;
+import com.kjt.service.common.dao.ibatis.IBatisDAOException;
 import com.kjt.service.common.dao.ibatis.SqlmapUtils;
 import com.kjt.service.common.exception.DataAccessException;
 
-import com.kjt.service.common.dao.ibatis.AbsHelpperIBatisDAOImpl;
 
 @Repository("${name}Helpper")
 public class ${name}HelpperIbatisDAOImpl extends AbsHelpperIBatisDAOImpl<${name}Helpper> implements I${name}HelpperDAO<${name}Helpper> {
@@ -54,5 +58,27 @@ public class ${name}HelpperIbatisDAOImpl extends AbsHelpperIBatisDAOImpl<${name}
  		}
  		return mapQueryDataSource;
 	}
+	
+	@Override
+    public List<${name}> queryByHelpper(${name}Helpper helpper, String tabNameSuffix) {
+        validate(helpper);
+
+        helpper.setTKjtTabName(this.get$TKjtTabName(tabNameSuffix));
+
+        SqlSession session = SqlmapUtils.openSession(getMapQueryDataSource());
+        try {
+
+            ${name}HelpperMapper mapper = session.getMapper(getMapperClass());
+
+            return mapper.queryByHelpper(helpper);
+
+        } catch (Exception t) {
+            t.printStackTrace();
+            throw new DataAccessException(IBatisDAOException.MSG_2_0001, t);
+        } finally {
+            session.commit();
+            session.close();
+        }
+    }
 	
 }

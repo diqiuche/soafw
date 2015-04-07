@@ -48,7 +48,6 @@ public abstract class AbsHelpperIBatisDAOImpl<T extends IHelpper> implements IBa
 
     SqlmapUtils.addMapper(getMapperClass(), getMasterDataSource());
     SqlmapUtils.addMapper(getMapperClass(), getMapQueryDataSource());
-    SqlmapUtils.addMapper(getMapperClass(), getMapQueryDataSource());
 
     // defaultCache = (DynamicMemCache) this.getCacheManager().getCache(
     // DynamicMemCache.DEFAULT_CACHE_NAME);
@@ -82,25 +81,6 @@ public abstract class AbsHelpperIBatisDAOImpl<T extends IHelpper> implements IBa
       Integer eft = 0;// mapper.countByHelpper(helpper);
 
       return eft;
-    } catch (Exception t) {
-      throw new DataAccessException(IBatisDAOException.MSG_2_0001, t);
-    } finally {
-      session.commit();
-      session.close();
-    }
-  }
-
-  public List<? extends IModel> queryByHelpper(T helpper, String tabNameSuffix) {
-    validate(helpper);
-
-    helpper.setTKjtTabName(this.get$TKjtTabName(tabNameSuffix));
-
-    SqlSession session = SqlmapUtils.openSession(getMapQueryDataSource());
-    try {
-      IHelpperMapper<T> mapper = session.getMapper(getMapperClass());
-
-      return mapper.queryByHelpper(helpper);
-
     } catch (Exception t) {
       throw new DataAccessException(IBatisDAOException.MSG_2_0001, t);
     } finally {

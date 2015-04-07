@@ -70,6 +70,8 @@ public abstract class DaoGen extends AbsGen {
         create("ihelpperdao.ftl", root, java + package_ + "/dao/" + "I" + name + "HelpperDAO.java");
         create("helpperdaoimpl.ftl", root, java + package_ + "/dao/ibatis/" + name + "HelpperIbatisDAOImpl.java");
         create("helppermapper.ftl", root, java + package_ + "/dao/ibatis/mapper/" + name + "HelpperMapper.java");
+        create("helppermapper.xml.ftl", root, resource + package_ + "/dao/ibatis/mapper/" + name
+            + "HelpperMapper.xml");
       }
       //create("spring.xml.ftl", root, resource + "/META-INF/config/local/" + "spring.xml");
     }

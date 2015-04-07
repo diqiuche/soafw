@@ -1,10 +1,13 @@
 package ${package}.dao;
 
-import com.kjt.service.common.dao.IHelpperDAO;
+import java.util.List;
 
+import ${package}.dao.model.${name};
 import ${package}.dao.model.${name}Helpper;
+import com.kjt.service.common.dao.IHelpperDAO;
 
 public interface I${name}HelpperDAO<T extends ${name}Helpper> extends IHelpperDAO<T> {
 
+	public List<${name}> queryByHelpper(${name}Helpper helpper, String tabNameSuffix);
 
 }
