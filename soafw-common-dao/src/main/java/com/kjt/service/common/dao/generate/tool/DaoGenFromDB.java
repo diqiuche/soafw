@@ -48,8 +48,23 @@ public class DaoGenFromDB extends DaoGen {
   public static void generateSQLSvrDAO(String dbName, String tableName, String springXml,
       String packageName, String targetJava, String resources) throws Exception {
     System.setProperty("db.type", "sqlserver");
-    generateDAO(dbName,tableName,springXml,packageName,targetJava,resources); 
+    System.setProperty("help.gen", "false");
+    generateDAO(dbName, tableName, springXml, packageName, targetJava, resources);
   }
+
+  public static void generateSQLSvrDAOWithHelpper(String dbName, String tableName,
+      String springXml, String packageName, String targetJava, String resources) throws Exception {
+    System.setProperty("db.type", "sqlserver");
+    System.setProperty("help.gen", "true");
+    generateDAO(dbName, tableName, springXml, packageName, targetJava, resources);
+  }
+
+  public static void generateDAOWithHellper(String dbName, String tableName, String springXml,
+      String packageName, String targetJava, String resources) throws Exception {
+    System.setProperty("help.gen", "true");
+    generateDAO(dbName, tableName, springXml, packageName, targetJava, resources);
+  }
+
   /**
    * mysql database 生成dao文件
    * 
