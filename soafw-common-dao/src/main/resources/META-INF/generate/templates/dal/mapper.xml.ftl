@@ -405,7 +405,7 @@
 			
 	</delete>
 	
-	<delete id="batchQuery"  parameterType="java.util.List">
+	<select id="batchQuery"  parameterType="java.util.List" resultMap="BaseResultMap" fetchSize="100">
 		select 
 			<include refid="Base_Column_List" />
 		from
@@ -413,6 +413,6 @@
 			
 		<include refid="Batch_Where_Clause" />
 			
-	</delete>
+	</select>
 	
 </mapper>
