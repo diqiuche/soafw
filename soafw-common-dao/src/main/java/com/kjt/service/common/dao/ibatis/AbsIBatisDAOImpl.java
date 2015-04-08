@@ -845,7 +845,7 @@ public abstract class AbsIBatisDAOImpl<T extends IModel> extends AbsCacheableImp
       IBatchMapper<T> mapper = session.getMapper(getMapperClass());
       int eft = mapper.batchUpdate(params);
       if (eft > 0) {
-        this.incrTabVersion(tabNameSuffix);
+        this.synCache(tabNameSuffix);
       }
       return eft;
     } catch (Exception t) {
@@ -870,7 +870,7 @@ public abstract class AbsIBatisDAOImpl<T extends IModel> extends AbsCacheableImp
       IBatchMapper<T> mapper = session.getMapper(getMapperClass());
       int eft = mapper.batchDelete(params);
       if (eft > 0) {
-        this.incrTabVersion(tabNameSuffix);
+        this.synCache(tabNameSuffix);
       }
       return eft;
     } catch (Exception t) {
