@@ -807,4 +807,86 @@ public abstract class AbsIBatisDAOImpl<T extends IModel> extends AbsCacheableImp
     }
     model.validate();
   }
+  
+  @Override
+  public List<T> batchQuery(List<Map<String, Object>> datas, String tabNameSuffix) {
+    validate(datas);
+
+    Map<String, Object> params = new HashMap<String, Object>();
+
+    params.put("list", datas);
+    params.put("tKjtTabName", this.get$TKjtTabName(tabNameSuffix));
+
+    SqlSession session = SqlmapUtils.openSession(getMasterDataSource());
+    try {
+      IBatchMapper<T> mapper = session.getMapper(getMapperClass());
+      return mapper.batchQuery(params);
+    } catch (Exception t) {
+      throw new DataAccessException(IBatisDAOException.MSG_2_0001, t);
+    } finally {
+      session.commit();
+      session.close();
+    }
+  }
+
+  @Override
+  public Integer batchUpdate(Map<String, Object> new_, List<Map<String, Object>> datas,
+      String tabNameSuffix) {
+    validate(datas);
+
+    Map<String, Object> params = new HashMap<String, Object>();
+
+    params.put("list", datas);
+    params.put("updNewMap", new_);
+    params.put("tKjtTabName", this.get$TKjtTabName(tabNameSuffix));
+
+    SqlSession session = SqlmapUtils.openSession(getMasterDataSource());
+    try {
+      IBatchMapper<T> mapper = session.getMapper(getMapperClass());
+      int eft = mapper.batchUpdate(params);
+      if (eft > 0) {
+        this.incrTabVersion(tabNameSuffix);
+      }
+      return eft;
+    } catch (Exception t) {
+      throw new DataAccessException(IBatisDAOException.MSG_2_0001, t);
+    } finally {
+      session.commit();
+      session.close();
+    }
+  }
+
+  @Override
+  public Integer batchDelete(List<Map<String, Object>> datas, String tabNameSuffix) {
+    validate(datas);
+
+    Map<String, Object> params = new HashMap<String, Object>();
+
+    params.put("list", datas);
+    params.put("tKjtTabName", this.get$TKjtTabName(tabNameSuffix));
+
+    SqlSession session = SqlmapUtils.openSession(getMasterDataSource());
+    try {
+      IBatchMapper<T> mapper = session.getMapper(getMapperClass());
+      int eft = mapper.batchDelete(params);
+      if (eft > 0) {
+        this.incrTabVersion(tabNameSuffix);
+      }
+      return eft;
+    } catch (Exception t) {
+      throw new DataAccessException(IBatisDAOException.MSG_2_0001, t);
+    } finally {
+      session.commit();
+      session.close();
+    }
+  }
+  
+  protected void validate(List<Map<String,Object>> datas) {
+
+    if (datas == null) {
+      throw new DataAccessException(IBatisDAOException.MSG_1_0005);
+    }
+    
+  }
+
 }

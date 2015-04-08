@@ -405,4 +405,14 @@
 			
 	</delete>
 	
+	<delete id="batchQuery"  parameterType="java.util.List">
+		select 
+			<include refid="Base_Column_List" />
+		from
+			${r"${tKjtTabName}"}
+			
+		<include refid="Batch_Where_Clause" />
+			
+	</delete>
+	
 </mapper>
