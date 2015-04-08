@@ -54,7 +54,7 @@
 		</where>
  	</sql>
   	
-  	<select id="queryByHelpper" parameterType="${package}.dao.model.${name}Helpper" resultMap="BaseResultMap">
+  	<select id="queryByHelpper" parameterType="${package}.dao.model.${name}Helpper" resultMap="BaseResultMap"  fetchSize="100">
 	    select
 	    	<if test="distinct">
 	      		distinct

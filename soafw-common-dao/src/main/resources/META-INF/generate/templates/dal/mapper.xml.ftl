@@ -88,7 +88,7 @@
 			limit 1
 	</select>
 
-	<select id="queryByMap" parameterType="java.util.Map" resultMap="BaseResultMap">				
+	<select id="queryByMap" parameterType="java.util.Map" resultMap="BaseResultMap" fetchSize="100">				
 		SELECT
 			<include refid="Base_Column_List" />
 		FROM
@@ -99,7 +99,7 @@
 		
 	</select>
 	
-	<select id="queryIdsByMap" parameterType="java.util.Map" resultType="java.lang.Long">				
+	<select id="queryIdsByMap" parameterType="java.util.Map" resultType="java.lang.Long" fetchSize="100">				
 		SELECT
 			<include refid="Id_Column_List" />
 		FROM
@@ -121,7 +121,7 @@
 				
 	</select>
 	
-	<select id="pageQuery" parameterType="com.kjt.service.common.dao.Page" resultMap="BaseResultMap" fetchSize="15">
+	<select id="pageQuery" parameterType="com.kjt.service.common.dao.Page" resultMap="BaseResultMap"  fetchSize="100">
 		SELECT
 			<include refid="Base_Column_List" />
 		FROM
