@@ -828,7 +828,10 @@ public abstract class AbsIBatisDAOImpl<T extends IModel> extends AbsCacheableImp
       session.close();
     }
   }
-
+  /*
+   * (non-Javadoc)
+   * @see com.kjt.service.common.dao.IBatchDAO#batchUpdate(java.util.Map, java.util.List, java.lang.String)
+   */
   @Override
   public Integer batchUpdate(Map<String, Object> new_, List<Map<String, Object>> datas,
       String tabNameSuffix) {
@@ -855,7 +858,10 @@ public abstract class AbsIBatisDAOImpl<T extends IModel> extends AbsCacheableImp
       session.close();
     }
   }
-
+  /*
+   * (non-Javadoc)
+   * @see com.kjt.service.common.dao.IBatchDAO#batchDelete(java.util.List, java.lang.String)
+   */
   @Override
   public Integer batchDelete(List<Map<String, Object>> datas, String tabNameSuffix) {
     validate(datas);

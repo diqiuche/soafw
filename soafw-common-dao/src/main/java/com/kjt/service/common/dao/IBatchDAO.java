@@ -12,12 +12,28 @@ import java.util.Map;
  * @param <T>
  */
 public interface IBatchDAO<T> extends ICacheable<T> {
-
+  /**
+   * 批量查询
+   * @param datas 查询条件
+   * @param tabNameSuffix
+   * @return
+   */
   public List<T> batchQuery(List<Map<String, Object>> datas, String tabNameSuffix);
-  
+  /**
+   * 批量更新
+   * @param new_ 更新值
+   * @param datas 更新条件
+   * @param tabNameSuffix
+   * @return
+   */
   public Integer batchUpdate(Map<String, Object> new_, List<Map<String, Object>> datas,
       String tabNameSuffix);
-
+  /**
+   * 批量删除
+   * @param datas 删除条件
+   * @param tabNameSuffix
+   * @return
+   */
   public Integer batchDelete(List<Map<String, Object>> datas, String tabNameSuffix);
 
   public String get$TKjtTabName(String tabNameSuffix);
