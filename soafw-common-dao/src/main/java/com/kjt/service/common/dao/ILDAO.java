@@ -21,7 +21,7 @@ import java.util.Map;
  *
  * @param <T>
  */
-public interface ILDAO<T> extends ICacheable<T> {
+public interface ILDAO<T> extends ICacheable<T>,ILBatchDAO<T> {
   /**
    * 持久化数据对象，返回当前对象的id
    * 

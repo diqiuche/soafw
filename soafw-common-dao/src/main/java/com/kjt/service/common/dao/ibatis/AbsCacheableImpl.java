@@ -1,5 +1,6 @@
 package com.kjt.service.common.dao.ibatis;
 
+import java.math.BigInteger;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -580,4 +581,5 @@ public abstract class AbsCacheableImpl<T extends IModel> implements ICacheable<T
       throw new DataAccessException(IBatisDAOException.MSG_2_0001, "'" + tabNameSuffix + "'后缀不符合规范");
     }
   }
+
 }

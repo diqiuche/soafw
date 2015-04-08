@@ -11,7 +11,7 @@ import com.kjt.service.common.dao.IModel;
  *
  * @param <T>
  */
-public interface IBigIMapper<T extends IModel> extends IMapper<T> {
+public interface IBigIMapper<T extends IModel> extends IMapper<T>,IBatchMapper<T> {
 
   public T queryById(BigInteger id);
 

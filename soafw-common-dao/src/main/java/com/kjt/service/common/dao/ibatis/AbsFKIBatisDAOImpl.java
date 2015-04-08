@@ -765,7 +765,14 @@ public abstract class AbsFKIBatisDAOImpl<T extends IModel> extends AbsIBatisDAOI
       logger.debug("validate(String property={}, Object fkValue={}) - end", property, fkValue); //$NON-NLS-1$
     }
   }
+  
+  protected void validate(List<Map<String,Object>> datas) {
 
+    if (datas == null) {
+      throw new DataAccessException(IBatisDAOException.MSG_1_0005);
+    }
+    
+  }
   // ##################################################################################################
 
 }

@@ -23,7 +23,7 @@ import java.util.Map;
  *
  * @param <T>
  */
-public interface IBIDAO<T> extends ICacheable<T> {
+public interface IBIDAO<T> extends ICacheable<T> ,IBBatchDAO<T>{
   /**
    * 持久化数据对象，返回当前对象的id
    * 

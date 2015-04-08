@@ -2,6 +2,7 @@ package com.kjt.service.common.dao.ibatis;
 
 import javax.sql.DataSource;
 
+import com.kjt.service.common.dao.IBatchDAO;
 import com.kjt.service.common.dao.IDAO;
 import com.kjt.service.common.dao.IModel;
 
@@ -12,7 +13,7 @@ import com.kjt.service.common.dao.IModel;
  *
  * @param <T>
  */
-public interface IBatisDAO<T> extends IDAO<T> {
+public interface IBatisDAO<T> extends IDAO<T>,IBatchDAO<T> {
 
   public Class<? extends IMapper<T>> getMapperClass();
 

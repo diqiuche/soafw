@@ -1,5 +1,8 @@
 package com.kjt.common.cache.dao.ibatis;
 
+import java.util.List;
+import java.util.Map;
+
 import javax.annotation.Resource;
 import javax.sql.DataSource;
 
@@ -197,5 +200,4 @@ public class CacheVersionIbatisDAOImpl extends AbsStrIDIBatisDAOImpl<CacheVersio
       throw new DataAccessException(IBatisDAOException.MSG_1_0004);
     }
   }
-
 }

@@ -9,7 +9,7 @@ import com.kjt.service.common.dao.IModel;
  *
  * @param <T>
  */
-public interface IIMapper<T extends IModel> extends IMapper<T> {
+public interface IIMapper<T extends IModel> extends IMapper<T>,IBatchMapper<T> {
 
   public T queryById(Integer id);
 

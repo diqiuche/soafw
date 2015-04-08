@@ -1,6 +1,7 @@
 package com.kjt.service.common.dao;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * 批处理数据访问层接口
@@ -9,7 +10,7 @@ import java.util.List;
  *
  * @param <T>
  */
-public interface IIBatchDAO<T> {
+public interface IIBatchDAO<T> extends IBatchDAO<T>{
   /**
    * 批量插入
    * 
@@ -18,26 +19,6 @@ public interface IIBatchDAO<T> {
    *          表名后缀［用于支持表拆分机制，即：数据库操作时的表名规则为:tableName+"_"+tabNameSuffix］
    * @return
    */
-  public long[] batchInsert(List<T> datas, String tabNameSuffix);
-
-  /**
-   * 批量更新
-   * 
-   * @param datas
-   * @param tabNameSuffix
-   *          表名后缀［用于支持表拆分机制，即：数据库操作时的表名规则为:tableName+"_"+tabNameSuffix］
-   * @return
-   */
-  public int[] batchUpdate(List<T> datas, String tabNameSuffix);
-
-  /**
-   * 批量更新
-   * 
-   * @param datas
-   * @param tabNameSuffix
-   *          表名后缀［用于支持表拆分机制，即：数据库操作时的表名规则为:tableName+"_"+tabNameSuffix］
-   * @return
-   */
-  public int[] batchDelete(List<T> datas, String tabNameSuffix);
+  public int[] batchInsert(List<Map<String,Object>> datas, String tabNameSuffix);
 
 }

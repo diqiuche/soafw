@@ -13,7 +13,7 @@ import com.kjt.service.common.dao.Page;
  *
  * @param <T>
  */
-public interface IMapper<T> {
+public interface IMapper<T> extends IBatchMapper<T> {
 
   public Integer deleteByMap(Map<String, Object> params);
 

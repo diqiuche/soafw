@@ -1,5 +1,6 @@
 package com.kjt.service.common.dao;
 
+import java.math.BigInteger;
 import java.util.List;
 import java.util.Map;
 
@@ -10,7 +11,7 @@ import java.util.Map;
  *
  * @param <T>
  */
-public interface ILBatchDAO<T> extends IBatchDAO<T>{
+public interface IBBatchDAO<T> extends IBatchDAO<T>{
   /**
    * 批量插入
    * 
@@ -19,6 +20,6 @@ public interface ILBatchDAO<T> extends IBatchDAO<T>{
    *          表名后缀［用于支持表拆分机制，即：数据库操作时的表名规则为:tableName+"_"+tabNameSuffix］
    * @return
    */
-  public long[] batchInsert(List<Map<String,Object>> datas, String tabNameSuffix);
+  public BigInteger[] batchInsert(List<Map<String,Object>> datas, String tabNameSuffix);
   
 }

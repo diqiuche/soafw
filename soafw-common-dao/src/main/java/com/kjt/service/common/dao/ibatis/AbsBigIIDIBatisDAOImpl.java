@@ -9,10 +9,9 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 
+import com.kjt.service.common.dao.IBBatchDAO;
 import com.kjt.service.common.dao.IModel;
 import com.kjt.service.common.exception.DataAccessException;
-import com.kjt.service.common.log.Logger;
-import com.kjt.service.common.log.LoggerFactory;
 
 /**
  * 主键缓存(pk)<br>
@@ -33,7 +32,7 @@ import com.kjt.service.common.log.LoggerFactory;
  */
 
 public abstract class AbsBigIIDIBatisDAOImpl<T extends IModel> extends AbsFKIBatisDAOImpl<T>
-    implements IBigIBatisDAO<T> {
+    implements IBigIBatisDAO<T>, IBBatchDAO<T> {
 
   @Cacheable(value = "defaultCache", key = PkCacheKeyPrefixExpress + "", unless = "#result == null", condition = "#root.target.cacheable()")
   @Override
@@ -45,7 +44,9 @@ public abstract class AbsBigIIDIBatisDAOImpl<T extends IModel> extends AbsFKIBat
     T returnT = queryById(id, false, tabNameSuffix);
 
     if (logger.isDebugEnabled()) {
-      logger.debug("queryById(Long id={}, String tabNameSuffix={}) - end - return value={}", id, tabNameSuffix, returnT); //$NON-NLS-1$
+      logger
+          .debug(
+              "queryById(Long id={}, String tabNameSuffix={}) - end - return value={}", id, tabNameSuffix, returnT); //$NON-NLS-1$
     }
     return returnT;
 
@@ -55,7 +56,9 @@ public abstract class AbsBigIIDIBatisDAOImpl<T extends IModel> extends AbsFKIBat
   @Override
   public T queryById(BigInteger id, Boolean master, String tabNameSuffix) {
     if (logger.isDebugEnabled()) {
-      logger.debug("queryById(Long id={}, Boolean master={}, String tabNameSuffix={}) - start", id, master, tabNameSuffix); //$NON-NLS-1$
+      logger
+          .debug(
+              "queryById(Long id={}, Boolean master={}, String tabNameSuffix={}) - start", id, master, tabNameSuffix); //$NON-NLS-1$
     }
 
     validate(id);
@@ -71,14 +74,18 @@ public abstract class AbsBigIIDIBatisDAOImpl<T extends IModel> extends AbsFKIBat
       List<T> objs = mapper.queryByMap(params);
       if (objs == null || objs.isEmpty()) {
         if (logger.isDebugEnabled()) {
-          logger.debug("queryById(Long id={}, Boolean master={}, String tabNameSuffix={}) - end - return value={}", id, master, tabNameSuffix, null); //$NON-NLS-1$
+          logger
+              .debug(
+                  "queryById(Long id={}, Boolean master={}, String tabNameSuffix={}) - end - return value={}", id, master, tabNameSuffix, null); //$NON-NLS-1$
         }
         return null;
       }
       T returnT = objs.get(0);
 
       if (logger.isDebugEnabled()) {
-        logger.debug("queryById(Long id={}, Boolean master={}, String tabNameSuffix={}) - end - return value={}", id, master, tabNameSuffix, returnT); //$NON-NLS-1$
+        logger
+            .debug(
+                "queryById(Long id={}, Boolean master={}, String tabNameSuffix={}) - end - return value={}", id, master, tabNameSuffix, returnT); //$NON-NLS-1$
       }
       return returnT;
     } catch (Exception t) {
@@ -113,7 +120,9 @@ public abstract class AbsBigIIDIBatisDAOImpl<T extends IModel> extends AbsFKIBat
       }
 
       if (logger.isDebugEnabled()) {
-        logger.debug("deleteById(Long id={}, String tabNameSuffix={}) - end - return value={}", id, tabNameSuffix, eft); //$NON-NLS-1$
+        logger
+            .debug(
+                "deleteById(Long id={}, String tabNameSuffix={}) - end - return value={}", id, tabNameSuffix, eft); //$NON-NLS-1$
       }
       return eft;
     } catch (Exception t) {
@@ -130,7 +139,9 @@ public abstract class AbsBigIIDIBatisDAOImpl<T extends IModel> extends AbsFKIBat
   @Override
   public Integer updateById(BigInteger id, Map<String, Object> newValue, String tabNameSuffix) {
     if (logger.isDebugEnabled()) {
-      logger.debug("updateById(Long id={}, Map<String,Object> newValue={}, String tabNameSuffix={}) - start", id, newValue, tabNameSuffix); //$NON-NLS-1$
+      logger
+          .debug(
+              "updateById(Long id={}, Map<String,Object> newValue={}, String tabNameSuffix={}) - start", id, newValue, tabNameSuffix); //$NON-NLS-1$
     }
 
     validate(id);
@@ -150,7 +161,9 @@ public abstract class AbsBigIIDIBatisDAOImpl<T extends IModel> extends AbsFKIBat
       }
 
       if (logger.isDebugEnabled()) {
-        logger.debug("updateById(Long id={}, Map<String,Object> newValue={}, String tabNameSuffix={}) - end - return value={}", id, newValue, tabNameSuffix, eft); //$NON-NLS-1$
+        logger
+            .debug(
+                "updateById(Long id={}, Map<String,Object> newValue={}, String tabNameSuffix={}) - end - return value={}", id, newValue, tabNameSuffix, eft); //$NON-NLS-1$
       }
       return eft;
     } catch (Exception t) {
@@ -174,6 +187,109 @@ public abstract class AbsBigIIDIBatisDAOImpl<T extends IModel> extends AbsFKIBat
 
     if (logger.isDebugEnabled()) {
       logger.debug("validate(Long id={}) - end", id); //$NON-NLS-1$
+    }
+  }
+  
+  @Override
+  public BigInteger[] batchInsert(List<Map<String,Object>> datas, String tabNameSuffix) {
+
+    validate(datas);
+
+    Map<String,Object> params = new HashMap<String,Object>();
+    
+    params.put("list", datas);
+    params.put("tKjtTabName", this.get$TKjtTabName(tabNameSuffix));
+
+    SqlSession session = SqlmapUtils.openSession(getMasterDataSource());
+    try {
+      IBigIMapper<T> mapper = session.getMapper(getMapperClass());
+      Integer eft = mapper.batchInsert(params);
+      if (eft > 0) {
+        this.incrTabVersion(tabNameSuffix);
+      }
+      BigInteger[] rets = new BigInteger[eft];
+      for(int i=0;i<eft;i++){
+        rets[i]= (BigInteger)datas.get(i).get("id");
+      }
+      return rets;
+    } catch (Exception t) {
+      throw new DataAccessException(IBatisDAOException.MSG_2_0001, t);
+    } finally {
+      session.commit();
+      session.close();
+    }
+  }
+
+  @Override
+  public List<T> batchQuery(List<Map<String, Object>> datas, String tabNameSuffix) {
+    validate(datas);
+
+    Map<String,Object> params = new HashMap<String,Object>();
+    
+    params.put("list", datas);
+    params.put("tKjtTabName", this.get$TKjtTabName(tabNameSuffix));
+
+    SqlSession session = SqlmapUtils.openSession(getMasterDataSource());
+    try {
+      IBigIMapper<T> mapper = session.getMapper(getMapperClass());
+      return mapper.batchQuery(params);
+    } catch (Exception t) {
+      throw new DataAccessException(IBatisDAOException.MSG_2_0001, t);
+    } finally {
+      session.commit();
+      session.close();
+    }
+  }
+
+  @Override
+  public Integer batchUpdate(Map<String, Object> new_, List<Map<String, Object>> datas,
+      String tabNameSuffix) {
+    validate(datas);
+
+    Map<String,Object> params = new HashMap<String,Object>();
+    
+    params.put("list", datas);
+    params.put("updNewMap", new_);
+    params.put("tKjtTabName", this.get$TKjtTabName(tabNameSuffix));
+
+    SqlSession session = SqlmapUtils.openSession(getMasterDataSource());
+    try {
+      IBigIMapper<T> mapper = session.getMapper(getMapperClass());
+      int eft = mapper.batchUpdate(params);
+      if (eft > 0) {
+        this.incrTabVersion(tabNameSuffix);
+      }
+      return eft;
+    } catch (Exception t) {
+      throw new DataAccessException(IBatisDAOException.MSG_2_0001, t);
+    } finally {
+      session.commit();
+      session.close();
+    }
+  }
+
+  @Override
+  public Integer batchDelete(List<Map<String, Object>> datas, String tabNameSuffix) {
+    validate(datas);
+
+    Map<String,Object> params = new HashMap<String,Object>();
+    
+    params.put("list", datas);
+    params.put("tKjtTabName", this.get$TKjtTabName(tabNameSuffix));
+
+    SqlSession session = SqlmapUtils.openSession(getMasterDataSource());
+    try {
+      IBigIMapper<T> mapper = session.getMapper(getMapperClass());
+      int eft = mapper.batchDelete(params);
+      if (eft > 0) {
+        this.incrTabVersion(tabNameSuffix);
+      }
+      return eft;
+    } catch (Exception t) {
+      throw new DataAccessException(IBatisDAOException.MSG_2_0001, t);
+    } finally {
+      session.commit();
+      session.close();
     }
   }
 }
