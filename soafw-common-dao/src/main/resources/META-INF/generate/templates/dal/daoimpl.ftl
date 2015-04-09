@@ -69,16 +69,9 @@ public class ${name}IbatisDAOImpl extends AbsLongIDIBatisDAOImpl<${name}> implem
 		return ${name}.isFk(property);
 	}
 	
-	@Override
-	public String get$TKjtTabName(String tabNameSuffix) {
-	  suffixValidate(tabNameSuffix);
-	  StringBuilder tableName = new StringBuilder("${tab.name}");
-      if(tabNameSuffix!=null&&tabNameSuffix.trim().length()>0){
-        tableName.append("_");
-        tableName.append(tabNameSuffix.trim()); 
-      }
-      return tableName.toString();
-    }
+	public String getTableName() {
+    	return "${tab.name}";
+  	}
   
 	@Override
 	public DataSource getMasterDataSource(){

@@ -186,4 +186,10 @@ public interface IDAO<T> extends ICacheable<T> {
    * @return
    */
   public String get$TKjtTabName(String tabNameSuffix);
+  
+  /**
+   * 获取表名
+   * @return
+   */
+  public String getTableName();
 }

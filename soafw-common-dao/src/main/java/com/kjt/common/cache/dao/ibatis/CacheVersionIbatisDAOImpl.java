@@ -54,15 +54,8 @@ public class CacheVersionIbatisDAOImpl extends AbsStrIDIBatisDAOImpl<CacheVersio
     return CacheVersion.isFk(property);
   }
 
-  @Override
-  public String get$TKjtTabName(String tabNameSuffix) {
-    suffixValidate(tabNameSuffix);
-    StringBuilder tableName = new StringBuilder("soa_cache_version");
-    if (tabNameSuffix != null && tabNameSuffix.trim().length() > 0) {
-      tableName.append("_");
-      tableName.append(tabNameSuffix.trim());
-    }
-    return tableName.toString();
+  public String getTableName() {
+    return "soa_cache_version";
   }
 
   @Override
@@ -92,7 +85,7 @@ public class CacheVersionIbatisDAOImpl extends AbsStrIDIBatisDAOImpl<CacheVersio
     }
 
     validate(model);
-    
+
     model.setTKjtTabName(this.get$TKjtTabName(tabNameSuffix));
 
     SqlSession session = SqlmapUtils.openSession(getMasterDataSource());
