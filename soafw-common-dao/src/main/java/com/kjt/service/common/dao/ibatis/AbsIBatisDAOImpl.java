@@ -896,7 +896,7 @@ public abstract class AbsIBatisDAOImpl<T extends IModel> extends AbsCacheableImp
   }
   
   @Override
-  final public String get$TKjtTabName(String tabNameSuffix) {
+  public String get$TKjtTabName(String tabNameSuffix) {
     suffixValidate(tabNameSuffix);
     StringBuilder tableName = new StringBuilder(this.getTableName());
     if (tabNameSuffix != null && tabNameSuffix.trim().length() > 0) {
