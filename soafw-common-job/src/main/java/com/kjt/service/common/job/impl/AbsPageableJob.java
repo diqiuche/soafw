@@ -24,15 +24,19 @@ public abstract class AbsPageableJob<T> extends AbsDynamicJob<T> implements IPag
         super(id);
     }
 
-    private int processed = 0;
+    private int pageIdx = 0;
 
     /**
      * 获取已处理页数
-     * 
+     * @deprecated replace by getPageIdx()
      * @return
      */
     public int getProcessed() {
-        return processed;
+        return getPageIdx();
+    }
+    
+    public int getPageIdx(){
+        return pageIdx;
     }
 
     final public void start() {
@@ -40,7 +44,7 @@ public abstract class AbsPageableJob<T> extends AbsDynamicJob<T> implements IPag
             logger.info("start() - start"); //$NON-NLS-1$
         }
 
-        processed = 0;
+        pageIdx = 0;
         this.failedReset();
         this.successedReset();
         RequestID.set(null);
@@ -54,7 +58,7 @@ public abstract class AbsPageableJob<T> extends AbsDynamicJob<T> implements IPag
             }
             for (int i = 0; i < pages; i++) {
                 pageProcess();
-                processed++;
+                pageIdx++;
             }
             this.onSuccessed();
         } catch (PageLoadException ex) {
@@ -70,8 +74,8 @@ public abstract class AbsPageableJob<T> extends AbsDynamicJob<T> implements IPag
                 LogUtils.timeused(logger, "start", start);
             }
             logger.info(
-                    "start() - end totalPage={},processed={},total={},success={},failed={}",
-                    pages, processed, (this.getSuccessed() + this.getFailed()),
+                    "start() - end totalPage=%d,pageIdx=%d,total=%d,success=%d,failed=%d",
+                    pages, pageIdx, (this.getSuccessed() + this.getFailed()),
                     this.getSuccessed(), this.getFailed());
         }
     }
