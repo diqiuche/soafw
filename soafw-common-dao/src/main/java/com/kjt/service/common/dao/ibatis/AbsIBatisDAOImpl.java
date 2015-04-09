@@ -896,6 +896,11 @@ public abstract class AbsIBatisDAOImpl<T extends IModel> extends AbsCacheableImp
   }
   
   @Override
+  public String getTableName(){
+      throw new RuntimeException(this.getClass().getSimpleName()+".getTableName（）必须实现");
+  }
+  
+  @Override
   public String get$TKjtTabName(String tabNameSuffix) {
     suffixValidate(tabNameSuffix);
     StringBuilder tableName = new StringBuilder(this.getTableName());
