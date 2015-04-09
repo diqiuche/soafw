@@ -28,14 +28,14 @@ public abstract class AbsPageableJob<T> extends AbsDynamicJob<T> implements IPag
 
     /**
      * 获取已处理页数
-     * @deprecated replace by getPageIdx()
+     * @deprecated replace by getPageProcessed()
      * @return
      */
     public int getProcessed() {
-        return getPageIdx();
+        return getPageProcessed();
     }
     
-    public int getPageIdx(){
+    public int getPageProcessed(){
         return pageIdx;
     }
 
@@ -74,7 +74,7 @@ public abstract class AbsPageableJob<T> extends AbsDynamicJob<T> implements IPag
                 LogUtils.timeused(logger, "start", start);
             }
             logger.info(
-                    "start() - end totalPage=%d,pageIdx=%d,total=%d,success=%d,failed=%d",
+                    "start() - end totalPage=%d,pageProcessed=%d,total=%d,success=%d,failed=%d",
                     pages, pageIdx, (this.getSuccessed() + this.getFailed()),
                     this.getSuccessed(), this.getFailed());
         }
