@@ -8,7 +8,7 @@ import java.util.List;
  * 
  * @author
  */
-public class Pager<T> implements IResult {
+public class Pager<T extends IResult> implements IResult {
 
     /**
      * 
