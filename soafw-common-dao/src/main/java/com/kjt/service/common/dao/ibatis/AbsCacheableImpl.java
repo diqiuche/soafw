@@ -1,6 +1,5 @@
 package com.kjt.service.common.dao.ibatis;
 
-import java.math.BigInteger;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -10,6 +9,7 @@ import java.util.regex.Pattern;
 
 import javax.annotation.Resource;
 
+import org.apache.commons.configuration.Configuration;
 import org.springframework.cache.CacheManager;
 
 import redis.clients.jedis.exceptions.JedisDataException;
@@ -18,6 +18,9 @@ import com.kjt.common.cache.dao.ICacheVersionDAO;
 import com.kjt.common.cache.dao.model.CacheVersion;
 import com.kjt.service.common.cache.mem.impl.DynamicMemCache;
 import com.kjt.service.common.cache.redis.impl.DynamicRedisCache;
+import com.kjt.service.common.config.DynamicConfig;
+import com.kjt.service.common.config.dict.ConfigFileDict;
+import com.kjt.service.common.config.dict.ConfigFileTypeDict;
 import com.kjt.service.common.dao.ICacheable;
 import com.kjt.service.common.dao.IModel;
 import com.kjt.service.common.exception.DataAccessException;
@@ -36,6 +39,18 @@ public abstract class AbsCacheableImpl<T extends IModel> implements ICacheable<T
   protected DynamicMemCache defaultCache;
 
   protected DynamicRedisCache redisCache;
+
+  private static DynamicConfig cacheConfig = new DynamicConfig();
+
+  static {
+    cacheConfig.setFileName(System.getProperty(ConfigFileDict.CACHE_CONFIG_FILE,
+        ConfigFileDict.DEFAULT_CACHE_CONFIG_NAME));
+    cacheConfig.init();
+  }
+  
+  protected Configuration getConfig() {
+    return cacheConfig;
+  }
 
   public void init() {
     if (logger.isDebugEnabled()) {
@@ -59,10 +74,8 @@ public abstract class AbsCacheableImpl<T extends IModel> implements ICacheable<T
     return cacheManager;
   }
 
-  
-  
   abstract public boolean fkCacheable();
-  
+
   abstract public boolean tabCacheable();
 
   /**
@@ -96,7 +109,7 @@ public abstract class AbsCacheableImpl<T extends IModel> implements ICacheable<T
     }
 
     String returns = this.get$TKjtTabName(tabNameSuffix) + "@T"
-        + defaultCache.getInteger(defaultCache.getPrefix() + "tab.cache.tag", 0);
+        + cacheConfig.getInteger(defaultCache.getPrefix() + "tab.cache.tag", 0);
 
     if (logger.isDebugEnabled()) {
       logger
@@ -156,7 +169,7 @@ public abstract class AbsCacheableImpl<T extends IModel> implements ICacheable<T
     }
 
     String returns = this.get$TKjtTabName(tabNameSuffix) + "@R"
-        + defaultCache.getInteger(defaultCache.getPrefix() + "rec.cache.tag", 0);
+        + cacheConfig.getInteger(defaultCache.getPrefix() + "rec.cache.tag", 0);
 
     if (logger.isDebugEnabled()) {
       logger
@@ -235,7 +248,7 @@ public abstract class AbsCacheableImpl<T extends IModel> implements ICacheable<T
         logger.debug(
             "incrTabVersion(String tabNameSuffix={}) - end - return value={}", tabNameSuffix, 0); //$NON-NLS-1$
       }
-      
+
       return 0;
     }
   }

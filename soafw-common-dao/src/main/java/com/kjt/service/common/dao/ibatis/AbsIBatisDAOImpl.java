@@ -61,12 +61,12 @@ public abstract class AbsIBatisDAOImpl<T extends IModel> extends AbsCacheableImp
    * Logger for this class
    */
 
-  private static DynamicConfig config = new DynamicConfig();
+  private static DynamicConfig accConfig = new DynamicConfig();
 
   static {
-    config.setFileName(System.getProperty(ConfigFileDict.ACCESS_CONTROL_CONFIG_FILE,
+    accConfig.setFileName(System.getProperty(ConfigFileDict.ACCESS_CONTROL_CONFIG_FILE,
         ConfigFileDict.DEFAULT_ACCESS_CONTROL_CONFIG_NAME));
-    config.init();
+    accConfig.init();
   }
 
   /**
@@ -75,7 +75,7 @@ public abstract class AbsIBatisDAOImpl<T extends IModel> extends AbsCacheableImp
    * @return
    */
   protected Configuration getConfig() {
-    return config;
+    return accConfig;
   }
 
   @PostConstruct

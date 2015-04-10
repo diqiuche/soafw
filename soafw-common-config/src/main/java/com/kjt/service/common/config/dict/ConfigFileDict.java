@@ -39,6 +39,17 @@ public interface ConfigFileDict {
 	 * 
 	 */
 	public static final String DEFAULT_ACCESS_CONTROL_CONFIG_NAME = "acc";
+	
+	
+	/**
+     * cache层 默认为：cache.xml
+     */
+    public static final String CACHE_CONFIG_FILE = "cache.config";
+
+    /**
+     * 
+     */
+    public static final String DEFAULT_CACHE_CONFIG_NAME = "cache";
 
 	/**
 	 * 缓存 默认为：cache-mem.xml
