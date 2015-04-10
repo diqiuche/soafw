@@ -1,7 +1,6 @@
-package com.kjt.service.common.web.util;
+package com.kjt.service.common.result;
 
 
-import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -9,7 +8,7 @@ import java.util.List;
  * 
  * @author
  */
-public class Pager<T> implements Serializable {
+public class Pager<T> implements IResult {
 
     /**
      * 

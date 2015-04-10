@@ -10,6 +10,8 @@ import javax.servlet.jsp.tagext.TagSupport;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
+import com.kjt.service.common.result.Pager;
+
 public class PagerTag extends TagSupport {
     /**
      * 变量说明：
