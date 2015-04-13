@@ -116,7 +116,7 @@ public interface IDAO<T> extends ICacheable<T> {
    * @param params
    *          查询条件
    * @param page
-   *          页面位置
+   *          第几页 从1开始，即必须大于等于1
    * @param size
    *          页面纪录最大数量
    * @param tabNameSuffix
@@ -130,7 +130,7 @@ public interface IDAO<T> extends ICacheable<T> {
    * @param params
    *          查询条件
    * @param page
-   *          第几页
+   *          第几页 从1开始，即必须大于等于1
    * @param size
    *          页最大记录数
    * @param master
@@ -149,7 +149,7 @@ public interface IDAO<T> extends ICacheable<T> {
    * @param params
    *          查询条件
    * @param page
-   *          第几页
+   *          第几页 从1开始，即必须大于等于1
    * @param size
    *          页最大记录数
    * @param orders
@@ -165,7 +165,7 @@ public interface IDAO<T> extends ICacheable<T> {
    * 必须在子类中实现
    * 
    * @param params 查询条件
-   * @param page 第几页
+   * @param page 第几页 从1开始，即必须大于等于1
    * @param size 页最大记录数
    * @param orders
    *          有对象格式的字符串eg：name asc,age desc

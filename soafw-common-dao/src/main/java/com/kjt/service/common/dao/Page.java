@@ -2,12 +2,23 @@ package com.kjt.service.common.dao;
 
 public class Page<T> {
 
+  private Integer pageIndex=1;
   private Integer pageSize;
   private Integer start;
   private Integer end;
   private T params;
   private String orders;
+  /**
+   * 获取页面序号 从1开始
+   * @return
+   */
+  public Integer getPageIndex() {
+    return pageIndex;
+  }
 
+  public void setPageIndex(Integer pageIndex) {
+    this.pageIndex = pageIndex;
+  }
   public Integer getPageSize() {
     return pageSize;
   }

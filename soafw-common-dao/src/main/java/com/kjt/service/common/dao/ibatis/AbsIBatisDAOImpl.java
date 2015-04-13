@@ -429,6 +429,7 @@ public abstract class AbsIBatisDAOImpl<T extends IModel> extends AbsCacheableImp
       IMapper<T> mapper = session.getMapper(getMapperClass());
       MapPage<Map<String, Object>> cmd = new MapPage<Map<String, Object>>();
       cmd.setPageSize(size);
+      cmd.setPageIndex(getPageIndex(page));
       cmd.setStart(getPageStart(page, size));
       cmd.setEnd(getPageEnd(page, size));
       cmd.setParams(params);
@@ -472,6 +473,7 @@ public abstract class AbsIBatisDAOImpl<T extends IModel> extends AbsCacheableImp
       IMapper<T> mapper = session.getMapper(getMapperClass());
       MapPage<Map<String, Object>> cmd = new MapPage<Map<String, Object>>();
       cmd.setPageSize(size);
+      cmd.setPageIndex(getPageIndex(page));
       cmd.setStart(getPageStart(page, size));
       cmd.setEnd(getPageEnd(page, size));
       cmd.setParams(params);
@@ -514,6 +516,7 @@ public abstract class AbsIBatisDAOImpl<T extends IModel> extends AbsCacheableImp
       IMapper<T> mapper = session.getMapper(getMapperClass());
       MapPage<Map<String, Object>> cmd = new MapPage<Map<String, Object>>();
       cmd.setPageSize(size);
+      cmd.setPageIndex(getPageIndex(page));
       cmd.setStart(getPageStart(page, size));
       cmd.setEnd(getPageEnd(page, size));
       cmd.setParams(params);
@@ -558,6 +561,7 @@ public abstract class AbsIBatisDAOImpl<T extends IModel> extends AbsCacheableImp
       IMapper<T> mapper = session.getMapper(getMapperClass());
       MapPage<Map<String, Object>> cmd = new MapPage<Map<String, Object>>();
       cmd.setPageSize(size);
+      cmd.setPageIndex(getPageIndex(page));
       cmd.setStart(getPageStart(page, size));
       cmd.setEnd(getPageEnd(page, size));
       cmd.setParams(params);
@@ -644,6 +648,14 @@ public abstract class AbsIBatisDAOImpl<T extends IModel> extends AbsCacheableImp
     if (logger.isDebugEnabled()) {
       logger.debug("preInsert(T model={}) - end", model); //$NON-NLS-1$
     }
+  }
+  
+  protected int getPageIndex(int page){
+    int pageIndex = page;
+    if(pageIndex<1){
+      throw new RuntimeException("page参数必须从1开始");
+    }
+    return pageIndex;
   }
 
   protected int getPageStart(int page, int size) {

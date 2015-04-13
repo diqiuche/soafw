@@ -24,18 +24,12 @@ public abstract class AbsPageableJob<T> extends AbsDynamicJob<T> implements IPag
         super(id);
     }
 
-    private int pageIdx = 0;
-
+    private int pageIdx=1;
     /**
-     * 获取已处理页数
-     * @deprecated replace by getPageProcessed()
+     * 获取 页面序号，从1开始
      * @return
      */
-    public int getProcessed() {
-        return getPageProcessed();
-    }
-    
-    public int getPageProcessed(){
+    public int getPageIdx(){
         return pageIdx;
     }
 
@@ -44,7 +38,7 @@ public abstract class AbsPageableJob<T> extends AbsDynamicJob<T> implements IPag
             logger.info("start() - start"); //$NON-NLS-1$
         }
 
-        pageIdx = 0;
+        pageIdx = 1;
         this.failedReset();
         this.successedReset();
         RequestID.set(null);
