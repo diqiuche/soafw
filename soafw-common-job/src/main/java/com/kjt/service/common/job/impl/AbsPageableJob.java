@@ -32,13 +32,24 @@ public abstract class AbsPageableJob<T> extends AbsDynamicJob<T> implements IPag
     public int getPageIdx(){
         return pageIdx;
     }
+    private int pageSize=50;
+    public void setPageSize(int pageSize){
+        this.pageSize = pageSize;
+    }
+    
+    public int getPageSize(){
+        return pageSize;
+    }
+    
+    private boolean lastedpage=false;
 
-    final public void start() {
+    synchronized final public void start() {
         if (logger.isInfoEnabled()) {
             logger.info("start() - start"); //$NON-NLS-1$
         }
 
         pageIdx = 1;
+        lastedpage = false;
         this.failedReset();
         this.successedReset();
         RequestID.set(null);
@@ -50,7 +61,7 @@ public abstract class AbsPageableJob<T> extends AbsDynamicJob<T> implements IPag
             if (logger.isInfoEnabled()) {
                 LogUtils.timeused(logger, "execute", tmpStart);
             }
-            for (int i = 0; i < pages; i++) {
+            for (int i = 0; !lastedpage && i < pages; i++) {
                 pageProcess();
                 pageIdx++;
             }
@@ -69,7 +80,7 @@ public abstract class AbsPageableJob<T> extends AbsDynamicJob<T> implements IPag
             }
             logger.info(
                     "start() - end totalPage=%d,pageProcessed=%d,total=%d,success=%d,failed=%d",
-                    pages, pageIdx, (this.getSuccessed() + this.getFailed()),
+                    pages, pageIdx-1, (this.getSuccessed() + this.getFailed()),
                     this.getSuccessed(), this.getFailed());
         }
     }
@@ -83,8 +94,13 @@ public abstract class AbsPageableJob<T> extends AbsDynamicJob<T> implements IPag
             if (logger.isInfoEnabled()) {
                 LogUtils.timeused(logger, "pageLoad", tmpStart);
             }
+            int size = pageDatas.size();
+            
             this.pageDataProcess(pageDatas);
-
+            
+            if(size<this.getPageSize()){
+                lastedpage=true;
+            }
         } catch (DataProcessException ex) {
             throw ex;
         } catch (Exception ex) {
