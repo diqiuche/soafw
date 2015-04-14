@@ -18,7 +18,7 @@ public class Pager<T extends IResult> implements IResult {
     private int total = 0; // 总记录数
     private int pageSize = 10; // 每页显示记录数
     private int pageCount = 0; // 总页数
-    private int offset = 0; // 当前页
+    private int offset = 1; // 当前页,默认查询时为 1
 
     private boolean isFirstPage = false; // 是否为第一页
     private boolean isLastPage = false; // 是否为最后一页

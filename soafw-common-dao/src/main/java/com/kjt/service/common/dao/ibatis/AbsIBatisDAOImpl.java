@@ -653,7 +653,7 @@ public abstract class AbsIBatisDAOImpl<T extends IModel> extends AbsCacheableImp
   protected int getPageIndex(int page){
     int pageIndex = page;
     if(pageIndex<1){
-      throw new RuntimeException("page参数必须从1开始");
+      page = 1;
     }
     return pageIndex;
   }
