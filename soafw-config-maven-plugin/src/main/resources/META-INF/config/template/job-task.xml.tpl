@@ -33,8 +33,12 @@
         <property name="cronExpression" value="${#{artifactId}.job#{moduleSuffix}.CronExpression}" />   
     </bean>
 	
+	<!--任务执行器还可以为：SimpleAsyncTaskExecutor、 SyncTaskExecutor、ConcurrentTaskExecutor、SimpleThreadPoolTaskExecutor、ThreadPoolTaskExecutor、TimerTaskExecutor、WorkManagerTaskExecutor-->
+	<bean id="syncTaskExecutor" class="org.springframework.core.task.SyncTaskExecutor" />
+	
 	<!-- 任务调度器 --> 
 	<bean id="schedulerImpl" class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
+		<property name="taskExecutor" ref="syncTaskExecutor" />
 		<property name="triggers">
 			<list>
 				<!--  触发器列表  -->
