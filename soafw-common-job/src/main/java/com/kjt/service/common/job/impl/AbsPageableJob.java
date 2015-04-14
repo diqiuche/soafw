@@ -77,8 +77,7 @@ public abstract class AbsPageableJob<T> extends AbsDynamicJob<T> implements IPag
         } catch (DataProcessException ex) {
             throw ex;
         } catch (Exception ex) {
-            logger.error("start()", ex); //$NON-NLS-1$
-
+            LogUtils.error(logger, ex);
             this.onError(new GetPageException(ex));
         } finally {
             if (logger.isInfoEnabled()) {
@@ -110,6 +109,7 @@ public abstract class AbsPageableJob<T> extends AbsDynamicJob<T> implements IPag
         } catch (DataProcessException ex) {
             throw ex;
         } catch (Exception ex) {
+            LogUtils.error(logger, ex);
             this.onError(new PageLoadException(ex));
         } finally {
             if (logger.isInfoEnabled()) {
@@ -134,6 +134,7 @@ public abstract class AbsPageableJob<T> extends AbsDynamicJob<T> implements IPag
                         LogUtils.timeused(logger, "doProcess", tmpStart);
                     }
                 } catch (Exception ex) {
+                    LogUtils.error(logger, ex);
                     this.increaseErrorNum();
                     if (logger.isInfoEnabled()) {
                         LogUtils.timeused(logger, "doProcess", tmpStart);
