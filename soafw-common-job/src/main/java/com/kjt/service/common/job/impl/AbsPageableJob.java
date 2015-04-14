@@ -65,6 +65,9 @@ public abstract class AbsPageableJob<T> extends AbsDynamicJob<T> implements IPag
                 pageProcess();
                 pageIdx++;
             }
+            if(lastedpage){
+                logger.info("lastedpage: "+lastedpage);
+            }
             this.onSuccessed();
         } catch (PageLoadException ex) {
             throw ex;
