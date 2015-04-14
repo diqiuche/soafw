@@ -22,6 +22,7 @@
 				+ 2，应用配置优先级次之，通过-Dapp.home.dir=xxx的方式进行设置
         			/home/apps/tsl/current/config/ 优先级次之
 				+ 3，优先级最低的配置［对应模块配置］，在对应模块的META-INF/config/local/目录下
+				+ 4,支持profile机制，通过-Dprofile=xxx方式支持profile机制，当启用了profile机制后，其相关配置文件都必须采用统一采用profile的命名规范；即即：[profile.][configFile];eg:dev.service.xml;prd.service.xml
 			
 		+ 文件列表
 			+ 资源类型
@@ -43,3 +44,14 @@
 					+ key命名规范: 服务名.job名称.配置项名; eg; tsl.job.eee
 				+ webapp.xml web层
 					+ key命名规范: 服务名.web.配置项名; eg; tsl.web.fff
+		+ 扩展实现
+			当你有新文件需要做到动态加载时，可以通过
+			
+
+			```
+			<bean id="xxx" class="com.kjt.service.common.config.ConfigurationFactoryBean">
+				<property name="name" value="xxx" />
+		        <property name="encoding" value="utf8" />
+		        <property name="type" value="xml" />
+			</bean>
+			```

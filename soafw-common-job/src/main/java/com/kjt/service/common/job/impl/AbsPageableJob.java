@@ -44,6 +44,9 @@ public abstract class AbsPageableJob<T> extends AbsDynamicJob<T> implements IPag
     private boolean lastedpage=false;
 
     synchronized final public void start() {
+        
+        RequestID.set(null);
+        
         if (logger.isInfoEnabled()) {
             logger.info("start() - start"); //$NON-NLS-1$
         }
@@ -52,7 +55,7 @@ public abstract class AbsPageableJob<T> extends AbsDynamicJob<T> implements IPag
         lastedpage = false;
         this.failedReset();
         this.successedReset();
-        RequestID.set(null);
+        
         long start = System.currentTimeMillis();
         long tmpStart = start;
         int pages = 0;
