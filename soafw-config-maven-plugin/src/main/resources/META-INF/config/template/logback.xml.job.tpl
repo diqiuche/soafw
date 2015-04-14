@@ -30,6 +30,11 @@
             <!-- %-40(%-35logger{35}:%-4line) -->
             <Pattern>[%date{yyyy-MM-dd HH:mm:ss}] [%-5level] [%logger:%line] --%mdc{client} %msg%n</Pattern>
         </encoder>
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+			<level>ERROR</level>
+			<onMatch>ACCEPT</onMatch>
+			<onMismatch>DENY</onMismatch>
+		</filter>
     </appender>
     <logger name="org.springframework" level="INFO"/>
     <logger name="java.sql.Connection" level="INFO"/>
@@ -37,7 +42,7 @@
     <logger name="org.apache.zookeeper" level="INFO"/>
     <logger name="com.kjt.service.common" level="INFO"/>
     <logger name="com.kjt.service" level="INFO"/>
-    <root level="TRACE">
+    <root level="INFO">
         <appender-ref ref="STDOUT"/>
         <appender-ref ref="detail"/>
         <appender-ref ref="error"/>
