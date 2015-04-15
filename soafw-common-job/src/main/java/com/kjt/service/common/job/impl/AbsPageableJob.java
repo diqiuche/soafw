@@ -41,8 +41,6 @@ public abstract class AbsPageableJob<T> extends AbsDynamicJob<T> implements IPag
         return pageSize;
     }
     
-    private boolean lastedpage=false;
-
     synchronized final public void start() {
         
         RequestID.set(null);
@@ -52,7 +50,6 @@ public abstract class AbsPageableJob<T> extends AbsDynamicJob<T> implements IPag
         }
 
         pageIdx = 1;
-        lastedpage = false;
         this.failedReset();
         this.successedReset();
         
@@ -64,12 +61,9 @@ public abstract class AbsPageableJob<T> extends AbsDynamicJob<T> implements IPag
             if (logger.isInfoEnabled()) {
                 LogUtils.timeused(logger, "execute", tmpStart);
             }
-            for (int i = 0; !lastedpage && i < pages; i++) {
+            for (int i = 0; i < pages; i++) {
                 pageProcess();
                 pageIdx++;
-            }
-            if(lastedpage){
-                logger.info("lastedpage: "+lastedpage);
             }
             this.onSuccessed();
         } catch (PageLoadException ex) {
@@ -99,13 +93,9 @@ public abstract class AbsPageableJob<T> extends AbsDynamicJob<T> implements IPag
             if (logger.isInfoEnabled()) {
                 LogUtils.timeused(logger, "pageLoad", tmpStart);
             }
-            int size = pageDatas.size();
             
             this.pageDataProcess(pageDatas);
             
-            if(size<this.getPageSize()){
-                lastedpage=true;
-            }
         } catch (DataProcessException ex) {
             throw ex;
         } catch (Exception ex) {
