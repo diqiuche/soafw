@@ -311,6 +311,9 @@
 				<if test="params.id !=  null">
 					and ${col.name}=${r"#{params.id"}${r"}"}
 				</if>
+				<if test="params.fromId !=  null">
+					and ${col.name}>${r"#{params.fromId"}${r"}"}
+				</if>
 				<#else>
 				<if test="${r"params."}${col.fieldName} !=  null">
 					and ${col.name}=${r"#{params."}${col.fieldName}${r"}"}
@@ -328,7 +331,7 @@
 				</#if>
 			</if>
 		</where>
-			<if test="orders !=  null"> order by ${r"${orders}"} </if> limit ${r"#{start}"},${r"#{end}"}
+			<if test="orders !=  null"> order by ${r"${orders}"} </if> limit ${r"#{pageSize}"}
 	</select>
 	</#if>
 	
