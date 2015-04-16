@@ -9,7 +9,7 @@ import java.util.Map;
 import freemarker.template.TemplateException;
 
 public abstract class DaoGen extends AbsGen {
-
+  
   protected abstract DB load() throws Exception;
 
   public void process(String masterDataSourceBean, String slaveDataSourceBean,
@@ -26,7 +26,11 @@ public abstract class DaoGen extends AbsGen {
       String targetResources) throws IOException, TemplateException {
 
     Map root = new HashMap();
+    
+    root.putAll(System.getProperties());
 
+    root.put("db", def);
+    
     List<Tab> tabs = def.getTabs();
 
     int size = tabs == null ? 0 : tabs.size();
@@ -64,8 +68,8 @@ public abstract class DaoGen extends AbsGen {
       create("mapper.ftl", root, java + package_ + "/dao/ibatis/mapper/" + name + "Mapper.java");
       create("mapper.xml.ftl", root, resource + package_ + "/dao/ibatis/mapper/" + name
           + "Mapper.xml");
-      String helpGen = System.getProperty("help.gen", "false");
-      if("true".equalsIgnoreCase(helpGen)){
+      boolean genHelp = DBSetting.isGenHelp();
+      if(genHelp){
         create("helpper.ftl", root, java + package_ + "/dao/model/" + name + "Helpper.java");
         create("ihelpperdao.ftl", root, java + package_ + "/dao/" + "I" + name + "HelpperDAO.java");
         create("helpperdaoimpl.ftl", root, java + package_ + "/dao/ibatis/" + name + "HelpperIbatisDAOImpl.java");

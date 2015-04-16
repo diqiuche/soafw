@@ -47,21 +47,21 @@ public class DaoGenFromDB extends DaoGen {
    */
   public static void generateSQLSvrDAO(String dbName, String tableName, String springXml,
       String packageName, String targetJava, String resources) throws Exception {
-    System.setProperty("db.type", "sqlserver");
-    System.setProperty("help.gen", "false");
+      DBSetting.setSetting("type","sqlserver");
+      DBSetting.setGenHelp();
     generateDAO(dbName, tableName, springXml, packageName, targetJava, resources);
   }
 
   public static void generateSQLSvrDAOWithHelpper(String dbName, String tableName,
       String springXml, String packageName, String targetJava, String resources) throws Exception {
-    System.setProperty("db.type", "sqlserver");
-    System.setProperty("help.gen", "true");
+    DBSetting.setSetting("type","sqlserver");
+    DBSetting.setGenHelp();
     generateDAO(dbName, tableName, springXml, packageName, targetJava, resources);
   }
 
   public static void generateDAOWithHellper(String dbName, String tableName, String springXml,
       String packageName, String targetJava, String resources) throws Exception {
-    System.setProperty("help.gen", "true");
+    DBSetting.setGenHelp();
     generateDAO(dbName, tableName, springXml, packageName, targetJava, resources);
   }
 

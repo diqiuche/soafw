@@ -15,7 +15,8 @@ public class DB {
       throw new RuntimeException("数据源必须有一个");
     }
     TabReader reader = null;
-    if ("mysql".equalsIgnoreCase(System.getProperty("db.type", "mysql"))) {
+    
+    if ("mysql".equalsIgnoreCase(getType())) {
       reader = new TabReader(ds[0], dbName, name);
     } else {
       reader = new TabReader_SqlSvr(ds[0], dbName, name);
@@ -95,5 +96,13 @@ public class DB {
   public void setTabs(List<Tab> tabs) {
     this.tabs = tabs;
   }
+  
+  public String getType() {
+    return DBSetting.getSetting("type");
+  }
 
+  public boolean isGenHelp() {
+    return DBSetting.getSetting("genHelper")==null?false:Boolean.valueOf(DBSetting.getSetting("genHelper"));
+  }
+  
 }

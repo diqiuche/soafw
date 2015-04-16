@@ -85,7 +85,7 @@
 		SELECT
 			<include refid="Base_Column_List" />
 		FROM
-			${r"${tKjtTabName}"}
+			${r"${tKjtTabName}"}<#if db.type="sqlserver"> WITH(NOLOCK)</#if>
 
 			<include refid="Id_Where_Clause" />
 
@@ -96,7 +96,7 @@
 		SELECT
 			<include refid="Base_Column_List" />
 		FROM
-			${r"${tKjtTabName}"}
+			${r"${tKjtTabName}"}<#if db.type="sqlserver"> WITH(NOLOCK)</#if>
 
 		<include refid="Normal_Where_Clause" />
 		
@@ -106,7 +106,7 @@
 		SELECT
 			<include refid="Id_Column_List" />
 		FROM
-			${r"${tKjtTabName}"}
+			${r"${tKjtTabName}"}<#if db.type="sqlserver"> WITH(NOLOCK)</#if>
 		
 		<include refid="Normal_Where_Clause" />
 		
@@ -116,7 +116,7 @@
 		SELECT
 			count(*)
 		FROM
-			${r"${tKjtTabName}"}
+			${r"${tKjtTabName}"}<#if db.type="sqlserver"> WITH(NOLOCK)</#if>
 
 		<include refid="Normal_Where_Clause" />
 				
@@ -126,7 +126,7 @@
 		SELECT
 			<include refid="Base_Column_List" />
 		FROM
-			${r"${params.tKjtTabName}"}
+			${r"${params.tKjtTabName}"}<#if db.type="sqlserver"> WITH(NOLOCK)</#if>
 		<where>
 			<if test="params !=  null">
 				<#if tab.pkFieldNum==1>
@@ -409,7 +409,7 @@
 		select 
 			<include refid="Base_Column_List" />
 		from
-			${r"${tKjtTabName}"}
+			${r"${tKjtTabName}"}<#if db.type="sqlserver"> WITH(NOLOCK)</#if>
 			
 		<include refid="Batch_Where_Clause" />
 			
