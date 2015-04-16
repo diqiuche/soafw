@@ -64,6 +64,9 @@
 			<if test="id !=  null">
 				and ${col.name}=${r"#{id}"}
 			</if>
+			<if test="params.fromId !=  null">
+				and ${col.name}>${r"#{params.fromId"}${r"}"}
+			</if>
 			<#else>
 			<if test="${col.fieldName} !=  null">			        
 				and ${col.name}=${r"#{"}${col.fieldName}${r"}"}
@@ -242,6 +245,9 @@
 				<if test="params.id !=  null">
 					and ${col.name}=${r"#{params.id"}${r"}"}
 				</if>
+				<if test="params.fromId !=  null">
+					and ${col.name}>${r"#{params.fromId"}${r"}"}
+				</if>
 				<#else>
 				<if test="${r"params."}${col.fieldName} !=  null">
 					and ${col.name}=${r"#{params."}${col.fieldName}${r"}"}
@@ -274,6 +280,9 @@
 					<#if tab.pkFieldNum==1 && col.isPK="yes" &&  (col.type.javaType="Integer" || col.type.javaType="Long" || col.type.javaType="Float" || col.type.javaType="Double"|| col.type.javaType="java.math.BigInteger" || col.type.javaType="String")>
 					<if test="params.id !=  null">
 						and ${col.name}=${r"#{params.id"}${r"}"}
+					</if>
+					<if test="params.fromId !=  null">
+						and ${col.name}>${r"#{params.fromId"}${r"}"}
 					</if>
 					<#else>
 					<if test="${r"params."}${col.fieldName} !=  null">
