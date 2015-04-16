@@ -9,7 +9,7 @@ public class Type {
   
   static {
     //mysql
-    if ("mysql".equalsIgnoreCase(DBSetting.getSetting("type"))){
+    if (DBSetting.isMysql()){
       typeMap = new MySqlType();
     }
     else{

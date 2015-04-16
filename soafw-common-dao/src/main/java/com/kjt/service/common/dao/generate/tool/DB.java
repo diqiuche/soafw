@@ -16,7 +16,7 @@ public class DB {
     }
     TabReader reader = null;
     
-    if ("mysql".equalsIgnoreCase(getType())) {
+    if (this.isMysql()) {
       reader = new TabReader(ds[0], dbName, name);
     } else {
       reader = new TabReader_SqlSvr(ds[0], dbName, name);
@@ -98,11 +98,15 @@ public class DB {
   }
   
   public String getType() {
-    return DBSetting.getSetting("type");
+    return DBSetting.getType();
   }
 
+  public boolean isMysql(){
+    return DBSetting.isMysql();
+  }
+  
   public boolean isGenHelp() {
-    return DBSetting.getSetting("genHelper")==null?false:Boolean.valueOf(DBSetting.getSetting("genHelper"));
+    return DBSetting.isGenHelp();
   }
   
 }
