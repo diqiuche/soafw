@@ -53,6 +53,7 @@
 		</#if>
 		</#list>
 		</#if>
+		<include refid="Where_Clause_Id_Extend" />
 	</sql>
 	<sql id="Where_Clause_Normal_Gen">
 		<#if tab.pkFieldNum==1>
@@ -79,6 +80,7 @@
 		</#if>
 		</#list>
 		</#if>
+		<include refid="Where_Clause_Normal_Extend" />
 	</sql>
 	<sql id="Update_Set_Normal_Gen">
 		<#if tab.pkFieldNum==1>
@@ -149,6 +151,7 @@
 		</#if>
 		</#list>
 		</#if>
+		<include refid="Where_Clause_Params_Extend" />
 	</sql>
 	<sql id="Where_Clause_Batch_Gen">
 		<foreach collection="list" item="item" index="index">
@@ -413,7 +416,17 @@
 		</where>
 	</select>
 	
-	<!--所有Gen结尾的sql是公共的，自定义的sql中可以引用-->
-	<!--扩展sql从备注处开始定义sql id建议以'cust_'开头表示自定义-->
+	<!--所有Gen结尾的sql是公共的,其表达式都是等值判断表达式，含有Batch的是in值表达式-->
+	<sql id="Where_Clause_Id_Extend">
+		<!--id扩展表达式; eg: id字段名 between ${r"#{startId}"} and ${r"#{endId}"}-->
+	</sql>
+	<sql id="Where_Clause_Normal_Extend">
+		<!--其他字段扩展表达式; eg: id字段名 between ${r"#{startId}"} and ${r"#{endId}"}-->
+	</sql>
+	<sql id="Where_Clause_Params_Extend">
+		<!--分页&复杂更新条件字段扩展表达式; eg: id字段名 between ${r"#{params.startId}"} and ${r"#{params.endId}"}-->
+	</sql>
+	
+	<!--扩展sql从备注处开始定义，id建议以'有意义的名字'-->
 	
 </mapper>
