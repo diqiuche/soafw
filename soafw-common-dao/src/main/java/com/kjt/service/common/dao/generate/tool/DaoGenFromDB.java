@@ -48,7 +48,6 @@ public class DaoGenFromDB extends DaoGen {
   public static void generateSQLSvrDAO(String dbName, String tableName, String springXml,
       String packageName, String targetJava, String resources) throws Exception {
       DBSetting.setSetting("type","sqlserver");
-      DBSetting.setGenHelp();
     generateDAO(dbName, tableName, springXml, packageName, targetJava, resources);
   }
 

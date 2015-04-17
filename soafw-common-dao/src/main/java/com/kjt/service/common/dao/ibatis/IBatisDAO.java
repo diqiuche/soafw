@@ -33,4 +33,6 @@ public interface IBatisDAO<T> extends IDAO<T>,IBatchDAO<T> {
    * @return
    */
   public boolean isFk(String property);
+  
+  public int getVersion();
 }

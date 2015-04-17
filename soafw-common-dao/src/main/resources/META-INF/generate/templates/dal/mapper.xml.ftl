@@ -17,7 +17,7 @@
 		</#list>
 	</resultMap>
 	
-	<sql id="Id_Column_List">
+	<sql id="Column_List_Id_Gen">
 		<#if tab.pkFieldNum==1>
 			<#list colMaps as col>
 			<#if col.isPK="yes" &&  (col.type.javaType="Integer" || col.type.javaType="Long" || col.type.javaType="Float" || col.type.javaType="Double" || col.type.javaType="java.math.BigInteger" || col.type.javaType="String")>
@@ -32,194 +32,190 @@
 			</#list>
 		</#if>
 	</sql>
-	<sql id="Base_Column_List">
+	<sql id="Column_List_Base_Gen">
 		<#list colMaps as col>
 			${col.name}<#if col_has_next>,</#if>
 		</#list>
 	</sql>
-	<sql id="Id_Where_Clause">
-		<where>
+	<sql id="Where_Clause_Id_Gen">
 		<#if tab.pkFieldNum==1>
-			<#list colMaps as col>
-			<#if col.isPK="yes" &&   (col.type.javaType="Integer" || col.type.javaType="Long" || col.type.javaType="Float" || col.type.javaType="Double" || col.type.javaType="java.math.BigInteger" || col.type.javaType="String")>
-			and ${col.name}=${r"#{id}"}
-			</#if>
-			</#list>
-			<#else>			
-			<#list colMaps as col>
-			<#if col.isPK="yes">
-			<if test="${col.fieldName} !=  null">			        
-				and ${col.name}=${r"#{"}${col.fieldName}${r"}"}
-			</if>
-			</#if>
-			</#list>
+		<#list colMaps as col>
+		<#if col.isPK="yes" &&   (col.type.javaType="Integer" || col.type.javaType="Long" || col.type.javaType="Float" || col.type.javaType="Double" || col.type.javaType="java.math.BigInteger" || col.type.javaType="String")>
+		and ${col.name}=${r"#{id}"}
 		</#if>
-		</where>
+		</#list>
+		<#else>			
+		<#list colMaps as col>
+		<#if col.isPK="yes">
+		<if test="${col.fieldName} !=  null">			        
+			and ${col.name}=${r"#{"}${col.fieldName}${r"}"}
+		</if>
+		</#if>
+		</#list>
+		</#if>
 	</sql>
-	<sql id="Normal_Where_Clause">
-		<where>
-			<#if tab.pkFieldNum==1>
-			<#list colMaps as col>
-			<#if tab.pkFieldNum==1 && col.isPK="yes" &&   (col.type.javaType="Integer" || col.type.javaType="Long" || col.type.javaType="Float" || col.type.javaType="Double" || col.type.javaType="java.math.BigInteger" || col.type.javaType="String")>
-			<if test="id !=  null">
-				and ${col.name}=${r"#{id}"}
-			</if>
-			<if test="params.fromId !=  null">
-				and ${col.name}>${r"#{params.fromId"}${r"}"}
-			</if>
-			<#else>
-			<if test="${col.fieldName} !=  null">			        
-				and ${col.name}=${r"#{"}${col.fieldName}${r"}"}
-			</if>
-			</#if>			
-			</#list>
-			<#else>			
-			<#list colMaps as col>
-			<#if col.isPK="yes">
-			<if test="${col.fieldName} !=  null">			        
-				and ${col.name}=${r"#{"}${col.fieldName}${r"}"}
-			</if>
-			</#if>
-			</#list>
-			</#if>
-		</where>
+	<sql id="Where_Clause_Normal_Gen">
+		<#if tab.pkFieldNum==1>
+		<#list colMaps as col>
+		<#if tab.pkFieldNum==1 && col.isPK="yes" &&   (col.type.javaType="Integer" || col.type.javaType="Long" || col.type.javaType="Float" || col.type.javaType="Double" || col.type.javaType="java.math.BigInteger" || col.type.javaType="String")>
+		<if test="id !=  null">
+			and ${col.name}=${r"#{id}"}
+		</if>
+		<if test="params.fromId !=  null">
+			and ${col.name}>${r"#{fromId"}${r"}"}
+		</if>
+		<#else>
+		<if test="${col.fieldName} !=  null">			        
+			and ${col.name}=${r"#{"}${col.fieldName}${r"}"}
+		</if>
+		</#if>			
+		</#list>
+		<#else>			
+		<#list colMaps as col>
+		<#if col.isPK="yes">
+		<if test="${col.fieldName} !=  null">			        
+			and ${col.name}=${r"#{"}${col.fieldName}${r"}"}
+		</if>
+		</#if>
+		</#list>
+		</#if>
 	</sql>
-	<sql id="Normal_Update_Set">
-		<set> 
-			<#if tab.pkFieldNum==1>
-			<#list colMaps as col>
-			<#if tab.pkFieldNum==1 && col.isPK="yes" &&  (col.type.javaType="Integer" || col.type.javaType="Long" || col.type.javaType="Float" || col.type.javaType="Double" || col.type.javaType="java.math.BigInteger" || col.type.javaType="String")>
-				${col.name}=${r"#{id}"},
-			<#else>
-			<if test="${col.fieldName} !=  null">			        
-				${col.name}=${r"#{"}${col.fieldName}${r"}"},
-			</if>
-			</#if>			
-			</#list>
-			<#else>			
-			<#list colMaps as col>
-			<#if col.isPK="yes">
-			<if test="${col.fieldName} !=  null">			        
-				${col.name}=${r"#{"}${col.fieldName}${r"}"},
-			</if>
-			</#if>
-			</#list>
-			</#if>
-		</set>
+	<sql id="Update_Set_Normal_Gen">
+		<#if tab.pkFieldNum==1>
+		<#list colMaps as col>
+		<#if tab.pkFieldNum==1 && col.isPK="yes" &&  (col.type.javaType="Integer" || col.type.javaType="Long" || col.type.javaType="Float" || col.type.javaType="Double" || col.type.javaType="java.math.BigInteger" || col.type.javaType="String")>
+			${col.name}=${r"#{id}"},
+		<#else>
+		<if test="${col.fieldName} !=  null">			        
+			${col.name}=${r"#{"}${col.fieldName}${r"}"},
+		</if>
+		</#if>			
+		</#list>
+		<#else>			
+		<#list colMaps as col>
+		<#if col.isPK="yes">
+		<if test="${col.fieldName} !=  null">			        
+			${col.name}=${r"#{"}${col.fieldName}${r"}"},
+		</if>
+		</#if>
+		</#list>
+		</#if>
 	</sql>
-	<sql id="Cmplx_Update_Set">
-		<set>
-			<#if tab.pkFieldNum==1>
-			<#list colMaps as col>
-			<#if tab.pkFieldNum==1 && col.isPK="yes" &&  (col.type.javaType="Integer" || col.type.javaType="Long" || col.type.javaType="Float" || col.type.javaType="Double" || col.type.javaType="java.math.BigInteger" || col.type.javaType="String")>
-			<if test="updNewMap.id !=  null">
-				${col.name}=${r"#{updNewMap.id"}${r"}"},
-			</if>
-			<#else>
-			<if test="${r"updNewMap."}${col.fieldName} !=  null">
-				${col.name}=${r"#{updNewMap."}${col.fieldName}${r"}"},
-			</if>
-			</#if>			
-			</#list>
-			<#else>			
-			<#list colMaps as col>
-			<#if col.isPK="yes">
-			<if test="${r"updNewMap."}${col.fieldName} !=  null">
-				${col.name}=${r"#{updNewMap."}${col.fieldName}${r"}"},
-			</if>
-			</#if>
-			</#list>
-			</#if>			
-		</set>
+	<sql id="Update_Set_NewObj_Gen">
+		<#if tab.pkFieldNum==1>
+		<#list colMaps as col>
+		<#if tab.pkFieldNum==1 && col.isPK="yes" &&  (col.type.javaType="Integer" || col.type.javaType="Long" || col.type.javaType="Float" || col.type.javaType="Double" || col.type.javaType="java.math.BigInteger" || col.type.javaType="String")>
+		<if test="newObj.id !=  null">
+			${col.name}=${r"#{newObj.id"}${r"}"},
+		</if>
+		<#else>
+		<if test="${r"newObj."}${col.fieldName} !=  null">
+			${col.name}=${r"#{newObj."}${col.fieldName}${r"}"},
+		</if>
+		</#if>			
+		</#list>
+		<#else>			
+		<#list colMaps as col>
+		<#if col.isPK="yes">
+		<if test="${r"newObj."}${col.fieldName} !=  null">
+			${col.name}=${r"#{newObj."}${col.fieldName}${r"}"},
+		</if>
+		</#if>
+		</#list>
+		</#if>			
 	</sql>
-	<sql id="Cmplx_Update_Where_Clause">
-		<where>
-			<#if tab.pkFieldNum==1>
-			<#list colMaps as col>
-			<#if tab.pkFieldNum==1 && col.isPK="yes" &&  (col.type.javaType="Integer" || col.type.javaType="Long" || col.type.javaType="Float" || col.type.javaType="Double" || col.type.javaType="java.math.BigInteger" || col.type.javaType="String")>
-			<if test="updCondMap.id !=  null">
-				and ${col.name}=${r"#{updCondMap.id"}${r"}"}
-			</if>
-			<#else>
-			<if test="${r"updCondMap."}${col.fieldName} !=  null">
-				and ${col.name}=${r"#{updCondMap."}${col.fieldName}${r"}"}
-			</if>
-			</#if>			
-			</#list>
-			<#else>			
-			<#list colMaps as col>
-			<#if col.isPK="yes">
-			<if test="${r"updCondMap."}${col.fieldName} !=  null">
-				and ${col.name}=${r"#{updCondMap."}${col.fieldName}${r"}"}
-			</if>
-			</#if>
-			</#list>
-			</#if>		
-		</where>
+	<sql id="Where_Clause_Params_Gen">
+		<#if tab.pkFieldNum==1>
+		<#list colMaps as col>
+		<#if tab.pkFieldNum==1 && col.isPK="yes" &&  (col.type.javaType="Integer" || col.type.javaType="Long" || col.type.javaType="Float" || col.type.javaType="Double" || col.type.javaType="java.math.BigInteger" || col.type.javaType="String")>
+		<if test="params.id !=  null">
+			and ${col.name}=${r"#{params.id"}${r"}"}
+		</if>
+		<if test="params.fromId !=  null">
+			and ${col.name}>${r"#{params.fromId"}${r"}"}
+		</if>
+		<#else>
+		<if test="${r"params."}${col.fieldName} !=  null">
+			and ${col.name}=${r"#{params."}${col.fieldName}${r"}"}
+		</if>
+		</#if>			
+		</#list>
+		<#else>			
+		<#list colMaps as col>
+		<#if col.isPK="yes">
+		<if test="${r"params."}${col.fieldName} !=  null">
+			and ${col.name}=${r"#{params."}${col.fieldName}${r"}"}
+		</if>
+		</#if>
+		</#list>
+		</#if>
 	</sql>
-	<sql id="Batch_Where_Clause">
-		<where>
-			<foreach collection="list" item="item" index="index">
-				<if test="index == 1">
-					<#if tab.pkFieldNum==1>
-					<#list colMaps as col>
-					<#if tab.pkFieldNum==1 && col.isPK="yes" &&  (col.type.javaType="Integer" || col.type.javaType="Long" || col.type.javaType="Float" || col.type.javaType="Double" || col.type.javaType="java.math.BigInteger" || col.type.javaType="String")>
-					<if test="item.id !=  null">
-						and ${col.name} in 
-						<foreach collection="list" item="element" index="index" open= "(" close =")" separator=",">
-							${r"#{element.id"}${r"}"}
-						</foreach>
-					</if>
-					<#else>
-					<if test="${r"item."}${col.fieldName} !=  null">
-						and ${col.name} in 
-						<foreach collection="list" item="element" index="index" open= "(" close =")" separator=",">
-							${r"#{element."}${col.fieldName}${r"}"}
-						</foreach>
-					</if>
-					</#if>			
-					</#list>
-					<#else>			
-					<#list colMaps as col>
-					<#if col.isPK="yes">
-					<if test="${r"item."}${col.fieldName} !=  null">
-						and ${col.name} in 
-						<foreach collection="list" item="element" index="index" open= "(" close =")" separator=",">
-							${r"#{element."}${col.fieldName}${r"}"}
-						</foreach>
-					</if>
-					</#if>
-					</#list>
-					</#if>
+	<sql id="Where_Clause_Batch_Gen">
+		<foreach collection="list" item="item" index="index">
+			<if test="index == 1">
+				<#if tab.pkFieldNum==1>
+				<#list colMaps as col>
+				<#if tab.pkFieldNum==1 && col.isPK="yes" &&  (col.type.javaType="Integer" || col.type.javaType="Long" || col.type.javaType="Float" || col.type.javaType="Double" || col.type.javaType="java.math.BigInteger" || col.type.javaType="String")>
+				<if test="item.id !=  null">
+					and ${col.name} in 
+					<foreach collection="list" item="element" index="index" open= "(" close =")" separator=",">
+						${r"#{element.id"}${r"}"}
+					</foreach>
 				</if>
-			</foreach>
-		</where>
+				<#else>
+				<if test="${r"item."}${col.fieldName} !=  null">
+					and ${col.name} in 
+					<foreach collection="list" item="element" index="index" open= "(" close =")" separator=",">
+						${r"#{element."}${col.fieldName}${r"}"}
+					</foreach>
+				</if>
+				</#if>			
+				</#list>
+				<#else>			
+				<#list colMaps as col>
+				<#if col.isPK="yes">
+				<if test="${r"item."}${col.fieldName} !=  null">
+					and ${col.name} in 
+					<foreach collection="list" item="element" index="index" open= "(" close =")" separator=",">
+						${r"#{element."}${col.fieldName}${r"}"}
+					</foreach>
+				</if>
+				</#if>
+				</#list>
+				</#if>
+			</if>
+		</foreach>
 	</sql>
 	
 	<select id="queryById" parameterType="java.util.Map" resultMap="BaseResultMap">
 		SELECT
-			<include refid="Base_Column_List" />
+			<include refid="Column_List_Base_Gen" />
 		FROM
 			${r"${tKjtTabName}"}<#if db.type="sqlserver"> WITH(NOLOCK)</#if>
-			<include refid="Id_Where_Clause" />
+		<where>
+			<include refid="Where_Clause_Id_Gen" />
+		</where>
 			limit 1
 	</select>
 
 	<select id="queryByMap" parameterType="java.util.Map" resultMap="BaseResultMap" fetchSize="100">				
 		SELECT
-			<include refid="Base_Column_List" />
-			
+			<include refid="Column_List_Base_Gen" />
 		FROM
 			${r"${tKjtTabName}"}<#if db.type="sqlserver"> WITH(NOLOCK)</#if>
-		<include refid="Normal_Where_Clause" />
+		<where>
+			<include refid="Where_Clause_Normal_Gen" />
+		</where>
 	</select>
 	
 	<select id="queryIdsByMap" parameterType="java.util.Map" resultType="java.lang.Long" fetchSize="100">				
 		SELECT
-			<include refid="Id_Column_List" />
+			<include refid="Column_List_Id_Gen" />
 		FROM
 			${r"${tKjtTabName}"}<#if db.type="sqlserver"> WITH(NOLOCK)</#if>
-		<include refid="Normal_Where_Clause" />
+		<where>
+			<include refid="Where_Clause_Normal_Gen" />
+		</where>
 	</select>
 	
 	<select id="countByMap" parameterType="java.util.Map" resultType="java.lang.Integer">				
@@ -227,78 +223,34 @@
 			count(*)
 		FROM
 			${r"${tKjtTabName}"}<#if db.type="sqlserver"> WITH(NOLOCK)</#if>
-		<include refid="Normal_Where_Clause" />
+		<where>
+			<include refid="Where_Clause_Normal_Gen" />
+		</where>
 	</select>
 	
 	<#if db.type="sqlserver">
 	<select id="pageQuery" parameterType="com.kjt.service.common.dao.Page" resultMap="BaseResultMap"  fetchSize="100">
 		SELECT
 			TOP (${r"${pageSize}"})
-			<include refid="Base_Column_List" />
+			<include refid="Column_List_Base_Gen" />
 		FROM
 			${r"${params.tKjtTabName}"}<#if db.type="sqlserver"> WITH(NOLOCK)</#if>
 		<where>
 			<if test="params !=  null">
+				<include refid="Where_Clause_Params_Gen" />
 				<#if tab.pkFieldNum==1>
 				<#list colMaps as col>
 				<#if tab.pkFieldNum==1 && col.isPK="yes" &&  (col.type.javaType="Integer" || col.type.javaType="Long" || col.type.javaType="Float" || col.type.javaType="Double"|| col.type.javaType="java.math.BigInteger" || col.type.javaType="String")>
-				<if test="params.id !=  null">
-					and ${col.name}=${r"#{params.id"}${r"}"}
-				</if>
-				<if test="params.fromId !=  null">
-					and ${col.name}>${r"#{params.fromId"}${r"}"}
-				</if>
-				<#else>
-				<if test="${r"params."}${col.fieldName} !=  null">
-					and ${col.name}=${r"#{params."}${col.fieldName}${r"}"}
-				</if>
-				</#if>			
-				</#list>
-				<#else>			
-				<#list colMaps as col>
-				<#if col.isPK="yes">
-				<if test="${r"params."}${col.fieldName} !=  null">
-					and ${col.name}=${r"#{params."}${col.fieldName}${r"}"}
-				</if>
-				</#if>
-				</#list>
-				</#if>
-				<#if tab.pkFieldNum==1>
-				<#list colMaps as col>
-				<#if tab.pkFieldNum==1 && col.isPK="yes" &&  (col.type.javaType="Integer" || col.type.javaType="Long" || col.type.javaType="Float" || col.type.javaType="Double"|| col.type.javaType="java.math.BigInteger" || col.type.javaType="String")>
-					and ${col.name} not in ( 
-					select 
-						top ((${r"${pageIndex}"} -1) * ${r"${pageSize}"}) ${col.name} 
-					FROM 
-						${r"${params.tKjtTabName}"} WITH(NOLOCK)
+				and ${col.name} not in ( 
+				select 
+					top ((${r"${pageIndex}"} -1) * ${r"${pageSize}"}) ${col.name} 
+				FROM 
+					${r"${params.tKjtTabName}"} WITH(NOLOCK)
 				</#if>
 				</#list>
 				</#if>
 				<where>
-					<#if tab.pkFieldNum==1>
-					<#list colMaps as col>
-					<#if tab.pkFieldNum==1 && col.isPK="yes" &&  (col.type.javaType="Integer" || col.type.javaType="Long" || col.type.javaType="Float" || col.type.javaType="Double"|| col.type.javaType="java.math.BigInteger" || col.type.javaType="String")>
-					<if test="params.id !=  null">
-						and ${col.name}=${r"#{params.id"}${r"}"}
-					</if>
-					<if test="params.fromId !=  null">
-						and ${col.name}>${r"#{params.fromId"}${r"}"}
-					</if>
-					<#else>
-					<if test="${r"params."}${col.fieldName} !=  null">
-						and ${col.name}=${r"#{params."}${col.fieldName}${r"}"}
-					</if>
-					</#if>			
-					</#list>
-					<#else>			
-					<#list colMaps as col>
-					<#if col.isPK="yes">
-					<if test="${r"params."}${col.fieldName} !=  null">
-						and ${col.name}=${r"#{params."}${col.fieldName}${r"}"}
-					</if>
-					</#if>
-					</#list>
-					</#if>
+					<include refid="Where_Clause_Params_Gen" />
 				</where>
 				<if test="orders !=  null"> order by ${r"${orders}"} </if>
 				)
@@ -309,35 +261,12 @@
 	<#else>
 	<select id="pageQuery" parameterType="com.kjt.service.common.dao.Page" resultMap="BaseResultMap"  fetchSize="100">
 		SELECT
-			<include refid="Base_Column_List" />
+			<include refid="Column_List_Base_Gen" />
 		FROM
-			${r"${params.tKjtTabName}"}<#if db.type="sqlserver"> WITH(NOLOCK)</#if>
+			${r"${params.tKjtTabName}"}
 		<where>
 			<if test="params !=  null">
-				<#if tab.pkFieldNum==1>
-				<#list colMaps as col>
-				<#if tab.pkFieldNum==1 && col.isPK="yes" &&  (col.type.javaType="Integer" || col.type.javaType="Long" || col.type.javaType="Float" || col.type.javaType="Double"|| col.type.javaType="java.math.BigInteger" || col.type.javaType="String")>
-				<if test="params.id !=  null">
-					and ${col.name}=${r"#{params.id"}${r"}"}
-				</if>
-				<if test="params.fromId !=  null">
-					and ${col.name}>${r"#{params.fromId"}${r"}"}
-				</if>
-				<#else>
-				<if test="${r"params."}${col.fieldName} !=  null">
-					and ${col.name}=${r"#{params."}${col.fieldName}${r"}"}
-				</if>
-				</#if>			
-				</#list>
-				<#else>			
-				<#list colMaps as col>
-				<#if col.isPK="yes">
-				<if test="${r"params."}${col.fieldName} !=  null">
-					and ${col.name}=${r"#{params."}${col.fieldName}${r"}"}
-				</if>
-				</#if>
-				</#list>
-				</#if>
+				<include refid="Where_Clause_Params_Gen" />
 			</if>
 		</where>
 			<if test="orders !=  null"> order by ${r"${orders}"} </if> limit ${r"#{pageSize}"}
@@ -383,23 +312,32 @@
 	<update id="updateByMap" parameterType="java.util.Map">
 		update 
 			${r"${tKjtTabName}"}
-		<include refid="Normal_Update_Set" />
-		<include refid="Normal_Where_Clause" />
-		
+		<set>
+			<include refid="Update_Set_Normal_Gen" />
+		</set>
+		<where>
+			<include refid="Where_Clause_Normal_Gen" />
+		</where>
 	</update>
 	
 	<update id="cmplxUpdate" parameterType="java.util.Map">
 		update 
 			${r"${tKjtTabName}"}
-		<include refid="Cmplx_Update_Set" />	
-		<include refid="Cmplx_Update_Where_Clause" />	
+		<set>
+			<include refid="Update_Set_NewObj_Gen" />
+		</set>
+		<where>
+			<include refid="Where_Clause_Params_Gen" />	
+		</where>
 	</update>
 	
 	<delete id="deleteByMap" parameterType="java.util.Map">		
 		DELETE
 		FROM
 			${r"${tKjtTabName}"} 
-		<include refid="Normal_Where_Clause" />		
+		<where>
+			<include refid="Where_Clause_Normal_Gen" />
+		</where>
 	</delete>
 	
 	<insert id="batchInsert">
@@ -448,25 +386,34 @@
 	<update id="batchUpdate" parameterType="java.util.Map">
 		update 
 			${r"${tKjtTabName}"}
-		<include refid="Cmplx_Update_Set" />
-		<include refid="Batch_Where_Clause" />
+		<set>
+			<include refid="Update_Set_NewObj_Gen" />
+		</set>
+		<where>
+			<include refid="Where_Clause_Batch_Gen" />
+		</where>
 	</update>
 	
 	<delete id="batchDelete"  parameterType="java.util.List">
 		delete 
 		from
 			${r"${tKjtTabName}"}
-		<include refid="Batch_Where_Clause" />
+		<where>
+			<include refid="Where_Clause_Batch_Gen" />
+		</where>
 	</delete>
 	
 	<select id="batchQuery"  parameterType="java.util.List" resultMap="BaseResultMap" fetchSize="100">
 		select 
-			<include refid="Base_Column_List" />
+			<include refid="Column_List_Base_Gen" />
 		from
 			${r"${tKjtTabName}"}<#if db.type="sqlserver"> WITH(NOLOCK)</#if>
-		<include refid="Batch_Where_Clause" />
+		<where>
+			<include refid="Where_Clause_Batch_Gen" />
+		</where>
 	</select>
 	
+	<!--所有Gen_开头的sql是公共的，自定义的sql中可以引用-->
 	<!--扩展sql从备注处开始定义sql id建议以'cust_'开头表示自定义-->
 	
 </mapper>

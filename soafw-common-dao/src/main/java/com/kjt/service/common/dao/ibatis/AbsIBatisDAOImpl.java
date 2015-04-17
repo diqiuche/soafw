@@ -136,17 +136,17 @@ public abstract class AbsIBatisDAOImpl<T extends IModel> extends AbsCacheableImp
 
   @CacheEvict(value = "defaultCache", key = TabCacheKeyPrefixExpress + ".concat('@').concat(#cond)", condition = "#root.target.cacheable()")
   @Override
-  public Integer updateByMap(Map<String, Object> new_, Map<String, Object> cond,
+  public Integer updateByMap(Map<String, Object> newValue, Map<String, Object> cond,
       String tabNameSuffix) {
     if (logger.isDebugEnabled()) {
       logger
           .debug(
-              "updateByMap(Map<String,Object> new_={}, Map<String,Object> cond={}, String tabNameSuffix={}) - start", new_, cond, tabNameSuffix); //$NON-NLS-1$
+              "updateByMap(Map<String,Object> new_={}, Map<String,Object> cond={}, String tabNameSuffix={}) - start", newValue, cond, tabNameSuffix); //$NON-NLS-1$
     }
 
     validate(cond);
 
-    if (new_ == null || new_.isEmpty()) {
+    if (newValue == null || newValue.isEmpty()) {
       throw new DataAccessException(IBatisDAOException.MSG_1_0008);
     }
 
@@ -155,9 +155,15 @@ public abstract class AbsIBatisDAOImpl<T extends IModel> extends AbsCacheableImp
     Map<String, Object> params = new HashMap<String, Object>();
 
     params.put("tKjtTabName", this.get$TKjtTabName(tabNameSuffix));
-
-    params.put("updNewMap", new_);
-    params.put("updCondMap", cond);
+    int version = this.getVersion();
+    if(version==1){
+      params.put("updNewMap", newValue);
+      params.put("updCondMap", cond);
+    }
+    else{
+      params.put("newObj", newValue);
+      params.put("params", cond);
+    }
     SqlSession session = SqlmapUtils.openSession(getMasterDataSource());
     try {
       IMapper<T> mapper = session.getMapper(getMapperClass());
@@ -169,7 +175,7 @@ public abstract class AbsIBatisDAOImpl<T extends IModel> extends AbsCacheableImp
       if (logger.isDebugEnabled()) {
         logger
             .debug(
-                "updateByMap(Map<String,Object> new_={}, Map<String,Object> cond={}, String tabNameSuffix={}) - end - return value={}", new_, cond, tabNameSuffix, eft); //$NON-NLS-1$
+                "updateByMap(Map<String,Object> new_={}, Map<String,Object> cond={}, String tabNameSuffix={}) - end - return value={}", newValue, cond, tabNameSuffix, eft); //$NON-NLS-1$
       }
       return eft;
     } catch (Exception t) {
@@ -921,5 +927,9 @@ public abstract class AbsIBatisDAOImpl<T extends IModel> extends AbsCacheableImp
       tableName.append(tabNameSuffix.trim());
     }
     return tableName.toString();
+  }
+  @Override
+  public int getVersion(){
+    return 1;
   }
 }

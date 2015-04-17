@@ -562,8 +562,15 @@ public abstract class AbsFKIBatisDAOImpl<T extends IModel> extends AbsIBatisDAOI
     cond.put(property, fkValue);
 
     Map<String, Object> params = new HashMap<String, Object>();
-    params.put("updNewMap", newValue);
-    params.put("updCondMap", cond);
+    int version = this.getVersion();
+    if(version==1){
+      params.put("updNewMap", newValue);
+      params.put("updCondMap", cond);
+    }
+    else{
+      params.put("newObj", newValue);
+      params.put("params", cond);
+    }
     params.put("tKjtTabName", this.get$TKjtTabName(tabNameSuffix));
 
     SqlSession session = SqlmapUtils.openSession(getMasterDataSource());
@@ -614,8 +621,15 @@ public abstract class AbsFKIBatisDAOImpl<T extends IModel> extends AbsIBatisDAOI
     cond.putAll(attchParams);
 
     Map<String, Object> params = new HashMap<String, Object>();
-    params.put("updNewMap", newValue);
-    params.put("updCondMap", cond);
+    int version = this.getVersion();
+    if(version==1){
+      params.put("updNewMap", newValue);
+      params.put("updCondMap", cond);
+    }
+    else{
+      params.put("newObj", newValue);
+      params.put("params", cond);
+    }
     params.put("tKjtTabName", this.get$TKjtTabName(tabNameSuffix));
 
     SqlSession session = SqlmapUtils.openSession(getMasterDataSource());
@@ -663,8 +677,15 @@ public abstract class AbsFKIBatisDAOImpl<T extends IModel> extends AbsIBatisDAOI
     cond.put(property, fkValue);
 
     Map<String, Object> params = new HashMap<String, Object>();
-    params.put("updNewMap", newValue);
-    params.put("updCondMap", cond);
+    int version = this.getVersion();
+    if(version==1){
+      params.put("updNewMap", newValue);
+      params.put("updCondMap", cond);
+    }
+    else{
+      params.put("newObj", newValue);
+      params.put("params", cond);
+    }
     params.put("tKjtTabName", this.get$TKjtTabName(tabNameSuffix));
 
     SqlSession session = SqlmapUtils.openSession(getMasterDataSource());
@@ -714,8 +735,15 @@ public abstract class AbsFKIBatisDAOImpl<T extends IModel> extends AbsIBatisDAOI
     cond.putAll(attchParams);
 
     Map<String, Object> params = new HashMap<String, Object>();
-    params.put("updNewMap", newValue);
-    params.put("updCondMap", cond);
+    int version = this.getVersion();
+    if(version==1){
+      params.put("updNewMap", newValue);
+      params.put("updCondMap", cond);
+    }
+    else{
+      params.put("newObj", newValue);
+      params.put("params", cond);
+    }
     params.put("tKjtTabName", this.get$TKjtTabName(tabNameSuffix));
 
     SqlSession session = SqlmapUtils.openSession(getMasterDataSource());
