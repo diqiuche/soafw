@@ -62,7 +62,7 @@
 		<if test="id !=  null">
 			and ${col.name}=${r"#{id}"}
 		</if>
-		<if test="params.fromId !=  null">
+		<if test="fromId !=  null">
 			and ${col.name}>${r"#{fromId"}${r"}"}
 		</if>
 		<#else>
