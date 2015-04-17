@@ -198,7 +198,7 @@
 		<where>
 			<include refid="Where_Clause_Id_Gen" />
 		</where>
-			limit 1
+		<#if db.type="mysql">limit 1</#if>
 	</select>
 
 	<select id="queryByMap" parameterType="java.util.Map" resultMap="BaseResultMap" fetchSize="100">				
