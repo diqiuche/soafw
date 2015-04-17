@@ -272,7 +272,7 @@
 				<include refid="Where_Clause_Params_Gen" />
 			</if>
 		</where>
-			<if test="orders !=  null"> order by ${r"${orders}"} </if> limit ${r"#{pageSize}"}
+			<if test="orders !=  null"> order by ${r"${orders}"} </if> limit ${r"#{start}"},${r"#{end}"}
 	</select>
 	</#if>
 	
