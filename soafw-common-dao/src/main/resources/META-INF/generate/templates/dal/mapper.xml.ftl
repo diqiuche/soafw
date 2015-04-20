@@ -86,7 +86,11 @@
 		<#if tab.pkFieldNum==1>
 		<#list colMaps as col>
 		<#if tab.pkFieldNum==1 && col.isPK="yes" &&  (col.type.javaType="Integer" || col.type.javaType="Long" || col.type.javaType="Float" || col.type.javaType="Double" || col.type.javaType="java.math.BigInteger" || col.type.javaType="String")>
+		<!--
+		<if test="id !=  null">			        
 			${col.name}=${r"#{id}"},
+		</if>
+		-->
 		<#else>
 		<if test="${col.fieldName} !=  null">			        
 			${col.name}=${r"#{"}${col.fieldName}${r"}"},
