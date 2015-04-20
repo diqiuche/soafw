@@ -323,7 +323,7 @@
 			<include refid="Update_Set_Normal_Gen" />
 		</set>
 		<where>
-			<include refid="Where_Clause_Normal_Gen" />
+			<include refid="Where_Clause_Id_Gen" />
 		</where>
 	</update>
 	
@@ -343,7 +343,7 @@
 		FROM
 			${r"${tKjtTabName}"} 
 		<where>
-			<include refid="Where_Clause_Normal_Gen" />
+			<include refid="Where_Clause_Id_Gen" />
 		</where>
 	</delete>
 	

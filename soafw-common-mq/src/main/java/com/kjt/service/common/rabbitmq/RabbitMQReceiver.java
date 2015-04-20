@@ -1,28 +1,85 @@
 package com.kjt.service.common.rabbitmq;
 
+import java.io.IOException;
+import java.util.HashMap;
+
 import org.apache.commons.configuration.Configuration;
 
 import com.kjt.service.common.mq.IMessage;
 import com.kjt.service.common.mq.IReceiver;
+import com.rabbitmq.client.QueueingConsumer;
+import com.rabbitmq.client.QueueingConsumer.Delivery;
+import com.rabbitmq.client.ShutdownSignalException;
 
 public class RabbitMQReceiver extends RabbitMQClient implements IReceiver {
-
+    private QueueingConsumer consumer = null;
     @Override
     public IMessage receive() {
-        // TODO Auto-generated method stub
-        return null;
+        return receive(-1);
     }
 
     @Override
     public IMessage receive(long timeout) {
-        // TODO Auto-generated method stub
+        if (!isConnected()) {
+            throw new IllegalStateException("Connect before running");
+        }
+
+        try {
+            Delivery delivery = timeout > 0 ? consumer.nextDelivery(timeout)
+                    : consumer.nextDelivery();
+            if (delivery != null) {
+                channel.basicAck(
+                        delivery.getEnvelope().getDeliveryTag(), false);
+                byte[] aa = delivery.getBody();
+            }
+            return new RabbitMqMessage(delivery.getBody());
+        } catch (ShutdownSignalException e) {
+        } catch (InterruptedException e) {
+        } catch (IOException e) {
+        }
         return null;
     }
-
+    
+    @Override
+    public void connect() {
+        try {
+            super.connect();
+            prepareQueue();
+            consumer = new QueueingConsumer(this.channel);
+            channel.basicConsume(queueName, consumer);
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+        }
+    }
+    
+    protected void prepareQueue() throws IOException {
+        //String queue, boolean durable, boolean exclusive, boolean autoDelete, Map<String, Object> arguments
+        channel.queueDeclare(queueName, durable, exclusive, autoDelete, new HashMap());
+    }
+    
+    private boolean durable;
+    private boolean exclusive;
+    private boolean autoDelete=true;
+    
+    @Override
+    public void disconn() {
+        super.disconn();
+        consumer = null;
+    }
+    
     @Override
     protected String configToString(Configuration config) {
         // TODO Auto-generated method stub
         return null;
+    }
+    
+    private String queueName;
+    public String getQueueName() {
+        return queueName;
+    }
+
+    public void setQueueName(String queueName) {
+        this.queueName = queueName;
     }
 
     @Override

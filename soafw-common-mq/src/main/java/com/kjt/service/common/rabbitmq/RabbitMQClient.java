@@ -33,7 +33,6 @@ public abstract class RabbitMQClient extends MQClient {
     @Override
     public void connect() {
         disconn();
-
         try {
             connection = connectionFactory.newConnection(DEFAULT_BROKER_ADDRESS);//"_brokerAddresses");
             channel = connection.createChannel();
