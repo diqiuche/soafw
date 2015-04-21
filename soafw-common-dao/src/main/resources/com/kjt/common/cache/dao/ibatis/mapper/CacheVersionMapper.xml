@@ -179,7 +179,7 @@
 		tab_version = tab_version+1
 	</insert>
 
-	<update id="updateByMap" parameterType="java.util.Map">
+	<update id="updateById" parameterType="java.util.Map">
 		update
 		${tKjtTabName}
 		<set>

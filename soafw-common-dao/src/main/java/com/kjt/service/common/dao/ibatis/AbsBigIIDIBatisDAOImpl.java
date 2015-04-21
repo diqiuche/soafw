@@ -155,7 +155,7 @@ public abstract class AbsBigIIDIBatisDAOImpl<T extends IModel> extends AbsFKIBat
     SqlSession session = SqlmapUtils.openSession(getMasterDataSource());
     try {
       IMapper<T> mapper = session.getMapper(getMapperClass());
-      Integer eft = mapper.updateByMap(newValue);
+      Integer eft = mapper.updateById(newValue);
       if (eft > 0) {
         this.incrTabVersion(tabNameSuffix);
       }

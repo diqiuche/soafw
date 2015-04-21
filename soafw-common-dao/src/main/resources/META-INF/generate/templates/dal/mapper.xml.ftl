@@ -316,7 +316,7 @@
 		)
 	</insert>
 	
-	<update id="updateByMap" parameterType="java.util.Map">
+	<update id="updateById" parameterType="java.util.Map">
 		update 
 			${r"${tKjtTabName}"}
 		<set>

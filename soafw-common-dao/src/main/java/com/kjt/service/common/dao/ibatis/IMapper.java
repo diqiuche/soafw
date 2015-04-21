@@ -17,7 +17,7 @@ public interface IMapper<T> extends IBatchMapper<T> {
 
   public Integer deleteByMap(Map<String, Object> params);
 
-  public Integer updateByMap(Map<String, Object> params);
+  public Integer updateById(Map<String, Object> params);
 
   public Integer cmplxUpdate(Map<String, Object> params);
 
