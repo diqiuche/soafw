@@ -78,7 +78,7 @@ public abstract class AbsPageableJob<T> extends AbsDynamicJob<T> implements IPag
                 LogUtils.timeused(logger, "start", start);
             }
             logger.info(
-                    "start() - end totalPage=%d,pageProcessed=%d,total=%d,success=%d,failed=%d",
+                    "start() - end totalPage=%d,pageProcessed=%d,totalProcessed=%d,successProcessed=%d,failedProcessed=%d",
                     pages, pageIdx-1, (this.getSuccessed() + this.getFailed()),
                     this.getSuccessed(), this.getFailed());
         }
