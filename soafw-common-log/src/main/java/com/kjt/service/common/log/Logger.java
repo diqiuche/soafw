@@ -12,7 +12,7 @@ public interface Logger {
     public void debug(String message);
 
     public void debug(String format, Object... args);
-
+    
     public boolean isDebugEnabled();
 
     public void info(String message);
@@ -30,6 +30,10 @@ public interface Logger {
     public void error(String message);
 
     public void error(String format, Object... args);
+    
+    public void error(Exception ex);
+    
+    public void error(String message,Exception ex);
 
     public boolean isErrorEnabled();
 }

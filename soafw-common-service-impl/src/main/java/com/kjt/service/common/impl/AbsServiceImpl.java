@@ -1,5 +1,6 @@
 package com.kjt.service.common.impl;
 
+import com.alibaba.dubbo.rpc.RpcContext;
 import com.kjt.service.common.IService;
 import com.kjt.service.common.log.Logger;
 import com.kjt.service.common.log.LoggerFactory;
@@ -14,6 +15,12 @@ public abstract class AbsServiceImpl<T extends IResult> implements IService<T> {
 	public AbsServiceImpl(){
 	    
 	}
+	
+	protected static RpcContext context = RpcContext.getContext();
+    @Override
+    public String getRemoteHost() {
+        return context.getRemoteHost();
+    }
 
 	public String hello(String name){
 		if (logger.isInfoEnabled()) {

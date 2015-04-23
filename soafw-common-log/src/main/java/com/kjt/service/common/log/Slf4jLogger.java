@@ -1,6 +1,9 @@
 package com.kjt.service.common.log;
 
+import java.io.ByteArrayOutputStream;
+import java.io.PrintStream;
 import java.io.Serializable;
+import java.io.UnsupportedEncodingException;
 
 import com.kjt.service.common.util.RequestID;
 
@@ -47,7 +50,7 @@ public class Slf4jLogger implements Logger, Serializable {
     public void debug(String format, Object... args) {
         _impl.debug(RequestID.get() + String.format(format, args));
     }
-
+    
     @Override
     public boolean isDebugEnabled() {
         return _impl.isDebugEnabled();
@@ -92,7 +95,32 @@ public class Slf4jLogger implements Logger, Serializable {
     public void error(String format, Object... args) {
         _impl.error(RequestID.get() + String.format(format, args));
     }
+    
+    @Override
+    public void error(Exception ex) {
+        _impl.error(RequestID.get(), ex);
+    }
+    @Override
+    public void error(String message,Exception ex) {
+        _impl.error(RequestID.get() + message, ex);
+    }
 
+    public static String estacktack2Str(Exception ex){
+        PrintStream ps = null;
+        try {
+            ByteArrayOutputStream bao = new ByteArrayOutputStream();
+            ps = new PrintStream(bao);
+            ex.printStackTrace(ps);
+            return bao.toString("utf-8");
+        } catch (UnsupportedEncodingException e) {
+            return e.getMessage();
+        } finally {
+            if(ps!=null){
+                ps.close();
+            }
+        }
+    }
+    
     @Override
     public boolean isErrorEnabled() {
         return _impl.isErrorEnabled();
