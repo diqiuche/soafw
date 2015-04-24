@@ -22,6 +22,9 @@ public class AcessLoger {
         _logger.info("start process");
         Object target = pjp.getTarget();
         String ip = RpcContext.getContext().getRemoteAddressString();
+        if(ip!=null){
+            ip = ip+" ";
+        }
         LoggerPoint point = getLoggerPoint(pjp);
         String keys = null;
         if(point!=null){
