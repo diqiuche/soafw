@@ -15,7 +15,7 @@ import com.kjt.service.common.result.IResult;
 import com.kjt.service.common.util.RequestID;
 import com.kjt.service.common.util.StringUtils;
 import com.kjt.service.concurrent.AsynBizExecutor;
-public class AcessLoger {
+public class AccessLoger {
 
     public static Object process(ProceedingJoinPoint pjp) throws Throwable{
         RequestID.set(null);
