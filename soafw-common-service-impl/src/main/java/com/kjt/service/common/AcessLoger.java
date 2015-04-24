@@ -7,6 +7,7 @@ import javax.xml.ws.Response;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.reflect.MethodSignature;
 
+import com.alibaba.dubbo.rpc.RpcContext;
 import com.kjt.service.common.aop.LoggerPoint;
 import com.kjt.service.common.log.Logger;
 import com.kjt.service.common.log.LoggerFactory;
@@ -20,10 +21,7 @@ public class AcessLoger {
         RequestID.set(null);
         _logger.info("start process");
         Object target = pjp.getTarget();
-        String ip = "";
-        if(target instanceof IService){
-            ip = ((IService)target).getRemoteHost()+" ";
-        }
+        String ip = RpcContext.getContext().getRemoteAddressString();
         LoggerPoint point = getLoggerPoint(pjp);
         String keys = null;
         if(point!=null){
