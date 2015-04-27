@@ -106,8 +106,7 @@ public class AuthenticationFilter extends WebAppConfig implements Filter {
                 if (dto != null) {//已经成功登陆
                     String resourcesCode = resourcesMap.get(url);
                     Map<String,Integer> auths = dto.getAuths();
-                    boolean authFlag=auths.containsKey(resourcesCode);//资源是否已经授权
-                    if(authFlag){
+                    if(!StringUtil.isEmpty(resourcesCode) && auths.containsKey(resourcesCode)){//资源是否已经授权
                         chain.doFilter(request, response);
                     }
                     else{
