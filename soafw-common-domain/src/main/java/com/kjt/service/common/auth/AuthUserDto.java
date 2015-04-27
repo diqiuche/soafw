@@ -358,7 +358,7 @@ public class AuthUserDto implements IResult {
 	private Map<String,Integer> authsMap = new ConcurrentHashMap<String,Integer>();
 	public Map<String,Integer> getAuths() {
 	    if(authsMap.isEmpty()){
-	        if (auths != null && auths.isEmpty()) {
+	        if (auths != null && !auths.isEmpty()) {
                 for (String string : auths) {
                     authsMap.put(string, 0);
                 }

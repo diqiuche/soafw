@@ -5,7 +5,7 @@ import java.util.Map;
 
 public interface RoleService {
     
-    public AuthResponse selectList(Map<String, Object> params);
+    public AuthResponse<AuthRoleDto> selectList(Map<String, Object> params);
 
     public AuthResponse insert(Map<String, Object> params);
     
@@ -20,7 +20,7 @@ public interface RoleService {
     
     public AuthResponse<AuthRoleDto> selectById(BigInteger id);
     
-    public AuthResponse<AuthRoleDto> addUserRole(BigInteger userId, BigInteger roleId);
+    public AuthResponse addUserRole(BigInteger userId, BigInteger roleId);
     
-    public AuthResponse<AuthRoleDto> delUserRole(BigInteger userId, BigInteger roleId);
+    public AuthResponse delUserRole(BigInteger userId, BigInteger roleId);
 }
