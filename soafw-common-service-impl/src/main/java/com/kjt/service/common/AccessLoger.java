@@ -13,7 +13,7 @@ import com.kjt.service.common.log.Logger;
 import com.kjt.service.common.log.LoggerFactory;
 import com.kjt.service.common.result.IResult;
 import com.kjt.service.common.util.RequestID;
-import com.kjt.service.common.util.StringUtils;
+import com.kjt.service.common.util.StringUtil;
 import com.kjt.service.concurrent.AsynBizExecutor;
 public class AccessLoger {
 
@@ -135,7 +135,7 @@ public class AccessLoger {
         _logger.debug("keyMaps"+keyMaps);       
         if(point!=null){
             String keys = point.key();
-            if(StringUtils.isEmpty(keys))
+            if(StringUtil.isEmpty(keys))
                 return null;
             if(keys.trim().indexOf("result")==0){
                 Object key = null;//Holder.get();
@@ -151,7 +151,7 @@ public class AccessLoger {
                 boolean first = true;
                 for(int i=0;i<size;i++){
                     String value = keyMaps.get(keys_[i]);
-                    if(!StringUtils.isEmpty(value)){
+                    if(!StringUtil.isEmpty(value)){
                         if(!first){
                             resourceIds.append(";");
                         }

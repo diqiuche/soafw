@@ -33,7 +33,9 @@
 		<oscache.version>2.4</oscache.version>
 		<guava.version>18.0</guava.version>
 		<quartz.version>2.2.1</quartz.version>
-
+		<jackson-databind.version>2.4.2</jackson-databind.version>
+		<poi.version>3.5-FINAL</poi.version>
+		<springsecurity.version>3.2.3.RELEASE</springsecurity.version>
 		<!-- 异常代码生成公共定义 -->
 		<!-- plugins version -->
 		<maven-compiler-plugin.version>2.4.2</maven-compiler-plugin.version>
@@ -157,7 +159,7 @@
 				<version>${jsp-tag-api.version}</version>
 				<scope>provided</scope>
 			</dependency>
-			
+
 			<dependency>
 				<groupId>com.danga</groupId>
 				<artifactId>memcached</artifactId>
@@ -175,7 +177,16 @@
 				<version>${jedis.version}</version>
 				<type>jar</type>
 			</dependency>
-
+			<dependency>
+				<groupId>com.fasterxml.jackson.core</groupId>
+				<artifactId>jackson-databind</artifactId>
+				<version>${jackson-databind.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.apache.poi</groupId>
+				<artifactId>poi-ooxml</artifactId>
+				<version>${poi.version}</version>
+			</dependency>
 			<dependency>
 				<groupId>junit</groupId>
 				<artifactId>junit</artifactId>
@@ -334,6 +345,28 @@
 				<artifactId>unirest-java</artifactId>
 				<version>${unirest-java.version}</version>
 			</dependency>
+			<!-- springsecurity start -->
+			<dependency>
+				<groupId>org.springframework.security</groupId>
+				<artifactId>spring-security-web</artifactId>
+				<version>${springsecurity.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.springframework.security</groupId>
+				<artifactId>spring-security-core</artifactId>
+				<version>${springsecurity.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.springframework.security</groupId>
+				<artifactId>spring-security-config</artifactId>
+				<version>${springsecurity.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.springframework.security</groupId>
+				<artifactId>spring-security-taglibs</artifactId>
+				<version>${springsecurity.version}</version>
+			</dependency>
+			<!-- springsecurity end -->
 		</dependencies>
 	</dependencyManagement>
 

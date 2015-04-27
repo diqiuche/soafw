@@ -174,7 +174,7 @@ public class DynamicRedisCache extends PoolableObjDynamicConfig
             try {
                 _jedis = delegate.getResource();
                 _jedis.set(toBytes(key), toBytes(item));
-                _jedis.expireAt(toBytes(key), DateUtil.getDateUnixTime(expiry));
+                _jedis.expireAt(toBytes(key), DateUtil.toSecond(expiry));
                 return true;
             } finally {
                 if (_jedis != null) {

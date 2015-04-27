@@ -34,7 +34,20 @@
 		<filter-name>encodingFilter</filter-name>
 		<url-pattern>/*</url-pattern>
 	</filter-mapping>
-
+	
+	<filter>
+		<filter-name>authenticationFilter</filter-name>
+		<filter-class>com.kjt.service.common.web.auth.AuthenticationFilter</filter-class>
+		<init-param>
+			<param-name>appName</param-name>
+			<param-value>#{artifactId}</param-value>
+		</init-param>
+	</filter>
+	<filter-mapping>
+	    <filter-name>authenticationFilter</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+	
 	<!-- spring context 上下文内容的 对象 service 层 dao层 以及其他spring管理的对象 -->
 
 	<context-param>

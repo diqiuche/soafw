@@ -29,7 +29,7 @@ import com.kjt.service.common.config.utils.ConfigReloadEvent;
 import com.kjt.service.common.config.utils.ConfigReloadObserver;
 import com.kjt.service.common.config.utils.MailSender;
 import com.kjt.service.common.log.LogUtils;
-import com.kjt.service.common.util.StringUtils;
+import com.kjt.service.common.util.StringUtil;
 import com.kjt.service.concurrent.AsynBizExecutor;
 
 /**
@@ -181,7 +181,7 @@ public class DynamicDataSource extends PoolableObjDynamicConfig implements DataS
     reloadMsgBuffer.append("Best Regards,<br>");
     reloadMsgBuffer.append("Anjuke API Team");
 
-    if (StringUtils.isEmpty(dbReloadEventReceiver)) {
+    if (StringUtil.isEmpty(dbReloadEventReceiver)) {
       return;
     }
 

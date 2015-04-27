@@ -3,7 +3,7 @@ package com.kjt.service.common.dao.generate.tool;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.kjt.service.common.util.StringUtils;
+import com.kjt.service.common.util.StringUtil;
 
 public class Tab {
   private String dbNameStr;
@@ -62,7 +62,7 @@ public class Tab {
      * 第一行第五列为默认数据源名
      */
     dbName = (String) defs.get(0).get(4);
-    if (!StringUtils.isEmpty(dbName)) {
+    if (!StringUtil.isEmpty(dbName)) {
       dbName = dbName.trim().toUpperCase();
     } else {
       dbName = null;
@@ -74,44 +74,44 @@ public class Tab {
       int size_ = defs.get(1).size();
       if (size_ >= 2) {
         queryDB = (String) defs.get(1).get(1);
-        if (!StringUtils.isEmpty(queryDB)) {
+        if (!StringUtil.isEmpty(queryDB)) {
           queryDB = queryDB.trim().toUpperCase();
         }
       }
 
       if (size_ >= 4) {
         insertDB = (String) defs.get(1).get(3);
-        if (!StringUtils.isEmpty(insertDB)) {
+        if (!StringUtil.isEmpty(insertDB)) {
           insertDB = insertDB.trim().toUpperCase();
         }
       }
       if (size_ >= 6) {
         deleteDB = (String) defs.get(1).get(5);
-        if (!StringUtils.isEmpty(deleteDB)) {
+        if (!StringUtil.isEmpty(deleteDB)) {
           deleteDB = deleteDB.trim().toUpperCase();
         }
       }
       if (size_ >= 8) {
         updateDB = (String) defs.get(1).get(7);
-        if (!StringUtils.isEmpty(updateDB)) {
+        if (!StringUtil.isEmpty(updateDB)) {
           updateDB = updateDB.trim().toUpperCase();
         }
       }
     }
 
-    if (!StringUtils.isEmpty(dbName) && !dbs.contains(dbName)) {
+    if (!StringUtil.isEmpty(dbName) && !dbs.contains(dbName)) {
       dbs.add(dbName);
     }
-    if (!StringUtils.isEmpty(queryDB) && !dbs.contains(queryDB)) {
+    if (!StringUtil.isEmpty(queryDB) && !dbs.contains(queryDB)) {
       dbs.add(queryDB);
     }
-    if (!StringUtils.isEmpty(insertDB) && !dbs.contains(insertDB)) {
+    if (!StringUtil.isEmpty(insertDB) && !dbs.contains(insertDB)) {
       dbs.add(insertDB);
     }
-    if (!StringUtils.isEmpty(deleteDB) && !dbs.contains(deleteDB)) {
+    if (!StringUtil.isEmpty(deleteDB) && !dbs.contains(deleteDB)) {
       dbs.add(deleteDB);
     }
-    if (!StringUtils.isEmpty(updateDB) && !dbs.contains(updateDB)) {
+    if (!StringUtil.isEmpty(updateDB) && !dbs.contains(updateDB)) {
       dbs.add(updateDB);
     }
     defs.remove(0);

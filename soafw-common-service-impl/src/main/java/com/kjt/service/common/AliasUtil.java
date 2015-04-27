@@ -7,7 +7,7 @@ import java.util.Map;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.reflect.MethodSignature;
 
-import com.kjt.service.common.util.StringUtils;
+import com.kjt.service.common.util.StringUtil;
 
 public class AliasUtil {
     
@@ -56,7 +56,7 @@ public class AliasUtil {
         StringBuilder detail = new StringBuilder("(");
         StringBuilder simple = new StringBuilder("(");
         String name = "";
-        if (!StringUtils.isEmpty(keys)) {
+        if (!StringUtil.isEmpty(keys)) {
             String[] kv = keys.split("=");
             if (kv != null || kv.length > 1) {
                 if ("params".equals(kv[0])) {

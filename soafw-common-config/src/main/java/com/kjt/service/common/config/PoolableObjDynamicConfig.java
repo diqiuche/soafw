@@ -4,7 +4,7 @@ import java.util.Iterator;
 
 import org.apache.commons.configuration.Configuration;
 
-import com.kjt.service.common.util.StringUtils;
+import com.kjt.service.common.util.StringUtil;
 
 public abstract class PoolableObjDynamicConfig extends DynamicConfig {
 	/**
@@ -19,14 +19,14 @@ public abstract class PoolableObjDynamicConfig extends DynamicConfig {
 	public String getPrefix(){
 
 		String prefix_ = prefix;
-		if (!StringUtils.isEmpty(prefix) && !prefix.endsWith(".")) {
+		if (!StringUtil.isEmpty(prefix) && !prefix.endsWith(".")) {
 			prefix_ = prefix + ".";
 		}
 		else{
 			prefix_="";
 		}
 
-		if (!StringUtils.isEmpty(prefix_)) {
+		if (!StringUtil.isEmpty(prefix_)) {
 			logger.info("getPrefix() - end - return value={}", prefix_); //$NON-NLS-1$
 		}
 		return prefix_;

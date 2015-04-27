@@ -24,7 +24,7 @@ import com.kjt.service.common.log.Logger;
 import com.kjt.service.common.log.LoggerFactory;
 import com.kjt.service.common.util.Constants;
 import com.kjt.service.common.util.MD5Util;
-import com.kjt.service.common.util.StringUtils;
+import com.kjt.service.common.util.StringUtil;
 
 /**
  * 动态检测&加载变化内容<br>
@@ -109,7 +109,7 @@ public class DynamicConfig implements ConfigFileDict, Constants, Configuration, 
                     resource = new FileInputStream(new File(location));
                 }
                 
-                if (!StringUtils.isEmpty(this.getEncoding())) {
+                if (!StringUtil.isEmpty(this.getEncoding())) {
 
                     config.load(resource, this.getEncoding());
                 } else {

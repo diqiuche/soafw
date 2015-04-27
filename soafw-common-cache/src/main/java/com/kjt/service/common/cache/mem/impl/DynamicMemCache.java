@@ -1,6 +1,5 @@
 package com.kjt.service.common.cache.mem.impl;
 
-import java.text.ParseException;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -149,7 +148,7 @@ public class DynamicMemCache extends PoolableObjDynamicConfig
 
         try {
 
-            _sufix = DateUtil.formatDate(new Date(), "yyyyMMddHHmmss");
+            _sufix = DateUtil.format(new Date(), "yyyyMMddHHmmss");
             String poolName = prefix_ + _sufix;
             SockIOPool pool = SockIOPool.getInstance(poolName);
             if (pool.isInitialized()) {
@@ -195,7 +194,7 @@ public class DynamicMemCache extends PoolableObjDynamicConfig
                 } catch (Exception ex) {}
             }
 
-        } catch (ParseException e) {
+        } catch (Exception e) {
 
         }
     }
