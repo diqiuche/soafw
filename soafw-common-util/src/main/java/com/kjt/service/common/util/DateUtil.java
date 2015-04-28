@@ -1616,6 +1616,15 @@ public class DateUtil {
         return str;
 
     }
+    
+    public static String getNextDay(String date){
+        Calendar end = DateUtil.parseCalendarFormat(date, "yyyy-MM-dd");
+        end.add(Calendar.DATE, 1);
+        Date endTime = end.getTime();
+        date = DateUtil.format(endTime, "yyyy-MM-dd");
+        return date;
+    }
+
 
     // 获得本年有多少天
     private int getMaxYear() {
