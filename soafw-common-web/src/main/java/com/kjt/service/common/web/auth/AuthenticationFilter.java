@@ -158,8 +158,7 @@ public class AuthenticationFilter extends WebAppConfig implements Filter {
                             res.addCookie(cookie);
                             String resourcesCode = resourcesMap.get(url);
                             Map<String,Integer> auths = dto.getAuths();
-                            boolean authFlag=auths.containsKey(resourcesCode);//资源是否已经授权
-                            if (authFlag) {//已经授权
+                            if (!StringUtil.isEmpty(resourcesCode) && auths.containsKey(resourcesCode)) {//已经授权
                                 chain.doFilter(request, response);
                             } else {
                                 PrintWriter out = null;
