@@ -63,7 +63,6 @@ public class DataBaseLoader extends AbstractLoader {
         try {
             Class.forName(dbDriver);
         } catch (ClassNotFoundException e) {
-            //e.printStackTrace();
         }
         try {
             System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
@@ -73,7 +72,6 @@ public class DataBaseLoader extends AbstractLoader {
             Connection connection= DriverManager.getConnection(this.dburl,this.dbuser,this.dbpwd);
             return  connection;
         } catch (SQLException e) {
-           // e.printStackTrace();
         }
         return null;
     }

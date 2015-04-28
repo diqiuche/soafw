@@ -25,7 +25,6 @@ public class MailSender implements Sender{
 		try{
 			MailHelper.send(prop, mailTo, subject, body);
 		}catch(Exception e){
-			e.printStackTrace();
 		}
 		*/
 	}

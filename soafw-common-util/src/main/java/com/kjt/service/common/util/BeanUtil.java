@@ -8,7 +8,6 @@ import java.util.Map;
 import com.kjt.service.common.annotation.JField;
 
 public class BeanUtil {
-
 	public static String getJField(Class model,String property,Class<JField> annotation){
 		Field tmp = null;
 		try {
@@ -49,7 +48,7 @@ public class BeanUtil {
                      }
                 }
             } catch (Exception e) {
-                e.printStackTrace();
+                throw new RuntimeException(e);
             }
         }
         return map;

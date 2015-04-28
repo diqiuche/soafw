@@ -161,7 +161,7 @@ public abstract class BSynMAsynBizExecutor<T> {
                     Thread.sleep(time);
                 } catch (InterruptedException e) {
                     // TODO Auto-generated catch block
-                    e.printStackTrace();
+                    logger.error(e);
                 }
             }
         };

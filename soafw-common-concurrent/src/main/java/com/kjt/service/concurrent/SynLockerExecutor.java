@@ -7,10 +7,10 @@ import org.apache.curator.framework.CuratorFramework;
 import org.apache.curator.framework.imps.CuratorFrameworkState;
 import org.apache.curator.framework.recipes.locks.InterProcessMutex;
 import org.apache.zookeeper.KeeperException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import com.kjt.service.common.config.DynamicZookeeper;
+import com.kjt.service.common.log.Logger;
+import com.kjt.service.common.log.LoggerFactory;
 import com.kjt.service.common.util.DateUtil;
 import com.kjt.service.common.util.RequestID;
 
@@ -22,7 +22,7 @@ import com.kjt.service.common.util.RequestID;
  */
 public abstract class SynLockerExecutor {
 
-    protected Logger logger = LoggerFactory.getLogger("trace");
+    protected static Logger logger = LoggerFactory.getLogger(SynLockerExecutor.class);
 
     private static CuratorFramework client;
 
@@ -268,12 +268,12 @@ public abstract class SynLockerExecutor {
                                     System.err.println(RequestID.get() + " exec used: " + t
                                             + " after " + "@" + System.currentTimeMillis());
                                 } catch (InterruptedException e) {
-                                    e.printStackTrace();
+                                    logger.error(e);
                                 }
                             }
                         };
                     } catch (Exception ex) {
-                        ex.printStackTrace();
+                        logger.error(ex);
                     }
                 }
             }
@@ -296,12 +296,12 @@ public abstract class SynLockerExecutor {
                                     System.err.println(RequestID.get() + " exec used: " + t
                                             + " after " + "@" + System.currentTimeMillis());
                                 } catch (InterruptedException e) {
-                                    e.printStackTrace();
+                                    logger.error(e);
                                 }
                             }
                         };
                     } catch (Exception ex) {
-                        ex.printStackTrace();
+                        logger.error(ex);
                     }
                 }
             }
@@ -312,7 +312,7 @@ public abstract class SynLockerExecutor {
             try {
                 Thread.currentThread().sleep(100);
             } catch (InterruptedException e) {
-                e.printStackTrace();
+                logger.error(e);
             }
         }
     }
@@ -332,7 +332,7 @@ public abstract class SynLockerExecutor {
             }
 
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error(e);
         }
     }
 

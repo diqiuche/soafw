@@ -86,8 +86,6 @@ public abstract class AbsIntIDIBatisDAOImpl<T extends IModel> extends AbsFKIBati
       return returnT;
     } catch (Exception t) {
       logger.error("queryById(Integer, Boolean, String)", t); //$NON-NLS-1$
-
-      t.printStackTrace();
       throw new DataAccessException(IBatisDAOException.MSG_2_0001, t);
     } finally {
       session.commit();

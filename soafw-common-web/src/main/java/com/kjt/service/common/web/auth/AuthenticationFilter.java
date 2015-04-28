@@ -29,7 +29,7 @@ import com.kjt.service.common.auth.AuthUserDto;
 import com.kjt.service.common.auth.ResourcesService;
 import com.kjt.service.common.resource.WebAppConfig;
 import com.kjt.service.common.util.StringUtil;
-import com.kjt.service.common.web.util.HttpUtil;
+import com.kjt.service.common.web.util.J2eeHttpUtil;
 
 
 public class AuthenticationFilter extends WebAppConfig implements Filter {
@@ -142,7 +142,7 @@ public class AuthenticationFilter extends WebAppConfig implements Filter {
                     if (ticket != null && !"".equals(ticket.trim())) {
                         Map<String, String> headers = new HashMap<>();
                         headers.put("Cookie", "JSESSIONID=" + ticket);
-                        String resultText = HttpUtil.postText(ticketValidateUrl + "?ticket=" + ticket,"ticket=" + ticket, headers);
+                        String resultText = J2eeHttpUtil.postText(ticketValidateUrl + "?ticket=" + ticket,"ticket=" + ticket, headers);
                         ObjectMapper mapper = new ObjectMapper();
                         mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
                         try {

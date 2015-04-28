@@ -238,7 +238,6 @@ public class ExceptionGenerator
         try {
             writeFile(this.getDestDirectory(_package), _class, this.build(tpl, _package, _class, this.interfaceClass, exceptionMessages));
         } catch (IOException e) {
-           // e.printStackTrace();
             throw new MojoExecutionException("生成失败");
         }
     }

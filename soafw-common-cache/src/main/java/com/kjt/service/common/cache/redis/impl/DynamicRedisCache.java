@@ -427,7 +427,7 @@ public class DynamicRedisCache extends PoolableObjDynamicConfig
         return null;
     }
 
-    private static Object toObject(byte[] datas) {
+    private Object toObject(byte[] datas) {
         if (datas == null) {
             return null;
         }
@@ -439,7 +439,7 @@ public class DynamicRedisCache extends PoolableObjDynamicConfig
             Object data = ois.readObject();
             return data;
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error(e);
         } finally {
             if (ois != null) {
                 try {

@@ -1,4 +1,4 @@
-package com.kjt.service.common.web.util;
+package com.kjt.service.rpc.http.client.util;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -10,39 +10,181 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
-import java.util.Enumeration;
-import java.util.HashMap;
+import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 
-import javax.servlet.http.HttpServletRequest;
-
 import org.apache.commons.lang.StringUtils;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.apache.http.HttpEntity;
+import org.apache.http.NameValuePair;
+import org.apache.http.client.config.RequestConfig;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
+import org.apache.http.client.methods.CloseableHttpResponse;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.StringEntity;
+import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.impl.client.HttpClientBuilder;
+import org.apache.http.message.BasicHeader;
+import org.apache.http.message.BasicNameValuePair;
+import org.apache.http.protocol.HTTP;
+import org.apache.http.util.EntityUtils;
 
+import com.kjt.service.common.log.Logger;
+import com.kjt.service.common.log.LoggerFactory;
+
+/**
+ * @描述:httpclient 工具类
+ * @author feng.peifeng
+ * @date:2015年4月2日
+ * @版权 上海跨境通国际有限公司
+ */
 public class HttpUtil {
-
-    public static Map<String, Object> getParameterMap(HttpServletRequest request) {
-        Enumeration<String> rnames = request.getParameterNames();
-        Map<String, Object> map = null;
-        if (rnames != null) {
-            map = new HashMap<String, Object>();
-            for (Enumeration<String> e = rnames; e.hasMoreElements();) {
-                String thisName = e.nextElement().toString();
-                if ("offset".equals(thisName) || "pageSize".equals(thisName)) {
-                    continue;
+    private static Logger logger = LoggerFactory.getLogger(HttpUtil.class);
+	private static final CloseableHttpClient httpClient;
+    public static final String CHARSET = "UTF-8";
+    public static final String  APPLICATION_JSON = "application/json";
+    static {
+        RequestConfig config = RequestConfig.custom().setConnectTimeout(60000).setSocketTimeout(15000).build();
+        httpClient = HttpClientBuilder.create().setDefaultRequestConfig(config).build();
+    }
+ 
+    public static String doGet(String url, Map<String, String> params){
+        return doGet(url, params,CHARSET);
+    }
+    public static String doPost(String url, Map<String, String> params){
+        return doPost(url, params,CHARSET);
+    }
+    /**
+     * HTTP Get 获取内容
+     * @param url  请求的url地址 ?之前的地址
+     * @param params 请求的参数
+     * @param charset    编码格式
+     * @return    页面内容
+     */
+    public static String doGet(String url,Map<String,String> params,String charset){
+        if(StringUtils.isBlank(url)){
+            return null;
+        }
+        try {
+            if(params != null && !params.isEmpty()){
+                List<NameValuePair> pairs = new ArrayList<NameValuePair>(params.size());
+                for(Map.Entry<String,String> entry : params.entrySet()){
+                    String value = entry.getValue();
+                    if(value != null){
+                        pairs.add(new BasicNameValuePair(entry.getKey(),value));
+                    }
                 }
-                String thisValue = request.getParameter(thisName);
-                if (StringUtils.isNotEmpty(thisValue)) {
-                    map.put(thisName, thisValue);
-                    log.debug("name======" + thisName + "-------value=====" + thisValue);
+                url += "?" + EntityUtils.toString(new UrlEncodedFormEntity(pairs, charset));
+            }
+            HttpGet httpGet = new HttpGet(url);
+            CloseableHttpResponse response = httpClient.execute(httpGet);
+            int statusCode = response.getStatusLine().getStatusCode();
+            if (statusCode != 200) {
+                httpGet.abort();
+                throw new RuntimeException("HttpClient,error status code :" + statusCode);
+            }
+            HttpEntity entity = response.getEntity();
+            String result = null;
+            if (entity != null){
+                result = EntityUtils.toString(entity, "utf-8");
+            }
+            EntityUtils.consume(entity);
+            response.close();
+            return result;
+        } catch (Exception e) {
+            logger.error(e);
+        }
+        return null;
+    }
+     
+    /**
+     * HTTP Post 获取内容
+     * @param url  请求的url地址 ?之前的地址
+     * @param params 请求的参数
+     * @param charset    编码格式
+     * @return    页面内容
+     */
+    public static String doPost(String url,Map<String,String> params,String charset){
+        if(StringUtils.isBlank(url)){
+            return null;
+        }
+        try {
+            List<NameValuePair> pairs = null;
+            if(params != null && !params.isEmpty()){
+                pairs = new ArrayList<NameValuePair>(params.size());
+                for(Map.Entry<String,String> entry : params.entrySet()){
+                    String value = entry.getValue();
+                    if(value != null){
+                        pairs.add(new BasicNameValuePair(entry.getKey(),value));
+                    }
                 }
             }
+            HttpPost httpPost = new HttpPost(url);
+            if(pairs != null && pairs.size() > 0){
+                httpPost.setEntity(new UrlEncodedFormEntity(pairs,CHARSET));
+            }
+            CloseableHttpResponse response = httpClient.execute(httpPost);
+            int statusCode = response.getStatusLine().getStatusCode();
+            if (statusCode != 200) {
+                httpPost.abort();
+                throw new RuntimeException("HttpClient,error status code :" + statusCode);
+            }
+            HttpEntity entity = response.getEntity();
+            String result = null;
+            if (entity != null){
+                result = EntityUtils.toString(entity, "utf-8");
+            }
+            EntityUtils.consume(entity);
+            response.close();
+            return result;
+        } catch (Exception e) {
+            logger.error(e);
         }
-        return map;
+        return null;
     }
-
+    
+    /**
+     * HTTP Post 获取内容
+     * @param url  请求的url地址 ?之前的地址
+     * @param params 请求的参数 json 格式
+     * @param charset    编码格式
+     * @return    页面内容
+     */
+    public static String doPostJson(String url ,String requestJsonParams, String charset){
+        if(StringUtils.isBlank(url)){
+            return null;
+        }
+        try {
+            HttpPost httpPost = new HttpPost(url);
+            httpPost.addHeader(HTTP.CONTENT_TYPE, APPLICATION_JSON);
+            StringEntity se = new StringEntity(requestJsonParams);
+            se.setContentType(APPLICATION_JSON);
+            se.setContentEncoding(new BasicHeader(HTTP.CONTENT_TYPE, APPLICATION_JSON));
+            httpPost.setEntity(se);
+            CloseableHttpResponse response = httpClient.execute(httpPost);
+            int statusCode = response.getStatusLine().getStatusCode();
+            if (statusCode != 200) {
+                httpPost.abort();
+                //throw new RuntimeException("HttpClient,error status code :" + statusCode);
+                System.out.println("请求返回码statusCode:"+statusCode);
+            }
+            HttpEntity entity = response.getEntity();
+            String result = null;
+            if (entity != null){
+                result = EntityUtils.toString(entity, "utf-8");
+            }
+            EntityUtils.consume(entity);
+            response.close();
+            return result;
+        } catch (Exception e) {
+            logger.error(e);
+        }
+        return null;
+    }
+    
+    
     public static int CONNECTTIMEOUT = 5000;
 
     public static int READTIMEOUT = 10000;
@@ -59,7 +201,7 @@ public class HttpUtil {
         try {
             return URLEncoder.encode(url, CHARSET_UTF8);
         } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
+            logger.error(e);
             return null;
         }
     }
@@ -74,7 +216,7 @@ public class HttpUtil {
         try {
             return URLDecoder.decode(url, CHARSET_UTF8);
         } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
+            logger.error(e);
             return null;
         }
     }
@@ -96,7 +238,7 @@ public class HttpUtil {
                 return false;
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            logger.error(e);
             return false;
         }
     }
@@ -116,7 +258,7 @@ public class HttpUtil {
                 return false;
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            logger.error(e);
             return false;
         }
     }
@@ -150,21 +292,7 @@ public class HttpUtil {
         return queryString.toString();
     }
 
-    /**
-     * 获得请求的路径及参数
-     * 
-     * @param request
-     * @return
-     */
-    public static String getRequestURL(HttpServletRequest request) {
-        StringBuffer originalURL = new StringBuffer(request.getServletPath());
-        Map<?, ?> parameters = request.getParameterMap();
-        if (parameters != null && parameters.size() > 0) {
-            originalURL.append("?");
-            originalURL.append(getParamString(parameters));
-        }
-        return originalURL.toString();
-    }
+
 
     /**
      * 抓取网页内容,自动识别编码
@@ -202,7 +330,7 @@ public class HttpUtil {
             isr.close();
             return sb.toString();
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error(e);
             return null;
         } finally {
             if (conn != null) {
@@ -262,7 +390,7 @@ public class HttpUtil {
             return sb.toString();
 
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error(e);
             throw new RuntimeException(e);
         } finally {
             if (connection != null) {
@@ -303,7 +431,7 @@ public class HttpUtil {
             return sb.toString();
 
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error(e);
             throw new RuntimeException(e);
         } finally {
             if (connection != null) {
@@ -363,7 +491,7 @@ public class HttpUtil {
             return sb.toString();
 
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error(e);
             throw new RuntimeException(e);
         } finally {
             if (connection != null) {
@@ -372,21 +500,6 @@ public class HttpUtil {
         }
 
     }
-    
-    public static String getIpAddr(HttpServletRequest request) {
-        String ip = request.getHeader("x-forwarded-for");
-        if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
-            ip = request.getHeader("Proxy-Client-IP");
-        }
-        if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
-            ip = request.getHeader("WL-Proxy-Client-IP");
-        }
-        if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
-            ip = request.getRemoteAddr();
-        }
-        return ip;
-    }
-
 
     public static InputStream getInputStream(String url) {
         HttpURLConnection connection = null;
@@ -401,59 +514,5 @@ public class HttpUtil {
         }
         return null;
     }
-
-    public static String getInputStream(HttpServletRequest request,
-            String charset) {
-        BufferedReader in = null;
-        StringBuilder sb = new StringBuilder();
-        try {
-            in = new BufferedReader(new InputStreamReader(
-                    request.getInputStream(), charset));
-
-            String line;
-            while ((line = in.readLine()) != null) {
-                sb.append(line);
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-            return "";
-        } finally {
-            if (in != null) {
-                try {
-                    in.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
-        return sb.toString();
-    }
-
-    /**
-     * 获得请求路径
-     * 
-     * @param request
-     * @return
-     */
-    public static String getRequestPath(HttpServletRequest request) {
-        String requestPath = request.getRequestURI();
-        return requestPath.substring(request.getContextPath().length() + 1);// 去掉项目路径
-    }
-
-    public static String getInputStream(HttpServletRequest request) {
-        return getInputStream(request, "UTF-8");
-    }
-
-
-    public static boolean isAjaxRequest(HttpServletRequest request){  
-        String header = request.getHeader("X-Requested-With");  
-        String isAjax = request.getHeader("isAjax");
-        if ("XMLHttpRequest".equals(header) || "isAjax".equalsIgnoreCase(isAjax)) {
-            return true;
-        } else {
-            return false;
-        }
-    } 
-
-    private static final Log log = LogFactory.getLog(HttpUtil.class);
+     
 }

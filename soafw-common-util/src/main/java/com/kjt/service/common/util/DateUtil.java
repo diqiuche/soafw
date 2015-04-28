@@ -28,6 +28,14 @@ import org.apache.commons.lang.time.DateUtils;
  */
 public class DateUtil {
 
+    public static String yyyy_MM_dd = "yyyy-MM-dd";
+    public static String MM_dd_yyyy = "MM/dd/yyyy";
+    private static String MM_dd_yyyy_HH_mm = "MM/dd/yyyy HH:mm";
+    private static String MM_dd_yyyy_HH_mm_ss = "MM/dd/yyyy HH:mm:ss";
+    public static String yyyyMMdd = "yyyyMMdd", yyyyMMddHHmm = "yyyyMMddHHmm",
+            yyyyMMddHHmmss = "yyyyMMddHHmmss";
+    public static String yyyy_MM_dd_HH_mm_SS = "yyyy-MM-dd HH:mm:ss";
+    
     private static final int[] dayArray =
             new int[] {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
 
@@ -44,7 +52,7 @@ public class DateUtil {
      * @throws ParseException
      */
     public static boolean between(String startTime, String endTime) throws ParseException {
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        SimpleDateFormat sdf = new SimpleDateFormat(yyyy_MM_dd_HH_mm_SS);
         Date start = sdf.parse(startTime);
         Date end = sdf.parse(endTime);
         Date nowDate = new Date();// test >= start && test <= end
@@ -60,9 +68,7 @@ public class DateUtil {
         SimpleDateFormat sf = new SimpleDateFormat(patten);
         try {
             return sf.parse(date);
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
+        } catch (ParseException e) {}
         return null;
     }
 
@@ -96,9 +102,9 @@ public class DateUtil {
      * @param date
      * @return String
      */
+    public static String yyyy_MM_dd$HH_mm_ss_SSS = "yyyy-MM-dd HH:mm:ss,SSS";
     public static String getDateMilliFormat(Date date) {
-        String pattern = "yyyy-MM-dd HH:mm:ss,SSS";
-        return getDateFormat(date, pattern);
+        return getDateFormat(date, yyyy_MM_dd$HH_mm_ss_SSS);
     }
 
     /**
@@ -106,8 +112,7 @@ public class DateUtil {
      * @return java.util.Calendar
      */
     public static Calendar parseCalendarMilliFormat(String strDate) {
-        String pattern = "yyyy-MM-dd HH:mm:ss,SSS";
-        return parseCalendarFormat(strDate, pattern);
+        return parseCalendarFormat(strDate, yyyy_MM_dd$HH_mm_ss_SSS);
     }
 
     /**
@@ -115,8 +120,7 @@ public class DateUtil {
      * @return java.util.Date
      */
     public static Date parseDateMilliFormat(String strDate) {
-        String pattern = "yyyy-MM-dd HH:mm:ss,SSS";
-        return parseDateFormat(strDate, pattern);
+        return parseDateFormat(strDate, yyyy_MM_dd$HH_mm_ss_SSS);
     }
 
     /**
@@ -132,7 +136,7 @@ public class DateUtil {
      * @return String
      */
     public static String getDateSecondFormat(Calendar cal) {
-        String pattern = "yyyy-MM-dd HH:mm:ss";
+        String pattern = yyyy_MM_dd_HH_mm_SS;
         return getDateFormat(cal, pattern);
     }
 
@@ -141,7 +145,7 @@ public class DateUtil {
      * @return String
      */
     public static String getDateSecondFormat(Date date) {
-        String pattern = "yyyy-MM-dd HH:mm:ss";
+        String pattern = yyyy_MM_dd_HH_mm_SS;
         return getDateFormat(date, pattern);
     }
 
@@ -150,7 +154,7 @@ public class DateUtil {
      * @return java.util.Calendar
      */
     public static Calendar parseCalendarSecondFormat(String strDate) {
-        String pattern = "yyyy-MM-dd HH:mm:ss";
+        String pattern = yyyy_MM_dd_HH_mm_SS;
         return parseCalendarFormat(strDate, pattern);
     }
 
@@ -159,7 +163,7 @@ public class DateUtil {
      * @return java.util.Date
      */
     public static Date parseDateSecondFormat(String strDate) {
-        String pattern = "yyyy-MM-dd HH:mm:ss";
+        String pattern = yyyy_MM_dd_HH_mm_SS;
         return parseDateFormat(strDate, pattern);
     }
 
@@ -175,9 +179,9 @@ public class DateUtil {
      * @param cal
      * @return String
      */
+    public static String yyyy_MM_dd$HH_mm = "yyyy-MM-dd HH:mm";
     public static String getDateMinuteFormat(Calendar cal) {
-        String pattern = "yyyy-MM-dd HH:mm";
-        return getDateFormat(cal, pattern);
+        return getDateFormat(cal, yyyy_MM_dd$HH_mm);
     }
 
     /**
@@ -185,8 +189,7 @@ public class DateUtil {
      * @return String
      */
     public static String getDateMinuteFormat(Date date) {
-        String pattern = "yyyy-MM-dd HH:mm";
-        return getDateFormat(date, pattern);
+        return getDateFormat(date, yyyy_MM_dd$HH_mm);
     }
 
     /**
@@ -194,8 +197,7 @@ public class DateUtil {
      * @return java.util.Calendar
      */
     public static Calendar parseCalendarMinuteFormat(String strDate) {
-        String pattern = "yyyy-MM-dd HH:mm";
-        return parseCalendarFormat(strDate, pattern);
+        return parseCalendarFormat(strDate, yyyy_MM_dd$HH_mm);
     }
 
     /**
@@ -203,8 +205,7 @@ public class DateUtil {
      * @return java.util.Date
      */
     public static Date parseDateMinuteFormat(String strDate) {
-        String pattern = "yyyy-MM-dd HH:mm";
-        return parseDateFormat(strDate, pattern);
+        return parseDateFormat(strDate, yyyy_MM_dd$HH_mm);
     }
 
     /**
@@ -229,7 +230,7 @@ public class DateUtil {
      * @return String
      */
     public static String getDateDayFormat(Calendar cal) {
-        String pattern = "yyyy-MM-dd";
+        String pattern = yyyy_MM_dd;
         return getDateFormat(cal, pattern);
     }
 
@@ -238,7 +239,7 @@ public class DateUtil {
      * @return String
      */
     public static String getDateDayFormat(Date date) {
-        String pattern = "yyyy-MM-dd";
+        String pattern = yyyy_MM_dd;
         return getDateFormat(date, pattern);
     }
 
@@ -283,21 +284,25 @@ public class DateUtil {
         }
         return (hour + "小时" + minute + "分钟" + second + "秒");
     }
-    public static long getUnixTimestamp(){
+
+    public static long getUnixTimestamp() {
         return toSecond(Calendar.getInstance().getTime());
     }
-    public static long toSecond(Date date){
-        return date.getTime()/1000;
+
+    public static long toSecond(Date date) {
+        return date.getTime() / 1000;
     }
-    public static long toMilliSecond(Date date){
+
+    public static long toMilliSecond(Date date) {
         return date.getTime();
     }
+
     /**
      * @param strDate
      * @return java.util.Calendar
      */
     public static Calendar parseCalendarDayFormat(String strDate) {
-        String pattern = "yyyy-MM-dd";
+        String pattern = yyyy_MM_dd;
         return parseCalendarFormat(strDate, pattern);
     }
 
@@ -306,7 +311,7 @@ public class DateUtil {
      * @return java.util.Date
      */
     public static Date parseDateDayFormat(String strDate) {
-        String pattern = "yyyy-MM-dd";
+        String pattern = yyyy_MM_dd;
         return parseDateFormat(strDate, pattern);
     }
 
@@ -322,9 +327,9 @@ public class DateUtil {
      * @param cal
      * @return String
      */
+    public static String yyyy_MM_dd_HH_mm_ss = "yyyy-MM-dd_HH-mm-ss";
     public static String getDateFileFormat(Calendar cal) {
-        String pattern = "yyyy-MM-dd_HH-mm-ss";
-        return getDateFormat(cal, pattern);
+        return getDateFormat(cal, yyyy_MM_dd_HH_mm_ss);
     }
 
     /**
@@ -332,8 +337,7 @@ public class DateUtil {
      * @return String
      */
     public static String getDateFileFormat(Date date) {
-        String pattern = "yyyy-MM-dd_HH-mm-ss";
-        return getDateFormat(date, pattern);
+        return getDateFormat(date, yyyy_MM_dd_HH_mm_ss);
     }
 
     /**
@@ -341,8 +345,7 @@ public class DateUtil {
      * @return java.util.Calendar
      */
     public static Calendar parseCalendarFileFormat(String strDate) {
-        String pattern = "yyyy-MM-dd_HH-mm-ss";
-        return parseCalendarFormat(strDate, pattern);
+        return parseCalendarFormat(strDate, yyyy_MM_dd_HH_mm_ss);
     }
 
     /**
@@ -350,8 +353,7 @@ public class DateUtil {
      * @return java.util.Date
      */
     public static Date parseDateFileFormat(String strDate) {
-        String pattern = "yyyy-MM-dd_HH-mm-ss";
-        return parseDateFormat(strDate, pattern);
+        return parseDateFormat(strDate, yyyy_MM_dd_HH_mm_ss);
     }
 
     /**
@@ -367,7 +369,7 @@ public class DateUtil {
      * @return String
      */
     public static String getDateW3CFormat(Calendar cal) {
-        String pattern = "yyyy-MM-dd HH:mm:ss";
+        String pattern = yyyy_MM_dd_HH_mm_SS;
         return getDateFormat(cal, pattern);
     }
 
@@ -376,7 +378,7 @@ public class DateUtil {
      * @return String
      */
     public static String getDateW3CFormat(Date date) {
-        String pattern = "yyyy-MM-dd HH:mm:ss";
+        String pattern = yyyy_MM_dd_HH_mm_SS;
         return getDateFormat(date, pattern);
     }
 
@@ -385,7 +387,7 @@ public class DateUtil {
      * @return java.util.Calendar
      */
     public static Calendar parseCalendarW3CFormat(String strDate) {
-        String pattern = "yyyy-MM-dd HH:mm:ss";
+        String pattern = yyyy_MM_dd_HH_mm_SS;
         return parseCalendarFormat(strDate, pattern);
     }
 
@@ -394,7 +396,7 @@ public class DateUtil {
      * @return java.util.Date
      */
     public static Date parseDateW3CFormat(String strDate) {
-        String pattern = "yyyy-MM-dd HH:mm:ss";
+        String pattern = yyyy_MM_dd_HH_mm_SS;
         return parseDateFormat(strDate, pattern);
     }
 
@@ -403,7 +405,7 @@ public class DateUtil {
      * @return String
      */
     public static String getDateFormat(Calendar cal) {
-        String pattern = "yyyy-MM-dd HH:mm:ss";
+        String pattern = yyyy_MM_dd_HH_mm_SS;
         return getDateFormat(cal, pattern);
     }
 
@@ -412,7 +414,7 @@ public class DateUtil {
      * @return String
      */
     public static String getDateFormat(Date date) {
-        String pattern = "yyyy-MM-dd HH:mm:ss";
+        String pattern = yyyy_MM_dd_HH_mm_SS;
         return getDateFormat(date, pattern);
     }
 
@@ -421,7 +423,7 @@ public class DateUtil {
      * @return java.util.Calendar
      */
     public static Calendar parseCalendarFormat(String strDate) {
-        String pattern = "yyyy-MM-dd HH:mm:ss";
+        String pattern = yyyy_MM_dd_HH_mm_SS;
         return parseCalendarFormat(strDate, pattern);
     }
 
@@ -430,7 +432,7 @@ public class DateUtil {
      * @return java.util.Date
      */
     public static Date parseDateFormat(String strDate) {
-        String pattern = "yyyy-MM-dd HH:mm:ss";
+        String pattern = yyyy_MM_dd_HH_mm_SS;
         return parseDateFormat(strDate, pattern);
     }
 
@@ -468,9 +470,7 @@ public class DateUtil {
         try {
             sdf.parse(strDate);
             cal = sdf.getCalendar();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        } catch (Exception e) {}
         return cal;
 
     }
@@ -486,9 +486,7 @@ public class DateUtil {
         sdf.applyPattern(pattern);
         try {
             date = sdf.parse(strDate);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        } catch (Exception e) {}
         return date;
 
     }
@@ -1120,31 +1118,30 @@ public class DateUtil {
     /**
      * 标准日期格式
      */
-    private static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("MM/dd/yyyy");
+    private static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat(MM_dd_yyyy);
     /**
      * 标准时间格式
      */
-    private static final SimpleDateFormat DATE_TIME_FORMAT = new SimpleDateFormat(
-            "MM/dd/yyyy HH:mm");
+    private static final SimpleDateFormat DATE_TIME_FORMAT = new SimpleDateFormat(MM_dd_yyyy_HH_mm);
     /**
      * 带时分秒的标准时间格式
      */
     private static final SimpleDateFormat DATE_TIME_EXTENDED_FORMAT = new SimpleDateFormat(
-            "MM/dd/yyyy HH:mm:ss");
+            MM_dd_yyyy_HH_mm_ss);
+
     /**
      * ORA标准日期格式
      */
-    private static final SimpleDateFormat ORA_DATE_FORMAT = new SimpleDateFormat("yyyyMMdd");
+    private static final SimpleDateFormat ORA_DATE_FORMAT = new SimpleDateFormat(yyyyMMdd);
     /**
      * ORA标准时间格式
      */
-    private static final SimpleDateFormat ORA_DATE_TIME_FORMAT = new SimpleDateFormat(
-            "yyyyMMddHHmm");
+    private static final SimpleDateFormat ORA_DATE_TIME_FORMAT = new SimpleDateFormat(yyyyMMddHHmm);
     /**
      * 带时分秒的ORA标准时间格式
      */
     private static final SimpleDateFormat ORA_DATE_TIME_EXTENDED_FORMAT = new SimpleDateFormat(
-            "yyyyMMddHHmmss");
+            yyyyMMddHHmmss);
 
     /**
      * 创建一个标准日期格式的克隆
@@ -1266,7 +1263,7 @@ public class DateUtil {
             return false;
         }
         String str = df.format(d);
-        // 转换后的日期再转换回String,如果不等,逻辑错误.如format为"yyyy-MM-dd",date为
+        // 转换后的日期再转换回String,如果不等,逻辑错误.如format为yyyy_MM_dd,date为
         // "2006-02-31",转换为日期后再转换回字符串为"2006-03-03",说明格式虽然对,但日期
         // 逻辑上不对.
         return date.equals(str);
@@ -1279,7 +1276,7 @@ public class DateUtil {
      * @return 日期字符串
      */
     public static String format(Date date) {
-        return format(date, "yyyy-MM-dd HH:mm:ss");
+        return format(date, yyyy_MM_dd_HH_mm_SS);
     }
 
     /**
@@ -1294,7 +1291,7 @@ public class DateUtil {
             return "null";
         }
         if (pattern == null || pattern.equals("") || pattern.equals("null")) {
-            pattern = "yyyy-MM-dd HH:mm:ss";
+            pattern = yyyy_MM_dd_HH_mm_SS;
         }
         return new java.text.SimpleDateFormat(pattern).format(date);
     }
@@ -1318,7 +1315,7 @@ public class DateUtil {
      */
     public static Date format(String date, String pattern) {
         if (pattern == null || pattern.equals("") || pattern.equals("null")) {
-            pattern = "yyyy-MM-dd HH:mm:ss";
+            pattern = yyyy_MM_dd_HH_mm_SS;
         }
         if (date == null || date.equals("") || date.equals("null")) {
             return new Date();
@@ -1334,7 +1331,7 @@ public class DateUtil {
      * 得到二个日期间的间隔天数
      */
     public static String getTwoDay(String sj1, String sj2) {
-        SimpleDateFormat myFormatter = new SimpleDateFormat("yyyy-MM-dd");
+        SimpleDateFormat myFormatter = new SimpleDateFormat(yyyy_MM_dd);
         long day = 0;
         try {
             java.util.Date date = myFormatter.parse(sj1);
@@ -1370,7 +1367,7 @@ public class DateUtil {
      * @return
      */
     public static Date strToDate(String strDate) {
-        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+        SimpleDateFormat formatter = new SimpleDateFormat(yyyy_MM_dd);
         ParsePosition pos = new ParsePosition(0);
         Date strtodate = formatter.parse(strDate, pos);
         return strtodate;
@@ -1387,7 +1384,7 @@ public class DateUtil {
         if (date1 == null || date1.equals("")) return 0;
         if (date2 == null || date2.equals("")) return 0;
         // 转换为标准时间
-        SimpleDateFormat myFormatter = new SimpleDateFormat("yyyy-MM-dd");
+        SimpleDateFormat myFormatter = new SimpleDateFormat(yyyy_MM_dd);
         java.util.Date date = null;
         java.util.Date mydate = null;
         try {
@@ -1401,7 +1398,7 @@ public class DateUtil {
     // 计算当月最后一天,返回字符串
     public String getDefaultDay() {
         String str = "";
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        SimpleDateFormat sdf = new SimpleDateFormat(yyyy_MM_dd);
 
         Calendar lastDate = Calendar.getInstance();
         lastDate.set(Calendar.DATE, 1);// 设为当前月的1号
@@ -1415,7 +1412,7 @@ public class DateUtil {
     // 上月第一天
     public String getPreviousMonthFirst() {
         String str = "";
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        SimpleDateFormat sdf = new SimpleDateFormat(yyyy_MM_dd);
 
         Calendar lastDate = Calendar.getInstance();
         lastDate.set(Calendar.DATE, 1);// 设为当前月的1号
@@ -1429,7 +1426,7 @@ public class DateUtil {
     // 获取当月第一天
     public String getFirstDayOfMonth() {
         String str = "";
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        SimpleDateFormat sdf = new SimpleDateFormat(yyyy_MM_dd);
 
         Calendar lastDate = Calendar.getInstance();
         lastDate.set(Calendar.DATE, 1);// 设为当前月的1号
@@ -1453,7 +1450,7 @@ public class DateUtil {
     // 获取当天时间
     public String getNowTime() {
         Date now = new Date();
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");// 可以方便地修改日期格式
+        SimpleDateFormat dateFormat = new SimpleDateFormat(yyyy_MM_dd);// 可以方便地修改日期格式
         String hehe = dateFormat.format(now);
         return hehe;
     }
@@ -1559,7 +1556,7 @@ public class DateUtil {
     // 获得上月最后一天的日期
     public String getPreviousMonthEnd() {
         String str = "";
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        SimpleDateFormat sdf = new SimpleDateFormat(yyyy_MM_dd);
 
         Calendar lastDate = Calendar.getInstance();
         lastDate.add(Calendar.MONTH, -1);// 减一个月
@@ -1572,7 +1569,7 @@ public class DateUtil {
     // 获得下个月第一天的日期
     public String getNextMonthFirst() {
         String str = "";
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        SimpleDateFormat sdf = new SimpleDateFormat(yyyy_MM_dd);
 
         Calendar lastDate = Calendar.getInstance();
         lastDate.add(Calendar.MONTH, 1);// 减一个月
@@ -1584,7 +1581,7 @@ public class DateUtil {
     // 获得下个月最后一天的日期
     public String getNextMonthEnd() {
         String str = "";
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        SimpleDateFormat sdf = new SimpleDateFormat(yyyy_MM_dd);
 
         Calendar lastDate = Calendar.getInstance();
         lastDate.add(Calendar.MONTH, 1);// 加一个月
@@ -1597,7 +1594,7 @@ public class DateUtil {
     // 获得明年最后一天的日期
     public String getNextYearEnd() {
         String str = "";
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        SimpleDateFormat sdf = new SimpleDateFormat(yyyy_MM_dd);
 
         Calendar lastDate = Calendar.getInstance();
         lastDate.add(Calendar.YEAR, 1);// 加一个年
@@ -1610,7 +1607,7 @@ public class DateUtil {
     // 获得明年第一天的日期
     public String getNextYearFirst() {
         String str = "";
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        SimpleDateFormat sdf = new SimpleDateFormat(yyyy_MM_dd);
 
         Calendar lastDate = Calendar.getInstance();
         lastDate.add(Calendar.YEAR, 1);// 加一个年
@@ -1759,21 +1756,18 @@ public class DateUtil {
             long sec = diff % nd % nh % nm / ns;// 计算差多少秒
             // 输出结果
             System.out.println("时间相差：" + day + "天" + hour + "小时" + min + "分钟" + sec + "秒。");
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        } catch (Exception e) {}
     }
 
     public static boolean between(String startTime, String endTime, String compareTime,
-            String format) throws ParseException {
-        SimpleDateFormat sdf = new SimpleDateFormat(format);
-        Date start = sdf.parse(startTime);
-        Date end = sdf.parse(endTime);
+            String format) {
+        Date start = createDateWith(startTime, format);
+        Date end = createDateWith(endTime, format);
         Date nowDate;// test >= start && test <= end
         if (StringUtils.isEmpty(compareTime)) {
             nowDate = new Date();
         } else {
-            nowDate = sdf.parse(compareTime);
+            nowDate = createDateWith(compareTime, format);;
         }
         return ((nowDate.equals(start) || nowDate.after(start)) && (nowDate.equals(end) || nowDate
                 .before(end)));
@@ -1781,57 +1775,54 @@ public class DateUtil {
 
     public static boolean betweenByDay(String startTime, String endTime, String compareTime)
             throws ParseException {
-        return between(startTime, endTime, compareTime, "yyyy-MM-dd");
+        return between(startTime, endTime, compareTime, yyyy_MM_dd);
     }
 
     public static boolean betweenByDay(String startTime, String endTime) throws ParseException {
-        return between(startTime, endTime, null, "yyyy-MM-dd");
+        return between(startTime, endTime, null, yyyy_MM_dd);
     }
 
     public static String addDate(String now, int day) {
         Calendar fromCal = Calendar.getInstance();
-        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-        try {
-            Date date = dateFormat.parse(now);
-            fromCal.setTime(date);
-            fromCal.add(Calendar.DATE, day);
-            return dateFormat.format(fromCal.getTime());
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return null;
+        String format = yyyy_MM_dd;
+        DateFormat dateFormat = new SimpleDateFormat(format);
+        Date date = createDateWith(now, format);
+        fromCal.setTime(date);
+        fromCal.add(Calendar.DATE, day);
+        return dateFormat.format(fromCal.getTime());
     }
 
     public static String addMinute(String now, int minute) {
         Calendar fromCal = Calendar.getInstance();
-        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        try {
-            Date date = dateFormat.parse(now);
-            fromCal.setTime(date);
-            fromCal.add(Calendar.MINUTE, minute);
-            return dateFormat.format(fromCal.getTime());
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return null;
+        DateFormat dateFormat = new SimpleDateFormat(yyyy_MM_dd_HH_mm_SS);
+        Date date = createDateWith(now, yyyy_MM_dd_HH_mm_SS);
+        fromCal.setTime(date);
+        fromCal.add(Calendar.MINUTE, minute);
+        return dateFormat.format(fromCal.getTime());
     }
 
     public static boolean gt(String startTime, String endTime, String format) {
-        SimpleDateFormat sdf = new SimpleDateFormat(format);
-        try {
-            Date start = sdf.parse(startTime);
-            Date end = sdf.parse(endTime);
-            if (start.compareTo(end) > 0) {
-                return true;
-            }
-        } catch (ParseException e) {
-            e.printStackTrace();
+        Date start = createDateWith(startTime, format);
+        Date end = createDateWith(endTime, format);
+        if (start.compareTo(end) > 0) {
+            return true;
         }
         return false;
     }
 
+    private static Date createDateWith(String time, String format) {
+        SimpleDateFormat sdf = new SimpleDateFormat(format);
+        Date start;
+        try {
+            start = sdf.parse(time);
+        } catch (ParseException e) {
+            throw new RuntimeException(e.getMessage());
+        }
+        return start;
+    }
+
     public static boolean gtByDay(String startTime, String endTime) {
-        return gt(startTime, endTime, "yyyy-MM-dd");
+        return gt(startTime, endTime, yyyy_MM_dd);
     }
 
 }

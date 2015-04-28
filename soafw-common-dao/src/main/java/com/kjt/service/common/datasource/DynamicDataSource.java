@@ -496,8 +496,7 @@ public class DynamicDataSource extends PoolableObjDynamicConfig implements DataS
         Thread.sleep(1000);
         datasource.getString("tsl_db");
       } catch (InterruptedException e) {
-        // TODO Auto-generated catch block
-        e.printStackTrace();
+        datasource.logger.error(e);
       }
     }
   }

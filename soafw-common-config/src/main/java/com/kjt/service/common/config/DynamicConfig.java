@@ -42,7 +42,7 @@ import com.kjt.service.common.util.StringUtil;
  */
 public class DynamicConfig implements ConfigFileDict, Constants, Configuration, IConfigListener {
 
-    protected Logger logger = LoggerFactory.getLogger(DynamicConfig.this.getClass());
+    protected Logger logger = LoggerFactory.getLogger(getClass());
     /**
      * 默认为没有profile<br>
      * 当没有设置profile时 <br>

@@ -40,7 +40,6 @@ public class FileLoader extends AbstractLoader {
             try {
                 readLines = Files.readLines(cf, Charsets.UTF_8);
             } catch (IOException e) {
-                //e.printStackTrace();
                 throw new MojoExecutionException("读取错误编码配置文件错误");
             }
             List<ExceptionMessage> messageList = Lists.newArrayList();

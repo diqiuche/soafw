@@ -9,7 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.LoginUrlAuthenticationEntryPoint;
 
-import com.kjt.service.common.web.util.HttpUtil;
+import com.kjt.service.common.web.util.J2eeHttpUtil;
 
 public class AjaxAwareAuthenticationEntryPoint 
              extends LoginUrlAuthenticationEntryPoint {
@@ -25,7 +25,7 @@ public class AjaxAwareAuthenticationEntryPoint
         AuthenticationException authException) 
             throws IOException, ServletException {
 
-        if (HttpUtil.isAjaxRequest(request)) {
+        if (J2eeHttpUtil.isAjaxRequest(request)) {
             response.sendError(403, "Forbidden");
         } else {
             super.commence(request, response, authException);

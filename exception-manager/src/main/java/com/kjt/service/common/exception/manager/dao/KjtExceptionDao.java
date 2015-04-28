@@ -61,7 +61,6 @@ public class KjtExceptionDao {
             pstmt.close();
             DbUtil.closeConnection(connection);
         } catch (SQLException e) {
-            e.printStackTrace();
         }
 
         return ret;

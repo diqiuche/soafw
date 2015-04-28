@@ -28,7 +28,6 @@ public class DbUtil {
         try {
             dbProperties.load(DbUtil.class.getResourceAsStream(DB_CONFIG));
         } catch (IOException e) {
-           // e.printStackTrace();
         }
     }
 
@@ -37,7 +36,6 @@ public class DbUtil {
             try {
                 connection.close();
             } catch (SQLException e) {
-               // e.printStackTrace();
             }
         }
     }
@@ -46,14 +44,12 @@ public class DbUtil {
         try {
             Class.forName(getConfig(DB_DRIVER));
         } catch (ClassNotFoundException e) {
-            //e.printStackTrace();
         }
         try {
             Connection connection= DriverManager.getConnection(
                     getConfig(DB_URL), getConfig(DB_USER), getConfig(DB_PWD));
             return  connection;
         } catch (SQLException e) {
-            // e.printStackTrace();
         }
         return null;
     }
