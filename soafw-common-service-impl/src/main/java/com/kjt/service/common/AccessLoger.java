@@ -18,7 +18,10 @@ import com.kjt.service.concurrent.AsynBizExecutor;
 public class AccessLoger {
 
     public static Object process(ProceedingJoinPoint pjp) throws Throwable{
-        RequestID.set(null);
+        String reqId = RequestID.get();
+        if(StringUtil.isEmpty(reqId)){
+            RequestID.set(null);
+        }
         _logger.info("start process");
         Object target = pjp.getTarget();
         String ip = RpcContext.getContext().getRemoteAddressString();

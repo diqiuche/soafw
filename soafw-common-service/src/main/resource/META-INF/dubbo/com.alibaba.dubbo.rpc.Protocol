@@ -1,0 +1,1 @@
+dubboExt=com.alibaba.dubbo.rpc.protocol.dubbo.ext.DubboExtProtocol
