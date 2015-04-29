@@ -50,6 +50,18 @@ public interface IDAO<T> extends ICacheable<T> {
   public List<T> queryByMap(Map<String, Object> params, String tabNameSuffix);
 
   /**
+   * 
+   * @param params
+   *          查询条件
+   * @param orders
+   *          有对象格式的字符串eg：name asc,age desc
+   * @param tabNameSuffix
+   *          表名后缀［用于支持表拆分机制，即：数据库操作时的表名规则为:tableName+"_"+tabNameSuffix］
+   * @return
+   */
+  public List<T> queryByMap(Map<String, Object> params, String orders, String tabNameSuffix);
+
+  /**
    * 根据条件查询纪录id列表
    * 
    * @param params
@@ -59,6 +71,18 @@ public interface IDAO<T> extends ICacheable<T> {
    * @return
    */
   public List queryIdsByMap(Map<String, Object> params, String tabNameSuffix);
+
+  /**
+   * 
+   * @param params
+   *          查询条件
+   * @param orders
+   *          有对象格式的字符串eg：name asc,age desc
+   * @param tabNameSuffix
+   *          表名后缀［用于支持表拆分机制，即：数据库操作时的表名规则为:tableName+"_"+tabNameSuffix］
+   * @return
+   */
+  public List queryIdsByMap(Map<String, Object> params, String orders, String tabNameSuffix);
 
   /**
    * 根据条件查询纪录列表
@@ -74,6 +98,21 @@ public interface IDAO<T> extends ICacheable<T> {
   public List<T> queryByMap(Map<String, Object> params, Boolean master, String tabNameSuffix);
 
   /**
+   * 
+   * @param params
+   *          查询条件
+   * @param orders
+   *          有对象格式的字符串eg：name asc,age desc
+   * @param mastermaster
+   *          是否从master查询,master＝true时从master库中查询,同时重新刷新缓存
+   * @param tabNameSuffix
+   *          表名后缀［用于支持表拆分机制，即：数据库操作时的表名规则为:tableName+"_"+tabNameSuffix］
+   * @return
+   */
+  public List<T> queryByMap(Map<String, Object> params, String orders, Boolean master,
+      String tabNameSuffix);
+
+  /**
    * 根据条件查询纪录id列表
    * 
    * @param params
@@ -85,6 +124,21 @@ public interface IDAO<T> extends ICacheable<T> {
    * @return
    */
   public List queryIdsByMap(Map<String, Object> params, Boolean master, String tabNameSuffix);
+
+  /**
+   * 
+   * @param params
+   *          查询条件
+   * @param orders
+   *          有对象格式的字符串eg：name asc,age desc
+   * @param master
+   *          是否在master中查询,master＝true时从master库中查询,同时重新刷新缓存
+   * @param tabNameSuffix
+   *          表名后缀［用于支持表拆分机制，即：数据库操作时的表名规则为:tableName+"_"+tabNameSuffix］
+   * @return
+   */
+  public List queryIdsByMap(Map<String, Object> params, String orders, Boolean master,
+      String tabNameSuffix);
 
   /**
    * 从slave中通过条件进行统计记录数
@@ -164,9 +218,12 @@ public interface IDAO<T> extends ICacheable<T> {
   /**
    * 必须在子类中实现
    * 
-   * @param params 查询条件
-   * @param page 第几页 从1开始，即必须大于等于1
-   * @param size 页最大记录数
+   * @param params
+   *          查询条件
+   * @param page
+   *          第几页 从1开始，即必须大于等于1
+   * @param size
+   *          页最大记录数
    * @param orders
    *          有对象格式的字符串eg：name asc,age desc
    * @param master
@@ -186,9 +243,10 @@ public interface IDAO<T> extends ICacheable<T> {
    * @return
    */
   public String get$TKjtTabName(String tabNameSuffix);
-  
+
   /**
    * 获取表名
+   * 
    * @return
    */
   public String getTableName();

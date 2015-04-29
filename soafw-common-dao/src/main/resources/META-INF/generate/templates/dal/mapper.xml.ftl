@@ -213,6 +213,7 @@
 		<where>
 			<include refid="Where_Clause_Normal_Gen" />
 		</where>
+		<if test="orders !=  null"> order by ${r"${orders}"} </if>
 	</select>
 	
 	<select id="queryIdsByMap" parameterType="java.util.Map" resultType="java.lang.Long" fetchSize="100">				
@@ -223,6 +224,7 @@
 		<where>
 			<include refid="Where_Clause_Normal_Gen" />
 		</where>
+		<if test="orders !=  null"> order by ${r"${orders}"} </if>
 	</select>
 	
 	<select id="countByMap" parameterType="java.util.Map" resultType="java.lang.Integer">				
