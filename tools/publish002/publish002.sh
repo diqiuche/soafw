@@ -74,8 +74,6 @@ web_path="$app_root_path"/"$date_time""_"$seq_no/"$1-web"
 
 job_path="$app_root_path"/"$date_time""_"$seq_no/
 
-job_path_syc="$app_root_path"/"$date_time""_"$seq_no/"$1-job-trade-sync"
-
 service_impl_path="$app_root_path"/"$date_time""_"$seq_no/"$1-service-impl"
 
 web_target_path="$app_root_path"/"$date_time""_"$seq_no/"$1-web"/"target"
@@ -118,10 +116,6 @@ echo "service_impl_path:"$service_impl_path
 ######################生成可执行脚本##########
 sed '1,$s/$prefix/'"$1"'/g'  startService_org.sh > startService.sh
 
-#sed '1,$s/$prefix/'"$1"'/g'  startJob_org.sh > startJob.sh
-
-#echo "$2"$2
-
 if [  -n "$2" ];then
 
 echo "输入的端口号:"$2
@@ -143,10 +137,6 @@ echo "未输入端口号默认port:"$port
 sed -e  '1,$s/$2/'"$port"'/g' -e '1,$s/$prefix/'"$1"'/g'  startWeb_org.sh > startWeb.sh
 
 fi
-
-#sed '1,$s/$prefix/'"$1"'/g'  startWeb_org.sh > startWeb.sh
-
-#sed '1,$s/$prefix/'"$1"'/g'  startTradeSyncJob_org.sh > startTradeSyncJob.sh
 
 sh kjt_switch.sh   $1 $current_version
 
@@ -202,19 +192,6 @@ if [ ! -d "$job_path$var" ]; then
    mkdir -p  "$job_path$var"
 fi
 
-###############打包job############
-
-# if [ "$1" = "tsl" ];then
-# echo "我要测试###################################"$1
-#cd /root/code/projects/workspace/$1/$var
-
-# mvn assembly:assembly >  /dev/null
-#else
-
-# echo "非tsl工程"
-
-#fi
-
 done
 
 for var in ${array[@]};do
@@ -223,7 +200,7 @@ for var in ${array[@]};do
  echo "我要测试###################################"$1
 cd /root/code/projects/workspace/$1/$var
 
- mvn assembly:assembly  ### >  /dev/null
+ mvn assembly:assembly
 else
 
  echo "非tsl工程"
@@ -233,15 +210,6 @@ fi
 
 
 done
-
-
-#########################
-
-#chmod 755 startService.sh startJob.sh startWeb.sh startTradeSyncJob.sh
-
-#chmod 755 $1*.sh
-
-##############################################
 
 ################## if apps dir not exists then create #######
 if [ ! -d "$app_path" ]; then
@@ -255,17 +223,7 @@ fi
 
 if [ ! -d "$web_path" ]; then
    mkdir -p "$web_path"
-fi  
-
-
-#if [ ! -d "$job_path" ]; then
-#   mkdir -p  "$job_path"
-#fi
-
-#if [ ! -d "$job_path_syc" ]; then
-#   mkdir -p  "$job_path_syc"
-#fi
-
+fi
 
 if [ ! -d "$service_impl_path" ]; then
    mkdir -p "$service_impl_path"
@@ -296,47 +254,6 @@ if [ ! -d "$pro_config_path" ]; then
    mkdir -p "$pro_config_path"
 fi
 
-####如果版本记录文件不存在则创建
-
-#if [ ! -f "$shell_bash_org_file" ]; then
-#  touch "$shell_bash_org_file"
-#fi
-
-#if [ ! -f "$shell_bash_last_file" ]; then
-#  touch "$shell_bash_last_file"
-#fi
-
-#if [ ! -f "$shell_bash_backup_file" ]; then
-#  touch "$shell_bash_backup_file"
-#fi
-
-#if [ ! -d "$current_link_path" ]; then
-#   mkdir -p "$current_link_path"
-#fi
-
-############# 切换版本调用脚本 #########
-
-#sh kjt_switch.sh   $1 $current_version
-
-#wait
-################################
-
-#cd /root/code/projects/workspace/$1/$1-job
-
-# mvn assembly:assembly
-
-################################
-
-# if [ "$1" = "tsl" ];then
-# echo "我要测试###################################"$1
-#cd /root/code/projects/workspace/$1/$1-job-trade-sync
-
-# mvn assembly:assembly
-#else
-
-# echo "非tsl工程"
-
-#fi
 ##############新增tsljob#######
 ###########打包 service ##############
 
@@ -357,10 +274,6 @@ rm -rf current
 
 cp -Rpf /root/code/projects/workspace/$1/pom.xml  $global_pom_path
 
-#cp -Rpf /root/code/projects/workspace/$1/$1-job/target/*.tar.gz  $job_path
-
-#cp -Rpf /root/shell_bash/startJob.sh  $job_path
-
 if [ "$1" = "tsl" ];then
    
 for var in ${array[@]};do
@@ -371,7 +284,6 @@ for var in ${array[@]};do
 
  start_shell=${var:$strlen:200} 
 
-# start_shell=${var:0:3}
  start_shell="start"$start_shell
 
 cp -Rpf /root/code/projects/workspace/$1/$var/target/*.tar.gz  $job_path$var
@@ -379,13 +291,8 @@ cp -Rpf /root/code/projects/workspace/$1/$var/target/*.tar.gz  $job_path$var
 cp -Rpf /root/shell_bash/$start_shell.sh  $current_path
 
 done
-#cp -Rpf /root/code/projects/workspace/$1/$1-job-trade-sync/target/*.tar.gz  $job_path_syc
-
-#cp -Rpf /root/shell_bash/startTradeSyncJob.sh  $current_path
 
 fi
-
-#cp -Rpf /root/shell_bash/startTradeSyncJob.sh  $job_path_syc
 
 cp -Rpf /root/code/projects/workspace/$1/$1-service-impl/target/*.tar.gz  $service_impl_path
 
@@ -397,21 +304,13 @@ cp -Rpf /root/code/projects/workspace/$1/$1-web/target/*.war /root/code/projects
 
 cp -Rpf /root/code/projects/workspace/$1/$1-web/src/* /root/code/projects/workspace/$1/$1-web/target/$1-web $web_src_path
 
-#cp -Rpf /root/shell_bash/startWeb.sh  $web_path
-
 cp -Rpf /root/shell_bash/current  $app_root_path
-
-#cp -Rpf $global_config_path  $global_config_path
 
 cp -Rpf /root/shell_bash/start.sh      $app_root_path
 
 cp -Rpf /root/shell_bash/startWeb.sh  $current_path
 
 cp -Rpf /root/shell_bash/startService.sh  $current_path
-
-#cp -Rpf /root/shell_bash/startJob.sh  $current_path
-
-#cp -Rpf /root/shell_bash/startTradeSyncJob.sh  $current_path
 
 echo "publish project execute over!!!"
 

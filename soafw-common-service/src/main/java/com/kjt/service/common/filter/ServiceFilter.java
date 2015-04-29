@@ -18,6 +18,11 @@ public class ServiceFilter implements Filter {
     }
     @Override
     public Result invoke(Invoker<?> invoker, Invocation invocation) throws RpcException {
+        boolean provider = RpcContext.getContext().isProviderSide();
+        if(provider){
+            String ReqId = invoker.getUrl().getParameter("ReqId");
+            System.out.println(ReqId);
+        }
         Result result = invoker.invoke(invocation);
         return result;
     }

@@ -25,10 +25,7 @@ public abstract class PoolableObjDynamicConfig extends DynamicConfig {
 		else{
 			prefix_="";
 		}
-
-		if (!StringUtil.isEmpty(prefix_)) {
-			logger.info("getPrefix() - end - return value={}", prefix_); //$NON-NLS-1$
-		}
+		
 		return prefix_;
 	}
 	

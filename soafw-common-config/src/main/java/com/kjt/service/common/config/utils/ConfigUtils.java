@@ -10,88 +10,90 @@ import org.apache.commons.configuration.Configuration;
 import com.kjt.service.common.config.IConfigListener;
 
 public class ConfigUtils {
-	private static ConfigUtils configUtilsSingleton = new ConfigUtils();
+    private static ConfigUtils configUtilsSingleton = new ConfigUtils();
 
-	private Map<String, ConfigWatchdog> watchs = new ConcurrentHashMap<String, ConfigWatchdog>();
-	private Map<String, List<IConfigListener>> configListeners = new ConcurrentHashMap<String, List<IConfigListener>>();
+    private Map<String, ConfigWatchdog> watchs = new ConcurrentHashMap<String, ConfigWatchdog>();
+    private Map<String, List<IConfigListener>> configListeners =
+            new ConcurrentHashMap<String, List<IConfigListener>>();
 
-	private ConfigUtils() {
-	}
+    private ConfigUtils() {}
 
-	public static ConfigUtils getConfigUtilsInstance() {
-		return configUtilsSingleton;
-	}
+    public static ConfigUtils getConfigUtilsInstance() {
+        return configUtilsSingleton;
+    }
 
-	// 启动通知 配置监听者线程
+    // 启动通知 配置监听者线程
+    public void addListener(IConfigListener configListener) {
 
-	public void addListener(IConfigListener configListener) {
-		synchronized (configUtilsSingleton) {
-			String[] configFileName = configListener.getFileName();
+        synchronized (configUtilsSingleton) {
+            /**
+             * 一个文件观察者可以观察多个不同的文件
+             */
+            String[] configFileName = configListener.getFileName();
+            int size = configFileName == null ? 0 : configFileName.length;
+            for (int i = 0; i < size; i++) {
 
-			// 注册配置文件监听者
-			List<IConfigListener> lastConfigListenerList = configListeners.get(configFileName);
-			if (lastConfigListenerList == null) {
-				lastConfigListenerList = new ArrayList<IConfigListener>();
-				for(int i=0;i<configFileName.length;i++){
-				    configListeners.put(configFileName[i], lastConfigListenerList);
-				}
-			}
+                String tempConfigFile = configFileName[i];
+                List<IConfigListener> lastConfigListenerList = configListeners.get(tempConfigFile);
+                if (lastConfigListenerList == null) {// 没有注册过
+                    lastConfigListenerList = new ArrayList<IConfigListener>();
+                    configListeners.put(tempConfigFile, lastConfigListenerList);
+                }
+                // 注册配置文件监听者
+                lastConfigListenerList = configListeners.get(tempConfigFile);
+                /**
+                 * 一个侦听者对相同文件只能注册一次
+                 */
+                if (!lastConfigListenerList.contains(configListener)) {
+                    lastConfigListenerList.add(configListener);
+                }
+                /**
+                 * 一个文件只有一个文件观察者
+                 */
+                if (!watchs.containsKey(tempConfigFile)) {
+                    addWatch(tempConfigFile);
+                }
+            }
 
-			/**
-			 * 一个侦听者对相同文件只能注册一次
-			 */
-			if (!lastConfigListenerList.contains(configListener)) {
-				lastConfigListenerList.add(configListener);
-			}
-			/**
-			 * 一个文件只有一个文件观察者
-			 */
-			for(int i=0;i<configFileName.length;i++){
-			    if (!watchs.containsKey(configFileName[i])) {
-	                addWatch(configFileName[i]);
-	            }
-			}
-			
-			
-		}
-	}
+        }
+    }
 
-	private void addWatch(String configFilename) {
-		ConfigWatchdog watchDog = new ConfigWatchdog(configFilename);
-		watchDog.setDelay(1000);
-		watchDog.start();
-		watchs.put(configFilename, watchDog);
-	}
+    private void addWatch(String configFilename) {
+        ConfigWatchdog watchDog = new ConfigWatchdog(configFilename);
+        watchDog.setDelay(1000);
+        watchDog.start();
+        watchs.put(configFilename, watchDog);
+    }
 
-	class ConfigWatchdog extends FileWatchdog {
+    class ConfigWatchdog extends FileWatchdog {
 
-		protected ConfigWatchdog(String filename) {
-			super(filename);
-		}
+        protected ConfigWatchdog(String filename) {
+            super(filename);
+        }
 
-		@Override
-		protected void doOnChange() {
-			synchronized (configUtilsSingleton) {
-				Configuration config = null;
+        @Override
+        protected void doOnChange() {
+            synchronized (configUtilsSingleton) {
+                Configuration config = null;
 
-				List<IConfigListener> listeners = configListeners.get(this.getFilename());
-				if (listeners == null) {
-					return;
-				}
-				for (int i = 0; i < listeners.size(); i++) {
-					IConfigListener listener = listeners.get(i);
-					if (config == null) {
-						config = listener.build();
-						if (config == null) {
-							// LogUtil.trace("配置文件‘"+this.getFilename()+"’配置加载失败！");
-							return;
-						} else {
-							// LogUtil.trace("配置文件‘"+this.getFilename()+"’配置加载成功！");
-						}
-					}
-					listener.onUpdate(config);
-				}
-			}
-		}
-	}
+                List<IConfigListener> listeners = configListeners.get(this.getFilename());
+                if (listeners == null) {
+                    return;
+                }
+                for (int i = 0; i < listeners.size(); i++) {
+                    IConfigListener listener = listeners.get(i);
+                    if (config == null) {
+                        config = listener.build();
+                        if (config == null) {
+                            // LogUtil.trace("配置文件‘"+this.getFilename()+"’配置加载失败！");
+                            return;
+                        } else {
+                            // LogUtil.trace("配置文件‘"+this.getFilename()+"’配置加载成功！");
+                        }
+                    }
+                    listener.onUpdate(config);
+                }
+            }
+        }
+    }
 }
