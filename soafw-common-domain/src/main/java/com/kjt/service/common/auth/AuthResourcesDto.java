@@ -1,5 +1,7 @@
 package com.kjt.service.common.auth;
 
+import java.util.List;
+
 import com.kjt.service.common.result.IResult;
 
 public class AuthResourcesDto implements IResult {
@@ -223,5 +225,15 @@ public class AuthResourcesDto implements IResult {
 	public void setState(String state) {
 		this.state = state;
 	}
+	
+	private List<AuthResourcesDto> children;
+
+  public List<AuthResourcesDto> getChildren() {
+    return children;
+  }
+
+  public void setChildren(List<AuthResourcesDto> children) {
+    this.children = children;
+  }
 	
 }
