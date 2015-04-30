@@ -11,6 +11,9 @@ import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
 import com.kjt.service.common.auth.AuthUserDto;
+import com.kjt.service.common.config.DynamicConfig;
+import com.kjt.service.common.config.dict.ConfigFileDict;
+import com.kjt.service.common.config.dict.ConfigFileTypeDict;
 
 public class SecurityTag extends TagSupport {
 
@@ -21,6 +24,11 @@ public class SecurityTag extends TagSupport {
 
     @Override
     public int doStartTag() throws JspException {
+        String key = System.getProperty("key_app_auth_switch");
+        String auth = System.getProperty(key, "false");
+        if("false".equals(auth)){
+            return EVAL_BODY_INCLUDE;
+        }
         HttpServletRequest request =
                 ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes())
                         .getRequest();

@@ -53,7 +53,7 @@ public class AuthenticationFilter extends WebAppConfig implements Filter {
         if(!StringUtil.isEmpty(app)){
             app_auth_switch = app+"."+auth_switch_key_suffix;
         }
-        
+        System.setProperty("key_app_auth_switch", app_auth_switch);
         WebApplicationContext wac = WebApplicationContextUtils
                 .getWebApplicationContext(filterConfig.getServletContext());
         resourcesService = wac.getBean("resourcesService",
@@ -77,6 +77,7 @@ public class AuthenticationFilter extends WebAppConfig implements Filter {
             FilterChain chain) throws IOException, ServletException {
         
         boolean auth = this.getBoolean(app_auth_switch, false);
+        System.setProperty(app_auth_switch, String.valueOf(auth));
         
         if (!auth) {//不需要权限控制
             chain.doFilter(request, response);
