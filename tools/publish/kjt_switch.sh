@@ -8,13 +8,20 @@
 
  echo "输入的参数:"$1" "$2
 
-# echo "$1 = tsl" 
- 
+# echo "$1 = tsl"
+
  org_file=$1"_""seq.txt"
 
  version_file=$1"_""last_version.txt"
 
  version_file_old=$1"_""last_version_bak.txt"
+
+ ##########保存版本所属的日期
+
+ current_date=`date +%Y-%m-%d`
+
+ date_file=$1"_""date_version.txt"
+
 
  if [ $# != 2 ];then
 
@@ -37,7 +44,7 @@ fi
 #  exit
 
 #fi
- 
+
 
  if [ ! -f "$org_file" ]; then
 
@@ -52,7 +59,7 @@ fi
 
    touch $version_file
    echo $2 > $version_file
-   
+
  fi
 
  if [ ! -f "$version_file_old" ]; then
@@ -61,23 +68,23 @@ fi
    echo $2 > $version_file_old
 
  fi
-  
-  echo "当前准备同步的版本号:"$2  
+
+  echo "当前准备同步的版本号:"$2
 
  while read oldversion
   do
   echo "发布前的最后版本版本号:"$oldversion
-  echo $oldversion > $version_file_old 
+  echo $oldversion > $version_file_old
 
  done < $version_file
 
  echo $2 > $version_file
 
- echo "switch backup success#######" 
+ echo "switch backup success#######"
 
- #修改当前的软连接设置 
+ #修改当前的软连接设置
 
-   rm -rf current 
+   rm -rf current
 
   ln  -s $2/bin   current
 
@@ -85,9 +92,6 @@ fi
 # rm -f current.sh
 # echo "#!/bin/sh" >> current.sh
 # echo "cd aaa/$version/bin" >>current.sh
-  
+
 
 ##########更新当前软连接为当前版本
-
-#
-sh soft_link.sh

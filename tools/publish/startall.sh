@@ -11,7 +11,7 @@ pid=`ps x | grep '$prefix-1.0-SNAPSHOT.jar' | grep -v grep | awk '{print $1}'`
 
 echo "pid:"$pid
 
- [ -n "$pid" ] &&  kill -9 $pid
+[ -n "$pid" ] &&  kill -9 $pid
 
 new_pid=`ps x | grep $prefix-1.0-SNAPSHOT.jar | grep -v grep | awk '{print $1}'`
 

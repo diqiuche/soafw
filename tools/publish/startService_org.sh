@@ -17,4 +17,3 @@ cd ../prefix-service-impl/lib
 #$1-service_pid=`ps x | grep $1-service | grep -v grep  | awk '{print $1}'`
 
 nohup java -jar $prefix-service-impl-1.0-SNAPSHOT/lib/$prefix-service-impl-1.0-SNAPSHOT.jar >/dev/null  &
-~
