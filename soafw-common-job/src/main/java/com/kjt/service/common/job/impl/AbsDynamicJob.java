@@ -32,7 +32,9 @@ abstract class AbsDynamicJob<T> extends PoolableObjDynamicConfig
     private int successed;
 
     private int failed;
-
+    public AbsDynamicJob(){
+        this("");
+    }
     public AbsDynamicJob(String id) {
         this.id = id;
         this.setPrefix(id);

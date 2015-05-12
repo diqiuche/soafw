@@ -18,7 +18,8 @@ import com.kjt.service.common.util.RequestID;
  * @param <T>
  */
 public abstract class AbsJob<T> extends AbsDynamicJob<T> implements INormalJob<T> {
-
+    
+    public AbsJob(){}
     public AbsJob(String id) {
         super(id);
     }
