@@ -33,9 +33,14 @@ abstract class AbsDynamicJob<T> extends PoolableObjDynamicConfig
 
     private int failed;
     public AbsDynamicJob(){
-        this("");
+        init(this.getClass().getSimpleName());
+        
     }
     public AbsDynamicJob(String id) {
+        init(id);
+    }
+    
+    private void init(String id){
         this.id = id;
         this.setPrefix(id);
         this.setFileName(System.getProperty(JOB_CONFIG_FILE, DEFAULT_JOB_CONFIG_NAME));
