@@ -10,7 +10,6 @@ import java.util.GregorianCalendar;
 import java.util.Locale;
 
 import org.apache.commons.lang.StringUtils;
-import org.apache.commons.lang.time.DateUtils;
 
 /**
  * 时间工具类
