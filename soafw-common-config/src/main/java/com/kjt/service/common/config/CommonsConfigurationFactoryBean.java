@@ -21,9 +21,10 @@ public class CommonsConfigurationFactoryBean implements InitializingBean, Factor
      * @see org.springframework.beans.factory.FactoryBean#getObject()
      */
     public Properties getObject() throws Exception {
-        return (_configuration != null)
+        Properties props = (_configuration != null)
                 ? ConfigurationConverter.getProperties(_configuration)
                 : null;
+        return props;
     }
 
     /**
