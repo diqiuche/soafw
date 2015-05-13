@@ -4,7 +4,7 @@ import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 
-import com.kjt.service.common.AcessLoger;
+import com.kjt.service.common.AccessLoger;
 
 @Aspect
 public class LogAspect {
@@ -18,6 +18,6 @@ public class LogAspect {
      */
     @Around("execution(@com.kjt.service.common.aop.LoggerPoint * * (..))")
     public Object processAround(ProceedingJoinPoint pjp) throws Throwable {
-      return AcessLoger.process(pjp);
+      return AccessLoger.process(pjp);
     }
 }
