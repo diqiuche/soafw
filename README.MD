@@ -85,7 +85,8 @@
 		+ 运行DaoGen
 	+ exception管理工具
 + checkstyle
-+ 测试框架代码生成器插件－－待完成；
++ 测试框架代码生成器插件
+	+ 默认是关闭的,可以通过-Dsoafw.tester.gen=true的方式开启
 
 ##### 相关标准
 + 编程规范
