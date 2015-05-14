@@ -47,7 +47,7 @@
         <exception.enum.class></exception.enum.class>
         <exception.loadType>DB</exception.loadType>
         <exception.tableName>soa_exception</exception.tableName>
-        <exception.dburl>jdbc:mysql://192.168.1.110:3306/soafw_db</exception.dburl>
+        <exception.dburl>jdbc:mysql://maven.kjt.com:3306/soafw_db</exception.dburl>
         <exception.dbuser>root</exception.dbuser>
         <exception.dbpwd>Kjt@)!$</exception.dbpwd>
         <exception.level></exception.level>
@@ -529,12 +529,12 @@
 	<distributionManagement>
 		<repository>
 			<id>nexus-releases</id>
-			<url>http://192.168.1.110:8081/nexus/content/repositories/releases</url>
+			<url>http://maven.kjt.com:8081/nexus/content/repositories/releases</url>
 		</repository>
 
 		<snapshotRepository>
 			<id>nexus-snapshots</id>
-			<url>http://192.168.1.110:8081/nexus/content/repositories/snapshots</url>
+			<url>http://maven.kjt.com:8081/nexus/content/repositories/snapshots</url>
 		</snapshotRepository>
 	</distributionManagement>
 </project>
