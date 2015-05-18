@@ -113,4 +113,15 @@ public interface ConfigFileDict {
 	 * 
 	 */
 	public static String DEFAULT_MQ_CONFIG_NAME = "mq";
+	
+	/**
+     * rpc配置文件
+     * 默认为：rpc.xml
+     */
+    public static String DEFAULT_RPC_CONFIG_FILE = "rpc.config";
+    
+    /**
+     * 
+     */
+    public static String DEFAULT_RPC_CONFIG_NAME = "rpc";
 }
