@@ -38,7 +38,8 @@
 	<!-- 消费方应用名，用于计算依赖关系，不是匹配条件，不要与提供方一样 -->
 	<dubbo:application name="kjt-#{artifactId}-web"/>
 	
-    <!-- 使用zookeeper发现服务地址 --> 
+    <!-- 使用zookeeper发现服务地址 -->
+    <!-- 多注册中心配置，竖号分隔表示同时连接多个不同注册中心，同一注册中心的多个集群地址用逗号分隔 -->
     <dubbo:registry protocol="zookeeper" address="${#{artifactId}.service.registry.address}"/>
     
     <!-- 服务消费者定义 -->
