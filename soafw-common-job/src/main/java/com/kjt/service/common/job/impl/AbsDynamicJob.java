@@ -2,6 +2,8 @@ package com.kjt.service.common.job.impl;
 
 import java.lang.reflect.Field;
 
+import javax.annotation.PostConstruct;
+
 import org.quartz.CronExpression;
 import org.quartz.CronTrigger;
 import org.quartz.JobDetail;
@@ -33,15 +35,14 @@ abstract class AbsDynamicJob<T> extends PoolableObjDynamicConfig
 
     private int failed;
     public AbsDynamicJob(){
-        init(this.getClass().getSimpleName());
+        this.id = this.getClass().getSimpleName();
         
     }
     public AbsDynamicJob(String id) {
-        init(id);
-    }
-    
-    private void init(String id){
         this.id = id;
+    }
+    @PostConstruct
+    final public void init(){
         this.setPrefix(id);
         this.setFileName(System.getProperty(JOB_CONFIG_FILE, DEFAULT_JOB_CONFIG_NAME));
         this.setType(ConfigFileTypeDict.XML);
