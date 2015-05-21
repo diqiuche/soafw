@@ -1,6 +1,6 @@
 package com.kjt.service.rpc.client.signer;
 
-import com.kjt.service.rpc.client.ISigner;
+import com.kjt.service.common.rpc.ISigner;
 
 public class TenpaySigner implements ISigner {
 

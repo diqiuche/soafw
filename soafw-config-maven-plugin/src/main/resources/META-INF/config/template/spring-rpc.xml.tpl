@@ -11,4 +11,6 @@
     http://www.springframework.org/schema/context
     http://www.springframework.org/schema/context/spring-context-4.0.xsd">
 	
+	<context:component-scan base-package="com.kjt.service.#{artifactId},com.kjt.service.common.rpc.impl" />
+	
 </beans>

@@ -1,7 +1,11 @@
 package com.kjt.service.common.config;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
+
+import javassist.tools.reflect.Metalevel;
+import ognl.Ognl;
+import ognl.OgnlException;
 
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.annotations.XStreamAlias;
@@ -14,18 +18,26 @@ public class CompositeConfig {
     private String comment;
 
     @XStreamImplicit(itemFieldName = "entry")
-    private List<Entry> entrys = new ArrayList<Entry>();
+    private Map<String,Entry> entrys = new HashMap<String,Entry>();
 
-    public List<Entry> getEntrys() {
+    public Map<String,Entry> getEntrys() {
         return entrys;
     }
 
-    public void setEntrys(List<Entry> entrys) {
+    public void setEntrys(Map<String,Entry> entrys) {
         this.entrys = entrys;
     }
 
     public void add(Entry entry) {
-        entrys.add(entry);
+        entrys.put(entry.getKey(),entry);
+    }
+
+    public String getComment() {
+        return comment;
+    }
+
+    public void setComment(String comment) {
+        this.comment = comment;
     }
 
     public static void main(String[] args) {
@@ -34,6 +46,7 @@ public class CompositeConfig {
         Entry entry = new Entry();
         entry.setKey("hello");
         entry.setValue("archlevel");
+        
         CompositeConfig configs = new CompositeConfig();
         configs.add(entry);
         entry = new Entry();
@@ -46,9 +59,15 @@ public class CompositeConfig {
 
         entry.add(child);
 
-
+        //Metalevel wrapper = new Metalevel();
+        
         System.out.println(xStream.toXML(configs));
         
-        
+        try {
+            System.out.println(Ognl.getValue("entrys.#easipay.key",configs));
+        } catch (OgnlException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
     }
 }

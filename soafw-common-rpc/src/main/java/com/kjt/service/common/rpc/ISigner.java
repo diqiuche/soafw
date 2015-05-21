@@ -1,4 +1,4 @@
-package com.kjt.service.rpc.client;
+package com.kjt.service.common.rpc;
 
 
 public interface ISigner {

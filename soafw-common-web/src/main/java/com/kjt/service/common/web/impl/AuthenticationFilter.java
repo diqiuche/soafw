@@ -1,4 +1,4 @@
-package com.kjt.service.common.web.auth;
+package com.kjt.service.common.web.impl;
 
 import java.io.IOException;
 import java.io.PrintWriter;

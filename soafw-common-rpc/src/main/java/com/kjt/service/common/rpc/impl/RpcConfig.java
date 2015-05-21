@@ -1,4 +1,4 @@
-package com.kjt.service.rpc.client;
+package com.kjt.service.common.rpc.impl;
 
 import javax.annotation.PostConstruct;
 
@@ -8,6 +8,7 @@ import com.kjt.service.common.config.dict.ConfigFileTypeDict;
 
 public class RpcConfig extends DynamicConfig{
     public RpcConfig(){
+        init();
     }
     @PostConstruct
     public void init(){

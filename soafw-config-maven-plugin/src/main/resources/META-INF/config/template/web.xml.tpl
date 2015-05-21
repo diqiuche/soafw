@@ -37,7 +37,7 @@
 	
 	<filter>
 		<filter-name>authenticationFilter</filter-name>
-		<filter-class>com.kjt.service.common.web.auth.AuthenticationFilter</filter-class>
+		<filter-class>com.kjt.service.common.web.impl.AuthenticationFilter</filter-class>
 		<init-param>
 			<param-name>appName</param-name>
 			<param-value>#{artifactId}</param-value>

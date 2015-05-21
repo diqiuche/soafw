@@ -44,6 +44,7 @@
 		<aspectj.version>1.8.4</aspectj.version>
 		<unirest-java.version>1.3.26</unirest-java.version>
 		<xstream.version>1.4.8</xstream.version>
+		<ognl.version>3.0.3</ognl.version>
 	</properties>
 
 	<modules>
@@ -251,7 +252,7 @@
 				<artifactId>jcl-over-slf4j</artifactId>
 				<version>${slf4j.version}</version>
 			</dependency>
-			
+
 			<dependency>
 				<groupId>ch.qos.logback</groupId>
 				<artifactId>logback-classic</artifactId>
@@ -366,10 +367,15 @@
 				<version>${springsecurity.version}</version>
 			</dependency>
 			<dependency>
-			<groupId>com.thoughtworks.xstream</groupId>
-			<artifactId>xstream</artifactId>
-			<version>${xstream.version}</version>
-		</dependency>
+				<groupId>com.thoughtworks.xstream</groupId>
+				<artifactId>xstream</artifactId>
+				<version>${xstream.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>ognl</groupId>
+				<artifactId>ognl</artifactId>
+				<version>${ognl.version}</version>
+			</dependency>
 			<!-- springsecurity end -->
 		</dependencies>
 	</dependencyManagement>

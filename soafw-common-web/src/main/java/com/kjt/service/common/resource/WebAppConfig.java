@@ -9,6 +9,7 @@ import com.kjt.service.common.config.dict.ConfigFileTypeDict;
 public class WebAppConfig extends DynamicConfig {
     
     public WebAppConfig(){
+        init();
     }
     
     @PostConstruct
