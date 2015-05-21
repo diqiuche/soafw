@@ -8,4 +8,4 @@ jetty_pid=`/usr/sbin/lsof -n -P -t -i :$2`
 
 #cd /home/app/apps/$1/$2/$1-web
 
-nohup java -jar ../../jetty-runner.jar --port $2  ../$prefix-web/target/$prefix-web.war > /dev/null  &
+nohup java -jar ../../jetty-runner.jar --port $2 --log /data1/logs/service/$prefix/requests.log-yyyy_mm_dd ../$prefix-web/target/$prefix-web.war > /dev/null  &

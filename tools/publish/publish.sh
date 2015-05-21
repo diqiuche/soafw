@@ -14,11 +14,11 @@
 #### 校验工程名是否是(tsl/order/merchant)等等 #####
 
 
-if [ "$1" != "tsl" ]&&[ "$1" != "order" ]&&[ "$1" != "merchant" ]&&[ "$1" != "code" ]&&[ "$1" != "user" ]&&[ "$1" != "purchs" ];then
+if [ "$1" != "tsl" ]&&[ "$1" != "order" ]&&[ "$1" != "merchant" ]&&[ "$1" != "code" ]&&[ "$1" != "user" ]&&[ "$1" != "purchs" ]&&[ "$1" != "oapi" ];then
 
-echo "不是有效的项目名称tsl/order/merchant/code/user/purchs请重新输入"
+  echo "不是有效的项目名称tsl/order/merchant/code/user/purchs请重新输入"
 
-exit
+  exit
 
 fi
 
@@ -51,32 +51,31 @@ date_file=$1"_""date_version.txt"
 
 if [ ! -f "$date_file" ]; then
 
-touch $date_file
-echo $date_time  > $date_file
+   touch $date_file
+   echo $date_time  > $date_file
 
-fi
+ fi
 
 while read old_date
-do
-echo "发布前的最后日期:"$old_date
+  do
+  echo "发布前的最后日期:"$old_date
 
-if  [ "$date_time" != "$old_date"  ];then
+  if  [ "$date_time" != "$old_date"  ];then
 
-echo 1 > $org_file
+         echo 1 > $org_file
 
-echo $date_time  > $date_file
-fi
+         echo $date_time  > $date_file
+   fi
 
 
-done < $date_file
+ done < $date_file
 
 while read seq_num
 do
-echo "LINE:"$seq_num
+ echo "LINE:"$seq_num
 seq_no=$seq_num
 done < $1_seq.txt
 
-#seq_no="$num"
 
 echo "当前版本号:""$date_time""_"$seq_no
 
@@ -87,12 +86,6 @@ next_seq_no=$[ $seq_no + 1 ]
 echo "下一个序列号next_seq_no:"$next_seq_no
 
 sed -i 's'/$seq_no/$next_seq_no/'g' $1_seq.txt
-
-#rm -rf $1_seq.txt
-
-#touch seq.txt
-
-#echo $next_seq_no > $1_seq.txt
 
 global_pom_path="$app_root_path"/"$date_time""_"$seq_no
 
@@ -144,9 +137,8 @@ echo "service_impl_path:"$service_impl_path
 ######################生成可执行脚本##########
 sed '1,$s/$prefix/'"$1"'/g'  startService_org.sh > startService.sh
 
-#sed '1,$s/$prefix/'"$1"'/g'  startJob_org.sh > startJob.sh
 
-#echo "$2"$2
+echo "输入的第二个参数:"$2
 
 if [  -n "$2" ];then
 
@@ -156,9 +148,9 @@ sed -e '1,$s/$2/'"$2"'/g' -e '1,$s/$prefix/'"$1"'/g'  startWeb_org.sh > startWeb
 
 else
 
-#line_num = `sed -n '/<jetty.port>/p' $webPort_xml_file`
-
 str=`sed -n '/<jetty.port>/p' $webPort_xml_file`
+
+#echo "我是user-----str="$str
 
 delblankStr=$(echo $str)
 
@@ -170,31 +162,35 @@ sed -e  '1,$s/$2/'"$port"'/g' -e '1,$s/$prefix/'"$1"'/g'  startWeb_org.sh > star
 
 fi
 
-#sed '1,$s/$prefix/'"$1"'/g'  startWeb_org.sh > startWeb.sh
-
-#sed '1,$s/$prefix/'"$1"'/g'  startTradeSyncJob_org.sh > startTradeSyncJob.sh
-
-sh kjt_switch.sh   $1 $current_version
+sh switch.sh   $1 $current_version
 
 ###########################动态生成脚本
 declare -a array
 
 i=0
 
+   pro_str="$1"
+
+   pro_len=${#pro_str}
+
+   pro_len=$[ 11 + $pro_len ]
+
 while read line
 
 do
-str=$(echo $line)
-if [[ ${str:1:14} =  "module>$1-job" ]]; then
+   str=$(echo $line)
 
-#echo $str
-str2=$(echo ${str#*>})
-# echo "str2:"$str2
-str3=$(echo ${str2%<*})
-#echo "str3:"$str3
-array[$i]=$str3
-i=$[$i + 1]
-fi
+  if [[ ${str:1:$pro_len} =  "module>"$1"-job" ]]; then
+
+     echo "读取pom文件:str="$str
+    #echo $str
+    str2=$(echo ${str#*>})
+    # echo "str2:"$str2
+    str3=$(echo ${str2%<*})
+    #echo "str3:"$str3
+    array[$i]=$str3
+    i=$[$i + 1]
+  fi
 
 done < $webPOM_xml_file
 
@@ -203,21 +199,21 @@ for var in ${array[@]};do
 
 echo "测试数据##########################$var:"  $var
 
-param1="$1"
+ param1="$1"
 
-strlen=${#param1}
+ strlen=${#param1}
 # echo "strlen"$strlen
 
-start_shell=${var:$strlen:200}
+ start_shell=${var:$strlen:200}
 
-echo "start_shell:"$start_shell
+ echo "start_shell:"$start_shell
 
-start_shell="start"$start_shell
+ start_shell="start"$start_shell
 
-echo "start_shell=========="$start_shell
-rm -rf "$start_shell".sh
+ echo "start_shell=========="$start_shell
+ rm -rf "$start_shell".sh
 
-sed '1,$s/$prefix/'"$var"'/g'  startall.sh > "$start_shell".sh
+sed '1,$s/$prefix/'"$var"'/g'  startJob_org.sh > "$start_shell".sh
 
 chmod 755 "$start_shell".sh
 
@@ -225,21 +221,10 @@ chmod 755 "$start_shell".sh
 
 if [ ! -d "$job_path$var" ]; then
 
-mkdir -p  "$job_path$var"
+   mkdir -p  "$job_path$var"
 fi
 
 ###############打包job############
-
-# if [ "$1" = "tsl" ];then
-# echo "我要测试###################################"$1
-#cd /root/code/projects/workspace/$1/$var
-
-# mvn assembly:assembly >  /dev/null
-#else
-
-# echo "非tsl工程"
-
-#fi
 
 done
 
@@ -248,9 +233,9 @@ for var in ${array[@]};do
 # if [ "$1" = "tsl" ];then
 # echo "我要测试###################################"$1
 
-cd /root/code/projects/workspace/$1/$var
+ cd /root/code/projects/workspace/$1/$var
 
-mvn assembly:assembly  ### >  /dev/null
+ mvn assembly:assembly  ### >  /dev/null
 
 #else
 
@@ -273,16 +258,16 @@ done
 
 ################## if apps dir not exists then create #######
 if [ ! -d "$app_path" ]; then
-mkdir -p "$app_path"
+   mkdir -p "$app_path"
 fi
 
 
 if [ ! -d "$global_pom_path" ]; then
-mkdir -p "$global_pom_path"
+   mkdir -p "$global_pom_path"
 fi
 
 if [ ! -d "$web_path" ]; then
-mkdir -p "$web_path"
+   mkdir -p "$web_path"
 fi
 
 
@@ -296,32 +281,32 @@ fi
 
 
 if [ ! -d "$service_impl_path" ]; then
-mkdir -p "$service_impl_path"
+   mkdir -p "$service_impl_path"
 fi
 
 if [ ! -d "$current_path" ]; then
-mkdir -p "$current_path"
+   mkdir -p "$current_path"
 fi
 
 
 if [ ! -d "$log_path" ]; then
-mkdir -p "$log_path"
+   mkdir -p "$log_path"
 fi
 
 if [ ! -d "$global_config_path" ]; then
-mkdir -p "$global_config_path"
+   mkdir -p "$global_config_path"
 fi
 
 if [ ! -d "$web_target_path" ]; then
-mkdir -p "$web_target_path"
+   mkdir -p "$web_target_path"
 fi
 
 if [ ! -d "$web_src_path" ]; then
-mkdir -p "$web_src_path"
+   mkdir -p "$web_src_path"
 fi
 
 if [ ! -d "$pro_config_path" ]; then
-mkdir -p "$pro_config_path"
+   mkdir -p "$pro_config_path"
 fi
 
 ####如果版本记录文件不存在则创建
@@ -344,7 +329,7 @@ fi
 
 ############# 切换版本调用脚本 #########
 
-#sh kjt_switch.sh   $1 $current_version
+#sh switch.sh   $1 $current_version
 
 #wait
 ################################
@@ -371,7 +356,7 @@ fi
 
 cd /root/code/projects/workspace/$1/$1-service-impl
 
-mvn assembly:assembly
+ mvn assembly:assembly
 
 ########新增配置文件config#########
 cp -Rpf /root/code/projects/workspace/$1/config  $pro_config_path
@@ -393,14 +378,14 @@ cp -Rpf /root/code/projects/workspace/$1/pom.xml  $global_pom_path
 
 for var in ${array[@]};do
 
-param1="$1"
+  param1="$1"
 
-strlen=${#param1}
+ strlen=${#param1}
 
-start_shell=${var:$strlen:200}
+ start_shell=${var:$strlen:200}
 
 # start_shell=${var:0:3}
-start_shell="start"$start_shell
+ start_shell="start"$start_shell
 
 cp -Rpf /root/code/projects/workspace/$1/$var/target/*.tar.gz  $job_path$var
 

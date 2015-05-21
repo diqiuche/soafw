@@ -33,9 +33,6 @@ fi
 
 #### 校验工程名是否是(tsl/order/merchant)等等 #####
 
-#value=[ "$1" != "tsl" ]
-
-#echo "value:::::"$value
 
 #if [ "$1" != "tsl" ]&&[ "$1" != "order" ]&&[ "$1" != "merchant" ];then
 
@@ -87,11 +84,3 @@ fi
    rm -rf current
 
   ln  -s $2/bin   current
-
-# sed -i 's/current_version/$version/g' current.sh
-# rm -f current.sh
-# echo "#!/bin/sh" >> current.sh
-# echo "cd aaa/$version/bin" >>current.sh
-
-
-##########更新当前软连接为当前版本
