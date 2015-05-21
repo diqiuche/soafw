@@ -8,7 +8,6 @@ import com.kjt.service.common.config.dict.ConfigFileTypeDict;
 
 public class RpcConfig extends DynamicConfig{
     public RpcConfig(){
-        init();
     }
     @PostConstruct
     public void init(){
