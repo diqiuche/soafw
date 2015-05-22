@@ -6,8 +6,21 @@ import java.util.HashMap;
 import java.util.Map;
 
 import com.kjt.service.common.annotation.JField;
+import com.kjt.service.common.reflection.MetaObject;
+import com.kjt.service.common.reflection.factory.DefaultObjectFactory;
 
 public class BeanUtil {
+    /**
+     * 通过反射获取到对象的属性值，支持.运算
+     * @param obj 对象
+     * @param property 
+     * @return
+     */
+    public static Object getValue(Object obj,String property){
+        MetaObject metaObject = DefaultObjectFactory.getMetaObject(obj);
+        return metaObject.getValue(property);
+    }
+    
 	public static String getJField(Class model,String property,Class<JField> annotation){
 		Field tmp = null;
 		try {
@@ -20,14 +33,6 @@ public class BeanUtil {
 		} catch (Exception e) {
 			throw new RuntimeException(e);
 		} 
-	}
-	
-	public class Model{
-		@JField(name="_name")
-		private String name;
-		
-		@JField(name="local")
-		private String address;
 	}
 	
 	public static Map<String, Object> beanToMap(Object model) {
@@ -55,5 +60,8 @@ public class BeanUtil {
     }
 	
 	public static void main(String[] args){
+	    DateUtil util = new DateUtil();
+	    MetaObject metaObject = DefaultObjectFactory.getMetaObject(util);
+	    System.out.println(metaObject.getValue("weeks"));
 	}
 }
