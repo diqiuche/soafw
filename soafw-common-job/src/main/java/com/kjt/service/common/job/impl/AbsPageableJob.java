@@ -18,8 +18,12 @@ import com.kjt.service.common.util.RequestID;
  *
  * @param <T>
  */
-public abstract class AbsPageableJob<T> extends AbsDynamicJob<T> implements IPageableJob<T> {
+public abstract class AbsPageableJob<T> extends JobBase<T> implements IPageableJob<T> {
 
+    public AbsPageableJob() {
+        super();
+    }
+    
     public AbsPageableJob(String id) {
         super(id);
     }

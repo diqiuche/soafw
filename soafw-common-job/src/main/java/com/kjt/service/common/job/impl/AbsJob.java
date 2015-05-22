@@ -2,7 +2,9 @@ package com.kjt.service.common.job.impl;
 
 import java.util.List;
 
+import com.kjt.service.common.config.IConfigListener;
 import com.kjt.service.common.job.DataProcessException;
+import com.kjt.service.common.job.IJob;
 import com.kjt.service.common.job.INormalJob;
 import com.kjt.service.common.job.JobExecuteException;
 import com.kjt.service.common.log.LogUtils;
@@ -17,14 +19,19 @@ import com.kjt.service.common.util.RequestID;
  *
  * @param <T>
  */
-public abstract class AbsJob<T> extends AbsDynamicJob<T> implements INormalJob<T> {
-    
-    public AbsJob(){}
+public abstract class AbsJob<T> extends JobBase<T> implements INormalJob<T> {
+
+    public AbsJob() {
+        super();
+
+    }
+
     public AbsJob(String id) {
         super(id);
     }
 
-    final public void start() {
+
+    synchronized final public void start() {
         if (logger.isInfoEnabled()) {
             logger.info("start() - start"); //$NON-NLS-1$
         }
@@ -52,7 +59,7 @@ public abstract class AbsJob<T> extends AbsDynamicJob<T> implements INormalJob<T
                 } catch (Exception ex) {
                     logger.error("start()", ex); //$NON-NLS-1$
                     this.increaseErrorNum();
-                    this.logger.error("error process: "+data.toString());
+                    this.logger.error("error process: " + data.toString());
                     this.onError(new DataProcessException(ex));
                 }
             }
@@ -68,8 +75,8 @@ public abstract class AbsJob<T> extends AbsDynamicJob<T> implements INormalJob<T
             if (logger.isInfoEnabled()) {
                 LogUtils.timeused(logger, "doProcess", start);
             }
-            logger.info("start() - end total={},success={},failed={}", total,
-                    this.getSuccessed(), this.getFailed());
+            logger.info("start() - end total={},success={},failed={}", total, this.getSuccessed(),
+                    this.getFailed());
             if (logger.isInfoEnabled()) {
                 logger.info("start() - end"); //$NON-NLS-1$
             }

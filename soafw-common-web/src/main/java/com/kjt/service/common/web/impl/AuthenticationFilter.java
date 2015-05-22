@@ -27,7 +27,6 @@ import com.kjt.service.common.auth.AuthResourcesDto;
 import com.kjt.service.common.auth.AuthResponse;
 import com.kjt.service.common.auth.AuthUserDto;
 import com.kjt.service.common.auth.ResourcesService;
-import com.kjt.service.common.resource.WebAppConfig;
 import com.kjt.service.common.util.StringUtil;
 import com.kjt.service.common.web.util.J2eeHttpUtil;
 

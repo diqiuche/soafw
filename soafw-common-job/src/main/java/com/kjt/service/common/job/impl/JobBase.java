@@ -12,18 +12,12 @@ import org.quartz.TriggerKey;
 import org.quartz.impl.triggers.CronTriggerImpl;
 
 import com.kjt.service.common.config.IConfigListener;
-import com.kjt.service.common.config.PoolableObjDynamicConfig;
-import com.kjt.service.common.config.dict.ConfigFileTypeDict;
 import com.kjt.service.common.job.IJob;
 import com.kjt.service.common.job.JobException;
 import com.kjt.service.common.log.Logger;
 import com.kjt.service.common.log.LoggerFactory;
 
-abstract class AbsDynamicJob<T> extends PoolableObjDynamicConfig
-        implements
-            IJob<T>,
-            IConfigListener {
-
+public abstract class JobBase<T> extends JobConfig implements IJob<T>,IConfigListener{
     /**
      * Logger for this class
      */
@@ -34,22 +28,23 @@ abstract class AbsDynamicJob<T> extends PoolableObjDynamicConfig
     private int successed;
 
     private int failed;
-    public AbsDynamicJob(){
+    
+    public JobBase() {
         this.id = this.getClass().getSimpleName();
-        
+
     }
-    public AbsDynamicJob(String id) {
+
+    public JobBase(String id) {
         this.id = id;
     }
+
     @PostConstruct
-    final public void init(){
+    final public void init() {
         this.setPrefix(id);
-        this.setFileName(System.getProperty(JOB_CONFIG_FILE, DEFAULT_JOB_CONFIG_NAME));
-        this.setType(ConfigFileTypeDict.XML);
         super.init();
         createMonitor();
     }
-
+    
     @Override
     public String getId() {
         return id;
@@ -61,20 +56,20 @@ abstract class AbsDynamicJob<T> extends PoolableObjDynamicConfig
         }
         throw ex;
     }
-    
-    protected void increaseErrorNum(){
+
+    protected void increaseErrorNum() {
         failed++;
     }
-    
-    protected void failedReset(){
-        failed=0;
+
+    protected void failedReset() {
+        failed = 0;
     }
-    
-    protected void successedReset(){
-        successed=0;
+
+    protected void successedReset() {
+        successed = 0;
     }
-    
-    protected void increaseSuccessNum(){
+
+    protected void increaseSuccessNum() {
         successed++;
     }
 
@@ -193,7 +188,7 @@ abstract class AbsDynamicJob<T> extends PoolableObjDynamicConfig
             logger.info("unregist() - end"); //$NON-NLS-1$
         }
     }
-    
+
     /**
      * 创建监控线程，实现每分钟进行提交监控数据
      */
