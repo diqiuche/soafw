@@ -12,11 +12,12 @@ import org.apache.ibatis.plugin.Intercepts;
 import org.apache.ibatis.plugin.Invocation;
 import org.apache.ibatis.plugin.Plugin;
 import org.apache.ibatis.plugin.Signature;
-import org.apache.ibatis.reflection.MetaObject;
 import org.apache.ibatis.session.Configuration;
 
 import com.kjt.service.common.log.Logger;
 import com.kjt.service.common.log.LoggerFactory;
+import com.kjt.service.common.reflection.MetaObject;
+import com.kjt.service.common.reflection.factory.DefaultObjectFactory;
 import com.kjt.service.common.util.RequestID;
 import com.kjt.service.common.util.SPUtil;
 
@@ -37,7 +38,7 @@ public class StatementHandlerPlugin implements Interceptor {
 
     StatementHandler statementHandler = (StatementHandler) invocation.getTarget();
 
-    MetaObject metaStatementHandler = SqlmapUtils.getMetaObject(statementHandler);
+    MetaObject metaStatementHandler = DefaultObjectFactory.getMetaObject(statementHandler);
 
     Configuration configuration = (Configuration) metaStatementHandler
         .getValue("delegate.configuration");

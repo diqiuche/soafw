@@ -121,12 +121,4 @@ public final class SqlmapUtils {
 
   private static Map<DataSource, SqlSessionFactory> _factories = new HashMap<DataSource, SqlSessionFactory>();
 
-  private static transient Logger _logger = LoggerFactory.getLogger(SqlmapUtils.class);
-
-  private static final ObjectFactory DEFAULT_OBJECT_FACTORY = new DefaultObjectFactory();
-  private static final ObjectWrapperFactory DEFAULT_OBJECT_WRAPPER_FACTORY = new DefaultObjectWrapperFactory();
-
-  public static MetaObject getMetaObject(Object obj) {
-    return MetaObject.forObject(obj, DEFAULT_OBJECT_FACTORY, DEFAULT_OBJECT_WRAPPER_FACTORY);
-  }
 }

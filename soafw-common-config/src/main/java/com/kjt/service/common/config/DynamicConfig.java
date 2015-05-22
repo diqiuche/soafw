@@ -6,7 +6,6 @@ import java.io.InputStream;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -43,7 +42,7 @@ import com.kjt.service.common.util.StringUtil;
  * @author alexzhu
  * 
  */
-public class DynamicConfig implements ConfigFileDict, Constants, Configuration, IConfigListener {
+public class DynamicConfig implements ConfigFileDict, Constants, Configuration, IConfigListener,IConfiguration {
    
     protected Logger logger = LoggerFactory.getLogger(getClass());
     /**
