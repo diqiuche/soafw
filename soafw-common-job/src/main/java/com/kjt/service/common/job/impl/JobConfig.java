@@ -2,10 +2,14 @@ package com.kjt.service.common.job.impl;
 
 import javax.annotation.PostConstruct;
 
-import com.kjt.service.common.config.PoolableObjDynamicConfig;
+import org.springframework.stereotype.Component;
+
+import com.kjt.service.common.config.PrefixPriorityConfig;
+import com.kjt.service.common.config.dict.ConfigComponent;
 import com.kjt.service.common.config.dict.ConfigFileTypeDict;
 
-public class JobConfig extends PoolableObjDynamicConfig{
+@Component(ConfigComponent.JobConfig)
+public class JobConfig extends PrefixPriorityConfig{
     
     public JobConfig(){
     }

@@ -15,11 +15,11 @@ import com.kjt.service.common.cache.CacheOpParamsContext;
 import com.kjt.service.common.cache.ICache;
 import com.kjt.service.common.cache.annotation.CacheOpParams;
 import com.kjt.service.common.config.IConfigListener;
-import com.kjt.service.common.config.PoolableObjDynamicConfig;
+import com.kjt.service.common.config.PrefixPriorityConfig;
 import com.kjt.service.common.config.dict.ConfigFileTypeDict;
 import com.kjt.service.common.util.DateUtil;
 
-public class DynamicMemCache extends PoolableObjDynamicConfig
+public class DynamicMemCache extends PrefixPriorityConfig
         implements
             Cache,
             ICache,

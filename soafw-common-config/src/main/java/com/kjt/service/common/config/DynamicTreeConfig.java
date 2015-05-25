@@ -9,6 +9,7 @@ import com.kjt.service.common.reflection.factory.DefaultObjectFactory;
 import com.thoughtworks.xstream.XStream;
 
 /**
+ * 树形结构配置
  * <entrys> <br>
  *      <!-- getString("name") 获取到 berniew --> <br>
  *      <entry> <br>
@@ -49,7 +50,7 @@ import com.thoughtworks.xstream.XStream;
  *      </entry> <br>
  *  </entrys> <br>
  */
-public class DynamicCompositeConfig {
+public class DynamicTreeConfig {
     
     private static XStream xStream = new XStream();
     static {

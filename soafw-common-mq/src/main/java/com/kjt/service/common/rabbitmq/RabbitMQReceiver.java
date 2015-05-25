@@ -12,6 +12,10 @@ import com.rabbitmq.client.QueueingConsumer.Delivery;
 import com.rabbitmq.client.ShutdownSignalException;
 
 public class RabbitMQReceiver extends RabbitMQClient implements IReceiver {
+    public RabbitMQReceiver(String id) {
+        super(id);
+    }
+
     private QueueingConsumer consumer = null;
     @Override
     public IMessage receive() {

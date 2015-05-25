@@ -12,6 +12,10 @@ import com.rabbitmq.client.ConnectionFactory;
 
 public abstract class RabbitMQClient extends MQClient {
 
+    public RabbitMQClient(String id) {
+        super(id);
+    }
+
     public static final Address[] DEFAULT_BROKER_ADDRESS = new Address[] {new Address("127.0.0.1",
             5672)};
     public static final Class<ConnectionFactory> DEFAULT_CONNECTION_FACTORY_CLASS =

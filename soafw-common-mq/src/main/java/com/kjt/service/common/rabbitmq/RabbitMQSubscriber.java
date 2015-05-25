@@ -7,6 +7,10 @@ import com.kjt.service.common.mq.ISubscriber;
 
 public class RabbitMQSubscriber extends RabbitMQClient implements ISubscriber {
 
+    public RabbitMQSubscriber(String id) {
+        super(id);
+    }
+
     @Override
     public void onMessage(IMessage message) {
         // TODO Auto-generated method stub

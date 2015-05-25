@@ -2,27 +2,17 @@ package com.kjt.service.common.impl;
 
 import javax.annotation.PostConstruct;
 
-import com.alibaba.dubbo.rpc.RpcContext;
-import com.kjt.service.common.IService;
+import org.springframework.stereotype.Component;
+
 import com.kjt.service.common.config.DynamicConfig;
+import com.kjt.service.common.config.dict.ConfigComponent;
 import com.kjt.service.common.config.dict.ConfigFileDict;
 import com.kjt.service.common.config.dict.ConfigFileTypeDict;
-import com.kjt.service.common.result.IResult;
 
-public abstract class AbsDynamicService<T extends IResult> extends DynamicConfig
-        implements
-            IService<T> {
-
-    protected static RpcContext context = RpcContext.getContext();
-
-    @Override
-    public String getRemoteHost() {
-        return context.getRemoteHost();
-    }
-
-    public AbsDynamicService() {
-
-    }
+@Component(ConfigComponent.ServiceConfig)
+public class ServiceConfig extends DynamicConfig {
+    
+    public ServiceConfig() {}
 
     @PostConstruct
     public void init() {

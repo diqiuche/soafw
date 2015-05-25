@@ -7,7 +7,7 @@ import org.apache.curator.framework.imps.CuratorFrameworkState;
 import org.apache.curator.retry.ExponentialBackoffRetry;
 
 
-public class DynamicZookeeper extends PoolableObjDynamicConfig{
+public class DynamicZookeeper extends PrefixPriorityConfig{
 	
 	private CuratorFramework client;
 	private String connString;

@@ -11,13 +11,16 @@ import org.quartz.Scheduler;
 import org.quartz.TriggerKey;
 import org.quartz.impl.triggers.CronTriggerImpl;
 
-import com.kjt.service.common.config.IConfigListener;
+import com.kjt.service.common.config.IConfigChangeListener;
 import com.kjt.service.common.job.IJob;
 import com.kjt.service.common.job.JobException;
 import com.kjt.service.common.log.Logger;
 import com.kjt.service.common.log.LoggerFactory;
+import com.kjt.service.common.reflection.MetaObject;
+import com.kjt.service.common.reflection.factory.DefaultObjectFactory;
 
-public abstract class JobBase<T> extends JobConfig implements IJob<T>,IConfigListener{
+public abstract class JobBase<T> extends JobConfig implements IJob<T>,IConfigChangeListener{
+    
     /**
      * Logger for this class
      */
@@ -31,18 +34,17 @@ public abstract class JobBase<T> extends JobConfig implements IJob<T>,IConfigLis
     
     public JobBase() {
         this.id = this.getClass().getSimpleName();
-
     }
 
     public JobBase(String id) {
         this.id = id;
     }
-
+    
     @PostConstruct
-    final public void init() {
+    public void init(){
         this.setPrefix(id);
+        addChangeListenre(this);
         super.init();
-        createMonitor();
     }
     
     @Override
@@ -105,9 +107,9 @@ public abstract class JobBase<T> extends JobConfig implements IJob<T>,IConfigLis
         this.scheduler = scheduler;
     }
 
-    protected void notifyChanged() {
+    public void configChanged() {
         String cronExpression = trigger.getCronExpression();
-        String currentCronExpression = this.getString(this.getPrefix() + "CronExpression");
+        String currentCronExpression = getString(this.getPrefix()+"CronExpression");
         if (currentCronExpression != null && currentCronExpression.trim().length() > 0
                 && !currentCronExpression.equalsIgnoreCase(cronExpression)) {
             this.updateCronTriggerExp(currentCronExpression);
@@ -118,17 +120,13 @@ public abstract class JobBase<T> extends JobConfig implements IJob<T>,IConfigLis
         if (logger.isInfoEnabled()) {
             logger.info("updateCronTriggerExp(String expression={}) - start", expression); //$NON-NLS-1$
         }
-
+        
         Field field = null;
         try {
-            Class cls = trigger.getClass();
-            field = cls.getDeclaredField("cronEx");
-            field.setAccessible(true);
-            field.set(trigger, new CronExpression(expression));
+            MetaObject metaObject = DefaultObjectFactory.getMetaObject(trigger);
+            metaObject.setValue("cronEx",new CronExpression(expression));
             unregist();
             regist();
-        } catch (NoSuchFieldException e) {
-            logger.error("updateCronTriggerExp(String)", e); //$NON-NLS-1$
         } catch (Exception e) {
             logger.error("updateCronTriggerExp(String)", e); //$NON-NLS-1$
         }
@@ -145,8 +143,7 @@ public abstract class JobBase<T> extends JobConfig implements IJob<T>,IConfigLis
 
         try {
             // 触发器
-            ((CronTriggerImpl) trigger).setCronExpression(this.getString(this.getPrefix()
-                    + "CronExpression"));// 触发器时间设定
+            ((CronTriggerImpl) trigger).setCronExpression(getString(this.getPrefix()+"CronExpression"));// 触发器时间设定
             scheduler.scheduleJob(jobDetail, trigger);
             // 启动
             if (!scheduler.isShutdown()) {

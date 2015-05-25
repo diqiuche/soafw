@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import javax.annotation.PostConstruct;
+import javax.annotation.Resource;
 
 import org.apache.commons.configuration.Configuration;
 import org.apache.ibatis.session.SqlSession;
@@ -15,6 +16,7 @@ import org.springframework.cache.annotation.Cacheable;
 import com.kjt.service.common.annotation.JField;
 import com.kjt.service.common.cache.annotation.CacheOpParams;
 import com.kjt.service.common.config.DynamicConfig;
+import com.kjt.service.common.config.dict.ConfigComponent;
 import com.kjt.service.common.config.dict.ConfigFileDict;
 import com.kjt.service.common.dao.IModel;
 import com.kjt.service.common.dao.MapPage;
@@ -60,14 +62,8 @@ public abstract class AbsIBatisDAOImpl<T extends IModel> extends AbsCacheableImp
   /**
    * Logger for this class
    */
-
-  private static DynamicConfig accConfig = new DynamicConfig();
-
-  static {
-    accConfig.setFileName(System.getProperty(ConfigFileDict.ACCESS_CONTROL_CONFIG_FILE,
-        ConfigFileDict.DEFAULT_ACCESS_CONTROL_CONFIG_NAME));
-    accConfig.init();
-  }
+  @Resource(name = ConfigComponent.AccConfig)
+  private DynamicConfig accConfig;
 
   /**
    * 获取数据访问层acc.xml配置信息
@@ -128,11 +124,10 @@ public abstract class AbsIBatisDAOImpl<T extends IModel> extends AbsCacheableImp
 
     params.put("tKjtTabName", this.get$TKjtTabName(tabNameSuffix));
     int version = this.getVersion();
-    if(version==1){
+    if (version == 1) {
       params.put("updNewMap", newValue);
       params.put("updCondMap", cond);
-    }
-    else{
+    } else {
       params.put("newObj", newValue);
       params.put("params", cond);
     }
@@ -175,18 +170,18 @@ public abstract class AbsIBatisDAOImpl<T extends IModel> extends AbsCacheableImp
       session.close();
     }
   }
-  
+
   @CacheOpParams(time = ONE_DAY)
   @Cacheable(value = "defaultCache", key = TabCacheKeyPrefixExpress
       + ".concat('@').concat(#params)", unless = "#result == null", condition = "#root.target.tabCacheable()")
   @Override
-  public List<T> queryByMap(Map<String, Object> params,String orders, String tabNameSuffix) {
+  public List<T> queryByMap(Map<String, Object> params, String orders, String tabNameSuffix) {
     validate(params);
 
     nonePK$FKCheck(params);
 
     params.put("orders", this.convert(this.getModelClass(), orders));
-    
+
     params.put("tKjtTabName", this.get$TKjtTabName(tabNameSuffix));
 
     SqlSession session = SqlmapUtils.openSession(getMapQueryDataSource());
@@ -223,16 +218,16 @@ public abstract class AbsIBatisDAOImpl<T extends IModel> extends AbsCacheableImp
       session.close();
     }
   }
-  
+
   @CacheOpParams(time = ONE_DAY)
   @Cacheable(value = "defaultCache", key = TabCacheKeyPrefixExpress
       + ".concat('@').concat(#params)", unless = "#result == null", condition = "#root.target.tabCacheable()")
   @Override
-  public List<String> queryIdsByMap(Map<String, Object> params,String orders, String tabNameSuffix) {
+  public List<String> queryIdsByMap(Map<String, Object> params, String orders, String tabNameSuffix) {
     validate(params);
 
     params.put("orders", this.convert(this.getModelClass(), orders));
-    
+
     params.put("tKjtTabName", this.get$TKjtTabName(tabNameSuffix));
 
     SqlSession session = SqlmapUtils.openSession(getMapQueryDataSource());
@@ -270,16 +265,17 @@ public abstract class AbsIBatisDAOImpl<T extends IModel> extends AbsCacheableImp
       session.close();
     }
   }
-  
+
   @CacheOpParams(time = ONE_DAY)
   @Cacheable(value = "defaultCache", key = TabCacheKeyPrefixExpress
       + ".concat('@').concat(#params)", unless = "#result == null", condition = "!#master and #root.target.tabCacheable()")
   @Override
-  public List queryIdsByMap(Map<String, Object> params,String orders, Boolean master, String tabNameSuffix) {
+  public List queryIdsByMap(Map<String, Object> params, String orders, Boolean master,
+      String tabNameSuffix) {
     validate(params);
 
     params.put("orders", this.convert(this.getModelClass(), orders));
-    
+
     params.put("tKjtTabName", this.get$TKjtTabName(tabNameSuffix));
 
     SqlSession session = SqlmapUtils.openSession(master ? getMasterDataSource()
@@ -320,21 +316,22 @@ public abstract class AbsIBatisDAOImpl<T extends IModel> extends AbsCacheableImp
       session.close();
     }
   }
-  
+
   @CacheOpParams(time = ONE_DAY)
   @Cacheable(value = "defaultCache", key = TabCacheKeyPrefixExpress
       + ".concat('@').concat(#params)", unless = "#result == null", condition = "!#master and #root.target.tabCacheable()")
   @Override
-  public List<T> queryByMap(Map<String, Object> params,String orders, Boolean master, String tabNameSuffix) {
-    
+  public List<T> queryByMap(Map<String, Object> params, String orders, Boolean master,
+      String tabNameSuffix) {
+
     validate(params);
 
     nonePK$FKCheck(params);
 
     params.put("orders", this.convert(this.getModelClass(), orders));
-    
+
     params.put("tKjtTabName", this.get$TKjtTabName(tabNameSuffix));
-    
+
     SqlSession session = SqlmapUtils.openSession(master ? getMasterDataSource()
         : getMapQueryDataSource());
     try {
@@ -348,7 +345,6 @@ public abstract class AbsIBatisDAOImpl<T extends IModel> extends AbsCacheableImp
       session.close();
     }
   }
-  
 
   @CacheOpParams(time = ONE_DAY)
   @Cacheable(value = "defaultCache", key = TabCacheKeyPrefixExpress
@@ -570,10 +566,10 @@ public abstract class AbsIBatisDAOImpl<T extends IModel> extends AbsCacheableImp
     }
     String returnString = orders_.toString();
 
-    if(returnString.trim().length()==0){
+    if (returnString.trim().length() == 0) {
       return null;
     }
-    
+
     return returnString;
   }
 
@@ -582,10 +578,10 @@ public abstract class AbsIBatisDAOImpl<T extends IModel> extends AbsCacheableImp
     model.validate();
 
   }
-  
-  protected int getPageIndex(int page){
+
+  protected int getPageIndex(int page) {
     int pageIndex = page;
-    if(pageIndex<1){
+    if (pageIndex < 1) {
       page = 1;
     }
     return pageIndex;
@@ -690,7 +686,7 @@ public abstract class AbsIBatisDAOImpl<T extends IModel> extends AbsCacheableImp
     }
     model.validate();
   }
-  
+
   @Override
   public List<T> batchQuery(List<Map<String, Object>> datas, String tabNameSuffix) {
     validate(datas);
@@ -711,9 +707,12 @@ public abstract class AbsIBatisDAOImpl<T extends IModel> extends AbsCacheableImp
       session.close();
     }
   }
+
   /*
    * (non-Javadoc)
-   * @see com.kjt.service.common.dao.IBatchDAO#batchUpdate(java.util.Map, java.util.List, java.lang.String)
+   * 
+   * @see com.kjt.service.common.dao.IBatchDAO#batchUpdate(java.util.Map, java.util.List,
+   * java.lang.String)
    */
   @Override
   public Integer batchUpdate(Map<String, Object> new_, List<Map<String, Object>> datas,
@@ -741,8 +740,10 @@ public abstract class AbsIBatisDAOImpl<T extends IModel> extends AbsCacheableImp
       session.close();
     }
   }
+
   /*
    * (non-Javadoc)
+   * 
    * @see com.kjt.service.common.dao.IBatchDAO#batchDelete(java.util.List, java.lang.String)
    */
   @Override
@@ -769,20 +770,20 @@ public abstract class AbsIBatisDAOImpl<T extends IModel> extends AbsCacheableImp
       session.close();
     }
   }
-  
-  protected void validate(List<Map<String,Object>> datas) {
+
+  protected void validate(List<Map<String, Object>> datas) {
 
     if (datas == null) {
       throw new DataAccessException(IBatisDAOException.MSG_1_0005);
     }
-    
+
   }
-  
+
   @Override
-  public String getTableName(){
-      throw new RuntimeException(this.getClass().getSimpleName()+".getTableName（）必须实现");
+  public String getTableName() {
+    throw new RuntimeException(this.getClass().getSimpleName() + ".getTableName（）必须实现");
   }
-  
+
   @Override
   public String get$TKjtTabName(String tabNameSuffix) {
     suffixValidate(tabNameSuffix);
@@ -793,8 +794,9 @@ public abstract class AbsIBatisDAOImpl<T extends IModel> extends AbsCacheableImp
     }
     return tableName.toString();
   }
+
   @Override
-  public int getVersion(){
+  public int getVersion() {
     return 1;
   }
 }

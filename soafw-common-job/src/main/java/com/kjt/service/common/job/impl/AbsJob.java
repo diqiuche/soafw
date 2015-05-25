@@ -2,9 +2,7 @@ package com.kjt.service.common.job.impl;
 
 import java.util.List;
 
-import com.kjt.service.common.config.IConfigListener;
 import com.kjt.service.common.job.DataProcessException;
-import com.kjt.service.common.job.IJob;
 import com.kjt.service.common.job.INormalJob;
 import com.kjt.service.common.job.JobExecuteException;
 import com.kjt.service.common.log.LogUtils;

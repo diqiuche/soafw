@@ -6,6 +6,10 @@ import com.kjt.service.common.mq.IConnector;
 import com.kjt.service.common.mq.MQClient;
 
 public class JmsMQClient extends MQClient {
+    public JmsMQClient(String id) {
+        super(id);
+    }
+
     protected IConnector connector;
 
     @Override

@@ -23,11 +23,11 @@ import redis.clients.jedis.ShardedJedisPool;
 
 import com.kjt.service.common.cache.ICache;
 import com.kjt.service.common.config.IConfigListener;
-import com.kjt.service.common.config.PoolableObjDynamicConfig;
+import com.kjt.service.common.config.PrefixPriorityConfig;
 import com.kjt.service.common.config.dict.ConfigFileTypeDict;
 import com.kjt.service.common.util.DateUtil;
 
-public class DynamicRedisCache extends PoolableObjDynamicConfig
+public class DynamicRedisCache extends PrefixPriorityConfig
         implements
             Cache,
             ICache,

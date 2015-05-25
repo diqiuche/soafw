@@ -316,7 +316,7 @@ public class DynamicConfig implements ConfigFileDict, Constants, Configuration, 
          */
         this.delegate = config;
 
-        notifyChanged();
+        fireConfigChanged();
 
         if (logger.isInfoEnabled()) {
             logger.info("onUpdate(String old={}, Integer new={}) - end", oldStr, newStr); //$NON-NLS-1$
@@ -345,12 +345,22 @@ public class DynamicConfig implements ConfigFileDict, Constants, Configuration, 
      * @param config
      */
     protected void build(Configuration config) {}
-
+    
+    private List<IConfigChangeListener> listeners = new ArrayList<IConfigChangeListener>();
+    public synchronized void addChangeListenre(IConfigChangeListener listener){
+        if(!listeners.contains(listener)){
+            listeners.add(listener);
+        }
+    }
+    
     /**
      * 事件
      */
-    protected void notifyChanged() {
-        logger.info(this._settingFileName + " has been changed");
+    private void fireConfigChanged() {
+        int size = listeners.size();
+        for(int i=0;i<size;i++){
+            listeners.get(i).configChanged();
+        }
     }
 
 

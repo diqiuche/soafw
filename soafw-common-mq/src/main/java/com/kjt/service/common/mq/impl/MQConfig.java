@@ -2,13 +2,15 @@ package com.kjt.service.common.mq.impl;
 
 import javax.annotation.PostConstruct;
 
-import com.kjt.service.common.config.PoolableObjDynamicConfig;
-import com.kjt.service.common.config.dict.ConfigFileDict;
+import org.springframework.stereotype.Component;
+
+import com.kjt.service.common.config.PrefixPriorityConfig;
+import com.kjt.service.common.config.dict.ConfigComponent;
 import com.kjt.service.common.config.dict.ConfigFileTypeDict;
 
-public class MQConfig extends PoolableObjDynamicConfig {
-    public MQConfig() {
-    }
+@Component(ConfigComponent.MQConfig)
+public class MQConfig extends PrefixPriorityConfig {
+    public MQConfig() {}
 
     @PostConstruct
     public void init() {

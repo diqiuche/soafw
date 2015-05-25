@@ -23,7 +23,7 @@ import org.apache.ibatis.transaction.TransactionFactory;
 import org.apache.ibatis.transaction.jdbc.JdbcTransactionFactory;
 
 import com.kjt.service.common.config.IConfigListener;
-import com.kjt.service.common.config.PoolableObjDynamicConfig;
+import com.kjt.service.common.config.PrefixPriorityConfig;
 import com.kjt.service.common.config.dict.ConfigFileTypeDict;
 import com.kjt.service.common.config.utils.ConfigReloadEvent;
 import com.kjt.service.common.config.utils.ConfigReloadObserver;
@@ -42,7 +42,7 @@ import com.kjt.service.concurrent.AsynBizExecutor;
  * @author alexzhu
  *
  */
-public class DynamicDataSource extends PoolableObjDynamicConfig implements DataSource,
+public class DynamicDataSource extends PrefixPriorityConfig implements DataSource,
     IConfigListener {
   
   private DataSource delegate;

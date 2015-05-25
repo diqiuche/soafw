@@ -16,11 +16,11 @@ import redis.clients.jedis.exceptions.JedisDataException;
 
 import com.kjt.common.cache.dao.ICacheVersionDAO;
 import com.kjt.common.cache.dao.model.CacheVersion;
+import com.kjt.service.common.cache.impl.CacheConfig;
 import com.kjt.service.common.cache.mem.impl.DynamicMemCache;
 import com.kjt.service.common.cache.redis.impl.DynamicRedisCache;
 import com.kjt.service.common.config.DynamicConfig;
-import com.kjt.service.common.config.dict.ConfigFileDict;
-import com.kjt.service.common.config.dict.ConfigFileTypeDict;
+import com.kjt.service.common.config.dict.ConfigComponent;
 import com.kjt.service.common.dao.ICacheable;
 import com.kjt.service.common.dao.IModel;
 import com.kjt.service.common.exception.DataAccessException;
@@ -40,14 +40,16 @@ public abstract class AbsCacheableImpl<T extends IModel> implements ICacheable<T
 
   protected DynamicRedisCache redisCache;
 
-  private static DynamicConfig cacheConfig = new DynamicConfig();
+  @Resource(name = "cacheManager")
+  protected CacheManager cacheManager;
 
-  static {
-    cacheConfig.setFileName(System.getProperty(ConfigFileDict.CACHE_CONFIG_FILE,
-        ConfigFileDict.DEFAULT_CACHE_CONFIG_NAME));
-    cacheConfig.init();
+  public CacheManager getCacheManager() {
+    return cacheManager;
   }
   
+  @Resource(name=ConfigComponent.CacheConfig)
+  private DynamicConfig cacheConfig;
+
   protected Configuration getConfig() {
     return cacheConfig;
   }
@@ -65,13 +67,6 @@ public abstract class AbsCacheableImpl<T extends IModel> implements ICacheable<T
     if (logger.isDebugEnabled()) {
       logger.debug("init() - end"); //$NON-NLS-1$
     }
-  }
-
-  @Resource(name = "cacheManager")
-  protected CacheManager cacheManager;
-
-  public CacheManager getCacheManager() {
-    return cacheManager;
   }
 
   abstract public boolean fkCacheable();

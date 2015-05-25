@@ -8,6 +8,10 @@ import com.kjt.service.common.mq.ISender;
 
 public class RabbitMQProducer extends RabbitMQClient implements ISender, IPublisher {
 
+    public RabbitMQProducer(String id) {
+        super(id);
+    }
+
     @Override
     public void send(IMessage message) {
         // TODO Auto-generated method stub

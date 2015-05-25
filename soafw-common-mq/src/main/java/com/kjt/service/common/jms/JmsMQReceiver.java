@@ -5,6 +5,10 @@ import com.kjt.service.common.mq.IReceiver;
 
 public class JmsMQReceiver extends JmsMQClient implements IReceiver {
 
+    public JmsMQReceiver(String id) {
+        super(id);
+    }
+
     @Override
     public IMessage receive() {
         // TODO Auto-generated method stub
