@@ -34,19 +34,29 @@
 		<filter-name>encodingFilter</filter-name>
 		<url-pattern>/*</url-pattern>
 	</filter-mapping>
-	
+	<!--打开下面备注，同时开启spring-dubbo的authenticationFilter，即可开启权限服务-->
+	<!--
 	<filter>
-		<filter-name>authenticationFilter</filter-name>
-		<filter-class>com.kjt.service.common.web.impl.AuthenticationFilter</filter-class>
+		<filter-name>DelegatingFilterProxy</filter-name>
+		<filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
+		<init-param>
+			<param-name>targetBeanName</param-name>
+			<param-value>authenticationFilter</param-value>
+		</init-param>
+		<init-param>
+			<param-name>targetFilterLifecycle</param-name>
+			<param-value>true</param-value>
+		</init-param>
 		<init-param>
 			<param-name>appName</param-name>
 			<param-value>#{artifactId}</param-value>
 		</init-param>
 	</filter>
 	<filter-mapping>
-	    <filter-name>authenticationFilter</filter-name>
-		<url-pattern>/*</url-pattern>
-	</filter-mapping>
+        <filter-name>DelegatingFilterProxy</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+	-->
 	
 	<!-- spring context 上下文内容的 对象 service 层 dao层 以及其他spring管理的对象 -->
 

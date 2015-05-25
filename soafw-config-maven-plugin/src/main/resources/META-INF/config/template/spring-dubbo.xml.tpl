@@ -16,6 +16,14 @@
 	default-autowire="byName">
 	
 	<!--框架配置：该设置请不要轻易改变-->
+	
+	<context:component-scan base-package="com.kjt.service.common.web.impl" />
+	
+	<context:component-scan base-package="com.kjt.service.#{artifactId}" />
+	<!--开启authenticationFilter及取消web.xml的DelegatingFilterProxy的备注即可集成权限控制-->
+	<!--
+	<bean id="authenticationFilter" class="com.kjt.service.common.web.impl.AuthenticationFilter" />
+	-->
 	<bean id="dubbo" class="com.kjt.service.common.config.ConfigurationFactoryBean">
 		<property name="name" value="dubbo" />
         <property name="encoding" value="utf8" />

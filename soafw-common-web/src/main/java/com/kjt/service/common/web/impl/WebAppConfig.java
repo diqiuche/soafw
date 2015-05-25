@@ -11,12 +11,9 @@ import com.kjt.service.common.config.dict.ConfigFileTypeDict;
 public class WebAppConfig extends DynamicConfig {
     
     public WebAppConfig(){
-        init();
     }
     
     public WebAppConfig(boolean delimiterParsingDisabled){
-        this.setDelimiterParsingDisabled(delimiterParsingDisabled);
-        init();
     }
     
     public void init(){
@@ -25,4 +22,5 @@ public class WebAppConfig extends DynamicConfig {
         this.setType(ConfigFileTypeDict.XML);
         super.init();
     }
+    
 }

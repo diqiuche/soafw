@@ -8,6 +8,7 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import javax.annotation.Resource;
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
 import javax.servlet.FilterConfig;
@@ -18,20 +19,18 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.springframework.web.context.WebApplicationContext;
-import org.springframework.web.context.support.WebApplicationContextUtils;
-
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.kjt.service.common.auth.AuthResourcesDto;
 import com.kjt.service.common.auth.AuthResponse;
 import com.kjt.service.common.auth.AuthUserDto;
 import com.kjt.service.common.auth.ResourcesService;
+import com.kjt.service.common.config.dict.ConfigComponent;
 import com.kjt.service.common.util.StringUtil;
 import com.kjt.service.common.web.util.J2eeHttpUtil;
 
 
-public class AuthenticationFilter extends WebAppConfig implements Filter {
+public class AuthenticationFilter implements Filter {
 
     private String ticketValidateUrl;
 
@@ -39,7 +38,11 @@ public class AuthenticationFilter extends WebAppConfig implements Filter {
     
     private String serverName;
     
+    @Resource(name="resourcesService")
     private ResourcesService resourcesService;
+    
+    @Resource(name=ConfigComponent.WebAppConfig)
+    private WebAppConfig config;
 
     private final static Map<String, String> resourcesMap = new HashMap<>();
     private String app = null;
@@ -53,11 +56,12 @@ public class AuthenticationFilter extends WebAppConfig implements Filter {
             app_auth_switch = app+"."+auth_switch_key_suffix;
         }
         System.setProperty("key_app_auth_switch", app_auth_switch);
+        /**
         WebApplicationContext wac = WebApplicationContextUtils
                 .getWebApplicationContext(filterConfig.getServletContext());
         resourcesService = wac.getBean("resourcesService",
                 ResourcesService.class);
-
+         */
         Map<String, Object> params = new HashMap<>();
         params.put("orders", " id desc ");
         AuthResponse<AuthResourcesDto> response = resourcesService
@@ -75,7 +79,7 @@ public class AuthenticationFilter extends WebAppConfig implements Filter {
     public void doFilter(ServletRequest request, ServletResponse response,
             FilterChain chain) throws IOException, ServletException {
         
-        boolean auth = this.getBoolean(app_auth_switch, false);
+        boolean auth = config.getBoolean(app_auth_switch, false);
         System.setProperty(app_auth_switch, String.valueOf(auth));
         
         if (!auth) {//不需要权限控制
@@ -129,14 +133,14 @@ public class AuthenticationFilter extends WebAppConfig implements Filter {
                     }
                 } else {//登陆流程
                     
-                    ticketValidateUrl = getString("ticketValidateUrl");
-                    serverLoginUrl = getString("serverLoginUrl"); 
-                    serverName = getString("serverName");
+                    ticketValidateUrl = config.getString("ticketValidateUrl");
+                    serverLoginUrl = config.getString("serverLoginUrl"); 
+                    serverName = config.getString("serverName");
                     
                     if(!StringUtil.isEmpty(app)){
-                        ticketValidateUrl = getString(app+"."+"ticketValidateUrl",ticketValidateUrl);
-                        serverLoginUrl = getString(app+"."+"serverLoginUrl",serverLoginUrl); 
-                        serverName = getString(app+"."+"serverName",serverName);
+                        ticketValidateUrl = config.getString(app+"."+"ticketValidateUrl",ticketValidateUrl);
+                        serverLoginUrl = config.getString(app+"."+"serverLoginUrl",serverLoginUrl); 
+                        serverName = config.getString(app+"."+"serverName",serverName);
                     }
                     
                     if (ticket != null && !"".equals(ticket.trim())) {
