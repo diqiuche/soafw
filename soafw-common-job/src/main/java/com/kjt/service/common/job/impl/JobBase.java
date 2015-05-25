@@ -109,7 +109,7 @@ public abstract class JobBase<T> extends JobConfig implements IJob<T>,IConfigCha
 
     public void configChanged() {
         String cronExpression = trigger.getCronExpression();
-        String currentCronExpression = getString(this.getPrefix()+"CronExpression");
+        String currentCronExpression = getString("CronExpression");
         if (currentCronExpression != null && currentCronExpression.trim().length() > 0
                 && !currentCronExpression.equalsIgnoreCase(cronExpression)) {
             this.updateCronTriggerExp(currentCronExpression);
@@ -143,7 +143,7 @@ public abstract class JobBase<T> extends JobConfig implements IJob<T>,IConfigCha
 
         try {
             // 触发器
-            ((CronTriggerImpl) trigger).setCronExpression(getString(this.getPrefix()+"CronExpression"));// 触发器时间设定
+            ((CronTriggerImpl) trigger).setCronExpression(getString("CronExpression"));// 触发器时间设定
             scheduler.scheduleJob(jobDetail, trigger);
             // 启动
             if (!scheduler.isShutdown()) {
