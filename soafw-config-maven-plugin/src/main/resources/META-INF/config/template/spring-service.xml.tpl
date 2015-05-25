@@ -15,7 +15,9 @@
     http://code.alibabatech.com/schema/dubbo/dubbo.xsd"
 	default-autowire="byName">
 	
-	<context:component-scan base-package="com.kjt.service.#{artifactId},com.kjt.service.common.impl" />
+	<context:component-scan base-package="com.kjt.service.common.impl" />
+	
+	<context:component-scan base-package="com.kjt.service.#{artifactId}" />
 	
 	<!--框架配置：该import设置请不要轻易改变-->
 	<import resource="classpath*:/META-INF/config/spring/spring-dao.xml"/>

@@ -17,6 +17,6 @@ public class CacheConfig extends DynamicConfig{
     public void init(){
         setFileName(System.getProperty(ConfigFileDict.CACHE_CONFIG_FILE,
             ConfigFileDict.DEFAULT_CACHE_CONFIG_NAME));
-        init();
+        super.init();
     }
 }

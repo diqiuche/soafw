@@ -18,7 +18,7 @@ public class AccConfig extends DynamicConfig {
   public void init(){
       setFileName(System.getProperty(ConfigFileDict.ACCESS_CONTROL_CONFIG_FILE,
           ConfigFileDict.DEFAULT_ACCESS_CONTROL_CONFIG_NAME));
-      init();
+      super.init();
   }
 
 }

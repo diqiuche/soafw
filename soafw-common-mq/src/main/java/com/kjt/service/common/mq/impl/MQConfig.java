@@ -17,6 +17,5 @@ public class MQConfig extends PrefixPriorityConfig {
         this.setFileName(System.getProperty(DEFAULT_MQ_CONFIG_FILE, DEFAULT_MQ_CONFIG_NAME));
         this.setType(ConfigFileTypeDict.PROPERTIES);
         super.init();
-        this.build(this.getConfig());
     }
 }

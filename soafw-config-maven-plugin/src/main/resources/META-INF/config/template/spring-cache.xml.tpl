@@ -15,8 +15,10 @@
 
 	<!--框架配置：该文件配置请不要轻易修改-->
 
+	<context:component-scan base-package="com.kjt.service.common.cache.impl" />
+	
 	<context:component-scan base-package="com.kjt.service.#{artifactId}.*" />
-
+	
 	<cache:annotation-driven cache-manager="cacheManager" />
 
 	<bean name="cacheManager"
