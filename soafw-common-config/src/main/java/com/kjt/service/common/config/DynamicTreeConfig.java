@@ -61,7 +61,7 @@ public class DynamicTreeConfig {
         xStream.alias("value", String.class);
     }
     
-    private static String demo =
+    private String demo =
             "<entrys><entry><key>name</key><value>berniew</value></entry><entry><key>Id</key><value>123</value></entry><entry><key>424324</key><entrys><entry><key>Ids</key><value>123</value></entry></entrys></entry></entrys>";
     private MetaObject entrys = DefaultObjectFactory.getMetaObject(xStream.fromXML(demo));
 

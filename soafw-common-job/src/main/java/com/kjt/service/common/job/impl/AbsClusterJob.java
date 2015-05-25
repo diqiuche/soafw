@@ -1,4 +1,4 @@
-package com.kjt.service.common.job.cluster.impl;
+package com.kjt.service.common.job.impl;
 
 import java.util.List;
 
