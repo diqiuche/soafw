@@ -4,13 +4,13 @@ import javax.annotation.PostConstruct;
 
 import org.springframework.stereotype.Component;
 
-import com.kjt.service.common.config.PrefixPriorityConfig;
+import com.kjt.service.common.config.DynamicConfig;
 import com.kjt.service.common.config.dict.ConfigComponent;
 import com.kjt.service.common.config.dict.ConfigFileDict;
 import com.kjt.service.common.config.dict.ConfigFileTypeDict;
 
 @Component(ConfigComponent.RpcConfig)
-public class RpcConfig extends PrefixPriorityConfig{
+public class RpcConfig extends DynamicConfig{
     public RpcConfig(){
     }
     @PostConstruct

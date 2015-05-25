@@ -4,7 +4,6 @@ import javax.annotation.Resource;
 
 import com.alibaba.dubbo.rpc.RpcContext;
 import com.kjt.service.common.IService;
-import com.kjt.service.common.config.DynamicConfig;
 import com.kjt.service.common.config.dict.ConfigComponent;
 import com.kjt.service.common.log.Logger;
 import com.kjt.service.common.log.LoggerFactory;
@@ -13,7 +12,7 @@ import com.kjt.service.common.result.IResult;
 public abstract class AbsServiceImpl<T extends IResult> implements IService<T> {
     
     @Resource(name=ConfigComponent.ServiceConfig)
-    protected DynamicConfig config;
+    protected ServiceConfig config;
     
 	/**
 	 * Logger for this class
