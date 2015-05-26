@@ -510,7 +510,7 @@ public class HttpUtil {
                 return connection.getInputStream();
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            logger.error(e);
         }
         return null;
     }

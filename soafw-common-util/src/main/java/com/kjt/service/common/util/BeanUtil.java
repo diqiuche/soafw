@@ -10,6 +10,7 @@ import com.kjt.service.common.reflection.MetaObject;
 import com.kjt.service.common.reflection.factory.DefaultObjectFactory;
 
 public class BeanUtil {
+    
     /**
      * 通过反射获取到对象的属性值，支持.运算
      * @param obj 对象

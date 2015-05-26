@@ -66,14 +66,13 @@ public class J2eeHttpUtil extends HttpUtil{
                 sb.append(line);
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error(e);
             return "";
         } finally {
             if (in != null) {
                 try {
                     in.close();
                 } catch (IOException e) {
-                    e.printStackTrace();
                 }
             }
         }

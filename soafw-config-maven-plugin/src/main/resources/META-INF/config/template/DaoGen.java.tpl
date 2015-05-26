@@ -16,8 +16,7 @@ public class DaoGen {
         	 */
             DaoGenFromDB.generateDAO("#{artifactId}_db", "表名", "classpath*:/META-INF/config/spring/spring-dao.xml","com.kjt.service.#{artifactId}", "src/main/java/", "src/main/resources/");
         } catch (Exception e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+            throw new RuntimeException(e);
         }
     }
 

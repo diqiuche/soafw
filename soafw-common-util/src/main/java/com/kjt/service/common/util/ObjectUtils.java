@@ -122,8 +122,7 @@ public class ObjectUtils {
 				try {
 					modelField = from.getClass().getSuperclass().getDeclaredField("id");
 				} catch (NoSuchFieldException e1) {
-					e1.printStackTrace();
-					continue;
+					throw new RuntimeException(e1);
 				}
 			}
 			try {
@@ -169,11 +168,11 @@ public class ObjectUtils {
 					resultFields[i].set(to, value);
 				}
 			} catch (IllegalArgumentException e) {
-				e.printStackTrace();
+				throw new RuntimeException(e);
 			} catch (IllegalAccessException e) {
-				e.printStackTrace();
+			    throw new RuntimeException(e);
 			} catch (Exception e) {
-				e.printStackTrace();
+			    throw new RuntimeException(e);
 			}
 
 		}

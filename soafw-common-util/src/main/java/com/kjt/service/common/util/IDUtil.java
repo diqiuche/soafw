@@ -47,11 +47,8 @@ public class IDUtil {
 			int age = (cYear - bYear);
 			return age;
 		} catch (ParseException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		    throw new RuntimeException(e);
 		}
-
-		return 1;
 	}
 
 	public static final String id15To18(String id) {

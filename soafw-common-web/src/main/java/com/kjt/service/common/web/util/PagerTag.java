@@ -10,6 +10,8 @@ import javax.servlet.jsp.tagext.TagSupport;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
+import com.kjt.service.common.log.Logger;
+import com.kjt.service.common.log.LoggerFactory;
 import com.kjt.service.common.result.Pager;
 
 public class PagerTag extends TagSupport {
@@ -22,7 +24,7 @@ public class PagerTag extends TagSupport {
     private int nPageSize;
     private int nPageNum;
     private String onclick;
-
+    private Logger logger = LoggerFactory.getLogger(getClass());
     public PagerTag() {
 
     }
@@ -127,7 +129,7 @@ public class PagerTag extends TagSupport {
         try {
             out.println(pagerText);
         } catch (IOException e) {
-            e.printStackTrace();
+            logger.error(e);
         }
 
         return PagerTag.SKIP_BODY;

@@ -155,7 +155,7 @@ public class MailHelper {
 					fujian.setFileName(MimeUtility.encodeText(fds.getName()));
 					mainPart.addBodyPart(fujian);
 				} catch (Exception ex) {
-					ex.printStackTrace();
+					throw new RuntimeException(ex);
 				}
 			}
 		}
@@ -170,7 +170,7 @@ public class MailHelper {
 		try {
 			send("smtp.anjuke.com", "25", "true", "lcjiao@anjuke.com", "jcl7744781", new String[] { "xiaojiezhu@anjuke.com" }, "mail_test", "ceshi");
 		} catch (MessagingException e) {
-			e.printStackTrace();
+			throw new RuntimeException(e);
 		}
 	}
 

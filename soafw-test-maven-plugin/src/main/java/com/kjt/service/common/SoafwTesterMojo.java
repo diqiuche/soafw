@@ -246,11 +246,9 @@ public class SoafwTesterMojo extends AbstractMojo {
             }
 
         } catch (Exception e) {
-            e.printStackTrace();
-            this.getLog().info(e.getMessage());
+            this.getLog().error(e);
         } catch (Error er) {
-            er.printStackTrace();
-            this.getLog().info(er.getMessage());
+            this.getLog().error(er);
         }
 
     }
@@ -395,9 +393,9 @@ public class SoafwTesterMojo extends AbstractMojo {
             write(testSrcFullPath, tstCls.getSimpleName() + ".java", src.toString());
 
         } catch (Exception e) {
-            e.printStackTrace();
+            this.getLog().error(e);
         } catch (Error er) {
-            er.printStackTrace();
+            this.getLog().error(er);
         }
     }
 
@@ -433,14 +431,14 @@ public class SoafwTesterMojo extends AbstractMojo {
             }
 
         } catch (Exception e) {
-            e.printStackTrace();
+            this.getLog().error(e);
         } finally {
             if (br != null) {
                 try {
                     br.close();
                 } catch (IOException e) {}
             }
-            System.out.println(testSrc);
+            this.getLog().info(testSrc);
             return testSrc.toString();
         }
 
@@ -490,11 +488,9 @@ public class SoafwTesterMojo extends AbstractMojo {
                         }
                     }
                 } catch (Exception e) {
-                    e.printStackTrace();
-                    this.getLog().info(e.getMessage());
+                    this.getLog().error(e);
                 } catch (Error er) {
-                    er.printStackTrace();
-                    this.getLog().info(er.getMessage());
+                    this.getLog().error(er);
                 }
             }
         }

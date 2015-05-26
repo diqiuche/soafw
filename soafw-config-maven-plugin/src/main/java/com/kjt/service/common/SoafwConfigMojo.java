@@ -53,7 +53,7 @@ public class SoafwConfigMojo extends AbstractMojo {
     private String sufix = "xml";
     private String module;
     private String moduleSuffix = "";
-
+    
     public void execute() throws MojoExecutionException {
         groupId = System.getProperty("groupId");
         artifactId = System.getProperty("artifactId");
@@ -101,7 +101,7 @@ public class SoafwConfigMojo extends AbstractMojo {
         try {
             Class.forName(dbDriver);
         } catch (ClassNotFoundException e) {
-            e.printStackTrace();
+            this.getLog().error(e);
         }
         String dburl = "jdbc:mysql://192.168.1.110:3306/soafw_db";
         String dbuser = "root";
@@ -114,7 +114,7 @@ public class SoafwConfigMojo extends AbstractMojo {
             Connection connection = DriverManager.getConnection(dburl, dbuser, dbpwd);
             return connection;
         } catch (SQLException e) {
-            e.printStackTrace();
+            this.getLog().error(e);
         }
         return null;
     }
@@ -157,8 +157,7 @@ public class SoafwConfigMojo extends AbstractMojo {
                 st.execute(sql);
             }
         } catch (SQLException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+            this.getLog().error(e);
         }
     }
     
@@ -311,8 +310,7 @@ public class SoafwConfigMojo extends AbstractMojo {
             mojo.getServiceInfo();
             mojo.doConfig("/Users/alexzhu/soa/projects", "hello");
         } catch (MojoExecutionException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+            throw new RuntimeException(e);
         }
         System.out.println(resource);
     }

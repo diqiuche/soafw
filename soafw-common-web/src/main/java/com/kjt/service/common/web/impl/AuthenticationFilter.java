@@ -26,6 +26,8 @@ import com.kjt.service.common.auth.AuthResponse;
 import com.kjt.service.common.auth.AuthUserDto;
 import com.kjt.service.common.auth.ResourcesService;
 import com.kjt.service.common.config.dict.ConfigComponent;
+import com.kjt.service.common.log.Logger;
+import com.kjt.service.common.log.LoggerFactory;
 import com.kjt.service.common.util.StringUtil;
 import com.kjt.service.common.web.util.J2eeHttpUtil;
 
@@ -37,6 +39,8 @@ public class AuthenticationFilter implements Filter {
     private String serverLoginUrl;
     
     private String serverName;
+    
+    private Logger logger = LoggerFactory.getLogger(this.getClass());
     
     @Resource(name="resourcesService")
     private ResourcesService resourcesService;
@@ -152,7 +156,7 @@ public class AuthenticationFilter implements Filter {
                         try {
                             dto = mapper.readValue(resultText, AuthUserDto.class);
                         } catch (Exception e) {
-                            e.printStackTrace();
+                            logger.error(e);
                         }
                         if (dto != null) {
                             req.getSession().setAttribute(ticket, dto);
