@@ -56,6 +56,13 @@ if [ ! -f "$date_file" ]; then
 
  fi
 
+if [ ! -f "$org_file" ]; then
+
+   touch $org_file
+   echo 1 > $org_file
+
+ fi
+
 while read old_date
   do
   echo "发布前的最后日期:"$old_date
@@ -66,9 +73,8 @@ while read old_date
 
          echo $date_time  > $date_file
    fi
-
-
  done < $date_file
+
 
 while read seq_num
 do
