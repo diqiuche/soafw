@@ -29,6 +29,6 @@ public interface IMapper<T> extends IBatchMapper<T> {
 
   public List<T> pageQuery(Page<T> cmd);
 
-  public int countByMap(Map<String, Object> params);
+  public Integer countByMap(Map<String, Object> params);
 
 }

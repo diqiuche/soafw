@@ -8,7 +8,6 @@
 	<packaging>pom</packaging>
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<soafw.group.name>com.kjt.service.common</soafw.group.name>
 		<memcached.version>2.0.1</memcached.version>
 		<mybatis.version>3.2.8</mybatis.version>
 		<mysql.version>5.1.26</mysql.version>

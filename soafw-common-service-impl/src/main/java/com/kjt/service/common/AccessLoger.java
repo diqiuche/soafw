@@ -168,5 +168,5 @@ public class AccessLoger {
         return null;
     }
     
-    private transient static Logger _logger = LoggerFactory.getLogger("trace");
+    private transient static Logger _logger = LoggerFactory.getLogger(AccessLoger.class);
 }
