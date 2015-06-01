@@ -241,7 +241,7 @@ for var in ${array[@]};do
 
  cd /root/code/projects/workspace/$1/$var
 
- mvn assembly:assembly  ### >  /dev/null
+ mvn clean assembly:assembly  ### >  /dev/null
 
 #else
 
@@ -342,7 +342,7 @@ fi
 
 #cd /root/code/projects/workspace/$1/$1-job
 
-# mvn assembly:assembly
+# mvn clean assembly:assembly
 
 ################################
 
