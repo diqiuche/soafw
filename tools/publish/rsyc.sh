@@ -10,13 +10,18 @@ fi
 
 echo "$user"
 
+release_base="/root/apps"
+
+app_release_path="$release_base/$1"
+
 user_home="/home/$user"
 
-#apps_local_path="/root/apps"
 apps_path="$user_home/apps/$1/$2"
 
 #######log_path######
+
 log_path="/data1/logs/service/$1"
+
 #####################
 
 ########global_config#####
@@ -32,14 +37,12 @@ pro_config_path="$user_home"/"apps"/"$1"/"config"
 
 
 ################
-soft_link_path="/root/apps/$1/current"
+soft_link_path="app_release_path/current"
 
 
 if [ $# > 5 ];then
 
   echo "参数数量不是4个,清核对 项目名称、版本号、远程IP地址"
-
-  #exit
 
 fi
 
@@ -64,16 +67,12 @@ ssh $user@$3  "test -d $global_config_path||mkdir -p $global_config_path"
 
 ssh $user@$3  "test -d $pro_config_path||mkdir -p $pro_config_path"
 
-#ssh $user@$3  "test ! -d $apps_path||rm -rf $soft_link_path "
-
 ssh $user@$3  "test ! -d $apps_path||(cd $user_home/apps/$1;rm -rf current)"
 
-rsync -aou -vzrtopg --delete --progress /root/apps/$1/$2/*  $user@"$3":/$user_home/apps/$1/$2/
+rsync -aou -vzrtopg --delete --progress app_release_path/$2/*  $user@"$3":/$user_home/apps/$1/$2/
 
-rsync -aou -vzrtopg --delete --progress /root/apps/$1/current  $user@"$3":/$user_home/apps/$1/
+rsync -aou -vzrtopg --delete --progress app_release_path/current  $user@"$3":/$user_home/apps/$1/
 
 rsync -aou -vzrtopg --delete --progress "$global_config_path"/*  root@"$3":$global_config_path
-
-#rsync -aou -vzrtopg --delete --progress  --exclude "*.log" "$log_path"/*  app@"$3":$log_path
 
 rsync -aou -vzrtopg --delete --progress "$pro_config_path"/*  $user@"$3":$pro_config_path
