@@ -37,7 +37,7 @@ pro_config_path="$user_home"/"apps"/"$1"/"config"
 
 
 ################
-soft_link_path="app_release_path/current"
+soft_link_path="$app_release_path/current"
 
 
 if [ $# > 5 ];then
@@ -69,9 +69,9 @@ ssh $user@$3  "test -d $pro_config_path||mkdir -p $pro_config_path"
 
 ssh $user@$3  "test ! -d $apps_path||(cd $user_home/apps/$1;rm -rf current)"
 
-rsync -aou -vzrtopg --delete --progress app_release_path/$2/*  $user@"$3":/$user_home/apps/$1/$2/
+rsync -aou -vzrtopg --delete --progress $app_release_path/$2/*  $user@"$3":/$user_home/apps/$1/$2/
 
-rsync -aou -vzrtopg --delete --progress app_release_path/current  $user@"$3":/$user_home/apps/$1/
+rsync -aou -vzrtopg --delete --progress $app_release_path/current  $user@"$3":/$user_home/apps/$1/
 
 rsync -aou -vzrtopg --delete --progress "$global_config_path"/*  root@"$3":$global_config_path
 
