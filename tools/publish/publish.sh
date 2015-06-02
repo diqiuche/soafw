@@ -202,7 +202,7 @@ echo "测试数据##########################$var:"  $var
  echo "start_shell=========="$start_shell
  rm -rf "$start_shell".sh
 
-sed '1,$s/$prefix/'"$var"'/g'  startJob_org.sh > "$start_shell".sh
+sed -e '1,$s/$2/'"$1"'/g' -e '1,$s/$prefix/'"$var"'/g' startJob_org.sh > "$start_shell".sh
 
 chmod 755 "$start_shell".sh
 
@@ -313,8 +313,6 @@ cp -Rpf $app_source_path/$1-web/target/*.war $app_source_path/$1-web/target/$1-w
 cp -Rpf $app_source_path/$1-web/src/* $app_source_path/$1-web/target/$1-web $web_src_path
 
 cp -Rpf $shell_gen_base/current  $app_release_path
-
-cp -Rpf $global_config_path  $global_config_path
 
 cp -Rpf $shell_gen_base/startWeb.sh  $current_path
 

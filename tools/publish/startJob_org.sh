@@ -1,5 +1,7 @@
 #!/bin/sh
 
+app="$1"
+
 prefix=""
 
 tar -zxvf ../$prefix/$prefix-1.0-SNAPSHOT-bin.tar.gz
@@ -17,4 +19,4 @@ new_pid=`ps x | grep $prefix-1.0-SNAPSHOT.jar | grep -v grep | awk '{print $1}'`
 
 echo "新的进程服务pid:"$new_pid
 
-nohup java -jar $prefix-1.0-SNAPSHOT/lib/$prefix-1.0-SNAPSHOT.jar > /dev/null   &
+nohup java -Dapp.home.dir=/home/root/apps/$2/config -jar $prefix-1.0-SNAPSHOT/lib/$prefix-1.0-SNAPSHOT.jar > /dev/null   &
