@@ -130,6 +130,7 @@ public class DynamicConfig implements ConfigFileDict, Constants, Configuration, 
     }
 
     /**
+     * 配置优先级：appConfig>SysConfig>local
      * 同级目录下的配置文件，对应profile配置优先
      * @return
      */
@@ -137,15 +138,6 @@ public class DynamicConfig implements ConfigFileDict, Constants, Configuration, 
 
         CompositeConfiguration compositeConfiguration = new CompositeConfiguration();
         compositeConfiguration.setThrowExceptionOnMissing(_throwExceptionOnMissing);
-
-        if (!StringUtil.isEmpty(getProfile())) {
-            addConfig(compositeConfiguration,
-                    System.getProperty(SYS_CONFIG_DIR, SYS_CONFIG_DIR_DEF) + File.separator
-                            + getProfile() + "%s");
-        }
-        
-        addConfig(compositeConfiguration, System.getProperty(SYS_CONFIG_DIR, SYS_CONFIG_DIR_DEF)
-            + File.separator + "%s");
         
         if(!StringUtil.isEmpty(getAppHomeDir())){
             
@@ -157,6 +149,17 @@ public class DynamicConfig implements ConfigFileDict, Constants, Configuration, 
             addConfig(compositeConfiguration, getAppHomeDir() + File.separator + "config"
                     + File.separator + "%s");
         }
+
+        if (!StringUtil.isEmpty(getProfile())) {
+            addConfig(compositeConfiguration,
+                    System.getProperty(SYS_CONFIG_DIR, SYS_CONFIG_DIR_DEF) + File.separator
+                            + getProfile() + "%s");
+        }
+        
+        addConfig(compositeConfiguration, System.getProperty(SYS_CONFIG_DIR, SYS_CONFIG_DIR_DEF)
+            + File.separator + "%s");
+        
+        
         
         if (!StringUtil.isEmpty(getProfile())) {
             addConfig(compositeConfiguration, "classpath:META-INF/config/local/" + getProfile()
