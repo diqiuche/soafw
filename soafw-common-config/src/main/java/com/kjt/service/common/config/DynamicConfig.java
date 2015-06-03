@@ -21,7 +21,7 @@ import org.apache.commons.configuration.XMLPropertiesConfiguration;
 
 import com.kjt.service.common.config.dict.ConfigFileDict;
 import com.kjt.service.common.config.dict.ConfigFileTypeDict;
-import com.kjt.service.common.config.utils.ConfigUtils;
+import com.kjt.service.common.config.utils.ConfigUtil;
 import com.kjt.service.common.log.Logger;
 import com.kjt.service.common.log.LoggerFactory;
 import com.kjt.service.common.util.Constants;
@@ -68,7 +68,7 @@ public class DynamicConfig implements ConfigFileDict, Constants, Configuration, 
 
         delegate = this.build();
 
-        ConfigUtils.getConfigUtilsInstance().addListener(this);
+        ConfigUtil.getConfigUtilsInstance().addListener(this);
     }
     
     /**

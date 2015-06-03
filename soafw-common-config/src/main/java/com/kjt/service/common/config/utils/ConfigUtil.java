@@ -8,17 +8,20 @@ import java.util.concurrent.ConcurrentHashMap;
 import org.apache.commons.configuration.Configuration;
 
 import com.kjt.service.common.config.IConfigListener;
+import com.kjt.service.common.config.dict.ConfigFileDict;
+import com.kjt.service.common.util.StringUtil;
 
-public class ConfigUtils {
-    private static ConfigUtils configUtilsSingleton = new ConfigUtils();
+public class ConfigUtil {
+    
+    private static ConfigUtil configUtilsSingleton = new ConfigUtil();
 
     private Map<String, ConfigWatchdog> watchs = new ConcurrentHashMap<String, ConfigWatchdog>();
     private Map<String, List<IConfigListener>> configListeners =
             new ConcurrentHashMap<String, List<IConfigListener>>();
 
-    private ConfigUtils() {}
+    private ConfigUtil() {}
 
-    public static ConfigUtils getConfigUtilsInstance() {
+    public static ConfigUtil getConfigUtilsInstance() {
         return configUtilsSingleton;
     }
 
@@ -95,5 +98,17 @@ public class ConfigUtils {
                 }
             }
         }
+    }
+    
+    public static String getSysConfigDir(){
+        return System.getProperty(ConfigFileDict.SYS_CONFIG_DIR,"/config");
+    }
+    
+    public static String getAppHomeDir(){
+        return System.getProperty(ConfigFileDict.APP_HOME_DIR);
+    }
+    
+    public static String getAppConfigDir(){
+        return StringUtil.isEmpty(getAppHomeDir())?getSysConfigDir():getAppHomeDir()+"/config";
     }
 }
