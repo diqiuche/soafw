@@ -130,7 +130,7 @@ public class DynamicConfig implements ConfigFileDict, Constants, Configuration, 
     }
 
     /**
-     * 配置优先级：appConfig>SysConfig>local
+     * 配置优先级：appConfig（应用本地）>SysConfig（全局）>local（默认配置）
      * 同级目录下的配置文件，对应profile配置优先
      * @return
      */
