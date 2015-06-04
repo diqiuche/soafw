@@ -104,10 +104,10 @@ public class DaoGenFromDB extends DaoGen {
     String slaveDataSourceBean = dbName + "_slave";
     String mapQueryDataSourceBean = dbName + "_map_query";
     DataSource masterDataSource = (DataSource) cac.getBean(masterDataSourceBean);
+    String url = masterDataSource.getConnection().getMetaData().getURL();
     DataSource[] datasoures = { masterDataSource };
-    
     for(int i=0;i<size;i++){
-      DaoGenFromDB hf = new DaoGenFromDB(datasoures, masterDataSourceBean, tableName[i]);
+      DaoGenFromDB hf = new DaoGenFromDB(datasoures, DBSetting.getDatabaseName(url), tableName[i]);
       hf.setConfiguration((Configuration) templateFactoryBean.getObject());
       hf.process(masterDataSourceBean, slaveDataSourceBean, mapQueryDataSourceBean, packageName,
           targetJava, resources);
