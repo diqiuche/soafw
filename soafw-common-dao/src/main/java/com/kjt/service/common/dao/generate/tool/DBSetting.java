@@ -42,6 +42,10 @@ public class DBSetting{
     else{
       //jdbc:sqlserver://10.10.2.16:1433; DatabaseName=dropship
       String tmp = url.substring(url.indexOf("DatabaseName")+13);
+      int idx = tmp.indexOf(";");
+      if(idx!=-1){
+        tmp = tmp.substring(0, idx).trim();
+      }
       database= tmp;
     }
     return database;
@@ -50,6 +54,6 @@ public class DBSetting{
   public static void main(String[] args){
     //System.out.println(getDatabaseName("jdbc:mysql://192.168.1.110:3306/soafw_db?${db.conn.str}"));
     
-    System.out.println(getDatabaseName("jdbc:sqlserver://10.10.2.16:1433; DatabaseName=dropship"));
+    System.out.println(getDatabaseName("jdbc:sqlserver://10.10.2.16:1433; DatabaseName=dropship;"));
   }
 }
