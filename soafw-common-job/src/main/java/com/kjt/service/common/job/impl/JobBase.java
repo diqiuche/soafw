@@ -112,6 +112,23 @@ public abstract class JobBase<T> extends JobConfig implements IJob<T>,IConfigCha
         String currentCronExpression = getString("CronExpression");
         if (currentCronExpression != null && currentCronExpression.trim().length() > 0
                 && !currentCronExpression.equalsIgnoreCase(cronExpression)) {
+            boolean settingNull = false;
+            if(jobDetail == null){
+                logger.info("jobDetail is null");
+                settingNull = true;
+            }
+            if(trigger == null){
+                logger.info("trigger is null");
+                settingNull = true;
+            }
+            if(scheduler == null){
+                logger.info("scheduler is null");
+                settingNull = true;
+            }
+            if(settingNull){
+                logger.info("updateCronTriggerExp 被忽略");
+                return;
+            }
             this.updateCronTriggerExp(currentCronExpression);
         }
     }
