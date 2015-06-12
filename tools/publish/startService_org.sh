@@ -13,4 +13,4 @@ echo "prefix_service_pid:"$$prefix_service_pid
 
 tar -zxvf ../$prefix-service-impl/$prefix-service-impl-1.0-SNAPSHOT-bin.tar.gz
 
-nohup java -Dapp.home.dir=$app_home_dir -jar $prefix-service-impl-1.0-SNAPSHOT/lib/$prefix-service-impl-1.0-SNAPSHOT.jar >/dev/null  &
+nohup java -Ddubbo.shutdown.hook=true -Dapp.home.dir=$app_home_dir -jar $prefix-service-impl-1.0-SNAPSHOT/lib/$prefix-service-impl-1.0-SNAPSHOT.jar >/dev/null  &
