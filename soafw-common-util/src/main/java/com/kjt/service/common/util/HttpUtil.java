@@ -1,4 +1,4 @@
-package com.kjt.service.rpc.http.client.util;
+package com.kjt.service.common.util;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -31,9 +31,6 @@ import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.protocol.HTTP;
 import org.apache.http.util.EntityUtils;
 
-import com.kjt.service.common.log.Logger;
-import com.kjt.service.common.log.LoggerFactory;
-
 /**
  * @描述:httpclient 工具类
  * @author feng.peifeng
@@ -41,7 +38,6 @@ import com.kjt.service.common.log.LoggerFactory;
  * @版权 上海跨境通国际有限公司
  */
 public class HttpUtil {
-    private static Logger logger = LoggerFactory.getLogger(HttpUtil.class);
 	private static final CloseableHttpClient httpClient;
     public static final String CHARSET = "UTF-8";
     public static final String  APPLICATION_JSON = "application/json";
@@ -94,9 +90,8 @@ public class HttpUtil {
             response.close();
             return result;
         } catch (Exception e) {
-            logger.error(e);
+            throw new RuntimeException(e);
         }
-        return null;
     }
      
     /**
@@ -140,9 +135,8 @@ public class HttpUtil {
             response.close();
             return result;
         } catch (Exception e) {
-            logger.error(e);
+            throw new RuntimeException(e);
         }
-        return null;
     }
     
     /**
@@ -179,9 +173,8 @@ public class HttpUtil {
             response.close();
             return result;
         } catch (Exception e) {
-            logger.error(e);
+            throw new RuntimeException(e);
         }
-        return null;
     }
     
     
@@ -201,8 +194,7 @@ public class HttpUtil {
         try {
             return URLEncoder.encode(url, CHARSET_UTF8);
         } catch (UnsupportedEncodingException e) {
-            logger.error(e);
-            return null;
+            throw new RuntimeException(e);
         }
     }
 
@@ -216,8 +208,7 @@ public class HttpUtil {
         try {
             return URLDecoder.decode(url, CHARSET_UTF8);
         } catch (UnsupportedEncodingException e) {
-            logger.error(e);
-            return null;
+            throw new RuntimeException(e);
         }
     }
 
@@ -238,8 +229,7 @@ public class HttpUtil {
                 return false;
             }
         } catch (IOException e) {
-            logger.error(e);
-            return false;
+            throw new RuntimeException(e);
         }
     }
 
@@ -258,8 +248,7 @@ public class HttpUtil {
                 return false;
             }
         } catch (IOException e) {
-            logger.error(e);
-            return false;
+            throw new RuntimeException(e);
         }
     }
 
@@ -330,8 +319,7 @@ public class HttpUtil {
             isr.close();
             return sb.toString();
         } catch (Exception e) {
-            logger.error(e);
-            return null;
+            throw new RuntimeException(e);
         } finally {
             if (conn != null) {
                 conn.disconnect();
@@ -390,7 +378,6 @@ public class HttpUtil {
             return sb.toString();
 
         } catch (Exception e) {
-            logger.error(e);
             throw new RuntimeException(e);
         } finally {
             if (connection != null) {
@@ -431,7 +418,6 @@ public class HttpUtil {
             return sb.toString();
 
         } catch (Exception e) {
-            logger.error(e);
             throw new RuntimeException(e);
         } finally {
             if (connection != null) {
@@ -491,7 +477,6 @@ public class HttpUtil {
             return sb.toString();
 
         } catch (Exception e) {
-            logger.error(e);
             throw new RuntimeException(e);
         } finally {
             if (connection != null) {
@@ -510,7 +495,7 @@ public class HttpUtil {
                 return connection.getInputStream();
             }
         } catch (IOException e) {
-            logger.error(e);
+            throw new RuntimeException(e);
         }
         return null;
     }

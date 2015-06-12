@@ -17,7 +17,7 @@ import org.springframework.web.context.request.ServletWebRequest;
 
 import com.kjt.service.common.log.Logger;
 import com.kjt.service.common.log.LoggerFactory;
-import com.kjt.service.rpc.http.client.util.HttpUtil;
+import com.kjt.service.common.util.HttpUtil;
 
 public class J2eeHttpUtil extends HttpUtil{
 
