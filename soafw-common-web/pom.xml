@@ -19,7 +19,7 @@
 
 		<dependency>
 			<groupId>com.kjt.service.common</groupId>
-			<artifactId>soafw-common-service-impl</artifactId>
+			<artifactId>soafw-common-service</artifactId>
 		</dependency>
 
 		<dependency>
