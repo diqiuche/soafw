@@ -40,8 +40,7 @@
     <logger name="java.sql.Connection" level="INFO"/>
     <logger name="java.sql.ResultSet" level="INFO"/>
     <logger name="org.apache.zookeeper" level="INFO"/>
-    <logger name="com.kjt.service.common" level="INFO"/>
-    <logger name="com.kjt.service" level="INFO"/>
+    <logger name="com.kjt" level="INFO"/>
     <root level="INFO">
         <appender-ref ref="STDOUT"/>
         <appender-ref ref="detail"/>
