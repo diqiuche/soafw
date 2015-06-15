@@ -54,7 +54,7 @@
 	 
     <!-- 使用zookeeper发现服务地址 -->
     <!-- 多注册中心配置，竖号分隔表示同时连接多个不同注册中心，同一注册中心的多个集群地址用逗号分隔 -->
-    <dubbo:registry protocol="zookeeper" address="${#{artifactId}.service.registry.address}"/>
+    <dubbo:registry id="#{artifactId}Registry" protocol="zookeeper" address="${#{artifactId}.service.registry.address}"/>
     
     <!-- 服务消费者定义 -->
     <dubbo:consumer timeout="${#{artifactId}.job#{moduleSuffix}.timeout}" init="true" check="false"/>
@@ -71,6 +71,6 @@
     <import resource="classpath*:/META-INF/config/spring/job-task.xml"/>
     <!--服务查询定义信息请在该备注以下添加-->
     <!--
-	<dubbo:reference id="xxxService" interface="com.kjt.service.#{artifactId}.IXxxxService" />
+	<dubbo:reference id="xxxService" interface="com.kjt.service.#{artifactId}.IXxxxService" registry="#{artifactId}Registry"/>
 	-->
 </beans>
