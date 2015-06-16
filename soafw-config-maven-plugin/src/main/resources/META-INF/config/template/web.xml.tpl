@@ -62,7 +62,7 @@
 
 	<context-param>
 		<param-name>contextConfigLocation</param-name>
-		<param-value>classpath:/META-INF/config/spring/spring-dubbo.xml
+		<param-value>classpath:/META-INF/config/spring/spring-web.xml
 		</param-value>
 	</context-param>
 	<listener>

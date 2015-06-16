@@ -70,6 +70,7 @@
     <!--job 定义-->
     <import resource="classpath*:/META-INF/config/spring/job-task.xml"/>
     <!--服务查询定义信息请在该备注以下添加-->
+    <!-- 所有服务应用时必须定义registry属性 -->
     <!--
 	<dubbo:reference id="xxxService" interface="com.kjt.service.#{artifactId}.IXxxxService" registry="#{artifactId}Registry"/>
 	-->
