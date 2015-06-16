@@ -41,7 +41,7 @@ import org.apache.maven.plugin.MojoExecutionException;
  * @phase process-sources
  */
 public class SoafwConfigMojo extends AbstractMojo {
-    
+
     private String serviceId = "1";
     private String startPort = "8080";
     private String stopPort = "9999";
@@ -53,7 +53,7 @@ public class SoafwConfigMojo extends AbstractMojo {
     private String sufix = "xml";
     private String module;
     private String moduleSuffix = "";
-    
+
     public void execute() throws MojoExecutionException {
         groupId = System.getProperty("groupId");
         artifactId = System.getProperty("artifactId");
@@ -63,7 +63,7 @@ public class SoafwConfigMojo extends AbstractMojo {
         String model = System.getProperty("model", "split");
         module = System.getProperty("genModule", "all");
         moduleSuffix = System.getProperty("moduleSuffix", "").trim();
-        
+
         getServiceInfo();
 
         this.getLog().info(
@@ -79,8 +79,8 @@ public class SoafwConfigMojo extends AbstractMojo {
             tpl = format(tpl, "artifactId", artifactId);
             tpl = format(tpl, "startPort", startPort);
             tpl = format(tpl, "stopPort", stopPort);
-            tpl = format(tpl,"servicePort",servicePort);
-            tpl = format(tpl,"serviceId",serviceId);
+            tpl = format(tpl, "servicePort", servicePort);
+            tpl = format(tpl, "serviceId", serviceId);
             this.getLog().info(tpl);
             /**
              * write to dest
@@ -118,8 +118,8 @@ public class SoafwConfigMojo extends AbstractMojo {
         }
         return null;
     }
-    
-    private void getServiceInfo(){
+
+    private void getServiceInfo() {
         Connection conn = getConn();
         String checkSql = "select * from soa_provider where sp_name='" + artifactId + "'";
         try {
@@ -138,29 +138,31 @@ public class SoafwConfigMojo extends AbstractMojo {
                 stopPort = String.valueOf(stop);
                 service = rs.getInt("service_port");
                 servicePort = String.valueOf(service);
-            }
-            else{
+            } else {
                 String sql =
                         "select max(id) as id,max(start_port) as start_port,max(`stop_port`) as stop_port,max(`service_port`) as service_port from soa_provider";
                 rs = st.executeQuery(sql);
-                if(rs.next()){
-                    id = rs.getInt("id")+1;
+                if (rs.next()) {
+                    id = rs.getInt("id") + 1;
                     serviceId = String.valueOf(id);
-                    start = rs.getInt("start_port")+1;
+                    start = rs.getInt("start_port") + 1;
                     startPort = String.valueOf(start);
-                    stop = rs.getInt("stop_port")+1;
+                    stop = rs.getInt("stop_port") + 1;
                     stopPort = String.valueOf(stop);
-                    service = rs.getInt("service_port")+1;
+                    service = rs.getInt("service_port") + 1;
                     servicePort = String.valueOf(service);
                 }
-                sql = "insert into `soa_provider` (id,sp_name,start_port,stop_port,service_port,sp_description) values ("+id+",'"+artifactId+"',"+start+","+stop+","+service+",'"+artifactId+"')";
+                sql =
+                        "insert into `soa_provider` (id,sp_name,start_port,stop_port,service_port,sp_description) values ("
+                                + id + ",'" + artifactId + "'," + start + "," + stop + ","
+                                + service + ",'" + artifactId + "')";
                 st.execute(sql);
             }
         } catch (SQLException e) {
             this.getLog().error(e);
         }
     }
-    
+
     private String format(String... args) {
         return MessageFormat
                 .format("config: flag={0},groupId={1},artifactId={2},startPort={3},stopPort={4},toDest={5},template={6}",
@@ -170,7 +172,7 @@ public class SoafwConfigMojo extends AbstractMojo {
     private static final String LINE_SEPARATOR = System.getProperty("line.separator");
 
     private String getTemplate(String template) throws MojoExecutionException {
-        this.getLog().info("template: "+template);
+        this.getLog().info("template: " + template);
         InputStream is =
                 this.getClass().getClassLoader()
                         .getResourceAsStream("META-INF/config/template/" + template);
@@ -233,7 +235,11 @@ public class SoafwConfigMojo extends AbstractMojo {
         int len = moduleArray == null ? 0 : moduleArray.length;
         for (int m = 0; m < len; m++) {
             String currentModule = moduleArray[m];
-            if (!"all".equals(module) && !module.equals(currentModule)) {
+
+            if (!"all".equals(module)
+                    && (("job".equalsIgnoreCase(module) && !module.equals(currentModule) && !"root".equalsIgnoreCase(currentModule))
+                     || ("web".equalsIgnoreCase(module) && !module.equals(currentModule) && !"root".equalsIgnoreCase(currentModule))
+                     || (("service".equalsIgnoreCase(module) && ("job".equalsIgnoreCase(currentModule) || "web".equalsIgnoreCase(currentModule)) && !"root".equalsIgnoreCase(currentModule))))) {
                 continue;
             }
             this.getLog().info("start config module: " + currentModule);// service-impl=1;2;3;4;5;6;7
@@ -262,8 +268,8 @@ public class SoafwConfigMojo extends AbstractMojo {
                 tpl = format(tpl, "startPort", startPort);
                 tpl = format(tpl, "stopPort", stopPort);
                 tpl = format(tpl, "moduleSuffix", moduleSuffix);
-                tpl = format(tpl,"servicePort",servicePort);
-                tpl = format(tpl,"serviceId",serviceId);
+                tpl = format(tpl, "servicePort", servicePort);
+                tpl = format(tpl, "serviceId", serviceId);
 
                 this.getLog().info(tpl);
 
@@ -274,11 +280,13 @@ public class SoafwConfigMojo extends AbstractMojo {
                 String configToDir = baseDir + File.separator + storeDir;
 
                 this.getLog().info(configToDir);
-                
+
                 templateFile = format(templateFile, "artifactId", artifactId);
-                
-                templateFile = format(templateFile, "moduleSuffix", ((moduleSuffix==null||moduleSuffix.trim().length()==0)?"":moduleSuffix.substring(1)));
-                
+
+                templateFile =
+                        format(templateFile, "moduleSuffix", ((moduleSuffix == null || moduleSuffix
+                                .trim().length() == 0) ? "" : moduleSuffix.substring(1)));
+
                 write(configToDir, templateFile, tpl, sufix);
             }
         }
@@ -304,9 +312,9 @@ public class SoafwConfigMojo extends AbstractMojo {
                         "META-INF/config/template/template.properties");
         SoafwConfigMojo mojo = new SoafwConfigMojo();
         try {
-            mojo.module = "all";
+            mojo.module = "web";
             mojo.moduleSuffix = "aa";
-            mojo.artifactId="hello";
+            mojo.artifactId = "hello";
             mojo.getServiceInfo();
             mojo.doConfig("/Users/alexzhu/soa/projects", "hello");
         } catch (MojoExecutionException e) {
