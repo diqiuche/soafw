@@ -1,10 +1,15 @@
 #!/bin/bash
 
+if [ -z $1 ];then
+	echo "请重新输入项目名称"
+  	exit
+fi
+
 mkdir -p ../../projects/
 
 cd ../../projects/
 
-projectid=$1 
+projectid=$1
 
 app_home_dir="$(pwd)"
 
@@ -50,16 +55,16 @@ if [ ! -d "$app_home_dir/$1/$1-service" ]; then
 	echo $projectservice build success
 fi
 
-projectjob=$projectid-job$suffix
-mvn -B archetype:generate -DarchetypeCatalog=locale -DgroupId=com.kjt.service.$projectid -DartifactId=$projectjob 
-echo $projectjob build success
+projectwebid=$projectid-web
+mvn -B archetype:generate -DarchetypeCatalog=locale -DgroupId=com.kjt.service.$projectid -DartifactId=$projectwebid -DarchetypeArtifactId=maven-archetype-webapp 
+echo $projectwebid build success
 
 ##配置文件生成
 
 cd ../soafw/soafw-config-maven-plugin
 
 ##config
-mvn -B soafw-config:config -DartifactId=$projectid -DdestDir=../../projects -Dmodel=AllIn -DgenModule=job -DmoduleSuffix=$2 -X
+mvn -B soafw-config:config -DartifactId=$projectid -DdestDir=../../projects -Dmodel=AllIn -DgenModule=web -DmoduleSuffix=$2 -X
 
 cd ../../soafw/tools/
 
